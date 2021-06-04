@@ -16,7 +16,47 @@ const user = new mongoose.Schema({
       required: [true, "Name is required"],
       minLength: 3,
       maxLength: [40, "Exceeded Characters"]
-  }
+  },
+  dateOfBirth: {
+    type: Date,
+    required: true,
+    trim: true
+},
+ defaultAddress: {
+       addressLine:{
+         type:String,
+         required:true
+       },
+       state: {
+         type:String,
+         required:true
+       },
+       city:{
+         type:String,
+         required:true
+       },
+       Pincode:{
+         type:Number,
+         required:true,
+         validate:{
+              validator: (pincode)=>{return (pincode>=100000 && pincode<=999999)}
+          }
+        }
+ },
+ location: {
+   latitude : {
+     type: Number,
+     minimum: -90,
+     maximum: 90,
+     default: NULL
+   },
+   longitude : {
+     type: Number,
+     minimum: -180,
+     maximum: 180,
+     default: NULL
+   }
+ }
 });
 
 
