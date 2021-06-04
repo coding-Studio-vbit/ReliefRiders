@@ -74,7 +74,6 @@ router.post("/requestOTP", (req, res)=>{
 
 						// So after 5 mins, the OTP entry will not exist in the file.
 
-
 						console.log("New " + req.body.type + " login OTP request.");
 						sms.sendOTP(req.body.phone, OTP);
 					}
