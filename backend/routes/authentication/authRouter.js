@@ -3,8 +3,8 @@ const jwt = require("jsonwebtoken");
 const router = express.Router();
 const otp = require("./OTP");
 const sms = require("../common/sms");
-const rider = require("../../models/rider");
-const requester = require("../../models/requester");
+const rider = require("../../models/riders");
+const requester = require("../../models/requesters");
 
 
 const OTP_FILE_PATH = "../../TEMP_OTP.js";

@@ -8,7 +8,7 @@ const user = new mongoose.Schema({
     min: 1000000000,
     max: 9999999999,
     validate:{
-          validator: => {return (isMobilePhone(phoneNumber,"en-IN")}
+          validator: (phone)=> {return (isMobilePhone(phone,"en-IN"))}
         }
   },
   name: {
@@ -48,13 +48,13 @@ const user = new mongoose.Schema({
      type: Number,
      minimum: -90,
      maximum: 90,
-     default: NULL
+     default: null
    },
    longitude : {
      type: Number,
      minimum: -180,
      maximum: 180,
-     default: NULL
+     default: null
    }
  }
 });

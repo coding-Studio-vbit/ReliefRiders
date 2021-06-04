@@ -20,13 +20,13 @@ const user = new mongoose.Schema({
       type: Number,
       minimum: -90,
       maximum: 90,
-      default: NULL
+      default: null
     },
     longitude : {
       type: Number,
       minimum: -180,
       maximum: 180,
-      default: NULL
+      default: null
     }
   },
   currentStatus: {
@@ -40,7 +40,7 @@ const user = new mongoose.Schema({
   currentRequest: {
     requestID: {
       type: mongoose.Schema.Types.ObjectId,
-      default : NULL
+      default : null
     }
   }
 });
