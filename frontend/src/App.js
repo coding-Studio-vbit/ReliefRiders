@@ -1,24 +1,19 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './App.css'
+// import Login from './components/authentication/ui/login/login';
+// import RegisterScreen from './components/authentication/ui/register/register'
+
+// import InputField from './components/global_ui/input';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    {/* <Login/> */}
+    {/* <Login/> */}
+
+      {/* <RegisterScreen/> */}
+      {/* <InputField type="number" error={"Error"} maxLength='10' placeholder="Enter Phone number" /> */}
+
     </div>
   );
 }
