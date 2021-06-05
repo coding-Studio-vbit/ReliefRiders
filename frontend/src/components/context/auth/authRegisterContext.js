@@ -7,8 +7,7 @@ const AuthRegisterReducer = (state,action)=>{
             return state;
         case "VERIFY":
             //TODO
-            return state;
-        
+            return state;        
     }
 }
 

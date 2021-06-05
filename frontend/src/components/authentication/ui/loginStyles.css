@@ -1,0 +1,72 @@
+.login{
+    padding:30px 10px;
+    height: 100%;
+    background-color: #FFFFFF;
+}
+
+.logoImg{
+    height:31vh;
+}
+
+.errorText{
+    color: red;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+input[type=tel]:focus{
+    outline: none !important;
+    border: 1px solid darkolivegreen;    
+    box-shadow: 0 0 3px darkseagreen;   
+}
+
+input[type=tel]{
+    background-image: url('https://image.flaticon.com/icons/png/512/4856/4856700.png');
+    background-size: 24px;
+    background-repeat: no-repeat;    
+    background-position-y:center;
+    background-position-x: 8px;
+    background-color: whitesmoke;
+
+    font-size: 16px;
+    text-align: center;
+   
+    padding:13px 33px;      
+    margin-bottom: 10px;
+
+    border: 1px solid darkolivegreen;
+    border-radius: 4px;
+    border-style: solid;
+}
+
+.content{
+    height:40vh;
+    padding: 0px;
+}
+
+.btnStyle{
+    border: none;
+    background-color: #00AF1B;
+    color: white;
+    border-radius: 4px;
+    font-size: 16px;
+    padding: 10px 30px;
+    margin-top: 2px;
+}
+.register:hover{
+    background-color: white;
+    color: darkgreen;
+    border: 1px solid darkgreen;
+}
+
+.btnStyle:disabled{
+    border: none;
+    background-color:#e0e0e0;
+    color: #757575;
+}
+
+.routetext{
+    color: slategray;
+    font-size: 16px;    
+    margin-bottom: 2px;
+}
