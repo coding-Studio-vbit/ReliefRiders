@@ -3,7 +3,10 @@ async function sendOTP(phoneNumber, OTP)
 {
 	//SMS SENDING CODE GOES HERE.
 	//until then we only have this.
-	console.log("Relief Riders OTP: ", OTP);
+	return new Promise((resolve, reject)=>{
+		console.log("Relief Riders OTP: ", OTP);
+		resolve();
+	})
 }
 
 module.exports = {
