@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import './loginStyles.css'
+import Logo from '../../../global_ui/logo'
+import InputField from '../../../global_ui/input';
 
 function login() {
     const [mobile, setMobile] = useState('');
@@ -35,10 +37,7 @@ function login() {
     return (
         <div className="login">
             {/* Logo */}
-            <img src="assets/logo.png" 
-            alt="Relief Riders"
-            className="logoImg"
-            />
+            <Logo/>
 
             {/*Form and Content*/}
             <div className="content">
@@ -48,18 +47,18 @@ function login() {
                 method="post" 
                 onSubmit={(e)=>handleLogin(e)}
                 noValidate>
-                    <input 
+                    <InputField 
                     type="tel" 
                     placeholder="mobile"
+                    error={ error?error:""}
                     value={ mobile }
                     onChange={ 
                         (e)=>setMobile(e.target.value)
-                    }
-                    required
+                    }                    
                     />
 
-                    <br/>
 
+                    <br/>
                     <input 
                     type="submit" 
                     value="Request OTP" 
@@ -68,11 +67,7 @@ function login() {
                     />  
                 </form>
             
-                <p className="errorText">
-                    {
-                        error?error:null
-                    }
-                </p>               
+                              
 
                 <p className="routetext">Dont have an account?</p>
                 <button 

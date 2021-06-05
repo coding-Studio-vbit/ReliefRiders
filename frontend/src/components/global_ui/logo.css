@@ -3,9 +3,8 @@
   display: flex;
   justify-content: center;
 }
-img{
-    
+img{    
     height: auto;
     width: 100%;
-    max-width: 17rem;
+    max-width: 15rem;
 }

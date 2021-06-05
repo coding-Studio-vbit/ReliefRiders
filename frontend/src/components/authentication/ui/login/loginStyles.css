@@ -1,11 +1,10 @@
 .login{
     padding:30px 10px;
     height: 100%;
+    display: grid;
+    justify-content: center;
+    text-align: center;
     background-color: #FFFFFF;
-}
-
-.logoImg{
-    height:32vh;
 }
 
 .errorText{
@@ -14,19 +13,13 @@
     font-size: 14px;
 }
 
-input[type=tel]:focus{
+/* input[type=tel]:focus{
     outline: none !important;
     border: 1px solid darkolivegreen;    
     box-shadow: 0 0 3px darkseagreen;   
-}
-
+} */
+/* 
 input[type=tel]{
-    background-image: url('https://image.flaticon.com/icons/png/512/4856/4856700.png');
-    background-size: 24px;
-    background-repeat: no-repeat;    
-    background-position-y:center;
-    background-position-x: 8px;
-    background-color: whitesmoke;
 
     font-size: 16px;
     text-align: center;
@@ -37,10 +30,14 @@ input[type=tel]{
     border: 1px solid darkolivegreen;
     border-radius: 4px;
     border-style: solid;
-}
+} */
 
 .content{
     height:45vh;    
+}
+
+input{
+    top: 20%;
 }
 
 .btnStyle{
@@ -52,6 +49,7 @@ input[type=tel]{
     padding: 10px 30px;
     margin-top: 2px;
 }
+
 .register:hover{
     background-color: white;
     color: darkgreen;
