@@ -1,16 +1,17 @@
 .input-field {
     position : relative;
     font-size: 1rem;
+    --label-top:calc(50% - 10px);
 }
 
-.input-field label {
+ label {
     position      : absolute;
     left          : 0.6em;
     padding-left  : 0.2em;
     padding-right : 0.2em;
     color         : #5a5858;
     font-size     : 1em;
-    top           : calc(50% - 10px);
+    top           : var(--label-top);
     pointer-events: none;
     transition    : top 0.2s ease,
         font-size 0.2s ease,
@@ -31,16 +32,25 @@ input {
 }
 
 span{
+    position: absolute;
+    left: 0.4%;
     color: red;
     font-size: 0.8em;
     padding-top: 0.2em;
     padding-left: 0.3em;
 }
+.normal-field{
+    --label-top:calc(50% - 10px);
+}
 .error-field{
     border-color: red;
 }
-.error-field + .label{
+
+.error-field +.label{
     color: red;
+    --label-top:24%;
+
+    
 }
 input:valid+label,
 input:focus+label {

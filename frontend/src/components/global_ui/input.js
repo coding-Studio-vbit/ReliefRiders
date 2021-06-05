@@ -17,6 +17,8 @@ const InputField = ({value,placeholder,name,type,onChange,error,maxLength}) => {
             <label className="label" htmlFor={name}>{placeholder}</label>
             <br />
             {error && <span>{error}</span>}
+            {error && <div style={{ height: 1 + 'rem' }} ></div>}
+
         </div>
 
 
