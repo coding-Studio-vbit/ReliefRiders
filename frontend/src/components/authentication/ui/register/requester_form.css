@@ -1,0 +1,21 @@
+
+.form{
+    display: grid;
+    margin: 1em;
+
+}
+input{
+    width: 100%;
+}
+
+button{
+  width: fit-content;
+  justify-self: center; 
+}
+.sec-row{
+    margin-top: 1rem;
+    margin-bottom:  3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+}
