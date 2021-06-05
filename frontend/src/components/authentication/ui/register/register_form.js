@@ -141,10 +141,11 @@ const Form = () => {
 
         <form className="form" onSubmit={submit} >
 
-            <p style={{ textAlign: "center", fontSize: 2 + 'em' }} >{otp}</p>
+            <p style={{ textAlign: "center", fontSize: 2 + 'em' }} >Requester Register</p>
             <div style={{ height: 1 + 'rem' }} ></div>
 
             <InputField type="number" error={errors.showErrors ? errors.number : ""} onChange={_handleNumber} maxLength='10' placeholder="Enter Phone number" />
+
             <div className="sec-row">
                 <InputField error={errors.showErrors ? errors.name : ""} onChange={_handleName} type="text" placeholder="Enter Name" />
                 <InputField error={errors.showErrors ? errors.yearOfBirth : ""} onChange={_handleYear} type="number" placeholder="Year Of Birth" />
