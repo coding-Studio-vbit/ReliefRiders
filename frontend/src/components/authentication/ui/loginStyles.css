@@ -5,7 +5,7 @@
 }
 
 .logoImg{
-    height:31vh;
+    height:32vh;
 }
 
 .errorText{
@@ -40,8 +40,7 @@ input[type=tel]{
 }
 
 .content{
-    height:40vh;
-    padding: 0px;
+    height:45vh;    
 }
 
 .btnStyle{
@@ -66,6 +65,7 @@ input[type=tel]{
 }
 
 .routetext{
+    margin-top: 25px;
     color: slategray;
     font-size: 16px;    
     margin-bottom: 2px;

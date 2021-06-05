@@ -34,16 +34,15 @@ function login() {
     }
     return (
         <div className="login">
-
             {/* Logo */}
-            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/4/47/FC_Barcelona_%28crest%29.svg/1200px-FC_Barcelona_%28crest%29.svg.png" 
+            <img src="assets/logo.png" 
             alt="Relief Riders"
             className="logoImg"
             />
 
             {/*Form and Content*/}
             <div className="content">
-                <h2>Requester Login</h2>
+                <h1>Requester Login</h1>
                 <form 
                 action="" 
                 method="post" 
