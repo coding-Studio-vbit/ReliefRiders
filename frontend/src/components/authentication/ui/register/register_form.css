@@ -1,20 +1,24 @@
 
 .form{
     display: grid;
-    margin: 1em;
+    justify-content: center;
+    
+    margin: 1rem ;
 
 }
 input{
     width: 100%;
 }
 
-button{
+.otp-btn{
+  padding: 0.6em;
+  font-weight: bold;
   width: fit-content;
   justify-self: center; 
 }
 .sec-row{
     margin-top: 1rem;
-    margin-bottom:  3rem;
+    margin-bottom:  6rem;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0.5rem;
