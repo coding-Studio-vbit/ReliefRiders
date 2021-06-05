@@ -1,7 +1,13 @@
 import React from 'react';
 import './input.css'
 
-// eslint-disable-next-line react/prop-types
+
+/**
+ * 
+ * @param {*} props value,placeholder,name,type,onChange,error,maxLength are the supported props
+ * You can pass an error msg to show an error below input field
+ * @returns a custom styled input component.
+ */
 const InputField = ({value,placeholder,name,type,onChange,error,maxLength}) => {
 
     return ( 
