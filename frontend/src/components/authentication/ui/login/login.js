@@ -43,12 +43,13 @@ function login() {
             <div className="content">
                 <h1>Requester Login</h1>
                 <form 
+                
                 action="" 
                 method="post" 
                 onSubmit={(e)=>handleLogin(e)}
                 noValidate>
                     <InputField 
-                    type="tel" 
+                    type="number" 
                     placeholder="mobile"
                     error={ error?error:""}
                     value={ mobile }
