@@ -1,12 +1,9 @@
 import React from 'react';
 import './logo.css'
-<<<<<<< HEAD
-=======
 /**
  * 
  * @returns ReliefRider's Logo
  */
->>>>>>> master
 const Logo = () => {
     return ( 
         <div className="logo-container" >

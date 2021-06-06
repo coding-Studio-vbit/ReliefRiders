@@ -3,12 +3,8 @@
   display: flex;
   justify-content: center;
 }
-<<<<<<< HEAD
-img{    
-=======
 img{
     
->>>>>>> master
     height: auto;
     width: 100%;
     max-width: 15rem;
