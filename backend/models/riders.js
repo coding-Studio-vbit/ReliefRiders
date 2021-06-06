@@ -7,6 +7,11 @@ const user = new mongoose.Schema({
     required: [true, "Phone Number is required"],
     min: 1000000000,
     max: 9999999999,
+    validate:{
+          validator: (phone)=> {
+            var patt = /^[789]\d{9}$/; return patt.test(phone)
+          }
+        }
 
   },
   name: {
@@ -46,6 +51,6 @@ const user = new mongoose.Schema({
 });
 
 
-const rider = mongoose.model("rider", user);
+const riders = mongoose.model("riders", user);
 
-module.exports = rider;
+module.exports = riders;
