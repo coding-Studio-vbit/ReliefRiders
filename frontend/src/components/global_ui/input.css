@@ -31,7 +31,7 @@ input {
     
 }
 
-span{
+.input-field span{
     position: absolute;
     left: 0.4%;
     color: red;
@@ -39,7 +39,7 @@ span{
     padding-top: 0.2em;
     padding-left: 0.3em;
 }
-.normal-field{
+.input-field .normal-field{
     --label-top:calc(50% - 10px);
 }
 .error-field{

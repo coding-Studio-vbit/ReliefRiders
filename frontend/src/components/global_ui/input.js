@@ -8,15 +8,15 @@ import './input.css'
  * You can pass an error msg to show an error below input field
  * @returns a custom styled input component.
  */
-const InputField = ({value,placeholder,name,type,onChange,error,maxLength}) => {
+const InputField = ({textAlign,size,minLength,value,placeholder,name,type,onChange,error,maxLength}) => {
 
     return ( 
 
         <div className="input-field">
-            <input className={error?"error-field":"normal-field"} type={type} name={name} value={value} maxLength={maxLength} onChange={onChange} required/>
+            <input size={size} style={{textAlign:textAlign}} className={error?"error-field":"normal-field"} type={type} name={name} value={value} minLength={minLength} maxLength={maxLength} onChange={onChange} required/>
             <label className="label" htmlFor={name}>{placeholder}</label>
             <br />
-            {error && <span>{error}</span>}
+            {error && <span className="error-msg" >{error}</span>}
             {error && <div style={{ height: 1 + 'rem' }} ></div>}
 
         </div>

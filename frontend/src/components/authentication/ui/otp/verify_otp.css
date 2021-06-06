@@ -1,0 +1,25 @@
+
+.otp-container{
+    display: grid;
+    justify-content: center;
+    gap: 0.5em;
+}
+.send-otp-btn{
+    cursor:pointer;
+    padding: 0px;
+    color: red;
+    margin: 0px;
+    width: fit-content;
+    background: transparent;
+}
+
+.otp-field{
+    width: 100%;
+    text-align: center;
+    letter-spacing: 0.2em;
+}
+.verify-btn{
+    width: fit-content;
+    justify-self: center;
+    padding: 0.5em 1em
+}
