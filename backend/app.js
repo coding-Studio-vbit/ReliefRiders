@@ -25,8 +25,6 @@ app.get("/", (req, res)=>{
 
 app.use("/auth", authRouter);
 
-
-
 app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`)
 })
