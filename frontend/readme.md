@@ -9,7 +9,6 @@ WIP
 ***
 
 UI Components :
-
 Below are available in src/components/global_ui/
 
 1.html button is globally styled
