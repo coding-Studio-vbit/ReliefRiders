@@ -3,14 +3,15 @@ import Requester from "../../../models/requester";
 
 const AuthRegisterReducer = (state, action) => {
     switch (action.type) {
-        case "REQUEST_OTP":
-            return { ...state, otp: action.payload, loading: false };
-        case "VERIFY":
-            //TODO
-            return state;
+        case "UNLOADING":
+            return { ...state, loading: false }
+        case "VERIFIED":
+
+            return { ...state, loading: false, user: action.payload };
         case "LOADING":
             return { ...state, loading: true }
-
+        case "LOGOUT":
+            return { ...state, user: null }
 
     }
 }
@@ -19,7 +20,6 @@ const initState = {
     isRequester: true,
     user: null,
     loading: false,
-    otp: null
 }
 
 export const AuthContext = createContext()
@@ -53,6 +53,20 @@ export const AuthProvider = (prop) => {
  * @param {string} number number 
  */
 function verify(dispatch, otp, number) {
+    dispatch(
+        {
+            type: "LOADING",
+            payload: null
+        }
+    )
+    //todo
+    //cookie store
+    dispatch(
+        {
+            type: "UNLOADING",
+            payload: null
+        }
+    )
 
 }
 /**
@@ -74,8 +88,8 @@ export function requestOTP(dispatch, user) {
     }
     dispatch(
         {
-            type: "REQUEST_OTP",
-            payload: 1234
+            type: "UNLOADING",
+            payload: null
         }
     )
 
@@ -86,5 +100,6 @@ export function requestOTP(dispatch, user) {
  * @param {User} user user model
  */
 export function logout(dispatch, user) {
-    
+    //cookie destroy
+    //delete user
 }

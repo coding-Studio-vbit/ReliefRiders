@@ -18,3 +18,9 @@ Below are available in src/components/global_ui/
 3.Spinner - Loading component
 
 4.Logo - RR logo component
+
+
+***
+TODO :
+Loading component
+fetch API
