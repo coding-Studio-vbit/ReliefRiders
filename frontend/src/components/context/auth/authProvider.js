@@ -1,40 +1,42 @@
-import { createContext, useReducer,React } from "react"
+import { createContext, useReducer, React } from "react"
 import Requester from "../../../models/requester";
 
-const AuthRegisterReducer = (state,action)=>{
+const AuthRegisterReducer = (state, action) => {
     switch (action.type) {
         case "REQUEST_OTP":
-            console.log("ehjfhew"+action.payload);
-            return {...state,otp:action.payload,loading:false};
+            return { ...state, otp: action.payload, loading: false };
         case "VERIFY":
             //TODO
             return state;
         case "LOADING":
-            return {...state,loading:true}
-            
-        
+            return { ...state, loading: true }
+
+
     }
 }
 
 const initState = {
     isRequester: true,
-    user:null,
-    loading:false,
-    otp:null
+    user: null,
+    loading: false,
+    otp: null
 }
 
 export const AuthContext = createContext()
 
 export const AuthProvider = (prop) => {
-    const [state,dispatch] = useReducer(AuthRegisterReducer,initState)
+    const [state, dispatch] = useReducer(AuthRegisterReducer, initState)
+
+
+
 
     return (
         <AuthContext.Provider
             value={{
-                user:state.user,
-                isRequester:state.isRequester,
-                loading:state.otp,
-                otp:state.otp,
+                user: state.user,
+                isRequester: state.isRequester,
+                loading: state.otp,
+                otp: state.otp,
                 dispatch
             }}
         >
@@ -50,31 +52,39 @@ export const AuthProvider = (prop) => {
  * @param {string} otp OTP
  * @param {string} number number 
  */
-export function verify(dispatch,otp,number) {
-    
+function verify(dispatch, otp, number) {
+
 }
 /**
  * 
  * @param {any} dispatch Dispatch object from AuthRegisterContext
  * @param {any} user user model
  */
-export function requestOTP(dispatch,user) {
+export function requestOTP(dispatch, user) {
     dispatch(
         {
-            type:"LOADING",
+            type: "LOADING",
             payload: null
         }
     )
-    if(user instanceof Requester){
+    if (user instanceof Requester) {
         console.log("req");
-    }else{
+    } else {
         console.log("rider");
     }
     dispatch(
         {
-            type:"REQUEST_OTP",
+            type: "REQUEST_OTP",
             payload: 1234
         }
-    )   
+    )
+
+}
+/**
+ * 
+ *  @param {any} dispatch Dispatch object from AuthRegisterContext
+ * @param {User} user user model
+ */
+export function logout(dispatch, user) {
     
 }

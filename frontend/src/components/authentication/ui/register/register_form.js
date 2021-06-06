@@ -40,9 +40,7 @@ const Form = () => {
 
             }
         }
-        else{
-            console.log("ukghj");
-        }
+        
     }
 
     const _handleNumber = (e) => {
