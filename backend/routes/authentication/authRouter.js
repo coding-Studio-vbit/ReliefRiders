@@ -129,7 +129,7 @@ router.post("/verifyOTP", (req, res)=>{
 					userType: type
 				}, process.env.TOKEN_SECRET);
 				
-				return res.json({token: token});
+				return res.json({status:"success", message: token});
 			}
 			else
 			{
