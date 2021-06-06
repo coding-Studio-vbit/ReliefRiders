@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css'
-// import Login from './components/authentication/ui/login/login';
+import Login from './components/authentication/ui/login/login';
 // import RegisterScreen from './components/authentication/ui/register/register'
 
 // import InputField from './components/global_ui/input';
@@ -8,7 +8,7 @@ import './App.css'
 function App() {
   return (
     <div className="App">
-    {/* <Login/> */}
+    <Login/>
     {/* <Login/> */}
 
       {/* <RegisterScreen/> */}

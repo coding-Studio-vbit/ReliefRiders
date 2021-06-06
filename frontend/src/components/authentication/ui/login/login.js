@@ -7,6 +7,7 @@ function login() {
     const [mobile, setMobile] = useState('');
     const [error, setError] = useState('');
     const [isDisabled, setIsDisabled] = useState(false);
+    const [showOTP, setShowOTP] = useState(false)
     
     const validate=(input)=>{
         const pattern =new RegExp(/^[6-9]\d{9}$/);
@@ -31,8 +32,10 @@ function login() {
             console.log("");
             //succesful validation
             //login begins
+            setShowOTP(true);
         }
         setIsDisabled(false)
+        
     }
     return (
         <div className="login">
@@ -40,6 +43,8 @@ function login() {
             <Logo/>
 
             {/*Form and Content*/}
+            {
+                !showOTP?
             <div className="content">
                 <h1>Requester Login</h1>
                 <form 
@@ -53,6 +58,9 @@ function login() {
                     placeholder="mobile"
                     error={ error?error:""}
                     value={ mobile }
+                    maxLength="10000000000"
+                    size="10"
+                    
                     onChange={ 
                         (e)=>setMobile(e.target.value)
                     }                    
@@ -74,7 +82,10 @@ function login() {
                 <button 
                 className="btnStyle register"                 
                 >Go to Registration</button>
+
             </div>
+            :<p>Login OTP</p>
+            }
 
             
             
