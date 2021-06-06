@@ -8,7 +8,9 @@ const user = new mongoose.Schema({
     min: 1000000000,
     max: 9999999999,
     validate:{
-          validator: (phone)=> {return (isMobilePhone(phone,"en-IN"))}
+          validator: (phone)=> {
+            var patt = /^[789]\d{9}$/; return patt.test(phone)
+          }
         }
   },
   name: {
