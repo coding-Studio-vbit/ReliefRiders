@@ -4,10 +4,11 @@ import InputField from '../../../global_ui/input';
 import './register_form.css'
 import Requester from '../../../../models/requester'
 import Rider from '../../../../models/rider'
+import VerifyOTP from '../otp/verify_otp';
 
 const Form = () => {
 
-    const { isRequester,dispatch ,otp} = useContext(AuthContext)
+    const { isRequester, dispatch } = useContext(AuthContext)
     const [details, setdetails] = useState({
         number: '',
         name: '',
@@ -17,36 +18,41 @@ const Form = () => {
         number: '',
         showErrors: false,
         name: '',
-        errorCount: 0,
         yearOfBirth: ''
     })
 
 
     const submit = (event) => {
         event.preventDefault()
-        console.log(otp);
         setErrors({
             ...errors,
             showErrors: true,
         })
-        console.log(errors.errorCount);
-        if (errors.errorCount <= 0) {
-            if(isRequester){
-                const requester = new Requester(details.number,details.name,details.yearOfBirth)
-                requestOTP(dispatch,requester)
-            }else{
-                const rider = new Rider(details.number,details.name)
-                requestOTP(dispatch,rider)
+        if (!errors.number && !errors.name && !errors.yearOfBirth) {
+            if (isRequester) {
+                const requester = new Requester(details.number, details.name, details.yearOfBirth)
+                requestOTP(dispatch, requester)
+            } else {
+                const rider = new Rider(details.number, details.name)
+                requestOTP(dispatch, rider)
 
             }
         }
-        
+
     }
 
     const _handleNumber = (e) => {
         const number = e.target.value
         const regE = /^[6-9]\d{9}$/
-        if (!regE.test(number)) {
+        if (number.length > 10) {
+            setErrors({
+                ...errors,
+                showErrors: true,
+
+                number: "Phone number exceeds 10 digits"
+            })
+        }
+        else if (!regE.test(number)) {
             setErrors({
                 ...errors,
                 number: "Please enter a valid number"
@@ -55,7 +61,6 @@ const Form = () => {
             setErrors({
                 ...errors,
                 number: "",
-                errorCount: errors.errorCount - 1
             })
         }
         setdetails({
@@ -70,18 +75,21 @@ const Form = () => {
         if (name === "") {
             setErrors({
                 ...errors,
+
                 name: "Please enter your name"
             })
         }
         else if (!(/^[a-zA-Z]*$/).test(name)) {
             setErrors({
                 ...errors,
+
                 name: "Please enter a valid name"
             })
         }
         else if (name.length < 3) {
             setErrors({
                 ...errors,
+
                 name: "Name must be atleast 3 characters!"
             })
 
@@ -89,7 +97,6 @@ const Form = () => {
             setErrors({
                 ...errors,
                 name: "",
-                errorCount: errors.errorCount - 1
 
             })
         }
@@ -100,23 +107,35 @@ const Form = () => {
     }
 
     const _handleYear = (e) => {
-
+        console.log(new Date().getFullYear() - 100);
         const year = e.target.value
-        if (!Number.isInteger(year)) {
+        const cyear = new Date().getFullYear()
+
+        if (!parseInt(year) || parseInt(year) < cyear - 100) {
             setErrors({
                 ...errors,
+
                 yearOfBirth: "Invalid Year!"
             })
         }
-        if (year.length == 0) {
+        else if (parseInt(year) > cyear - 13) {
             setErrors({
                 ...errors,
+
+                yearOfBirth: "Invalid Year!"
+            })
+        }
+        else if (year.length == 0) {
+            setErrors({
+                ...errors,
+
                 yearOfBirth: "Enter Year!"
             })
         }
         else if (year.length != 4) {
             setErrors({
                 ...errors,
+
                 yearOfBirth: "Invalid Year"
             })
         }
@@ -124,7 +143,6 @@ const Form = () => {
             setErrors({
                 ...errors,
                 yearOfBirth: "",
-                errorCount: errors.errorCount - 1
 
             })
         }
@@ -136,20 +154,32 @@ const Form = () => {
 
 
     return (
+        <AuthContext.Consumer>
+            {
+                state => {
+                    if (state.showOTP) {
+                        return <VerifyOTP />
+                    } else {
+                        return (
+                            <form className="form" onSubmit={submit} >
 
-        <form className="form" onSubmit={submit} >
+                                <p style={{ textAlign: "center", fontSize: 2 + 'em' }} >Requester Register</p>
+                                <div style={{ height: 1 + 'rem' }} ></div>
 
-            <p style={{ textAlign: "center", fontSize: 2 + 'em' }} >Requester Register</p>
-            <div style={{ height: 1 + 'rem' }} ></div>
+                                <InputField value={details.number} type="number" error={errors.showErrors ? errors.number : ""} onChange={_handleNumber} maxLength='10' placeholder="Enter Phone number" />
 
-            <InputField type="number" error={errors.showErrors ? errors.number : ""} onChange={_handleNumber} maxLength='10' placeholder="Enter Phone number" />
+                                <div className="sec-row">
+                                    <InputField value={details.name} error={errors.showErrors ? errors.name : ""} onChange={_handleName} type="text" placeholder="Enter Name" />
+                                    <InputField value={details.yearOfBirth} error={errors.showErrors ? errors.yearOfBirth : ""} onChange={_handleYear} type="number" placeholder="Year Of Birth" />
+                                </div>
+                                <button className="otp-btn" type="submit" >REQUEST OTP</button>
+                            </form>
+                        )
+                    }
+                }
+            }
+        </AuthContext.Consumer>
 
-            <div className="sec-row">
-                <InputField error={errors.showErrors ? errors.name : ""} onChange={_handleName} type="text" placeholder="Enter Name" />
-                <InputField error={errors.showErrors ? errors.yearOfBirth : ""} onChange={_handleYear} type="number" placeholder="Year Of Birth" />
-            </div>
-            <button className="otp-btn" type="submit" >REQUEST OTP</button>
-        </form>
 
     );
 }
