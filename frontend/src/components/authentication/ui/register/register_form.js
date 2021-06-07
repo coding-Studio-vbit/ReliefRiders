@@ -8,7 +8,7 @@ import VerifyOTP from '../otp/verify_otp';
 
 const Form = () => {
 
-    const { isRequester, dispatch,user } = useContext(AuthContext)
+    const { isRequester, dispatch } = useContext(AuthContext)
     const [details, setdetails] = useState({
         number: '',
         name: '',
@@ -34,7 +34,6 @@ const Form = () => {
                 const requester = new Requester(details.number, details.name, details.yearOfBirth)
                 setUserG(requester)
                 await requestOTP(dispatch, requester)
-                console.log(user);
             } else {
                 const rider = new Rider(details.number, details.name)
                 setUserG(rider)

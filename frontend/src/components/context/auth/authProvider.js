@@ -102,14 +102,15 @@ export async function requestOTP(dispatch, user)  {
     let res
     if (user instanceof Requester) {
          res = await fetch(
-            "http://localhost:8000/registerRequester/registerNewRequester",
+            "http://localhost:8000/auth/requestOTP",
             {
                 method:"POST",
-                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                  },
                 body:JSON.stringify({
-                    name:"rev",
-                    phoneNumber:user.number,
-                    yearOfBirth:1000
+                    type:"rider",
+                    phone:user.number,
                 })
             }
         )
@@ -129,7 +130,7 @@ export async function requestOTP(dispatch, user)  {
         )
         
     }
-    console.log(res);
+    console.log(res.json());
     console.log("succ");
     dispatch(
         {
