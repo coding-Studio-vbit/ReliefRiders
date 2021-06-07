@@ -3,6 +3,8 @@ const express = require('express');
 const app = express();
 const mongoose = require("mongoose");
 const port = process.env.PORT || 8000;
+const cors = require('cors')
+app.use(cors())
 
 //express middleware usage.
 app.use(express.json());
