@@ -1,5 +1,5 @@
 import { createContext, useReducer, React } from "react"
-// import Requester from "../../../models/requester";
+import Requester from "../../../models/requester";
 
 const AuthRegisterReducer = (state, action) => {
     switch (action.type) {
@@ -99,36 +99,38 @@ export async function requestOTP(dispatch, user)  {
             payload: null
         }
     )
-    // let res
-    // if (user instanceof Requester) {
-    //      res = await fetch(
-    //         "url",
-    //         {
-    //             method:"POST",
-    //             mode: 'cors',
-    //             body:JSON.stringify({
-    //                 type:"requester",
-    //                 phone:user.number
-    //             })
-    //         }
-    //     )
+    let res
+    if (user instanceof Requester) {
+         res = await fetch(
+            "http://localhost:8000/registerRequester/registerNewRequester",
+            {
+                method:"POST",
+                mode: 'cors',
+                body:JSON.stringify({
+                    name:"rev",
+                    phoneNumber:user.number,
+                    yearOfBirth:1000
+                })
+            }
+        )
 
 
-    // } else {
-    //     res = await fetch(
-    //         "url",
-    //         {
-    //             method:"POST",
-    //             mode: 'cors',
-    //             body:JSON.stringify({
-    //                 type:"rider",
-    //                 phone:user.number
-    //             })
-    //         }
-    //     )
+    } else {
+        res = await fetch(
+            "url",
+            {
+                method:"POST",
+                mode: 'cors',
+                body:JSON.stringify({
+                    type:"rider",
+                    phone:user.number
+                })
+            }
+        )
         
-    // }
-    // console.log(res);
+    }
+    console.log(res);
+    console.log("succ");
     dispatch(
         {
             type: "SHOWOTP",
