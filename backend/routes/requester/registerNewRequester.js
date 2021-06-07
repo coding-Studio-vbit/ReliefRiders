@@ -3,6 +3,7 @@ const router = express.Router();
 const Requester = require("../../models/requesters");
 
 router.post("/registerNewRequester", (req, res) => {
+  console.log(req);
     let requesterData = new Requester({
       name : req.body.name,
       phoneNumber : req.body.phoneNumber,
