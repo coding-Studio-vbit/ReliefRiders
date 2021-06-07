@@ -5,18 +5,21 @@ const otp = require("./OTP");
 const sms = require("../common/sms");
 const rider = require("../../models/riders");
 const requester = require("../../models/requesters");
+const fs = require("fs");
 
 
-const OTP_FILE_PATH = "../../TEMP_OTP.js";
+const OTP_FILE_PATH = "./TEMP_OTP.json";
 const OTP_TIMEOUT_MINS = 5;
 
 
 router.post("/requestOTP", (req, res)=>{
 
 	if(!req.body.type || !req.body.phone)
-		return res.status(400).json({err: "Invalid properties"});
+		return res.json({status:"failure", message: "Invalid properties"});
 	
 	let userModel;
+
+	const {type, phone} = req.body;
 
 	switch(type)
 	{
@@ -25,7 +28,7 @@ router.post("/requestOTP", (req, res)=>{
 		default: userModel = null;
 	}
 	if(!userModel)
-		return res.status(400).json({err: "Invalid user type!"});
+		return res.json({status:"failure", message: "Invalid user type!"});
 
 
 	userModel.findOne({
@@ -33,7 +36,10 @@ router.post("/requestOTP", (req, res)=>{
 	})
 	.then(doc =>{
 		if(doc == null)
-			return res.json({err: "No such phone number! Please register."});
+		{
+			throw {status: "failure", message: "No such phone number! Please register."};
+		}
+			//return res.json({status:"failure", message: "No such phone number! Please register."});
 
 		//phone number is valid.
 		//now create an otp and set it.
@@ -43,7 +49,7 @@ router.post("/requestOTP", (req, res)=>{
 		fs.readFile(OTP_FILE_PATH, (err, data)=>{
 			if(err){
 				console.log("An error occured while reading ", OTP_FILE_PATH, err);
-				return res.status(500).json({err: "Server internal error"});
+				throw ({status: "failure", message: "Server internal error"});
 			}
 			else{
 				let obj = JSON.parse(data);
@@ -51,7 +57,7 @@ router.post("/requestOTP", (req, res)=>{
 				fs.writeFile(OTP_FILE_PATH, JSON.stringify(obj), 'utf-8', (err)=>{
 					if(err){
 						console.log("An error occured while writing to OTP_Temp.json");
-						return res.status(500).json({err: "Server Internal Error"});
+						throw({status:"failure", message: "Server Internal Error"});
 					}
 					else{
 
@@ -75,22 +81,23 @@ router.post("/requestOTP", (req, res)=>{
 						// So after 5 mins, the OTP entry will not exist in the file.
 
 						console.log("New " + req.body.type + " login OTP request.");
+						res.json({status: "success", message:"OTP Set"});
 						sms.sendOTP(req.body.phone, OTP);
 					}
 				})
 			}
 		});
 	})
-	.catch(error=>{
-		console.log(error);
-		return res.status(500).json({err: "Server internal error"});
+	.catch(err=>{
+		console.log(err);
+		return res.json(err);
 	})
 })
 
 router.post("/verifyOTP", (req, res)=>{
 
 	if(!req.body.phone || !req.body.type || !req.body.OTP){
-		return res.status(400).json({err: "Invalid properties"});
+		return res.json({status:"failure", message: "Invalid properties"});
 	}
 
 	let {phone, type, OTP} = req.body;
@@ -102,13 +109,13 @@ router.post("/verifyOTP", (req, res)=>{
 		default: userModel = null;
 	}
 	if(!userModel)
-		return res.status(400).json({err: "Invalid user type!"});
+		return res.json({status:"failure", message: "Invalid user type!"});
 	
 	fs.readFile(OTP_FILE_PATH, (err, data)=>{
 		if(err)
 		{
 			console.log("An error occurred while reading ", OTP_FILE_PATH, err);
-			return res.status(500).json({err: "Server Internal Error"});
+			return res.json({status: "failure", message: "Server internal error"});
 		}
 		let obj = JSON.parse(data);
 		if(obj.hasOwnProperty(phone))
@@ -122,17 +129,17 @@ router.post("/verifyOTP", (req, res)=>{
 					userType: type
 				}, process.env.TOKEN_SECRET);
 				
-				return res.json({token: token});
+				return res.json({status:"success", message: token});
 			}
 			else
 			{
-				return res.json({err: "OTP Invalid"});
+				return res.json({status:"failure", message: "OTP Invalid"});
 			}
 			
 		}
 		else
 		{
-			return res.status(400).json({err: "OTP has expired or has not been set!"});
+			return res.json({status:"failure", message: "OTP has expired or has not been set!"});
 		}
 	})
 	
