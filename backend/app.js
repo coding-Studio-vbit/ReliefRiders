@@ -21,8 +21,7 @@ mongoose.connection.once('open',function(){
 
 //Import routers here.
 const authRouter = require("./routes/authentication/authRouter");
-const registerNewRider = require("./routes/rider/registerNewRider");
-const registerNewRequester = require("./routes/requester/registerNewRequester")
+
 
 app.get("/", (req, res)=>{
 	res.send("Hey I am alive!");
@@ -32,8 +31,7 @@ app.get("/", (req, res)=>{
 //Use routers here.
 
 app.use("/auth", authRouter);
-app.use("/registerRider", registerNewRider);
-app.use("/registerRequester", registerNewRequester)
+
 
 
 app.listen(port, () => {
