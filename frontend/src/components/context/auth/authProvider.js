@@ -12,6 +12,10 @@ const AuthRegisterReducer = (state, action) => {
             return { ...state, loading: true }
         case "LOGOUT":
             return { ...state, user: null }
+        case "SHOWOTP":
+            return { ...state, showOTP: true,loading:false }
+        case "SHOWFORM":
+            return { ...state, showOTP: false,loading:false }
 
     }
 }
@@ -20,6 +24,7 @@ const initState = {
     isRequester: true,
     user: null,
     loading: false,
+    showOTP: false
 }
 
 export const AuthContext = createContext()
@@ -37,6 +42,7 @@ export const AuthProvider = (prop) => {
                 isRequester: state.isRequester,
                 loading: state.otp,
                 otp: state.otp,
+                showOTP: state.showOTP,
                 dispatch
             }}
         >
@@ -88,7 +94,7 @@ export function requestOTP(dispatch, user) {
     }
     dispatch(
         {
-            type: "UNLOADING",
+            type: "SHOWOTP",
             payload: null
         }
     )

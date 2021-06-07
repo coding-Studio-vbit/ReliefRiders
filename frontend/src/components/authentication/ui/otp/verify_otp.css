@@ -5,7 +5,7 @@
     justify-content: center;
     gap: 0.5em;
 }
-.send-otp-btn{
+.send-otp-btn, .go-back-reg{
     cursor:pointer;
     padding: 0px;
     color: red;
@@ -14,11 +14,7 @@
     background: transparent;
 }
 
-.otp-field{
-    width: 100%;
-    text-align: center;
-    letter-spacing: 0.2em;
-}
+
 .verify-btn{
     width: fit-content;
     justify-self: center;

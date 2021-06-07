@@ -1,7 +1,8 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './verify_otp.css'
 import InputField from '../../../global_ui/input'
+import { AuthContext } from '../../../context/auth/authProvider';
 const VerifyOTP = () => {
 
     const [otp,setOtp] = useState('')
@@ -9,6 +10,7 @@ const VerifyOTP = () => {
         error:'',
         showError:false
     })
+    const {dispatch} = useContext(AuthContext)
     const submit = ()=>{
         setError({...error,showError:true})
         console.log(otp);
@@ -25,7 +27,14 @@ const VerifyOTP = () => {
         setOtp(otp)
     }
     
-
+    const goBack = ()=>{
+        dispatch(
+            {
+                type:"SHOWFORM",
+                action:null
+            }
+        )
+    }
 
     return ( 
         <div className="otp-container">
@@ -35,6 +44,7 @@ const VerifyOTP = () => {
             <div style={{ height: 5 + 'rem' }} ></div>
 
             <button onClick={submit} className="verify-btn" >Verify</button>
+            <p style={{textAlign:'center',marginBottom:0.3+'em'}} >Entered wrong number <button onClick={goBack} className="go-back-reg" >Go back</button>  </p>
         </div >
      );
 }

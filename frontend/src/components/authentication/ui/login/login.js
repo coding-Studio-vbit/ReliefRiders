@@ -48,12 +48,7 @@ function Login() {
                 !showOTP?
             <div className="content">
                 <h1>Requester Login</h1>
-                <form 
                 
-                action="" 
-                method="post" 
-                onSubmit={(e)=>handleLogin(e)}
-                noValidate>
                     <InputField 
                     type="text" 
                     placeholder="Mobile"
@@ -67,19 +62,19 @@ function Login() {
                     />
 
 
-                    <br/>
                     <button 
                     type="submit" 
+                    onClick={(e)=>handleLogin(e)}
+
                     value="Request OTP" 
                     className="btnStyle"
                     disabled={ isDisabled }
                     >Request OTP</button>  
-                </form>
             
                               
-                <div style={{ height: 3 + 'rem' }} ></div>
 
                 <p className="routetext">Dont have an account?</p>
+
                 <button 
                 className="btnStyle register"                 
                 >Go to Registration</button>

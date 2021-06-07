@@ -4,11 +4,7 @@ import './input.css'
 
 /**
  * 
-<<<<<<< HEAD
- * @param {*} props value,placeholder,name,type,onChange,error,maxLength are the supported props
-=======
  * @param {*} props textAlign,size,minLength,value,placeholder,name,type,onChange,error,maxLength are the supported props
->>>>>>> master
  * You can pass an error msg to show an error below input field
  * @returns a custom styled input component.
  */
