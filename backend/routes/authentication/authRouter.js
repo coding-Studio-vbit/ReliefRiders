@@ -108,16 +108,14 @@ router.post("/verifyOTP", (req, res)=>{
 			console.log("An error occurred while reading ", OTP_FILE_PATH, err);
 			return res.json({status: "failure", message: "Server internal error"});
 		}
-		let obj = JSON.parse(data);
+		let obj = JSON.parse(data.toString());
 		if(obj.hasOwnProperty(phone))
 		{
-			const tempData = JSON.parse(JSON.stringify(obj));
-
-			if(tempData[phone].OTP == OTP)
+			if(obj[phone].otp == OTP)
 			{
 				var token = jwt.sign({
 					phoneNumber: phone,
-					userType: tempData[phone].type
+					userType: obj[phone].type
 				}, process.env.TOKEN_SECRET);
 				
 				return res.json({status:"success", message: token});
