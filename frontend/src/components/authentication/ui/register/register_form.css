@@ -1,13 +1,14 @@
 
 .form{
     display: grid;
-    justify-content: center;
-    
     margin: 1rem ;
 
 }
 input{
     width: 100%;
+}
+.spinner{
+    justify-self: center;
 }
 
 .otp-btn{
@@ -20,6 +21,6 @@ input{
     margin-top: 1rem;
     margin-bottom:  6rem;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-auto-flow: column;
     gap: 0.5rem;
 }

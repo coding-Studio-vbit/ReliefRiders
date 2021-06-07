@@ -14,7 +14,9 @@
     place-self: center;
     padding   : 0.6em;
 }
-
+.spinner{
+    justify-self: center;
+}
 .routetext {
     color        : slategray;
     align-self   : end;

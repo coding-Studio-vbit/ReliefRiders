@@ -5,10 +5,11 @@ import './register_form.css'
 import Requester from '../../../../models/requester'
 import Rider from '../../../../models/rider'
 import VerifyOTP from '../otp/verify_otp';
+import Spinner from '../../../global_ui/spinner';
 
 const Form = () => {
 
-    const { isRequester, dispatch } = useContext(AuthContext)
+    const { isRequester, dispatch,loading } = useContext(AuthContext)
     const [details, setdetails] = useState({
         number: '',
         name: '',
@@ -21,7 +22,6 @@ const Form = () => {
         name: '',
         yearOfBirth: ''
     })
-
     
     async function  submit (event) {
         event.preventDefault()
@@ -166,16 +166,18 @@ const Form = () => {
                         return (
                             <form className="form" onSubmit={submit} >
 
-                                <p style={{ textAlign: "center", fontSize: 2 + 'em' }} >Requester Register</p>
+                                <p style={{ textAlign: "center", fontSize: 2 + 'em' }} >{isRequester?"Requester": "Rider"} Register</p>
                                 <div style={{ height: 1 + 'rem' }} ></div>
 
                                 <InputField value={details.number} type="number" error={errors.showErrors ? errors.number : ""} onChange={_handleNumber} maxLength='10' placeholder="Enter Phone number" />
 
                                 <div className="sec-row">
                                     <InputField value={details.name} error={errors.showErrors ? errors.name : ""} onChange={_handleName} type="text" placeholder="Enter Name" />
-                                    <InputField value={details.yearOfBirth} error={errors.showErrors ? errors.yearOfBirth : ""} onChange={_handleYear} type="number" placeholder="Year Of Birth" />
+                                    { isRequester && <InputField value={details.yearOfBirth} error={errors.showErrors ? errors.yearOfBirth : ""} onChange={_handleYear} type="number" placeholder="Year Of Birth" />}
                                 </div>
-                                <button className="otp-btn" type="submit" >REQUEST OTP</button>
+                                {loading?
+                                <Spinner radius="2"/>:<button className="otp-btn" type="submit" >REQUEST OTP</button> }
+                                
                             </form>
                         )
                     }

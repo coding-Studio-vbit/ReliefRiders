@@ -1,5 +1,5 @@
 import { createContext, useReducer, React } from "react"
-import Requester from "../../../models/requester";
+// import Requester from "../../../models/requester";
 
 const AuthRegisterReducer = (state, action) => {
     switch (action.type) {
@@ -40,8 +40,7 @@ export const AuthProvider = (prop) => {
             value={{
                 user: state.user,
                 isRequester: state.isRequester,
-                loading: state.otp,
-                otp: state.otp,
+                loading: state.loading,
                 showOTP: state.showOTP,
                 dispatch
             }}
@@ -99,45 +98,47 @@ export async function requestOTP(dispatch, user)  {
             payload: null
         }
     )
-    let res
-    if (user instanceof Requester) {
-         res = await fetch(
-            "http://localhost:8000/auth/requestOTP",
-            {
-                method:"POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                  },
-                body:JSON.stringify({
-                    type:"rider",
-                    phone:user.number,
-                })
-            }
-        )
+    // let res
+    // if (user instanceof Requester) {
+    //      res = await fetch(
+    //         "http://localhost:8000/auth/requestOTP",
+    //         {
+    //             method:"POST",
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //               },
+    //             body:JSON.stringify({
+    //                 type:"rider",
+    //                 phone:user.number,
+    //             })
+    //         }
+    //     )
 
 
-    } else {
-        res = await fetch(
-            "url",
-            {
-                method:"POST",
-                mode: 'cors',
-                body:JSON.stringify({
-                    type:"rider",
-                    phone:user.number
-                })
-            }
-        )
+    // } else {
+    //     // res = await fetch(
+    //     //     "url",
+    //     //     {
+    //     //         method:"POST",
+    //     //         mode: 'cors',
+    //     //         body:JSON.stringify({
+    //     //             type:"rider",
+    //     //             phone:user.number
+    //     //         })
+    //     //     }
+    //     // )
         
-    }
-    console.log(res.json());
+    // }
+    setTimeout(()=>{
+        dispatch(
+            {
+                type: "SHOWOTP",
+                payload: null
+            }
+        )
+    },3000)
     console.log("succ");
-    dispatch(
-        {
-            type: "SHOWOTP",
-            payload: null
-        }
-    )
+    
 
 }
 /**

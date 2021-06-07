@@ -3,16 +3,31 @@ import React, { useContext, useState } from 'react';
 import './verify_otp.css'
 import InputField from '../../../global_ui/input'
 import { AuthContext, verify } from '../../../context/auth/authProvider';
-const VerifyOTP = ({user}) => {
+import Spinner from '../../../global_ui/spinner';
+import Requester from '../../../../models/requester';
+const VerifyOTP = ({user,mobile}) => {
     const [otp,setOtp] = useState('')
     const [error,setError] = useState({
-        error:'',
+        error:'Please enter OTP',
         showError:false
     })
-    const {dispatch} = useContext(AuthContext)
+    const {dispatch,loading,isRequester} = useContext(AuthContext)
     const submit =  async()=>{
         setError({...error,showError:true})
-        await verify(dispatch,otp,user)
+        if(!error.error){
+            if(isRequester){
+                const user = new Requester(mobile,"Dummy")
+                await verify(dispatch,otp,user)
+
+            }else{
+                await verify(dispatch,otp,user)
+ 
+            }
+        }
+        
+            
+
+        
         //TODO
     }
     const validateOTP = (otp)=>{
@@ -44,9 +59,10 @@ const VerifyOTP = ({user}) => {
             <InputField error={error.showError?error.error:""} textAlign="center" placeholder="Enter OTP" type="number"  onChange={(e)=>validateOTP(e.target.value)}   />
             <span>Still haven't received the OTP ? <a onClick={()=>console.log("fff")} className="send-otp-btn" >Resend OTP</a> </span>
             <div style={{ height: 5 + 'rem' }} ></div>
-
-            <button onClick={submit} className="verify-btn" >Verify</button>
-            <p style={{textAlign:'center',marginBottom:0.3+'em'}} >Entered wrong number <button onClick={goBack} className="go-back-reg" >Go back</button>  </p>
+            {loading?
+                                <Spinner radius="2"/>:<button onClick={submit} className="verify-btn" >Verify</button> }
+            
+            <p style={{textAlign:'center',marginBottom:0.3+'em'}} >Entered wrong details <button onClick={goBack} className="go-back-reg" >Go back</button>  </p>
         </div >
      );
 }
