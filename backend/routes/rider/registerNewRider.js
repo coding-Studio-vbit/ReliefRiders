@@ -32,14 +32,23 @@ router.post("/registerNewRider", (req, res) => {
     }
 })
 
-router.get("/allRiders", (req,res) => {
-  riders.find({}, (err, riderData) => {
-    if(err){
-      console.log(error);
-    }else{
-      console.log(riderData);
-    }
+router.get("/allRiders",  function(req, res, next) {
+    Rider.find( function (err, result) {
+  if (err) {
+    res.json({
+    status:"failure",
+    message: "Unable to retrieve data"
+})
+    console.error(err);
+  }
+  else {
+  res.json({
+    status:"success",
+    message: "All Riders shown",
+    result : result
   })
+ }
+})
 })
 
 //export module

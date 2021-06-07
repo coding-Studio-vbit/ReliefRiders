@@ -9,7 +9,7 @@ const user = new mongoose.Schema({
     max: 9999999999,
     validate:{
           validator: (phone)=> {
-            var patt = /^[789]\d{9}$/; return patt.test(phone)
+            var patt = /^[6789]\d{9}$/; return patt.test(phone)
           }
         }
 
