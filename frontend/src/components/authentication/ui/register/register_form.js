@@ -8,12 +8,13 @@ import VerifyOTP from '../otp/verify_otp';
 
 const Form = () => {
 
-    const { isRequester, dispatch } = useContext(AuthContext)
+    const { isRequester, dispatch,user } = useContext(AuthContext)
     const [details, setdetails] = useState({
         number: '',
         name: '',
         yearOfBirth: ""
     })
+    const [userG,setUserG] = useState(null)
     const [errors, setErrors] = useState({
         number: '',
         showErrors: false,
@@ -21,8 +22,8 @@ const Form = () => {
         yearOfBirth: ''
     })
 
-
-    const submit = (event) => {
+    
+    async function  submit (event) {
         event.preventDefault()
         setErrors({
             ...errors,
@@ -31,9 +32,12 @@ const Form = () => {
         if (!errors.number && !errors.name && !errors.yearOfBirth) {
             if (isRequester) {
                 const requester = new Requester(details.number, details.name, details.yearOfBirth)
-                requestOTP(dispatch, requester)
+                setUserG(requester)
+                await requestOTP(dispatch, requester)
+                console.log(user);
             } else {
                 const rider = new Rider(details.number, details.name)
+                setUserG(rider)
                 requestOTP(dispatch, rider)
 
             }
@@ -158,7 +162,7 @@ const Form = () => {
             {
                 state => {
                     if (state.showOTP) {
-                        return <VerifyOTP />
+                        return <VerifyOTP user={userG} />
                     } else {
                         return (
                             <form className="form" onSubmit={submit} >

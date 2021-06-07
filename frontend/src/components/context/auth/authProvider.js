@@ -1,5 +1,5 @@
 import { createContext, useReducer, React } from "react"
-import Requester from "../../../models/requester";
+// import Requester from "../../../models/requester";
 
 const AuthRegisterReducer = (state, action) => {
     switch (action.type) {
@@ -56,9 +56,9 @@ export const AuthProvider = (prop) => {
  * 
  * @param {any} dispatch Dispatch object from AuthRegisterContext
  * @param {string} otp OTP
- * @param {string} number number 
+ * @param {any} user user model 
  */
-function verify(dispatch, otp, number) {
+export async function verify(dispatch, otp, user) {
     dispatch(
         {
             type: "LOADING",
@@ -66,7 +66,19 @@ function verify(dispatch, otp, number) {
         }
     )
     //todo
-    //cookie store
+    // const res = await fetch(
+    //     "url",
+    //     {
+    //         method:"POST",
+    //         mode: 'cors',
+    //         body:JSON.stringify({
+    //             otp:otp,
+    //             phone:number
+    //         })
+    //     }
+    // )
+    //if verify success set cookie
+    console.log(user);
     dispatch(
         {
             type: "UNLOADING",
@@ -80,18 +92,43 @@ function verify(dispatch, otp, number) {
  * @param {any} dispatch Dispatch object from AuthRegisterContext
  * @param {any} user user model
  */
-export function requestOTP(dispatch, user) {
+export async function requestOTP(dispatch, user)  {
     dispatch(
         {
             type: "LOADING",
             payload: null
         }
     )
-    if (user instanceof Requester) {
-        console.log("req");
-    } else {
-        console.log("rider");
-    }
+    // let res
+    // if (user instanceof Requester) {
+    //      res = await fetch(
+    //         "url",
+    //         {
+    //             method:"POST",
+    //             mode: 'cors',
+    //             body:JSON.stringify({
+    //                 type:"requester",
+    //                 phone:user.number
+    //             })
+    //         }
+    //     )
+
+
+    // } else {
+    //     res = await fetch(
+    //         "url",
+    //         {
+    //             method:"POST",
+    //             mode: 'cors',
+    //             body:JSON.stringify({
+    //                 type:"rider",
+    //                 phone:user.number
+    //             })
+    //         }
+    //     )
+        
+    // }
+    // console.log(res);
     dispatch(
         {
             type: "SHOWOTP",
@@ -108,4 +145,12 @@ export function requestOTP(dispatch, user) {
 export function logout(dispatch, user) {
     //cookie destroy
     //delete user
+}
+/**
+ * 
+ *  @param {any} dispatch Dispatch object from AuthRegisterContext
+ * @param {string} number 
+ */
+export async function resendOTP(dispatch,number){
+
 }

@@ -3,6 +3,7 @@ import './loginStyles.css'
 import Logo from '../../../global_ui/logo'
 import InputField from '../../../global_ui/input';
 import VerifyOTP from '../otp/verify_otp';
+import { AuthProvider } from '../../../context/auth/authProvider';
 
 function Login() {
     const [mobile, setMobile] = useState('');
@@ -30,15 +31,14 @@ function Login() {
         e.preventDefault();
         if(validate(mobile)){
             setError(null)
-            console.log("");
-            //succesful validation
-            //login begins
+            
             setShowOTP(true);
         }
         setIsDisabled(false)
         
     }
     return (
+        <AuthProvider>
         <div className="login">
             {/* Logo */}
             <Logo/>
@@ -86,6 +86,7 @@ function Login() {
             
             
         </div>
+        </AuthProvider>
     )
 }
 
