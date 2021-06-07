@@ -1,0 +1,45 @@
+.riderhome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo {
+  margin-top: 50px;
+  width: 120px;
+  height: 120px;
+  margin-bottom: 10px;
+}
+.buttons {
+  display: inline-flex;
+  height: 87px;
+  width: 371px;
+  padding: 0px;
+  margin-bottom: 15px;
+  margin-top: 10px;
+  background-color: #ff7978;
+  border: #707070;
+  box-shadow: gray;
+  overflow: hidden;
+  cursor: pointer;
+}
+.btn_text,
+.btn_icon {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 30px;
+  font-size: 25px;
+  font-weight: 500;
+  font-style: Bold;
+  text-align: center;
+  height: 100%;
+  color: white;
+}
+.btn_icon {
+  font-size: 1.5em;
+  background-color: #ff7978;
+}
+
+.links {
+  text-decoration: none;
+}
