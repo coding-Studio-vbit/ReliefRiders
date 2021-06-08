@@ -1,17 +1,17 @@
 const JWT = require('jsonwebtoken')
 
-module.exports = {
-    verifyToken: (err,req,res,next) =>{
-        if(!req.headers['authorization']) return next(err)
+module.exports =
+        (req,res,next) =>{
+        if(!req.headers['authorization'])
+        { return res.json({status: faliure, message: "No authorization header found."})  }
         const authHeader = req.headers['authorization']
         const bearerToken = authHeader.split(' ')
         const token = bearerToken[1]
         JWT.verify(token,process.env.TOKEN_SECRET,(err,data) =>{
             if (err) {
-                return next(err)
+              return res.json({status: faliure, message: "Token verification Failed."})
             }
-            req.user = data 
+            req.user = data
             next()
         })
     }
-}
