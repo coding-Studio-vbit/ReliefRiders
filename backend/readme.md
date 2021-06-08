@@ -3,17 +3,17 @@
 
 ## Login Endpoints:
 
-#  /auth/login/requestOTP<br>
+###  /auth/login/requestOTP<br>
  request an OTP for registered riders or requesters. also works as resend OTP.
 
-### request body:
+#### request body:
 ```json
 	{
 		"phone":"<phone number here>",
 		"type":"<requester/rider>"
 	}
 ```
-### response:
+#### response:
 ```json
 	{
 		"status":"failure/success",
@@ -25,17 +25,17 @@
 ```
 
 
-#  /auth/login/verifyOTP<br>
+###  /auth/login/verifyOTP<br>
 get OTP verified for registered riders/requesters.
 
-### request body:
+#### request body:
 ```json
 	{
 		"phone":"<10 digit phone number>",
 		"OTP":"<6 digit OTP here>"
 	}
 ```
-### response:
+#### response:
 ```json
 	{
 		"status":"failure/success",
@@ -44,17 +44,17 @@ get OTP verified for registered riders/requesters.
 ```
 ## Registration Endpoints:
 
-#  /auth/register/requestOTP<br>
+###  /auth/register/requestOTP<br>
 request OTP for registration for a new rider/requester.
 
-### request body:
+#### request body:
 ```json
 	{
 		"type":"<rider/requester>",
 		"phone":"<10 digit phone number>"
 	}
 ```
-### response:
+#### response:
 ```json
 	{
 		"status":"failure/success",
