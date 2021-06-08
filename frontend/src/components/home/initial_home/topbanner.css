@@ -1,0 +1,21 @@
+.top-banner{
+    display: grid;
+    padding: 0.5em 1em;
+    margin-bottom: 1em;
+    align-items: center;
+    grid-auto-flow: column;
+    background: hsl(180, 70%, 45%);
+    ;
+}
+.call-btn{
+    padding: 0.4em;
+    background: rgb(5, 184, 50);
+    display: flex;
+    
+
+}
+.nnn{
+    padding-left: 0.5em;
+    align-self: center;
+    justify-self: center;
+}

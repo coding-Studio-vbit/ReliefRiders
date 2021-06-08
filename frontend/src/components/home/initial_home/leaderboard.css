@@ -1,0 +1,28 @@
+.leaderboard-container{
+    background: hsl(180, 70%, 45%);
+    padding: 0.4em;
+}
+.leaderboard-title{
+    display: block;
+    padding: 0.5em 0.5em;
+    font-size: 1.5em;
+    text-align: center;
+}
+.leaderboard-user{
+    padding: 0.5em;
+    margin: 0.5em;
+    font-weight: bold;
+    display: grid;
+    align-items: center;
+    box-shadow: 0px 8px 5px rgba(0, 0, 0, 0.281);
+    background: white;
+    border: 1px solid black;
+    grid-auto-flow: column;
+}
+.dc{
+    display: flex;
+    text-align: center;
+    justify-self: end;
+    color: green;
+    flex-flow: column;
+}
