@@ -4,6 +4,7 @@ const app = express();
 const mongoose = require("mongoose");
 const port = process.env.PORT || 8000;
 const cors = require('cors')
+const clearExpiredOTP = require("./clearExpiredOTPs")
 app.use(cors())
 
 //express middleware usage.
@@ -40,4 +41,6 @@ app.use("/profilePageRider", riderProfileRouter);
 
 app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`)
+  clearExpiredOTP();
+  //Expired OTPs are cleared periodically at an interval defined in the .env file as OTP_FILE_CLEAR_INTERVAL
 })
