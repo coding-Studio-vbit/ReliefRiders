@@ -38,9 +38,9 @@ app.use("/auth", authRouter);
 app.use("/profilePageRequester", requesterProfileRouter);
 app.use("/profilePageRider", riderProfileRouter);
 
+clearExpiredOTP();
 
 app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`)
-  clearExpiredOTP();
   //Expired OTPs are cleared periodically at an interval defined in the .env file as OTP_FILE_CLEAR_INTERVAL
 })
