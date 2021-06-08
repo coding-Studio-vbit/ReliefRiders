@@ -36,13 +36,10 @@ const user = new mongoose.Schema({
        addressLine:{
          type:String
        },
-       state: {
-         type:String
-       },
        city:{
          type:String
        },
-       Pincode:{
+       pincode:{
          type:Number,
          validate:{
               validator: (pincode)=>{return (pincode>=100000 && pincode<=999999)}
