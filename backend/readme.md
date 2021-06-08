@@ -42,6 +42,8 @@ get OTP verified for registered riders/requesters.
 		"message":"<message>"
 	}
 ```
+## Registration Endpoints:
+
 #  /auth/register/requestOTP<br>
 request OTP for registration for a new rider/requester.
 
