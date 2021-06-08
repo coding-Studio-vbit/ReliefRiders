@@ -25,7 +25,7 @@ const user = new mongoose.Schema({
     minLength: 4,
     maxLength: 4,
     validate:{
-          validator: (yearOfBirth)=> {
+          validator: (yearOfBirth)=>{
             var date = new Date();
             var year = date.getFullYear();
             return (year >= year - 100 && year <= year + 15)
@@ -45,7 +45,7 @@ const user = new mongoose.Schema({
        Pincode:{
          type:Number,
          validate:{
-              validator: (pincode) =>{return (pincode>=100000 && pincode<=999999)}
+              validator: (pincode)=>{return (pincode>=100000 && pincode<=999999)}
           }
         }
  },
