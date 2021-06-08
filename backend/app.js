@@ -23,7 +23,8 @@ mongoose.connection.once('open',function(){
 
 //Import routers here.
 const authRouter = require("./routes/authentication/authRouter");
-
+const requesterProfileRouter = require("./routes/requester/requesterProfile");
+const riderProfileRouter = require("./routes/rider/riderProfile");
 
 app.get("/", (req, res)=>{
 	res.send("Hey I am alive!");
@@ -33,7 +34,8 @@ app.get("/", (req, res)=>{
 //Use routers here.
 
 app.use("/auth", authRouter);
-
+app.use("/profilePageRequester", requesterProfileRouter);
+app.use("/profilePageRider", riderProfileRouter);
 
 
 app.listen(port, () => {

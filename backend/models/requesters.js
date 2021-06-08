@@ -24,7 +24,13 @@ const user = new mongoose.Schema({
     required: true,
     minLength: 4,
     maxLength: 4,
-    min:1900
+    validate:{
+          validator: (yearOfBirth)=>{
+            var date = new Date();
+            var year = date.getFullYear();
+            return (year >= year - 100 && year <= year + 15)
+          }
+        }
 },
  defaultAddress: {
        addressLine:{
