@@ -1,11 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const rider = require("../../models/riders");
+const verifyToken = require("../common/tokenAuth");
 
-
-router.post("/rider/profile",  function(req, res, next) {
-  let phone = req.body.phone;
-    rider.findOne({phoneNumber: phone},{phoneNumber:1, name: 1, defaultAddress: 1}, function (err, result) {
+router.get("/rider/profile", verifyToken,  function(req, res)  {
+  rider.findOne({phoneNumber: req.user.phoneNumber},{phoneNumber:1, name: 1, defaultAddress: 1}, function (err, result) {
   if (err) {
     res.json({
     status:"failure",
@@ -16,10 +15,9 @@ router.post("/rider/profile",  function(req, res, next) {
   else {
   res.json({
     status:"success",
-    message: "Riders profile",
+    message: "Rider's profile",
     result : result
   })
- // console.log(result);
  }
 })
 })
