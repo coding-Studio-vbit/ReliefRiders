@@ -11,9 +11,9 @@ const InitialHomeRouting = () => {
         <Switch>
             <Route path="/login/:user"
                 render={({ match }) => {
-                     
 
-                    return <Login isRequester={match.params.user=="rider"?false:true} ></Login>
+
+                    return <Login isRequester={match.params.user == "rider" ? false : true} ></Login>
 
 
 
@@ -23,7 +23,7 @@ const InitialHomeRouting = () => {
             <Route path="/register/:user"
                 render={({ match }) => {
 
-                    return <RegisterScreen isRequester={match.params.user=="rider"?false:true} ></RegisterScreen>
+                    return <RegisterScreen isRequester={match.params.user == "rider" ? false : true} ></RegisterScreen>
 
 
 

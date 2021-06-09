@@ -7,7 +7,6 @@ import { AuthContext } from '../../../context/auth/authProvider';
 import Spinner from '../../../global_ui/spinner';
 import { Link } from 'react-router-dom';
 import { requestOTPLogin } from '../../../context/auth/authOperations';
-// import { useParams } from 'react-router';
 
 function Login({isRequester}) {
     const [mobile, setMobile] = useState('');

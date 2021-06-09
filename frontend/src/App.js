@@ -18,7 +18,7 @@ function App() {
           <Route path="/">
             
             <AuthProvider>
-            <InitialHomeRouting/>
+            <InitialHomeRouting />
             </AuthProvider>
           </Route>
         </Switch>
