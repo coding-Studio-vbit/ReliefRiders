@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './loginStyles.css'
 import Logo from '../../../global_ui/logo'
 import InputField from '../../../global_ui/input';
@@ -7,12 +7,22 @@ import { AuthContext, requestOTP } from '../../../context/auth/authProvider';
 import Spinner from '../../../global_ui/spinner';
 import Rider from '../../../../models/rider';
 import Requester from '../../../../models/requester';
+import { Link } from 'react-router-dom';
+// import { useParams } from 'react-router';
 
-function Login() {
+function Login({isRequester}) {
     const [mobile, setMobile] = useState('');
     const [error, setError] = useState('');
-    const [isDisabled, setIsDisabled] = useState(false);
-    const {loading,showOTP,isRequester,dispatch} = useContext(AuthContext)
+    const {loading,showOTP,dispatch} = useContext(AuthContext)
+    
+    useEffect(()=>{
+        if(!isRequester){
+            dispatch({
+                type: "ISRIDER", payload: null
+            })
+        }
+    },[])
+
     const validate = (input) => {
         const pattern = new RegExp(/^[6-9]\d{9}$/);
         if (mobile == '') {
@@ -28,7 +38,6 @@ function Login() {
     }
 
     const handleLogin = (e) => {
-        setIsDisabled(true);
         setError(null);
         e.preventDefault();
         if (validate(mobile)) {
@@ -43,7 +52,6 @@ function Login() {
             }
             
         }
-        setIsDisabled(false)
 
     }
     return (
@@ -56,7 +64,7 @@ function Login() {
                 {
                     !showOTP ?
                         <div className="content">
-                            <h1>Requester Login</h1>
+                            <h1 > {isRequester?"Requester":"Rider"} Login</h1>
 
                             <InputField
                                 type="text"
@@ -77,7 +85,6 @@ function Login() {
 
                                     value="Request OTP"
                                     className="btnStyle"
-                                    disabled={isDisabled}
                                 >Request OTP</button>}
 
 
@@ -88,7 +95,9 @@ function Login() {
 
                             <button
                                 className="btnStyle register"
-                            >Go to Registration</button>
+                            > 
+                            <Link to={isRequester?"/register/requester":"/register/rider"} >Go to Registration</Link>
+                            </button>
 
                         </div>
                         : <VerifyOTP mobile={mobile} />

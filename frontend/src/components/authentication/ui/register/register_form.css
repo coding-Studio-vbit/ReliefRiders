@@ -2,7 +2,7 @@
 .form{
     display: grid;
     margin: 1rem ;
-
+    justify-content: center;
 }
 input{
     width: 100%;

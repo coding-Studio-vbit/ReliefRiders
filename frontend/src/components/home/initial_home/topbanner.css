@@ -25,6 +25,10 @@
     text-decoration: none;
     color: black;
 }
+.call-btn > i {
+    padding-left: 4px;
+    align-self: center;
+}
 .nnn {
     padding-left: 0.5em;
     align-self  : center;

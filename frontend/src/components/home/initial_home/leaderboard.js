@@ -1,7 +1,7 @@
+/* eslint-disable react/no-unescaped-entities */
 import React, { Fragment, useEffect, useState } from 'react';
 import Spinner from '../../global_ui/spinner';
 import './leaderboard.css'
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 export const LeaderBoard = () => {
     const [data,setData] = useState([])
 
@@ -28,7 +28,7 @@ export const LeaderBoard = () => {
     if(data){
         return ( 
            <Fragment>
-                <span className="leaderboard-title"  >This Week's Top Riders</span>
+                <span className='leaderboard-title'  >This Week's Top Riders</span>
             <div className="leaderboard-container">
                 {
                     data.map((item,i)=><LeaderBoardUser key={i} position={++i} name={item.name} deliveryCount={item.deliveryCount} />)
@@ -48,7 +48,8 @@ const LeaderBoardUser = ({position,name,deliveryCount}) => {
         <div className="leaderboard-user">
             <div className="pn-space">
             <span  >#{position}</span>
-            <AccountCircleIcon  />
+            <i className="fas fa-user-circle"></i>
+
             
             <span  >
             

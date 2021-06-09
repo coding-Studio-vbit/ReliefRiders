@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext, requestOTP } from '../../../context/auth/authProvider';
 import InputField from '../../../global_ui/input';
 import './register_form.css'
@@ -7,14 +7,22 @@ import Rider from '../../../../models/rider'
 import VerifyOTP from '../otp/verify_otp';
 import Spinner from '../../../global_ui/spinner';
 
-const Form = () => {
+const Form = ({isRequester}) => {
 
-    const { isRequester, dispatch,loading } = useContext(AuthContext)
+    const { dispatch,loading } = useContext(AuthContext)
     const [details, setdetails] = useState({
         number: '',
         name: '',
         yearOfBirth: ""
     })
+    useEffect(()=>{
+        if(!isRequester){
+            dispatch({
+                type: "ISRIDER", payload: null
+            })
+        }
+    },[])
+    console.log("hdh"+isRequester);
     const [userG,setUserG] = useState(null)
     const [errors, setErrors] = useState({
         number: '',

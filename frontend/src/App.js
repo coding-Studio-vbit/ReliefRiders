@@ -6,6 +6,7 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
+import InitialHomeRouting from './components/home/initial_home/initialHomeRouting';
 function App() {
   return (
     <div className="App">
@@ -15,8 +16,9 @@ function App() {
             About
           </Route>
           <Route path="/">
-            <AuthProvider>
             
+            <AuthProvider>
+            <InitialHomeRouting/>
             </AuthProvider>
           </Route>
         </Switch>

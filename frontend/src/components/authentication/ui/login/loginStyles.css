@@ -13,6 +13,11 @@
 .btnStyle {
     place-self: center;
     padding   : 0.6em;
+    
+}
+.btnStyle > a{
+    text-decoration: none;
+    color: white;
 }
 .spinner{
     justify-self: center;

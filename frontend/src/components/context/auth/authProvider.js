@@ -3,6 +3,10 @@ import { createContext, useReducer, React } from "react"
 
 const AuthRegisterReducer = (state, action) => {
     switch (action.type) {
+        case "ISRIDER":
+            
+            return { ...state, isRequester: false }
+            
         case "UNLOADING":
             return { ...state, loading: false }
         case "VERIFIED":
