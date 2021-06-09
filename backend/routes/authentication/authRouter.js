@@ -192,7 +192,6 @@ router.post("/register/requestOTP", (req, res)=>{
 		return fs.readFile(OTP_FILE_PATH);
 	})
 	.then(data=>{
-	
 		let obj = JSON.parse(data);
 		if(obj.hasOwnProperty(phone))
 		{
@@ -223,8 +222,11 @@ router.post("/register/requestOTP", (req, res)=>{
 				otpResendsLeft: MAX_OTP_RESENDS
 			};
 		}
-
+		console.log("Here");
 		fs.writeFile(OTP_FILE_PATH, JSON.stringify(obj), 'utf-8', (err)=>{
+			console.log(obj);
+			console.log(err);
+			
 			if(err){
 				console.log("An error occured while writing to OTP_Temp.json");
 				throw({status:"failure", message: "Server Internal Error"});
