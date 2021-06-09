@@ -1,0 +1,29 @@
+.content {
+    display           : grid;
+    place-content     : center;
+    grid-template-rows: 1fr 1fr 2fr 1fr;
+    text-align        : center;
+    background-color  : #FFFFFF;
+}
+
+.login {
+    padding: 2em 1em;
+}
+
+.btnStyle {
+    place-self: center;
+    padding   : 0.6em;
+    
+}
+.btnStyle > a{
+    text-decoration: none;
+    color: white;
+}
+.spinner{
+    justify-self: center;
+}
+.routetext {
+    color        : slategray;
+    align-self   : end;
+    margin-bottom: 5px;
+}

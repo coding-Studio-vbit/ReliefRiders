@@ -1,0 +1,26 @@
+
+.form{
+    display: grid;
+    margin: 1rem ;
+    justify-content: center;
+}
+input{
+    width: 100%;
+}
+.spinner{
+    justify-self: center;
+}
+
+.otp-btn{
+  padding: 0.6em;
+  font-weight: bold;
+  width: fit-content;
+  justify-self: center; 
+}
+.sec-row{
+    margin-top: 1rem;
+    margin-bottom:  6rem;
+    display: grid;
+    grid-auto-flow: column;
+    gap: 0.5rem;
+}

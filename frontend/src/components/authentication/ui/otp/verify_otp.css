@@ -1,0 +1,22 @@
+
+.otp-container{
+    display: grid;
+    margin-top: 4em;
+    justify-content: center;
+    gap: 0.5em;
+}
+.send-otp-btn, .go-back-reg{
+    cursor:pointer;
+    padding: 0px;
+    color: red;
+    margin: 0px;
+    width: fit-content;
+    background: transparent;
+}
+
+
+.verify-btn{
+    width: fit-content;
+    justify-self: center;
+    padding: 0.5em 1em
+}
