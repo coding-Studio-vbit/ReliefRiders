@@ -1,28 +1,30 @@
 import React from "react";
 import Logo from "../../global_ui/logo";
 import TopBanner from "./top-banner";
-import CallOutlinedIcon from '@material-ui/icons/CallOutlined';
+// import CallOutlinedIcon from '@material-ui/icons/CallOutlined';
 import { LeaderBoard } from "./leaderboard";
+
 import './initial-home.css'
 const InitialHome = () => {
-    return ( 
+    return (
         <div className="ih-container">
-            <TopBanner/>
-            <Logo  />
-            <span>Hey</span>
-            <span>How can we help you?</span>
-            <div className="call-btn">
-            <CallOutlinedIcon/>
-            <span className="nnn" >9999999999</span>
+            <TopBanner />
+            <div className="contents-ih">
+
+                <Logo />
+                <p style={{ marginTop: 0.5 + 'em' }} >Hey</p>
+                <p  >How can we help you?</p>
+                <button className="loginasrider-btn">
+                    Login as Requester
+                </button>
+                <button className="loginasrider-btn">
+                    Login as Rider
+                </button>
             </div>
-            <div className="call-btn">
-            <CallOutlinedIcon/>
-            <p className="nnn" >9999999999</p><br/>
-            </div>
-            <LeaderBoard/>
+            <LeaderBoard />
 
         </div>
-     );
+    );
 }
- 
+
 export default InitialHome;

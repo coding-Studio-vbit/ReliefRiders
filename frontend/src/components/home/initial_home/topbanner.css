@@ -1,21 +1,31 @@
-.top-banner{
-    display: grid;
-    padding: 0.5em 1em;
-    margin-bottom: 1em;
-    align-items: center;
-    grid-auto-flow: column;
-    background: hsl(180, 70%, 45%);
+.top-banner {
+    display        : flex;
+    padding        : 0.5em 1em;
+    margin-bottom  : 0.5em;
+    height         : max-content;
+    
+    align-items    : center;
+    gap            : 1em;
+    justify-content: center;
+    background     : hsl(180, 70%, 45%);
     ;
 }
-.call-btn{
-    padding: 0.4em;
-    background: rgb(5, 184, 50);
-    display: flex;
-    
+
+.call-btn {
+    cursor    : pointer;
+    padding   : 0.2em;
+    border: 2px solid black;
+    border-radius: 8px;
+    box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.192);
+    display   : flex;
+    width     : fit-content;
 
 }
-.nnn{
+.call-btn > a {
+    text-decoration: none;
+    color: black;
+}
+.nnn {
     padding-left: 0.5em;
-    align-self: center;
-    justify-self: center;
+    align-self  : center;
 }

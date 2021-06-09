@@ -10,7 +10,7 @@ const TopBanner = () => {
             <span>Difficulty in using the app?</span>
             <div className="call-btn">
             <CallOutlinedIcon/>
-            <span className="nnn" >9999999999</span>
+            <a href="tel:+919999999999" className="nnn" >9999999999</a>
             </div>
         </div>
     );

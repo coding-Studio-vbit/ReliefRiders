@@ -2,7 +2,10 @@
 body{
     font-family: 'Roboto', sans-serif;
 
+    margin: 0px;
+    padding: 0px;
 }
+* { box-sizing: border-box; }
 button{
     align-self: center;
     background: green;
