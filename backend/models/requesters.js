@@ -24,19 +24,22 @@ const user = new mongoose.Schema({
     required: true,
     minLength: 4,
     maxLength: 4,
-    min:1900
+    validate:{
+          validator: (yearOfBirth)=>{
+            var date = new Date();
+            var year = date.getFullYear();
+            return (year >= year - 100 && year <= year + 15)
+          }
+        }
 },
  defaultAddress: {
        addressLine:{
          type:String
        },
-       state: {
-         type:String
-       },
        city:{
          type:String
        },
-       Pincode:{
+       pincode:{
          type:Number,
          validate:{
               validator: (pincode)=>{return (pincode>=100000 && pincode<=999999)}

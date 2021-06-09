@@ -20,7 +20,3 @@ button{
     color 0.2s ease
     ;
 }
-button:hover{
-    background: rgb(2, 105, 2);
-    transform: scale(1.01);
-}
