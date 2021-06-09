@@ -224,18 +224,14 @@ router.post("/register/requestOTP", (req, res)=>{
 			};
 		}
 
-		fs.writeFile(OTP_FILE_PATH, JSON.stringify(obj), 'utf-8', (err)=>{
-			if(err){
-				console.log("An error occured while writing to OTP_Temp.json");
-				throw({status:"failure", message: "Server Internal Error"});
-			}
-			else{
-				console.log("New " + req.body.type + " registration OTP request.");
-				res.json({status: "success", message:"OTP Set"});
-				sms.sendOTP(req.body.phone, OTP);
-			}
-		})
-			
+		return fs.writeFile(OTP_FILE_PATH, JSON.stringify(obj), 'utf-8')
+	
+	})
+	.then(()=>{
+			console.log("New " + req.body.type + " registration OTP request.");
+			res.json({status: "success", message:"OTP Set"});
+			sms.sendOTP(req.body.phone, OTP);
+		
 	})
 	.catch(error=>{
 		console.log(error)
