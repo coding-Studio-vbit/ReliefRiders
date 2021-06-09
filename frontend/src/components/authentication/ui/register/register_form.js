@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { AuthContext, requestOTP } from '../../../context/auth/authProvider';
+import { AuthContext } from '../../../context/auth/authProvider';
 import InputField from '../../../global_ui/input';
 import './register_form.css'
 import Requester from '../../../../models/requester'
 import Rider from '../../../../models/rider'
 import VerifyOTP from '../otp/verify_otp';
 import Spinner from '../../../global_ui/spinner';
+import { registerRequester, registerRider } from '../../../context/auth/authOperations';
 
 const Form = ({isRequester}) => {
 
@@ -23,7 +24,6 @@ const Form = ({isRequester}) => {
         }
     },[])
     console.log("hdh"+isRequester);
-    const [userG,setUserG] = useState(null)
     const [errors, setErrors] = useState({
         number: '',
         showErrors: false,
@@ -40,12 +40,10 @@ const Form = ({isRequester}) => {
         if (!errors.number && !errors.name && !errors.yearOfBirth) {
             if (isRequester) {
                 const requester = new Requester(details.number, details.name, details.yearOfBirth)
-                setUserG(requester)
-                await requestOTP(dispatch, requester)
+                await registerRequester(dispatch, requester)
             } else {
                 const rider = new Rider(details.number, details.name)
-                setUserG(rider)
-                requestOTP(dispatch, rider)
+                registerRider(dispatch, rider)
 
             }
         }
@@ -169,7 +167,7 @@ const Form = ({isRequester}) => {
             {
                 state => {
                     if (state.showOTP) {
-                        return <VerifyOTP user={userG} />
+                        return <VerifyOTP />
                     } else {
                         return (
                             <form className="form" onSubmit={submit} >

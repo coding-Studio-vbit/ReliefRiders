@@ -9,11 +9,5 @@ export default class Rider extends User {
         super(name)
         this.number = number
     }
-    /**
-     * Logout the user and destroy user related data
-     * TODO
-     */
-    logout(){
-
-    }
+    
 }

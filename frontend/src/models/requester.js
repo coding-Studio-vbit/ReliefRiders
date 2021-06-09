@@ -11,11 +11,5 @@ export default class Requester extends User {
         this.number = number
         this.yearOfBirth = yearOfBirth
     }
-    /**
-     * Logout the user and destroy user related data
-     * //TODO
-     */
-    logout(){
-        //TODO
-    }
+    
 }

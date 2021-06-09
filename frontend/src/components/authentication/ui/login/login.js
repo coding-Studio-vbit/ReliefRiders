@@ -3,11 +3,10 @@ import './loginStyles.css'
 import Logo from '../../../global_ui/logo'
 import InputField from '../../../global_ui/input';
 import VerifyOTP from '../otp/verify_otp';
-import { AuthContext, requestOTP } from '../../../context/auth/authProvider';
+import { AuthContext } from '../../../context/auth/authProvider';
 import Spinner from '../../../global_ui/spinner';
-import Rider from '../../../../models/rider';
-import Requester from '../../../../models/requester';
 import { Link } from 'react-router-dom';
+import { requestOTPLogin } from '../../../context/auth/authOperations';
 // import { useParams } from 'react-router';
 
 function Login({isRequester}) {
@@ -43,12 +42,9 @@ function Login({isRequester}) {
         if (validate(mobile)) {
             setError(null)
             if(isRequester){
-                const user = new Requester(mobile,"Dummy")
-                 requestOTP(dispatch,user)
-
+                 requestOTPLogin(dispatch,mobile,"requester")
             }else{
-                 requestOTP(dispatch,new Rider(mobile,"Dummy"))
- 
+                 requestOTPLogin(dispatch,mobile,"rider")
             }
             
         }
@@ -100,7 +96,7 @@ function Login({isRequester}) {
                             </button>
 
                         </div>
-                        : <VerifyOTP mobile={mobile} />
+                        : <VerifyOTP />
                 }
 
 

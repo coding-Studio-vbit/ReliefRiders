@@ -4,9 +4,10 @@ import { createContext, useReducer, React } from "react"
 const AuthRegisterReducer = (state, action) => {
     switch (action.type) {
         case "ISRIDER":
-            
+
             return { ...state, isRequester: false }
-            
+        case "SETUSER":
+            return {...state ,loading:false,user:action.payload}
         case "UNLOADING":
             return { ...state, loading: false }
         case "VERIFIED":
@@ -17,9 +18,9 @@ const AuthRegisterReducer = (state, action) => {
         case "LOGOUT":
             return { ...state, user: null }
         case "SHOWOTP":
-            return { ...state, showOTP: true,loading:false }
+            return { ...state, showOTP: true, loading: false }
         case "SHOWFORM":
-            return { ...state, showOTP: false,loading:false }
+            return { ...state, showOTP: false, loading: false }
 
     }
 }
@@ -53,112 +54,8 @@ export const AuthProvider = (prop) => {
         </AuthContext.Provider>
     )
 }
-/* eslint-disable */
-
-/**
- * 
- * @param {any} dispatch Dispatch object from AuthRegisterContext
- * @param {string} otp OTP
- * @param {any} user user model 
- */
-export async function verify(dispatch, otp, user) {
-    dispatch(
-        {
-            type: "LOADING",
-            payload: null
-        }
-    )
-    //todo
-    // const res = await fetch(
-    //     "url",
-    //     {
-    //         method:"POST",
-    //         mode: 'cors',
-    //         body:JSON.stringify({
-    //             otp:otp,
-    //             phone:number
-    //         })
-    //     }
-    // )
-    //if verify success set cookie
-    console.log(user);
-    dispatch(
-        {
-            type: "UNLOADING",
-            payload: null
-        }
-    )
-
-}
-/**
- * 
- * @param {any} dispatch Dispatch object from AuthRegisterContext
- * @param {any} user user model
- */
-export async function requestOTP(dispatch, user)  {
-    dispatch(
-        {
-            type: "LOADING",
-            payload: null
-        }
-    )
-    // let res
-    // if (user instanceof Requester) {
-    //      res = await fetch(
-    //         "http://localhost:8000/auth/requestOTP",
-    //         {
-    //             method:"POST",
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //               },
-    //             body:JSON.stringify({
-    //                 type:"rider",
-    //                 phone:user.number,
-    //             })
-    //         }
-    //     )
 
 
-    // } else {
-    //     // res = await fetch(
-    //     //     "url",
-    //     //     {
-    //     //         method:"POST",
-    //     //         mode: 'cors',
-    //     //         body:JSON.stringify({
-    //     //             type:"rider",
-    //     //             phone:user.number
-    //     //         })
-    //     //     }
-    //     // )
-        
-    // }
-    setTimeout(()=>{
-        dispatch(
-            {
-                type: "SHOWOTP",
-                payload: null
-            }
-        )
-    },3000)
-    console.log("succ");
-    
 
-}
-/**
- * 
- *  @param {any} dispatch Dispatch object from AuthRegisterContext
- * @param {User} user user model
- */
-export function logout(dispatch, user) {
-    //cookie destroy
-    //delete user
-}
-/**
- * 
- *  @param {any} dispatch Dispatch object from AuthRegisterContext
- * @param {string} number 
- */
-export async function resendOTP(dispatch,number){
 
-}
+
