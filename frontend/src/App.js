@@ -1,8 +1,6 @@
 import React from 'react';
 import './App.css'
-import Login from './components/authentication/ui/login/login';
 import { AuthProvider } from './components/context/auth/authProvider';
-import RegisterScreen from './components/authentication/ui/register/register'
 import {
   BrowserRouter as Router,
   Switch,
@@ -24,9 +22,7 @@ function App() {
         </Switch>
       </Router>
 
-      <AuthProvider>
-              <Login/>
-            </AuthProvider>
+      
     </div>
   );
 }
