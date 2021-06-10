@@ -7,7 +7,12 @@ import {
   Route,
 } from "react-router-dom";
 import InitialHomeRouting from './components/home/initial_home/initialHomeRouting';
+// import Model from './components/authentication/ui/error_dialog/err_dialog';
+// import useModel from './components/authentication/ui/error_dialog/useerr';
+
 function App() {
+  
+  //const {isShowing, toggle} = useModel();
   return (
     <div className="App">
       <AuthProvider>
@@ -24,6 +29,14 @@ function App() {
 
       </AuthProvider>
 
+{/* <button className="button-default" onClick={toggle}>Show Modal</button>
+      <Model
+        isShowing={isShowing}
+        hide={toggle}
+        msg="Hey this is error box"
+      /> */}
+
+      
     </div>
   );
 }
