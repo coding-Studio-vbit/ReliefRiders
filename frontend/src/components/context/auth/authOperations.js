@@ -150,10 +150,10 @@ async function _handle(dispatch, res) {
         if (data.status[0] === 's') {
             return 1;
         } else {
-            //error handle
+            return data.message
         }
     } else {
-        //handle error
+        return "Unable to access server."
+        
     }
-    return 0;
 }

@@ -56,6 +56,9 @@ const Form = () => {
             isRequester: isRequester,
             authType: "register",
           });
+      else{
+          console.log(r);
+      }
       })
     }
   }

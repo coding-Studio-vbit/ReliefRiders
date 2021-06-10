@@ -9,7 +9,7 @@ import { requestOTPLogin } from "../../../context/auth/authOperations";
 import { Switch, Route } from "react-router-dom";
 function Login() {
   const [mobile, setMobile] = useState("");
-  const [error, setError] = useState("");
+  const [errorMsg, setError] = useState("");
   const { loading, dispatch } = useContext(AuthContext);
   const location = useLocation();
   const route = useHistory();
@@ -54,11 +54,13 @@ function Login() {
             isRequester: location.state.isRequester,
             authType: "login",
           });
+        }else{
+          console.log(r);
         }
       });
     }
   };
-  console.log((location.state.isRequester ? "requester" : "rider") + "/verify");
+
   return (
     <div className="login">
       {/* Logo */}
@@ -73,7 +75,7 @@ function Login() {
             <InputField
               type="text"
               placeholder="Mobile"
-              error={error ? error : ""}
+              error={errorMsg ? errorMsg : ""}
               value={mobile}
               maxLength="10"
               onChange={(e) => setMobile(e.target.value)}
