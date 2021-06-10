@@ -4,6 +4,8 @@ import './verify_otp.css'
 import InputField from '../../../global_ui/input'
 import { AuthContext } from '../../../context/auth/authProvider';
 import Spinner from '../../../global_ui/spinner';
+import { useLocation } from 'react-router';
+import Logo from '../../../global_ui/logo';
 import { verify } from '../../../context/auth/authOperations';
 const VerifyOTP = () => {
     const [otp, setOtp] = useState('')
@@ -11,12 +13,17 @@ const VerifyOTP = () => {
         error: 'Please enter OTP',
         showError: false
     })
-    const { dispatch, loading ,user} = useContext(AuthContext)
+    const {state:{isRequester,authType}} = useLocation()
+    const { dispatch, loading,user } = useContext(AuthContext)
     const submit = async () => {
         setError({ ...error, showError: true })
         if (!error.error) {
-            verify(dispatch,otp,user)
             
+           verify(dispatch,otp,authType,isRequester,user)
+            console.log(authType);
+            console.log(isRequester);
+
+            console.log(otp);
         }
         
     }
@@ -45,6 +52,7 @@ const VerifyOTP = () => {
 
     return (
         <div className="otp-container">
+            <Logo></Logo>
             <span style={{ textAlign: 'center', marginBottom: 0.3 + 'em' }} >You will get an OTP via SMS</span>
             <InputField error={error.showError ? error.error : ""} textAlign="center" placeholder="Enter OTP" type="number" onChange={(e) => validateOTP(e.target.value)} />
             <span>Still haven't received the OTP ? <a onClick={() => console.log("fff")} className="send-otp-btn" >Resend OTP</a> </span>

@@ -3,7 +3,7 @@ import User from "../../../models/user"
 export async function registerRider(dispatch, user) {
     dispatch(
         {
-            type: "LOADING",
+            type: "SETUSER",
             payload: user
         }
     )
@@ -16,16 +16,13 @@ export async function registerRider(dispatch, user) {
             },
             body: JSON.stringify({
                 type: "rider",
-                phone: user.number,
-                name: user.name,
+                phone: user.mobile,
             })
         }
     )
-    dispatch({
-        type:"SHOWOTP",
-        payload:null
-    })
-    _handle(dispatch, res)
+        
+    
+    return _handle(dispatch, res)
 
 }
 
@@ -33,7 +30,7 @@ export async function registerRider(dispatch, user) {
 export async function registerRequester(dispatch, user) {
     dispatch(
         {
-            type: "LOADING",
+            type: "SETUSER",
             payload: user
         }
     )
@@ -46,16 +43,13 @@ export async function registerRequester(dispatch, user) {
             },
             body: JSON.stringify({
                 type: "requester",
-                phone: user.number,
+                phone: user.mobile,
                 
             })
         }
     )
-    dispatch({
-        type:"SHOWOTP",
-        payload:null
-    })
-    _handle(dispatch, res)
+    
+    return _handle(dispatch, res)
 }
 
 
@@ -63,7 +57,7 @@ export async function requestOTPLogin(dispatch, number, type) {
     const user = new User("xxx",number)
     dispatch(
         {
-            type: "LOADING",
+            type: "SETUSER",
             payload: user
         }
     )
@@ -81,11 +75,8 @@ export async function requestOTPLogin(dispatch, number, type) {
             })
         }
     )
-    dispatch({
-        type:"SHOWOTP",
-        payload:null
-    })
-    _handle(dispatch, res)
+    
+    return _handle(dispatch, res)
 }
 
 /**
@@ -113,22 +104,24 @@ export function logout(dispatch) {
  * @param {any} dispatch Dispatch object from AuthRegisterContext
 
  */
-export async function verifyLogin(dispatch, otp,user,isRequester) {
+export async function verify(dispatch, otp,authType,isRequester,user) {
     dispatch(
         {
             type: "LOADING",
             payload: null
         }
     )
+    const url = authType[0]==='r'?`http://localhost:8000/auth/${authType}${isRequester?"/requester":"/rider"}/verifyOTP`:
+    `http://localhost:8000/auth/${authType}/verifyOTP`
     const res = await fetch(
-        `http://localhost:8000/auth/login/${isRequester?"requester":"rider"}/verifyOTP`,
+        url,
         {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                phone: user.number,
+                phone: user.mobile,
                 type:isRequester?"requester":"rider",
                 name:user.name,
                 OTP:otp,
@@ -137,42 +130,17 @@ export async function verifyLogin(dispatch, otp,user,isRequester) {
             })
         }
     )
-    
-    await _handle(dispatch, res)
-    console.log("s");
-    
-
-}
-export async function verifyRegister(dispatch, otp,user,isRequester) {
     dispatch(
         {
-            type: "LOADING",
+            type: "UNLOADING",
             payload: null
         }
     )
-    const res = await fetch(
-        `http://localhost:8000/auth/register/${isRequester?"requester":"rider"}/verifyOTP`,
-        {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                phone: user.number,
-                type:isRequester?"requester":"rider",
-                name:user.name,
-                OTP:otp,
-                yearOfBirth: user.yearOfBirth
-
-            })
-        }
-    )
-    
-    await _handle(dispatch, res)
-    console.log("s");
+    return _handle(dispatch, res)
     
 
 }
+
 
 async function _handle(dispatch, res) {
     
@@ -180,11 +148,12 @@ async function _handle(dispatch, res) {
         const data = await res.json()
         console.log(data);
         if (data.status[0] === 's') {
-            console.log(data);
+            return 1;
         } else {
             //error handle
         }
     } else {
         //handle error
     }
+    return 0;
 }

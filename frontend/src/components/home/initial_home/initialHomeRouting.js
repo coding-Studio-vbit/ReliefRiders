@@ -4,24 +4,28 @@ import {
     Route,
 } from "react-router-dom";
 import Login from "../../authentication/ui/login/login";
+import VerifyOTP from "../../authentication/ui/otp/verify_otp";
 import RegisterScreen from "../../authentication/ui/register/register";
 import InitialHome from "./initial_home";
 const InitialHomeRouting = () => {
-    
+
+    //navigate to home or initial home
 
     return (
         <Switch>
             <Route path="/login/:user"
-                render={({ match }) => {
-                    return <Login isRequester={match.params.user == "rider" ? false : true} ></Login>
-                }}
-            />
 
+            >
+                <Login></Login>
+            </Route>
+            <Route path="/verify">
+          <VerifyOTP></VerifyOTP>
+        </Route>
             <Route path="/register/:user"
-                render={({ match }) => {
-                    return <RegisterScreen isRequester={match.params.user == "rider" ? false : true} ></RegisterScreen>
-                }}
-            />
+
+            >
+                <RegisterScreen></RegisterScreen>
+            </Route>
             <Route path="/">
                 <InitialHome />
             </Route>

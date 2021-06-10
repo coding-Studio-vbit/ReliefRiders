@@ -11,7 +11,7 @@ const AuthRegisterReducer = (state, action) => {
         case "UNLOADING":
             return { ...state, loading: false }
         case "VERIFIED":
-
+        
             return { ...state, loading: false, user: action.payload };
         case "LOADING":
             return { ...state, loading: true ,user:action.payload}
@@ -29,7 +29,7 @@ const initState = {
     isRequester: true,
     user: null,
     loading: false,
-    showOTP: false
+    isAuthenticated: false
 }
 
 export const AuthContext = createContext()
@@ -46,7 +46,7 @@ export const AuthProvider = (prop) => {
                 user: state.user,
                 isRequester: state.isRequester,
                 loading: state.loading,
-                showOTP: state.showOTP,
+                isAuthenticated: state.isAuthenticated,
                 dispatch
             }}
         >

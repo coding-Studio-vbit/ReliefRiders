@@ -1,9 +1,13 @@
 
 .otp-container{
     display: grid;
-    margin-top: 4em;
+    margin-top: 1em;
+    
     justify-content: center;
     gap: 0.5em;
+}
+.logo-container{
+    margin-bottom: 1em;
 }
 .send-otp-btn, .go-back-reg{
     cursor:pointer;

@@ -1,109 +1,118 @@
-import React, { useContext, useEffect, useState } from 'react'
-import './loginStyles.css'
-import Logo from '../../../global_ui/logo'
-import InputField from '../../../global_ui/input';
-import VerifyOTP from '../otp/verify_otp';
-import { AuthContext } from '../../../context/auth/authProvider';
-import Spinner from '../../../global_ui/spinner';
-import { Link } from 'react-router-dom';
-import { requestOTPLogin } from '../../../context/auth/authOperations';
-
-function Login({isRequester}) {
-    const [mobile, setMobile] = useState('');
-    const [error, setError] = useState('');
-    const {loading,showOTP,dispatch} = useContext(AuthContext)
-    
-    useEffect(()=>{
-        if(!isRequester){
-            dispatch({
-                type: "ISRIDER", payload: null
-            })
-        }
-        
-    },[])
-
-    const validate = (input) => {
-        const pattern = new RegExp(/^[6-9]\d{9}$/);
-        if (mobile == '') {
-            setError("Mobile number cannot be empty");
-            return false;
-        }
-        if (!pattern.test(input)) {
-            setError("Please enter a valid number");
-            return false;
-        }
-        setError(null)
-        return true;
+import React, { useContext, useEffect, useState } from "react";
+import "./loginStyles.css";
+import Logo from "../../../global_ui/logo";
+import InputField from "../../../global_ui/input";
+import { AuthContext } from "../../../context/auth/authProvider";
+import Spinner from "../../../global_ui/spinner";
+import { Link, useHistory, useLocation } from "react-router-dom";
+import { requestOTPLogin } from "../../../context/auth/authOperations";
+import { Switch, Route } from "react-router-dom";
+function Login() {
+  const [mobile, setMobile] = useState("");
+  const [error, setError] = useState("");
+  const { loading, dispatch } = useContext(AuthContext);
+  const location = useLocation();
+  const route = useHistory();
+  console.log(location.state);
+  useEffect(() => {
+    if (!location.state.isRequester) {
+      dispatch({
+        type: "ISRIDER",
+        payload: null,
+      });
     }
+  }, []);
 
-    const handleLogin = (e) => {
-        setError(null);
-        e.preventDefault();
-        if (validate(mobile)) {
-            setError(null)
-            if(isRequester){
-                 requestOTPLogin(dispatch,mobile,"requester")
-            }else{
-                 requestOTPLogin(dispatch,mobile,"rider")
-            }
-            
-        }
-
+  const validate = (input) => {
+    const pattern = new RegExp(/^[6-9]\d{9}$/);
+    if (mobile == "") {
+      setError("Mobile number cannot be empty");
+      return false;
     }
-    return (
-        
-            <div className="login">
-                {/* Logo */}
-                <Logo />
+    if (!pattern.test(input)) {
+      setError("Please enter a valid number");
+      return false;
+    }
+    setError(null);
+    return true;
+  };
 
-                {/*Form and Content*/}
-                {
-                    !showOTP ?
-                        <div className="content">
-                            <h1 > {isRequester?"Requester":"Rider"} Login</h1>
+  const handleLogin = (e) => {
+    setError(null);
+    e.preventDefault();
+    if (validate(mobile)) {
+      setError(null);
+      let res;
+      if (location.state.isRequester) {
+        res = requestOTPLogin(dispatch, mobile, "requester");
+      } else {
+        res = requestOTPLogin(dispatch, mobile, "rider");
+      }
+      res.then((r) => {
+        if (r == 1) {
+          route.push("/verify", {
+            isRequester: location.state.isRequester,
+            authType: "login",
+          });
+        }
+      });
+    }
+  };
+  console.log((location.state.isRequester ? "requester" : "rider") + "/verify");
+  return (
+    <div className="login">
+      {/* Logo */}
+      <Logo />
 
-                            <InputField
-                                type="text"
-                                placeholder="Mobile"
-                                error={error ? error : ""}
-                                value={mobile}
-                                maxLength="10"
+      {/*Form and Content*/}
+      <Switch>
+        <Route path="/">
+          <div className="content">
+            <h1> {location.state.isRequester ? "Requester" : "Rider"} Login</h1>
 
-                                onChange={
-                                    (e) => setMobile(e.target.value)
-                                }
-                            />
+            <InputField
+              type="text"
+              placeholder="Mobile"
+              error={error ? error : ""}
+              value={mobile}
+              maxLength="10"
+              onChange={(e) => setMobile(e.target.value)}
+            />
 
-                            {loading ?
-                                <Spinner radius="2" /> : <button
-                                    type="submit"
-                                    onClick={(e) => handleLogin(e)}
+            {loading ? (
+              <Spinner radius="2" />
+            ) : (
+              <button
+                type="submit"
+                onClick={(e) => handleLogin(e)}
+                value="Request OTP"
+                className="btnStyle"
+              >
+                Request OTP
+              </button>
+            )}
 
-                                    value="Request OTP"
-                                    className="btnStyle"
-                                >Request OTP</button>}
+            <p className="routetext">Dont have an account?</p>
 
-
-
-
-
-                            <p className="routetext">Dont have an account?</p>
-
-                            <button
-                                className="btnStyle register"
-                            > 
-                            <Link to={isRequester?"/register/requester":"/register/rider"} >Go to Registration</Link>
-                            </button>
-
-                        </div>
-                        : <VerifyOTP />
-                }
-
-
-
-            </div>
-        
-    )
+            <button className="btnStyle register">
+              <Link
+                to={{
+                  pathname: location.state.isRequester
+                    ? "/register/requester"
+                    : "/register/rider",
+                  state: {
+                    isRequester: location.state.isRequester,
+                  },
+                }}
+              >
+                Go to Registration
+              </Link>
+            </button>
+          </div>
+        </Route>
+      </Switch>
+    </div>
+  );
 }
 
-export default Login
+export default Login;

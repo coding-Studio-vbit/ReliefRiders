@@ -9,10 +9,14 @@ const InitialHome = () => {
     const routes = useHistory()
     const goToLoginRider= ()=>{
        
-        routes.push('/login/rider')
+        routes.push('/login/rider',{
+            isRequester: false,
+        })
     }
     const goToLoginRequester= ()=>{
-        routes.push('/login/requester')
+        routes.push('/login/requester',{
+            isRequester: true,
+        })
     }
 
     return (

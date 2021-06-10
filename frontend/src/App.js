@@ -10,21 +10,20 @@ import InitialHomeRouting from './components/home/initial_home/initialHomeRoutin
 function App() {
   return (
     <div className="App">
-      <Router>
-        <Switch>
-          <Route path="/about">
-            About
+      <AuthProvider>
+        <Router>
+          <Switch>
+            <Route path="/about">
+              About
           </Route>
-          <Route path="/">
-            
-            <AuthProvider>
-            <InitialHomeRouting />
-            </AuthProvider>
-          </Route>
-        </Switch>
-      </Router>
+            <Route path="/">
+              <InitialHomeRouting />
+            </Route>
+          </Switch>
+        </Router>
 
-      
+      </AuthProvider>
+
     </div>
   );
 }
