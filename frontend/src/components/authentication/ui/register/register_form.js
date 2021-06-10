@@ -7,14 +7,17 @@ import Rider from '../../../../models/rider'
 import Spinner from "../../../global_ui/spinner";
 import { registerRequester, registerRider } from '../../../context/auth/authOperations';
 import { useHistory, useLocation } from "react-router";
-
+import useModal from "../error_dialog/useerr";
+import Modal from "../error_dialog/err_dialog";
 const Form = () => {
-  const { dispatch, loading } = useContext(AuthContext);
+  const { dispatch, loading ,error} = useContext(AuthContext);
   const [details, setdetails] = useState({
     number: "",
     name: "",
     yearOfBirth: "",
   });
+  const {isShowing, toggle} = useModal();
+
   const route = useHistory();
 
   const {
@@ -42,22 +45,25 @@ const Form = () => {
       showErrors: true,
     });
     if (!errors.number && !errors.name && !errors.yearOfBirth) {
+        let user
         let res;
         if (isRequester) {
-        const requester = new Requester(details.number, details.name, details.yearOfBirth)
-         res =  registerRequester(dispatch, requester)
+         user = new Requester(details.number, details.name, details.yearOfBirth)
+         res =  registerRequester(dispatch, user)
       } else {
-        const rider = new Rider(details.number, details.name)
-         res =  registerRider(dispatch, rider)
+        user = new Rider(details.number, details.name)
+         res =  registerRider(dispatch, user)
       }
       res.then((r)=>{
       if(r==1)
         route.push("/verify", {
             isRequester: isRequester,
             authType: "register",
+            user:user
           });
       else{
-          console.log(r);
+        console.log(error);
+        toggle()
       }
       })
     }
@@ -165,6 +171,11 @@ const Form = () => {
 
   return (
     <form className="form" onSubmit={submit}>
+    <Modal
+        isShowing={isShowing}
+        hide={toggle}
+        msg={error}
+      />
       <p style={{ textAlign: "center", fontSize: 2 + "em" }}>
         {isRequester ? "Requester" : "Rider"} Register
       </p>

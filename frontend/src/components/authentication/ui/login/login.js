@@ -7,13 +7,17 @@ import Spinner from "../../../global_ui/spinner";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { requestOTPLogin } from "../../../context/auth/authOperations";
 import { Switch, Route } from "react-router-dom";
+import useModal from "../error_dialog/useerr";
+import Modal from "../error_dialog/err_dialog";
+import User from "../../../../models/user";
 function Login() {
   const [mobile, setMobile] = useState("");
   const [errorMsg, setError] = useState("");
-  const { loading, dispatch } = useContext(AuthContext);
+  const { loading, dispatch ,error} = useContext(AuthContext);
   const location = useLocation();
   const route = useHistory();
-  console.log(location.state);
+  const {isShowing, toggle} = useModal();
+
   useEffect(() => {
     if (!location.state.isRequester) {
       dispatch({
@@ -43,6 +47,8 @@ function Login() {
     if (validate(mobile)) {
       setError(null);
       let res;
+      const user = new User("xxx",mobile)
+
       if (location.state.isRequester) {
         res = requestOTPLogin(dispatch, mobile, "requester");
       } else {
@@ -53,9 +59,11 @@ function Login() {
           route.push("/verify", {
             isRequester: location.state.isRequester,
             authType: "login",
+            user:user
           });
         }else{
-          console.log(r);
+          console.log(error);
+          toggle()
         }
       });
     }
@@ -65,7 +73,11 @@ function Login() {
     <div className="login">
       {/* Logo */}
       <Logo />
-
+      <Modal
+        isShowing={isShowing}
+        hide={toggle}
+        msg={error}
+      />
       {/*Form and Content*/}
       <Switch>
         <Route path="/">

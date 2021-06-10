@@ -4,6 +4,7 @@ import { createContext, useReducer, React } from "react";
 const AuthRegisterReducer = (state, action) => {
   switch (action.type) {
     case "SETERROR":
+        console.log("gg");
       return { ...state, error: action.payload };
     case "REMOVEERROR":
       return { ...state, error: "" };

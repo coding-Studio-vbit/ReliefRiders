@@ -150,10 +150,18 @@ async function _handle(dispatch, res) {
         if (data.status[0] === 's') {
             return 1;
         } else {
-            return data.message
+            dispatch({
+                type:"SETERROR",
+                payload:data.message
+            })
         }
     } else {
-        return "Unable to access server."
+        dispatch({
+            type:"SETERROR",
+            payload:"Unable to access server."
+        })
+        
         
     }
+    return 0;
 }

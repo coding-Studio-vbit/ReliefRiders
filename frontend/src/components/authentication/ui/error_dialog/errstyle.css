@@ -4,13 +4,13 @@
     left: 0;
     z-index: 1040;
     width: 100vw;
+    
     height: 100vh;
     background-color: #000;
     opacity: .4;
   }
   
   .modal-wrapper {
-    
     position:fixed;
     top:0;
     left:0;
@@ -23,13 +23,13 @@
   }
   
   .modal {
-    
+
     z-index: 100;
     background: white;
     position: relative;
     margin: 1.75rem auto;
     border-radius: 3px;
-    max-width: 450px;
+    width: min(95%,450px);
     padding: 1.5rem;
     box-shadow:0 2px 12px 0 rgba(0,0,0,0.4);
   }

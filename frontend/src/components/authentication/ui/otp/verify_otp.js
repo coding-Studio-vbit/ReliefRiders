@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './verify_otp.css'
 import InputField from '../../../global_ui/input'
 import { AuthContext } from '../../../context/auth/authProvider';
@@ -7,35 +7,49 @@ import Spinner from '../../../global_ui/spinner';
 import { useLocation } from 'react-router';
 import Logo from '../../../global_ui/logo';
 import { verify } from '../../../context/auth/authOperations';
+import useModal from '../error_dialog/useerr';
+import Modal from '../error_dialog/err_dialog';
 const VerifyOTP = () => {
     const [otp, setOtp] = useState('')
-    const [error, setError] = useState({
+    const [errorMsg, setError] = useState({
         error: 'Please enter OTP',
         showError: false
     })
-    const {state:{isRequester,authType}} = useLocation()
-    const { dispatch, loading,user } = useContext(AuthContext)
-    const submit = async () => {
-        setError({ ...error, showError: true })
-        if (!error.error) {
-            
-           verify(dispatch,otp,authType,isRequester,user)
-            console.log(authType);
-            console.log(isRequester);
+    const {isShowing, toggle} = useModal();
 
-            console.log(otp);
+    const {state:{isRequester,authType,user}} = useLocation()
+    const { dispatch, loading,error } = useContext(AuthContext)
+
+    useEffect(()=>{
+        dispatch({
+            type:"ISRIDER",payload:null
+        })
+        dispatch({
+            type:"SETUSER",payload:user
+        })
+    },[])
+    const submit = async () => {
+        setError({ ...errorMsg, showError: true })
+        if (!errorMsg.error) {
+            
+           const res = verify(dispatch,otp,authType,isRequester,user)
+           if(res == 1){
+               console.log('HOME');
+           }else{
+            toggle()
+           }
         }
         
     }
     const validateOTP = (otp) => {
         if (otp.length == 0) {
-            setError({ ...error, error: "Please enter OTP" })
+            setError({ ...errorMsg, error: "Please enter OTP" })
 
         }
         else if (otp.length < 6) {
-            setError({ ...error, error: "OTP must contain 6 digits" })
+            setError({ ...errorMsg, error: "OTP must contain 6 digits" })
         } else {
-            setError({ ...error, error: "" })
+            setError({ ...errorMsg, error: "" })
 
         }
         setOtp(otp)
@@ -53,8 +67,13 @@ const VerifyOTP = () => {
     return (
         <div className="otp-container">
             <Logo></Logo>
+            <Modal
+        isShowing={isShowing}
+        hide={toggle}
+        msg={error}
+      />
             <span style={{ textAlign: 'center', marginBottom: 0.3 + 'em' }} >You will get an OTP via SMS</span>
-            <InputField error={error.showError ? error.error : ""} textAlign="center" placeholder="Enter OTP" type="number" onChange={(e) => validateOTP(e.target.value)} />
+            <InputField error={errorMsg.showError ? errorMsg.error : ""} textAlign="center" placeholder="Enter OTP" type="number" onChange={(e) => validateOTP(e.target.value)} />
             <span>Still haven't received the OTP ? <a onClick={() => console.log("fff")} className="send-otp-btn" >Resend OTP</a> </span>
             <div style={{ height: 5 + 'rem' }} ></div>
             {loading ?
