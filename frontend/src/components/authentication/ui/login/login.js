@@ -19,6 +19,7 @@ function Login({isRequester}) {
                 type: "ISRIDER", payload: null
             })
         }
+        
     },[])
 
     const validate = (input) => {

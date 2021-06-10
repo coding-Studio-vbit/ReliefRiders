@@ -6,8 +6,8 @@ export default class Rider extends User {
      * @param {string } name User's name
      */
     constructor(number,name){
-        super(name)
-        this.number = number
+        super(name,number)
+            
     }
     
 }

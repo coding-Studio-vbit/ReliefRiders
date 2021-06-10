@@ -7,8 +7,7 @@ export default class Requester extends User {
      * @param {number} yearOfBirth Year of Birth
      */
     constructor(number,name,yearOfBirth){
-        super(name)
-        this.number = number
+        super(name,number)
         this.yearOfBirth = yearOfBirth
     }
     

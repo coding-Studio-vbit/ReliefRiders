@@ -14,7 +14,7 @@ const AuthRegisterReducer = (state, action) => {
 
             return { ...state, loading: false, user: action.payload };
         case "LOADING":
-            return { ...state, loading: true }
+            return { ...state, loading: true ,user:action.payload}
         case "LOGOUT":
             return { ...state, user: null }
         case "SHOWOTP":

@@ -1,8 +1,10 @@
+import User from "../../../models/user"
+
 export async function registerRider(dispatch, user) {
     dispatch(
         {
             type: "LOADING",
-            payload: null
+            payload: user
         }
     )
     const res = await fetch(
@@ -23,7 +25,7 @@ export async function registerRider(dispatch, user) {
         type:"SHOWOTP",
         payload:null
     })
-    _handle(dispatch, res, user)
+    _handle(dispatch, res)
 
 }
 
@@ -32,7 +34,7 @@ export async function registerRequester(dispatch, user) {
     dispatch(
         {
             type: "LOADING",
-            payload: null
+            payload: user
         }
     )
     const res = await fetch(
@@ -49,20 +51,20 @@ export async function registerRequester(dispatch, user) {
             })
         }
     )
-    console.log(res);
     dispatch({
         type:"SHOWOTP",
         payload:null
     })
-    _handle(dispatch, res, user)
+    _handle(dispatch, res)
 }
 
 
 export async function requestOTPLogin(dispatch, number, type) {
+    const user = new User("xxx",number)
     dispatch(
         {
             type: "LOADING",
-            payload: null
+            payload: user
         }
     )
     const res = await fetch(
@@ -111,7 +113,7 @@ export function logout(dispatch) {
  * @param {any} dispatch Dispatch object from AuthRegisterContext
 
  */
-export async function verify(dispatch, otp,user) {
+export async function verifyLogin(dispatch, otp,user,isRequester) {
     dispatch(
         {
             type: "LOADING",
@@ -119,7 +121,7 @@ export async function verify(dispatch, otp,user) {
         }
     )
     const res = await fetch(
-        "http://localhost:8000/auth/register/requester/verifyOTP",
+        `http://localhost:8000/auth/login/${isRequester?"requester":"rider"}/verifyOTP`,
         {
             method: "POST",
             headers: {
@@ -127,9 +129,40 @@ export async function verify(dispatch, otp,user) {
             },
             body: JSON.stringify({
                 phone: user.number,
+                type:isRequester?"requester":"rider",
                 name:user.name,
                 OTP:otp,
-                yearOfBirth:user.yearOfBirth
+                yearOfBirth: user.yearOfBirth
+
+            })
+        }
+    )
+    
+    await _handle(dispatch, res)
+    console.log("s");
+    
+
+}
+export async function verifyRegister(dispatch, otp,user,isRequester) {
+    dispatch(
+        {
+            type: "LOADING",
+            payload: null
+        }
+    )
+    const res = await fetch(
+        `http://localhost:8000/auth/register/${isRequester?"requester":"rider"}/verifyOTP`,
+        {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                phone: user.number,
+                type:isRequester?"requester":"rider",
+                name:user.name,
+                OTP:otp,
+                yearOfBirth: user.yearOfBirth
 
             })
         }
@@ -141,27 +174,13 @@ export async function verify(dispatch, otp,user) {
 
 }
 
-async function _handle(dispatch, res, user = null) {
+async function _handle(dispatch, res) {
     
     if (res.ok) {
         const data = await res.json()
+        console.log(data);
         if (data.status[0] === 's') {
             console.log(data);
-            if (data.user) {
-                dispatch(
-                    {
-                        type: "SETUSER",
-                        payload: data.user
-                    }
-                )
-            } else {
-                dispatch(
-                    {
-                        type: "SETUSER",
-                        payload: user
-                    }
-                )
-            }
         } else {
             //error handle
         }

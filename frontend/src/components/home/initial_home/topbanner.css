@@ -3,7 +3,7 @@
     padding        : 0.5em 1em;
     margin-bottom  : 0.5em;
     height         : max-content;
-    
+    font-size: 0.9rem;
     align-items    : center;
     gap            : 1em;
     justify-content: center;

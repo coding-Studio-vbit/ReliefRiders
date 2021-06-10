@@ -23,7 +23,6 @@ const Form = ({isRequester}) => {
             })
         }
     },[])
-    console.log("hdh"+isRequester);
     const [errors, setErrors] = useState({
         number: '',
         showErrors: false,
@@ -40,7 +39,7 @@ const Form = ({isRequester}) => {
         if (!errors.number && !errors.name && !errors.yearOfBirth) {
             if (isRequester) {
                 const requester = new Requester(details.number, details.name, details.yearOfBirth)
-                await registerRequester(dispatch, requester)
+                 registerRequester(dispatch, requester)
             } else {
                 const rider = new Rider(details.number, details.name)
                 registerRider(dispatch, rider)
