@@ -81,17 +81,12 @@ router.post("/login/requestOTP", (req, res)=>{
 				otpResendsLeft: MAX_OTP_RESENDS
 			};
 		}
-		fs.writeFile(OTP_FILE_PATH, JSON.stringify(obj), 'utf-8', (err)=>{
-			if(err){
-				console.log("An error occured while writing to OTP_Temp.json");
-				throw({status:"failure", message: "Server Internal Error"});
-			}
-			else{
-				console.log("New " + req.body.type + " login OTP request.");
-				res.json({status: "success", message:"OTP Set"});
-				sms.sendOTP(req.body.phone, OTP);
-			}
-		})
+		return  fs.writeFile(OTP_FILE_PATH, JSON.stringify(obj), 'utf-8');
+	})
+	.then(()=>{
+		console.log("New " + req.body.type + " login OTP request.");
+		res.json({status: "success", message:"OTP Set"});
+		sms.sendOTP(req.body.phone, OTP);
 	})
 	.catch(err=>{
 		console.log(err);
