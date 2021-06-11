@@ -21,18 +21,8 @@ const user = new mongoose.Schema({
       maxLength: 40
   },
   lastLocation: {
-    latitude : {
-      type: Number,
-      minimum: -90,
-      maximum: 90,
-      default: null
-    },
-    longitude : {
-      type: Number,
-      minimum: -180,
-      maximum: 180,
-      default: null
-    }
+		type: {type: String, default: "Point"},
+		coordinates: [Number]
   },
   currentStatus: {
     type: String,
