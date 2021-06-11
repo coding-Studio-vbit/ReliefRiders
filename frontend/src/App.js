@@ -1,31 +1,38 @@
 import React from 'react';
-import { Switch, Route, BrowserRouter as Router} from "react-router-dom";
-import logo from './logo.svg';
-import './App.css';
-import RiderHome from "./components/rider/RiderHome";
+import './App.css'
+import { AuthProvider } from './components/context/auth/authProvider';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
+import InitialHomeRouting from './components/home/initial_home/initialHomeRouting';
+
 
 function App() {
+  //todo
+  
   return (
     <div className="App">
-      <Router>
-        <Switch>
-        <Route path="/" component={RiderHome} />
-        </Switch>
-      </Router>
-     {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>*/}
+      <AuthProvider>
+        <Router>
+          <Switch>
+          
+            <Route path="/about">
+              About
+          </Route>
+            <Route path="/">
+              <InitialHomeRouting />
+            </Route>
+            
+          </Switch>
+        </Router>
+
+      </AuthProvider>
+
+
+
+      
     </div>
   );
 }

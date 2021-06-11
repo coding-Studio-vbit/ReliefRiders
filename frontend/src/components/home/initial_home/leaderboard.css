@@ -1,0 +1,46 @@
+.leaderboard-container {
+    background: hsl(180, 70%, 45%);
+    width: min(90%,30rem);
+    margin-left: auto;
+    height:auto;
+    margin-bottom: 25px;
+    margin-right: auto;
+    border-radius: 4px;
+}
+
+.leaderboard-title {
+    display   : block;
+    
+    padding-top: 1em;
+    padding-bottom: 0.5em;
+    font-size: min(2em,3vh);
+
+    text-align: center;
+}
+.pn-space{
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+}
+.pn-space svg{
+    padding-bottom: 0.1em;
+}
+.leaderboard-user {
+    padding       : 0.6em;
+    margin        : 0.5em;
+    border-radius: 4px;
+    display       : grid;
+    align-items   : center;
+    box-shadow    : 0px 8px 5px rgba(0, 0, 0, 0.281);
+    background    : white;
+    border        : 1px solid black;
+    grid-auto-flow: column;
+}
+
+.dc {
+    display     : flex;
+    text-align  : center;
+    justify-self: end;
+    color       : green;
+    flex-flow   : column;
+}

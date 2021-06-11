@@ -1,0 +1,36 @@
+.top-banner {
+    display        : flex;
+    padding        : 0.5em 1em;
+    margin-bottom  : 0.5em;
+    width: 100%;
+    height         : max-content;
+    font-size: 0.9rem;
+    align-items    : center;
+    gap            : 1em;
+    justify-content: center;
+    background     : hsl(180, 70%, 45%);
+    ;
+}
+
+.call-btn {
+    cursor    : pointer;
+    padding   : 0.2em;
+    border: 2px solid black;
+    border-radius: 8px;
+    box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.192);
+    display   : flex;
+    width     : fit-content;
+
+}
+.call-btn > a {
+    text-decoration: none;
+    color: black;
+}
+.call-btn > i {
+    padding-left: 4px;
+    align-self: center;
+}
+.nnn {
+    padding-left: 0.5em;
+    align-self  : center;
+}
