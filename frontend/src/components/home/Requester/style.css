@@ -1,62 +1,54 @@
 .container{
+    height: 100%;
+}
+
+.content{
     display:flex;
     flex-direction:column;
+    justify-content: center;
     align-items:center;
+    height: 43vh;   
+    padding: 0px;
 }
-.header{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    width:300px;
-    height: 20px;
-    padding-top: 10px;
-    padding-bottom:10px;
-    border: none;
-    background-color:rgba(121,203,197);
-    color: white;
-}
-.logo{
-    width: 150px;
-    height:150px;
-    margin-bottom: 10px;
-}
+
 .btn{
-    display: inline-flex;
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+     
     height: 50px;
     width: 300px;
     padding:0px;
     margin-bottom: 15px;
-    background-color:rgba(255,121,140);
+    background-color:rgb(40,167,69);
+
     border:none;
     outline:none;
-    overflow:hidden;
     font-size:16px;
     font-weight:500;
     cursor:pointer;
 }
-.btn__text,.btn__icon{
-    display: inline-flex;
-    align-items: center;
-    padding:0 30px;
-    height:100%;
+
+.btn__text{
+    text-align:start;
+    align-self: center;
+    width: 230px;;
     color:rgba(255,237,237);
+    
 }
 .btn__icon{
-    font-size: 1.5em;
-    background-color: rgba(0,0,0,0.08);
+    width: 70px;
+    color:rgba(255,237,237);
+    font-size: 1.4em;
+    margin: auto;
 }
-.btn:hover{
-background-color:rgb(40,167,69);
-}
-.link{
-    text-decoration: none;
-}
+
 @media screen and (min-width:760px){
     .btn{
         width:350px;
-        font-size:23px;
+        font-size:20px;
     }
-    .header{
-        width: 350px;
+    .btn__icon{
+        width: 60px;
     }
 }

@@ -1,9 +1,6 @@
 import React from 'react';
 import './topbanner.css'
 const TopBanner = () => {
-
-
-
     return (
         <div className="top-banner">
             <span>Difficulty in using the app?</span>
