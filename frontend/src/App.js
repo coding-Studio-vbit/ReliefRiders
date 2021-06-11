@@ -8,8 +8,10 @@ import {
 } from "react-router-dom";
 import InitialHomeRouting from './components/home/initial_home/initialHomeRouting';
 import RequesterHomeScreen from './components/home/Requester/RequesterHomeScreen';
+import RiderHome from './components/rider/RiderHome';
 
 function App() {
+  //todo
   
   return (
     <div className="App">
@@ -20,7 +22,7 @@ function App() {
               <RequesterHomeScreen />
             </Route>
             <Route path="/home/rider">
-              TODO by anisha
+              <RiderHome/>
             </Route>
             <Route path="/about">
               About

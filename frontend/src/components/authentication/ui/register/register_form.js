@@ -45,21 +45,21 @@ const RegisterScreen = () => {
       showErrors: true,
     });
     if (!errors.number && !errors.name && !errors.yearOfBirth) {
-        let user
+        let someUser
         let res;
         if (isRequester) {
-         user = new Requester(details.number, details.name, details.yearOfBirth)
-         res =   registerRequester(dispatch, user)
+         someUser = new Requester(details.number, details.name, details.yearOfBirth)
+         res =   registerRequester(dispatch, someUser)
       } else {
-        user = new Rider(details.number, details.name)
-         res =   registerRider(dispatch, user)
+        someUser = new Rider(details.number, details.name)
+         res =   registerRider(dispatch, someUser)
       }
       res.then((r)=>{
       if(r==1)
         route.push("/verify", {
             isRequester: isRequester,
             authType: "register",
-            user:user
+            user:someUser
           });
       else{
         console.log(error);
