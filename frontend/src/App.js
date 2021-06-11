@@ -8,12 +8,13 @@ import {
 } from "react-router-dom";
 import InitialHomeRouting from './components/home/initial_home/initialHomeRouting';
 import RequesterHomeScreen from './components/home/Requester/RequesterHomeScreen';
+import Temp from './components/requester/my_requests/temp';
 
 function App() {
   
   return (
     <div className="App">
-      <AuthProvider>
+      {/* <AuthProvider>
         <Router>
           <Switch>
           <Route path="/home/requester">
@@ -32,7 +33,8 @@ function App() {
           </Switch>
         </Router>
 
-      </AuthProvider>
+      </AuthProvider> */}
+      <Temp/>
 
 
 
