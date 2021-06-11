@@ -5,7 +5,9 @@ import Logo from "../global_ui/logo";
 import "./RiderHome.css";
 function RiderHome() {
   return (
+    <Router>
       <section className="riderhome">
+      <h1 className="navi">HOME</h1>
       <div className="logo">
           <Logo />
         </div>
@@ -50,6 +52,7 @@ function RiderHome() {
           </button>
         </Link>
       </section>
+      </Router>
 
   );
 }
