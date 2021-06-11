@@ -62,7 +62,6 @@ router.post("/login/requestOTP", (req, res)=>{
 			{
 				obj[phone].otpResendsLeft--;
 				obj[phone].otp = OTP;
-				console.log("New OTP set for " + req.body.type + " login");
 			}
 			else
 			{
@@ -93,7 +92,7 @@ router.post("/login/requestOTP", (req, res)=>{
 })
 
 router.post("/login/verifyOTP", (req, res)=>{
-
+	console.log(req.body);
 	if(!req.body.phone ||  !req.body.OTP){
 		return res.json({status:"failure", message: "Invalid properties"});
 	}
@@ -185,7 +184,6 @@ router.post("/register/requestOTP", (req, res)=>{
 		return fs.readFile(OTP_FILE_PATH);
 	})
 	.then(data=>{
-	
 		let obj = JSON.parse(data);
 		if(obj.hasOwnProperty(phone))
 		{

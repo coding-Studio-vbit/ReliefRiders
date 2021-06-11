@@ -1,7 +1,10 @@
 .input-field {
     position : relative;
     font-size: 1rem;
-    --label-top:calc(50% - 10px);
+    margin: 0px auto;
+    height: fit-content;
+    width: min(100%,35rem);
+    --label-top:calc(23%);
 }
 
  label {
@@ -49,7 +52,7 @@ input {
 
 .error-field +.label{
     color: red;
-    --label-top:24%;
+    --label-top:17%;
 
     
 }
@@ -64,4 +67,14 @@ input:focus+label {
 
 input:focus {
     border-color: black;
+}
+.error-field:focus{
+    border-color: red;
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
 }

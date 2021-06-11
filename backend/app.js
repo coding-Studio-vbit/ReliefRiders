@@ -6,13 +6,12 @@ const port = process.env.PORT || 8000;
 const cors = require('cors')
 const clearExpiredOTP = require("./clearExpiredOTPs")
 app.use(cors())
-
 //express middleware usage.
 app.use(express.json());
 
 
 //mongoose connection.
-
+mongoose.set('useFindAndModify', false);
 mongoose.connect(`mongodb+srv://admin:${process.env.MONGO_PASSWORD}@cluster0.xgkw0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`, {useNewUrlParser: true, useUnifiedTopology: true});
 
 mongoose.connection.once('open',function(){
