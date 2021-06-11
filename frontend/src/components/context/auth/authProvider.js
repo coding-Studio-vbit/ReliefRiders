@@ -7,6 +7,8 @@ const AuthReducer = (state, action) => {
     
     case "ISRIDER":
       return { ...state, isRequester: false };
+    case "AUTHENTICATED":
+      return { ...state,token:action.payload.token,user:action.payload.user, isAuthenticated: true };
     case "SETUSER":
       return { ...state, loading : true, user: action.payload };
     case "SETLOADING":
@@ -24,6 +26,7 @@ const initState = {
   user: null,
   loading: false,
   isAuthenticated: false,
+  token:null,
   error: "",
 };
 
@@ -34,12 +37,13 @@ export const AuthProvider = (prop) => {
   const [state, dispatch] = useReducer(AuthReducer,
     initState,
   );
-  
+  console.log(state);
 
   return (
     <AuthContext.Provider
       value={{
         user: state.user,
+        token:state.token,
         isRequester: state.isRequester,
         loading: state.loading,
         isAuthenticated: state.isAuthenticated,

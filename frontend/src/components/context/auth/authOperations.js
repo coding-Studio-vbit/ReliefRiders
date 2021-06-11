@@ -162,8 +162,8 @@ export async function verify(dispatch, otp,authType,isRequester,user) {
             })
         }
     )
-   
-    return _handle(dispatch, res)
+    user.isRequester = isRequester
+    return _handle(dispatch, res,true,user)
     } catch (error) {
         dispatch({
             type:"SETERROR",
@@ -174,20 +174,28 @@ export async function verify(dispatch, otp,authType,isRequester,user) {
 }
 
 
-async function _handle(dispatch, res) {
+async function _handle(dispatch, res,verify=false,user=null) {
 
    
     if (res.ok) {
         const data = await res.json()
         console.log(data);
         if (data.status[0] === 's') {
-            console.log("UNSET");
             dispatch(
                 {
                     type: "SETLOADING",
                     payload: null
                 }
             )
+            if(verify){
+                const token = data.msg
+                dispatch({
+                    type:"AUTHENTICATED",
+                    payload:{token,user}
+                })
+                localStorage.setItem('token',data.message)
+                localStorage.setItem('user',JSON.stringify(user))
+            }
             return 1;
         } else {
             dispatch({
