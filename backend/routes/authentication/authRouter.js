@@ -63,8 +63,6 @@ router.post("/login/requestOTP", (req, res)=>{
 				obj[phone].otpResendsLeft--;
 				obj[phone].otp = OTP;
 				console.log("New OTP set for " + req.body.type + " login");
-				res.json({status: "success", message:"OTP Set"});
-				sms.sendOTP(req.body.phone, OTP);
 			}
 			else
 			{
