@@ -1,29 +1,21 @@
 import { createContext, useReducer, React } from "react";
-// import Requester from "../../../models/requester";
 
-const AuthRegisterReducer = (state, action) => {
+const AuthReducer = (state, action) => {
   switch (action.type) {
     case "SETERROR":
-        console.log("gg");
-      return { ...state, error: action.payload };
-    case "REMOVEERROR":
-      return { ...state, error: "" };
+      return { ...state, loading:false,error: action.payload };
+    
     case "ISRIDER":
       return { ...state, isRequester: false };
     case "SETUSER":
-      return { ...state, loading: false, user: action.payload };
-    case "UNLOADING":
-      return { ...state, loading: false };
+      return { ...state, loading : !state.loading, user: action.payload };
+    case "SETLOADING":
+      return { ...state, loading: !state.loading };
     case "VERIFIED":
       return { ...state, loading: false, user: action.payload };
-    case "LOADING":
-      return { ...state, loading: true, user: action.payload };
     case "LOGOUT":
-      return { ...state, user: null };
-    case "SHOWOTP":
-      return { ...state, showOTP: true, loading: false };
-    case "SHOWFORM":
-      return { ...state, showOTP: false, loading: false };
+      return { ...state,loading:false, user: null };
+    
   }
 };
 
@@ -38,7 +30,11 @@ const initState = {
 export const AuthContext = createContext();
 
 export const AuthProvider = (prop) => {
-  const [state, dispatch] = useReducer(AuthRegisterReducer, initState);
+
+  const [state, dispatch] = useReducer(AuthReducer,
+    initState,
+  );
+  
 
   return (
     <AuthContext.Provider

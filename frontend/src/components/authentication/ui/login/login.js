@@ -4,22 +4,23 @@ import Logo from "../../../global_ui/logo";
 import InputField from "../../../global_ui/input";
 import { AuthContext } from "../../../context/auth/authProvider";
 import Spinner from "../../../global_ui/spinner";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { requestOTPLogin } from "../../../context/auth/authOperations";
-import { Switch, Route } from "react-router-dom";
 import useModal from "../error_dialog/useerr";
 import Modal from "../error_dialog/err_dialog";
 import User from "../../../../models/user";
 function Login() {
   const [mobile, setMobile] = useState("");
   const [errorMsg, setError] = useState("");
-  const { loading, dispatch ,error} = useContext(AuthContext);
-  const location = useLocation();
+  const { loading, dispatch, error } = useContext(AuthContext);
+  
   const route = useHistory();
-  const {isShowing, toggle} = useModal();
-
+  const { user } = useParams();
+  let isRequester = user === "rider" ? false : true;
+  const { isShowing, toggle } = useModal();
+ 
   useEffect(() => {
-    if (!location.state.isRequester) {
+    if (!isRequester) {
       dispatch({
         type: "ISRIDER",
         payload: null,
@@ -41,29 +42,29 @@ function Login() {
     return true;
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     setError(null);
     e.preventDefault();
     if (validate(mobile)) {
       setError(null);
       let res;
-      const user = new User("xxx",mobile)
+      const user = new User("xxx", mobile);
 
-      if (location.state.isRequester) {
-        res = requestOTPLogin(dispatch, mobile, "requester");
+      if (isRequester) {
+        res = await requestOTPLogin(dispatch, mobile, "requester");
       } else {
-        res = requestOTPLogin(dispatch, mobile, "rider");
+        res = await requestOTPLogin(dispatch, mobile, "rider");
       }
       res.then((r) => {
         if (r == 1) {
+          
           route.push("/verify", {
-            isRequester: location.state.isRequester,
+            isRequester: isRequester,
             authType: "login",
-            user:user
+            user: user,
           });
-        }else{
-          console.log(error);
-          toggle()
+        } else {
+          toggle();
         }
       });
     }
@@ -72,59 +73,51 @@ function Login() {
   return (
     <div className="login">
       {/* Logo */}
-      <Logo />
-      <Modal
-        isShowing={isShowing}
-        hide={toggle}
-        msg={error}
-      />
+
+      <Modal isShowing={isShowing} hide={toggle} msg={error} />
       {/*Form and Content*/}
-      <Switch>
-        <Route path="/">
-          <div className="content">
-            <h1> {location.state.isRequester ? "Requester" : "Rider"} Login</h1>
 
-            <InputField
-              type="text"
-              placeholder="Mobile"
-              error={errorMsg ? errorMsg : ""}
-              value={mobile}
-              maxLength="10"
-              onChange={(e) => setMobile(e.target.value)}
-            />
+      <div>
+        <Logo />
+        <h1> {isRequester ? "Requester" : "Rider"} Login</h1>
 
-            {loading ? (
-              <Spinner radius="2" />
-            ) : (
-              <button
-                type="submit"
-                onClick={(e) => handleLogin(e)}
-                value="Request OTP"
-                className="btnStyle"
-              >
-                Request OTP
-              </button>
-            )}
+        <InputField
+          type="text"
+          placeholder="Mobile"
+          error={errorMsg ? errorMsg : ""}
+          value={mobile}
+          maxLength="10"
+          onChange={(e) => setMobile(e.target.value)}
+        />
+      </div>
+      {loading ? (
+        <Spinner radius="2" />
+      ) : (
+        <button
+          type="submit"
+          onClick={(e) => handleLogin(e)}
+          value="Request OTP"
+          className="btnStyle"
+        >
+          Request OTP
+        </button>
+      )}
+      <div className="reg-cont">
+        <p className="routetext">Dont have an account?</p>
 
-            <p className="routetext">Dont have an account?</p>
-
-            <button className="btnStyle register">
-              <Link
-                to={{
-                  pathname: location.state.isRequester
-                    ? "/register/requester"
-                    : "/register/rider",
-                  state: {
-                    isRequester: location.state.isRequester,
-                  },
-                }}
-              >
-                Go to Registration
-              </Link>
-            </button>
-          </div>
-        </Route>
-      </Switch>
+        <button className="btnStyle-register">
+          <Link
+            to={{
+              pathname: isRequester ? "/register/requester" : "/register/rider",
+              state: {
+                isRequester: isRequester,
+              },
+            }}
+          >
+            Go to Registration
+          </Link>
+        </button>
+      </div>
     </div>
   );
 }

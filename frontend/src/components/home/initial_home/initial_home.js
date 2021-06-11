@@ -1,22 +1,24 @@
-import React from "react";
+import React, { useContext } from "react";
 import Logo from "../../global_ui/logo";
 import TopBanner from "./top-banner";
 import { LeaderBoard } from "./leaderboard";
 
 import './initial-home.css'
 import { useHistory } from "react-router";
+import { AuthContext } from "../../context/auth/authProvider";
 const InitialHome = () => {
     const routes = useHistory()
+      const { dispatch} = useContext(AuthContext);
+
     const goToLoginRider= ()=>{
-       
-        routes.push('/login/rider',{
-            isRequester: false,
+        dispatch({
+            type:"ISRIDER",
+            payload:null
         })
+        routes.push('/login/rider')
     }
     const goToLoginRequester= ()=>{
-        routes.push('/login/requester',{
-            isRequester: true,
-        })
+        routes.push('/login/requester')
     }
 
     return (
@@ -25,8 +27,9 @@ const InitialHome = () => {
             <div className="contents-ih">
 
                 <Logo />
-                <p style={{ marginTop: 0.5 + 'em' }} >Hey</p>
+                <span >Hey</span>
                 <p  >How can we help you?</p>
+                
                 <button onClick={goToLoginRequester} className="loginasrider-btn">
                     Login as Requester
                 </button>

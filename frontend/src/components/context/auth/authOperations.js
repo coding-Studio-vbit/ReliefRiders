@@ -7,22 +7,31 @@ export async function registerRider(dispatch, user) {
             payload: user
         }
     )
-    const res = await fetch(
-        "http://localhost:8000/auth/register/requestOTP",
-        {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                type: "rider",
-                phone: user.mobile,
-            })
-        }
-    )
+    try {
+        const res = await fetch(
+            "http://localhost:8000/auth/register/requestOTP",
+            {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    type: "rider",
+                    phone: user.mobile,
+                })
+            }
+        )
+            
         
-    
-    return _handle(dispatch, res)
+        return _handle(dispatch, res)
+    } catch (error) {
+        dispatch({
+            type:"SETERROR",
+            payload:"Unable to connect to server, please try again later"
+        })
+        return 0;
+    }
+
 
 }
 
@@ -34,22 +43,32 @@ export async function registerRequester(dispatch, user) {
             payload: user
         }
     )
-    const res = await fetch(
-        "http://localhost:8000/auth/register/requestOTP",
-        {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                type: "requester",
-                phone: user.mobile,
-                
-            })
-        }
-    )
-    
-    return _handle(dispatch, res)
+    try {
+        const res = await fetch(
+            "http://localhost:8000/auth/register/requestOTP",
+            {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    type: "requester",
+                    phone: user.mobile,
+                    
+                })
+            }
+        )
+        
+        return _handle(dispatch, res)
+    } catch (error) {
+
+        dispatch({
+            type:"SETERROR",
+            payload:"Unable to connect to server, please try again later"
+        })
+        return 0;
+        
+    }
 }
 
 
@@ -61,22 +80,34 @@ export async function requestOTPLogin(dispatch, number, type) {
             payload: user
         }
     )
-    const res = await fetch(
-        "http://localhost:8000/auth/login/requestOTP",
-        {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                type: type,
-                phone: number,
-
-            })
-        }
-    )
+    try {
+        const res = await fetch(
+            "http://localhost:8000/auth/login/requestOTP",
+            {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    type: type,
+                    phone: number,
     
-    return _handle(dispatch, res)
+                })
+            }
+        )
+        return _handle(dispatch, res)
+
+        
+    } catch (error) {
+        dispatch({
+            type:"SETERROR",
+            payload:"Unable to connect to server, please try again later"
+        })
+        return 0;
+        
+    }
+    
+    
 }
 
 /**
@@ -86,7 +117,7 @@ export async function requestOTPLogin(dispatch, number, type) {
 export function logout(dispatch) {
     dispatch(
         {
-            type: "LOADING",
+            type: "SETLOADING",
             payload: null
         }
     )
@@ -107,11 +138,12 @@ export function logout(dispatch) {
 export async function verify(dispatch, otp,authType,isRequester,user) {
     dispatch(
         {
-            type: "LOADING",
+            type: "SETLOADING",
             payload: null
         }
     )
-    const url = authType[0]==='r'?`http://localhost:8000/auth/${authType}${isRequester?"/requester":"/rider"}/verifyOTP`:
+    try {
+        const url = authType[0]==='r'?`http://localhost:8000/auth/${authType}${isRequester?"/requester":"/rider"}/verifyOTP`:
     `http://localhost:8000/auth/${authType}/verifyOTP`
     const res = await fetch(
         url,
@@ -130,24 +162,31 @@ export async function verify(dispatch, otp,authType,isRequester,user) {
             })
         }
     )
-    dispatch(
-        {
-            type: "UNLOADING",
-            payload: null
-        }
-    )
+   
     return _handle(dispatch, res)
-    
-
+    } catch (error) {
+        dispatch({
+            type:"SETERROR",
+            payload:"Unable to connect to server, please try again later"
+        })
+        return 0;
+    }
 }
 
 
 async function _handle(dispatch, res) {
-    
+
+   
     if (res.ok) {
         const data = await res.json()
         console.log(data);
         if (data.status[0] === 's') {
+            dispatch(
+                {
+                    type: "SETLOADING",
+                    payload: null
+                }
+            )
             return 1;
         } else {
             dispatch({

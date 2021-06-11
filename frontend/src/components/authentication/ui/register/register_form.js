@@ -6,23 +6,23 @@ import Requester from '../../../../models/requester'
 import Rider from '../../../../models/rider'
 import Spinner from "../../../global_ui/spinner";
 import { registerRequester, registerRider } from '../../../context/auth/authOperations';
-import { useHistory, useLocation } from "react-router";
 import useModal from "../error_dialog/useerr";
 import Modal from "../error_dialog/err_dialog";
-const Form = () => {
+import Logo from "../../../global_ui/logo";
+import { useHistory, useParams } from "react-router";
+const RegisterScreen = () => {
   const { dispatch, loading ,error} = useContext(AuthContext);
   const [details, setdetails] = useState({
     number: "",
     name: "",
     yearOfBirth: "",
   });
+  const { user } = useParams();
+  let isRequester = user === "rider" ? false : true;
   const {isShowing, toggle} = useModal();
 
   const route = useHistory();
-
-  const {
-    state: { isRequester },
-  } = useLocation();
+ 
   useEffect(() => {
     if (!isRequester) {
       dispatch({
@@ -49,10 +49,10 @@ const Form = () => {
         let res;
         if (isRequester) {
          user = new Requester(details.number, details.name, details.yearOfBirth)
-         res =  registerRequester(dispatch, user)
+         res =  await registerRequester(dispatch, user)
       } else {
         user = new Rider(details.number, details.name)
-         res =  registerRider(dispatch, user)
+         res =  await registerRider(dispatch, user)
       }
       res.then((r)=>{
       if(r==1)
@@ -171,15 +171,18 @@ const Form = () => {
 
   return (
     <form className="form" onSubmit={submit}>
+         
     <Modal
         isShowing={isShowing}
         hide={toggle}
         msg={error}
       />
-      <p style={{ textAlign: "center", fontSize: 2 + "em" }}>
+      <div>
+      <Logo />
+      <p style={{margin:0.5+'em', textAlign: "center", fontSize: 2 + "em" }}>
         {isRequester ? "Requester" : "Rider"} Register
       </p>
-      <div style={{ height: 1 + "rem" }}></div>
+      
 
       <InputField
         value={details.number}
@@ -189,7 +192,6 @@ const Form = () => {
         maxLength="10"
         placeholder="Enter Phone number"
       />
-
       <div className="sec-row">
         <InputField
           value={details.name}
@@ -208,6 +210,9 @@ const Form = () => {
           />
         )}
       </div>
+      </div>
+
+      
       {loading ? (
         <Spinner radius="2" />
       ) : (
@@ -219,4 +224,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default RegisterScreen;

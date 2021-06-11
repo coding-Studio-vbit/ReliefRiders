@@ -19,7 +19,7 @@ const VerifyOTP = () => {
 
     const {state:{isRequester,authType,user}} = useLocation()
     const { dispatch, loading,error } = useContext(AuthContext)
-
+    
     useEffect(()=>{
         dispatch({
             type:"ISRIDER",payload:null
@@ -32,7 +32,8 @@ const VerifyOTP = () => {
         setError({ ...errorMsg, showError: true })
         if (!errorMsg.error) {
             
-           const res = verify(dispatch,otp,authType,isRequester,user)
+           const res = await verify(dispatch,otp,authType,isRequester,user)
+           console.log(res);
            if(res == 1){
                console.log('HOME');
            }else{

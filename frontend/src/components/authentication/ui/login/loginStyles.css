@@ -1,29 +1,34 @@
-.content {
-    display           : grid;
-    place-content     : center;
-    grid-template-rows: 1fr 1fr 2fr 1fr;
-    text-align        : center;
-    background-color  : #FFFFFF;
-}
-
 .login {
-    padding: 2em 1em;
+  justify-items: center;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  display: grid;
+  
+ 
+  gap: min(15%,4rem);
+  padding: 1em 1em;
 }
 
 .btnStyle {
-    place-self: center;
-    padding   : 0.6em;
-    
+  place-self: center;
+  padding: 0.6em;
 }
-.btnStyle > a{
-    text-decoration: none;
-    color: white;
+.btnStyle-register {
+  padding: 0.6em;
 }
-.spinner{
-    justify-self: center;
+.btnStyle-register > a {
+  text-decoration: none;
+  color: white;
+}
+.reg-cont {
+  text-align: center;
+}
+.spinner {
+  justify-self: center;
 }
 .routetext {
-    color        : slategray;
-    align-self   : end;
-    margin-bottom: 5px;
+  color: slategray;
+  align-self: end;
+  margin-bottom: 5px;
 }
