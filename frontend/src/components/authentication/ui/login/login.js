@@ -51,9 +51,9 @@ function Login() {
       const user = new User("xxx", mobile);
 
       if (isRequester) {
-        res = await requestOTPLogin(dispatch, mobile, "requester");
+        res =  requestOTPLogin(dispatch, mobile, "requester");
       } else {
-        res = await requestOTPLogin(dispatch, mobile, "rider");
+        res =  requestOTPLogin(dispatch, mobile, "rider");
       }
       res.then((r) => {
         if (r == 1) {

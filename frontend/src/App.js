@@ -7,34 +7,34 @@ import {
   Route,
 } from "react-router-dom";
 import InitialHomeRouting from './components/home/initial_home/initialHomeRouting';
-// import Model from './components/authentication/ui/error_dialog/err_dialog';
-// import useModel from './components/authentication/ui/error_dialog/useerr';
+import RequesterHomeScreen from './components/home/Requester/RequesterHomeScreen';
 
 function App() {
   
-  //const {isShowing, toggle} = useModel();
   return (
     <div className="App">
       <AuthProvider>
         <Router>
           <Switch>
+          <Route path="/home/requester">
+              <RequesterHomeScreen />
+            </Route>
+            <Route path="/home/rider">
+              TODO by anisha
+            </Route>
             <Route path="/about">
               About
           </Route>
             <Route path="/">
               <InitialHomeRouting />
             </Route>
+            
           </Switch>
         </Router>
 
       </AuthProvider>
 
-{/* <button className="button-default" onClick={toggle}>Show Modal</button>
-      <Model
-        isShowing={isShowing}
-        hide={toggle}
-        msg="Hey this is error box"
-      /> */}
+
 
       
     </div>

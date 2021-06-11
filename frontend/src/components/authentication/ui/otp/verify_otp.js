@@ -4,7 +4,7 @@ import './verify_otp.css'
 import InputField from '../../../global_ui/input'
 import { AuthContext } from '../../../context/auth/authProvider';
 import Spinner from '../../../global_ui/spinner';
-import { useLocation } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 import Logo from '../../../global_ui/logo';
 import { verify } from '../../../context/auth/authOperations';
 import useModal from '../error_dialog/useerr';
@@ -16,7 +16,7 @@ const VerifyOTP = () => {
         showError: false
     })
     const {isShowing, toggle} = useModal();
-
+    const route = useHistory()
     const {state:{isRequester,authType,user}} = useLocation()
     const { dispatch, loading,error } = useContext(AuthContext)
     
@@ -24,21 +24,23 @@ const VerifyOTP = () => {
         dispatch({
             type:"ISRIDER",payload:null
         })
-        dispatch({
-            type:"SETUSER",payload:user
-        })
+        
     },[])
-    const submit = async () => {
+    const submit =  () => {
         setError({ ...errorMsg, showError: true })
         if (!errorMsg.error) {
             
-           const res = await verify(dispatch,otp,authType,isRequester,user)
+           const res = verify(dispatch,otp,authType,isRequester,user)
            console.log(res);
-           if(res == 1){
-               console.log('HOME');
-           }else{
-            toggle()
-           }
+           res.then((r)=>{
+            if(r == 1){
+                console.log('HOME');
+                
+                route.push(`/home/${isRequester?"requester":'rider'}`)
+            }else{
+             toggle()
+            }
+           })
         }
         
     }

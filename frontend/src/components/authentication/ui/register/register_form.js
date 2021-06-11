@@ -38,7 +38,7 @@ const RegisterScreen = () => {
     yearOfBirth: "",
   });
 
-  async function submit(event) {
+   function submit(event) {
     event.preventDefault();
     setErrors({
       ...errors,
@@ -49,10 +49,10 @@ const RegisterScreen = () => {
         let res;
         if (isRequester) {
          user = new Requester(details.number, details.name, details.yearOfBirth)
-         res =  await registerRequester(dispatch, user)
+         res =   registerRequester(dispatch, user)
       } else {
         user = new Rider(details.number, details.name)
-         res =  await registerRider(dispatch, user)
+         res =   registerRider(dispatch, user)
       }
       res.then((r)=>{
       if(r==1)

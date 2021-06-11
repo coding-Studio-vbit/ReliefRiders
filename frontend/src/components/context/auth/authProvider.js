@@ -8,7 +8,7 @@ const AuthReducer = (state, action) => {
     case "ISRIDER":
       return { ...state, isRequester: false };
     case "SETUSER":
-      return { ...state, loading : !state.loading, user: action.payload };
+      return { ...state, loading : true, user: action.payload };
     case "SETLOADING":
       return { ...state, loading: !state.loading };
     case "VERIFIED":

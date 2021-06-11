@@ -138,8 +138,8 @@ export function logout(dispatch) {
 export async function verify(dispatch, otp,authType,isRequester,user) {
     dispatch(
         {
-            type: "SETLOADING",
-            payload: null
+            type: "SETUSER",
+            payload: user
         }
     )
     try {
@@ -181,6 +181,7 @@ async function _handle(dispatch, res) {
         const data = await res.json()
         console.log(data);
         if (data.status[0] === 's') {
+            console.log("UNSET");
             dispatch(
                 {
                     type: "SETLOADING",
