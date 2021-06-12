@@ -1,11 +1,9 @@
-
-.logo-container{
+.logo-container {
   display: flex;
   justify-content: center;
 }
-img{
-    
-    height: auto;
-    
-    max-width: min(15rem,55vw);
+img {
+  height: auto;
+
+  max-width: min(12rem, 55vw);
 }

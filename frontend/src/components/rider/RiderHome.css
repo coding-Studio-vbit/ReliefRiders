@@ -1,14 +1,10 @@
 @media screen and (min-width: 760px) {
   .buttons {
-    width: 250px;
-    font-size: 10px;
-    height: 50px;
-  }
-  .navi {
     width: 350px;
+    font-size: 20px;
   }
-  .btn_text {
-    align-items: center;
+  .btn__icon {
+    width: 60px;
   }
 }
 
@@ -18,55 +14,53 @@
   align-items: center;
 }
 
+.Rider_Home_body {
+  height: 100%;
+}
 .navi {
-  display: inline-flex;
+  background-color: #79cbc5;
+  width: 100%;
+  height: 60px;
+  text-align: center;
+  display: grid;
+  align-content: center;
   align-items: center;
-  justify-content: center;
-  width: 381px;
-  height: 20px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  border: none;
-  background-color: rgba(121, 203, 197);
+  font-size: 20px;
   color: white;
 }
 
 .logo {
-  margin-top: 20px;
-  width: 120px;
-  height: 120px;
-  margin-bottom: 0px;
+  margin: 10px;
 }
 .buttons {
-  display: inline-flex;
-  height: 87px;
-  width: 371px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  height: 50px;
+  width: 300px;
   padding: 0px;
   margin-bottom: 15px;
-  margin-top: 7px;
   background-color: #ff7978;
+
+  border: none;
+  outline: none;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
   border: #707070;
   box-shadow: 0px 0px 10px 0px darkgray;
-  overflow: hidden;
-  cursor: pointer;
 }
-.btn_text,
-.btn_icon {
-  display: inline-flex;
-  align-items: center;
-  padding: 0 30px;
-  font-size: 25px;
-  font-weight: 500;
-  font-style: Bold;
-  text-align: center;
-  height: 100%;
-  color: white;
-}
-.btn_icon {
-  font-size: 2em;
-  background-color: #ff7978;
+.btn_text {
+  text-align: start;
+  align-self: center;
+  width: 230px;
+  color: rgba(255, 237, 237);
 }
 
-.links {
-  text-decoration: none;
+.btn_icon {
+  width: 70px;
+  color: rgba(255, 237, 237);
+  font-size: 1.4em;
+  margin: auto;
 }

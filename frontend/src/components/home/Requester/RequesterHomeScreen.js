@@ -1,7 +1,7 @@
 import React from "react";
-import {useHistory} from 'react-router-dom'
+import {useHistory} from 'react-router-dom';
 import "./style.css";
-import Logo from './../../global_ui/logo'
+import Logo from './../../global_ui/logo';
 
 function RequesterHomeScreen() {   
     const history =useHistory()
@@ -19,7 +19,7 @@ function RequesterHomeScreen() {
 
         <nav 
         style={{
-            backgroundColor:'green',
+            backgroundColor:'#79cbc5',
             width:'100%',
             height:'60px',
             textAlign:'center',
@@ -36,7 +36,7 @@ function RequesterHomeScreen() {
 
         <section className="container">
 
-          <div style={{ margin:'15px auto'}}>
+          <div style={{ margin:'10px auto'}}>
             <Logo/>
           </div>
           
