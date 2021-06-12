@@ -115,17 +115,11 @@ export async function requestOTPLogin(dispatch, number, type) {
  *  @param {any} dispatch Dispatch object from AuthContext
  */
 export function logout(dispatch) {
-    dispatch(
-        {
-            type: "SETLOADING",
-            payload: null
-        }
-    )
-    document.cookie = "val=;expires=Thu ,01 Jan 1970 00:00:00 UTC; path=/;"
+   
+    localStorage.clear();
     dispatch(
         {
             type: "LOGOUT",
-            payload: null
         }
     )
 }
