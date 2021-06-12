@@ -6,7 +6,6 @@ const port = process.env.PORT || 8000;
 const cors = require('cors')
 const clearExpiredOTP = require("./clearExpiredOTPs")
 app.use(cors())
-
 //express middleware usage.
 app.use(express.json());
 

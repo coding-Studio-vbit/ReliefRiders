@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Merienda&display=swap');
+
+.about{
+    height: 100%;
+}
+
+.aboutContent{
+    height: 100%;
+    display: grid;
+    justify-content: center;
+    justify-items: center;
+    
+}
+
+.quoted-text{
+    font-family: 'Merienda', cursive;
+    text-align: center;
+    font-size: 20px;
+    margin: 30px;
+}
+
+.founderNote{
+    display: flex;
+    justify-content: space-around;
+    height: 250px;
+    padding: 30px;
+
+    background: #8360c3;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #2ebf91, #8360c3);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #2ebf91, #8360c3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
+.founderContent{
+    max-width: 350px;
+    font-size: 20px;
+}
+
+.founderImg{
+    height: 300px;
+    width: 200px;
+}
+
+footer{
+    background-color:#e8f5e9;
+    border-top: 1px solid saddlebrown;
+    height: 100%;
+    display: grid;
+    justify-content: center;
+}
+
+.footer-container-1{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    justify-items: center;
+
+}
