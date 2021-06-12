@@ -1,6 +1,6 @@
 import React from "react";
 import {useHistory} from 'react-router-dom';
-import Logo from "../global_ui/logo";
+import Logo from "./../../global_ui/logo";
 import "./RiderHome.css";
 function RiderHome() {   
     const history =useHistory()
