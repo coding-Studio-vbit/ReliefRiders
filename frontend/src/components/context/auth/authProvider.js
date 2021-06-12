@@ -16,7 +16,7 @@ const AuthReducer = (state, action) => {
     case "VERIFIED":
       return { ...state, loading: false, user: action.payload };
     case "LOGOUT":
-      return { ...state,loading:false, user: null };
+      return initState;
     
   }
 };
