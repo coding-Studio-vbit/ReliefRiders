@@ -8,7 +8,6 @@ import {
 } from "react-router-dom";
 import InitialHomeRouting from './components/home/initial_home/initialHomeRouting';
 
-
 function App() {
   //todo
   
