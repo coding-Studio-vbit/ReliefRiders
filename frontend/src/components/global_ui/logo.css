@@ -1,8 +1,9 @@
 .logo-container {
   display: flex;
   justify-content: center;
+  margin-top: 0.5em;
 }
 img {
   height: auto;
-  width: clamp(200px, 60vw, 300px);
+  width: clamp(200px, 60vw, 250px);
 }

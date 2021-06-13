@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 
-import { AuthContext } from "../context/auth/authProvider";
-import { logout } from "../context/auth/authOperations";
+import { AuthContext } from "../../context/auth/authProvider";
+import { logout } from "../../context/auth/authOperations";
 
 import "../Requester/style.css";
 import { useHistory } from "react-router";
-import Logo from "../global_ui/logo";
-import Navbar from "../global_ui/nav";
+import Logo from "../../global_ui/logo";
+import Navbar from "../../global_ui/nav";
 function RiderHome() {
   const history = useHistory();
   const { dispatch } = useContext(AuthContext);
@@ -25,7 +25,7 @@ function RiderHome() {
           Current Request
         </button>
         <button className="rider-home-btn">
-          <i className="fas fa-align-justify"></i>
+        <i className="fas fa-list-ul"></i>
           My Deliveries
         </button>
         <button className="rider-home-btn">
@@ -39,7 +39,7 @@ function RiderHome() {
           }}
           className="rider-home-btn"
         >
-          <i className="fas fa-arrow-right"></i>
+          <i className="fas fa-sign-out-alt"></i>
           Logout
         </button>
       </div>

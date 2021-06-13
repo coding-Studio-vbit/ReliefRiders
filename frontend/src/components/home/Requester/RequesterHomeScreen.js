@@ -35,7 +35,7 @@ function RequesterHomeScreen() {
                 My Profile
               </button>
               <button onClick={()=>{logout(dispatch); history.push('/')}}  className="rider-home-btn">
-                <i className="fas fa-arrow-right"></i>
+              <i className="fas fa-sign-out-alt"></i>
                 Logout
               </button>
           </div>
