@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router';
 
-const Request = () => {
+const PlacedRequest = () => {
 
     // const {state:{request}} = useLocation()
     const request = {
@@ -51,4 +51,4 @@ const Request = () => {
     )
 }
  
-export default Request;
+export default PlacedRequest;

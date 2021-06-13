@@ -1,3 +1,8 @@
+/**
+ * Request Model class for request placed by requester.
+ * 
+ * Check the class for it's properties.
+ */
 export default class Request {
 
        
@@ -39,7 +44,10 @@ export default class Request {
 
         };
     }
-
+    /**
+     * @param {any} json Request json from server
+     * @returns new Request object from json
+     */
     static from(json){
         return Object.assign(new Request(),json)
     }
