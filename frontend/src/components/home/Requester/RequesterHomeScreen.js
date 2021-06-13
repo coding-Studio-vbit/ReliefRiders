@@ -1,79 +1,47 @@
-import React from "react";
-import {useHistory} from 'react-router-dom';
+import React, { useContext } from "react";
+import {useHistory} from 'react-router-dom'
 import "./style.css";
-import Logo from './../../global_ui/logo';
+import Logo from './../../global_ui/logo'
+import Navbar from "../../global_ui/nav";
+import { AuthContext } from "../../context/auth/authProvider";
+import { logout } from "../../context/auth/authOperations";
 
 function RequesterHomeScreen() {   
     const history =useHistory()
+    const {dispatch} = useContext(AuthContext)
 
-    const logoutHandler=()=>{
-        localStorage.clear();
-        history.push('./')
-    }
+    // const routehandler=(actionType)=>{
+    //   history.push({actionType});     
+    // }
 
-    const routehandler=(actionType)=>{
-      history.push({actionType});     
-    }
-    return (
-      <div>
-
-        <nav 
-        style={{
-            backgroundColor:'#79cbc5',
-            width:'100%',
-            height:'60px',
-            textAlign:'center',
-            display:'grid',
-            alignContent:'center',
-            alignItems:'center',
-            fontSize:'20px',
-            color:'white'
-        }}>
-            <h3>
-                  HOME
-            </h3>
-        </nav> 
-
-        <section className="container">
-
-          <div style={{ margin:'10px auto'}}>
-            <Logo/>
-          </div>
-          
-          <div className="content">
-
-            <button className="btn" onClick={()=>routehandler('placenewrequest')}>
-              <span className="btn__icon">
+  
+      return (
+        <div className="rider-home-container">
+        <Navbar title="HOME" />
+        <div className="riderhome">
+    
+        <Logo />
+              <button className="rider-home-btn">
                 <i className="fas fa-plus"></i>
-              </span>
-              <span className="btn__text">Place New Request</span>
-            </button>        
-          
-            <button className="btn" onClick={()=>routehandler('myrequests')}>
-              <span className="btn__icon">
-                <i className="fas fa-list-ul"></i>
-              </span>
-              <span className="btn__text">My Requests</span>
-            </button>        
-          
-            <button className="btn" onClick={()=>routehandler('myprofile')}>
-                <span className="btn__icon">
-                  <i className="fas fa-user"></i>
-                </span>
-                <span className="btn__text">My Profile</span>
-            </button>          
-
-            <button className="btn" onClick={logoutHandler}>
-                <span className="btn__icon">
-                <i className="fas fa-sign-out-alt"></i>
-                </span>
-                <span className="btn__text">LogOut</span>
-            </button>           
-
+                Place new Request
+              </button>
+              <button className="rider-home-btn">
+                <i className="fas fa-exclamation-circle"></i>
+                My Requests
+              </button>
+              
+              <button className="rider-home-btn">
+                <i className="fas fa-user"></i>
+                My Profile
+              </button>
+              <button onClick={()=>{logout(dispatch); history.push('/')}}  className="rider-home-btn">
+                <i className="fas fa-arrow-right"></i>
+                Logout
+              </button>
           </div>
-        </section>
-      </div>        
-    );       
+    </div>
+      );  
+    
 }
 
 export default RequesterHomeScreen;

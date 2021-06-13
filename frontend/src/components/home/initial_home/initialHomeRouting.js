@@ -9,8 +9,8 @@ import Login from "../../authentication/ui/login/login";
 import VerifyOTP from "../../authentication/ui/otp/verify_otp";
 import RegisterScreen from "../../authentication/ui/register/register_form";
 import { AuthContext } from "../../context/auth/authProvider";
-import RiderHome from "../Rider/RiderHome";
 import RequesterHomeScreen from "../Requester/RequesterHomeScreen";
+import RiderHome from "../rider/RiderHome";
 import InitialHome from "./initial_home";
 const InitialHomeRouting = () => {
 
