@@ -12,7 +12,7 @@ const schema = new mongoose.Schema({
 		type: String,
 		default: 'PENDING',
 		uppercase:true,
-		enum: ['PENDING', 'UNDER DELIVERY', 'DELIVERED', 'CANCELLED', 'RIDER CONFIRMED']
+		enum: ['PENDING', 'UNDER DELIVERY', 'DELIVERED', 'CANCELLED BY REQUESTER', 'RIDER CONFIRMED', 'CANCELLED BY RIDER']
 		},
 	
 	requestType:{
