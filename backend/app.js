@@ -24,6 +24,7 @@ mongoose.connection.once('open',function(){
 //Import routers here.
 const authRouter = require("./routes/authentication/authRouter");
 const requesterRouter = require("./routes/requester/requesterRouter");
+const riderRouter = require("./routes/rider/riderRouter");
 
 app.get("/", (req, res)=>{
 	res.send("Hey I am alive!");
@@ -34,6 +35,7 @@ app.get("/", (req, res)=>{
 
 app.use("/auth", authRouter);
 app.use("/requester", requesterRouter);
+app.use("/rider", riderRouter);
 
 //This call starts the periodic cleanup of the TEMP_OTP.json file, which is handled by the clearAllExpiredOTPs.js script.
 clearExpiredOTP();
