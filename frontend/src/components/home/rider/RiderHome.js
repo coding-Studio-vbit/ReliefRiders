@@ -25,7 +25,7 @@ function RiderHome() {
           Current Request
         </button>
         <button className="rider-home-btn">
-        <i className="fas fa-list-ul"></i>
+          <i className="fas fa-align-justify"></i>
           My Deliveries
         </button>
         <button className="rider-home-btn">
@@ -39,7 +39,7 @@ function RiderHome() {
           }}
           className="rider-home-btn"
         >
-          <i className="fas fa-sign-out-alt"></i>
+          <i className="fas fa-arrow-right"></i>
           Logout
         </button>
       </div>
