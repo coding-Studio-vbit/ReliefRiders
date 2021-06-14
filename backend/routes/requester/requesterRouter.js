@@ -44,8 +44,11 @@ router.get("/confirmRequest/:requestID", (req, res)=>{
 				throw {status: "failure", message: "Cannot confirm this request, status is not RIDER CONFIRMED"};
 			
 			doc.requestStatus = "DELIVERED";
-			res.send({status: "success", message: "Confirm Successful"});
+			return doc.save()
 		}
+	})
+	.then(()=>{
+		res.send({status: "success", message: "Confirm Successful"});
 	})
 	.catch(error=>{
 		console.log(error);
@@ -79,8 +82,11 @@ router.get("/cancelRequest/:requestID", (req, res)=>{
 				throw {status: "failure", message: "Cannot confirm this request, status is not PENDING"};
 			
 			doc.requestStatus = "CANCELLED";
-			res.send({status: "success", message: "Cancel Successful"});
+			return doc.save();
 		}
+	})
+	.then(()=>{
+		res.send({status: "success", message: "Cancel Successful"});
 	})
 	.catch(error=>{
 		console.log(error);

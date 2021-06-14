@@ -22,18 +22,11 @@ const schema = new mongoose.Schema({
 		enum: ['GENERAL', 'P&D']
 		},
 	
-	itemsListType:{
-		required: [true, 'request type is required.'],
-		type: String,
-		uppercase:true,
-		enum: ['IMAGE', 'LIST']
-		},
-	
 	itemsListImages: [String],
 	
 	itemsListList:[{
 		itemName: {type: String},
-		quantity: {type: Number}
+		quantity: {type: String} //Yeah String only. Thank revanth. cuz units are different for things. The world is weird and the units are weirder.
 	}],
 	
 	itemCategories: [
