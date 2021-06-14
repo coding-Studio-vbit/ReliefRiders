@@ -57,15 +57,13 @@ const schema = new mongoose.Schema({
 		coordinates: [Number]
 	},
 
-
 	//Pickup location address MUST be there if the request is P&D and pickup coordinates have not been specified.
 	pickupLocationAddress:{
-		required: function(){return (this.requestType == "P&D" && !this.pickupLocationCoordinates)},
 		addressLine: { type: String, maxLength: 240},
 		area: String,
 		city: String,
 		pincode:{type:String, minLength: 6, maxLength:6},
-	}
+	},
 
 	dropLocationCoordinates:{
 		type: {type: String, default: "Point"},
@@ -74,7 +72,6 @@ const schema = new mongoose.Schema({
 
 	//drop location address MUST be there if the drop coordinates have not been specified.
 	dropLocationAddress:{
-		required: function(){return !(this.dropLocationCoordinates)},
 		addressLine: { type: String, maxLength: 240},
 		area: String,
 		city: String,
