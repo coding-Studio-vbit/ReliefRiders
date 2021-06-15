@@ -2,7 +2,7 @@ import React from 'react'
 import './overlayStyles.css'
 import { useState } from 'react';
 
-import DeliveryStatus from './DeliveryStatus/DeliveryStatus';
+import DeliveryStatus from './overlay';
 
 function temp() {
     const cancel="cancel";
@@ -15,7 +15,17 @@ function temp() {
     const [showCancelOverlay, setShowCancelOverlay] = useState('none');
     //status flag for cancel overlay    
     const [showConfirmOverlay, setShowConfirmOverlay] = useState('none');
-    //status flag for confirm overlay    
+    //status flag for confirm overlay   
+    
+    const [showDialog,setDialog]=useState('none');
+
+    const dialog_function=()=>{   
+        console.log("Null ");   
+        if(showDialog=='block')
+        setDialog('none');
+        else if(showDialog=='none')
+        setDialog('block')
+    }
 
     const showOverlay=(dialogType)=>{
         if(dialogType==cancel){
@@ -51,25 +61,37 @@ function temp() {
 
             <button onClick={()=>showOverlay(cancel)}>Cancel Delivery</button>  
             <button onClick={()=>showOverlay(confirm)}>Confirm Delivery</button> 
+            <button onClick={()=>dialog_function()}> Hell</button>
 
             </div>
 
-            <DeliveryStatus 
+            {/* <DeliveryStatus 
             display={showCancelOverlay} 
             showOverlay={showOverlay}
             type={cancel}
             z_index="1"
             deliveryOperation={deliveryOperation}
-            />
+            /> */}
 
             <DeliveryStatus 
+            dialogType="confirmation"
+            message="Are you sure you want to confirm?"
+            closeOverlay={ showOverlay}
             display={showConfirmOverlay} 
-            showOverlay={showOverlay}
-            type="confirm"
+            type={confirm}
             z_index="2"
-            deliveryOperation={deliveryOperation}
-            />                               
-                   
+            operation={deliveryOperation}
+            />  
+
+            <DeliveryStatus 
+            dialogType="error"
+            message="Authentication Error"
+            closeOverlay={ dialog_function}
+            display={showDialog} 
+            z_index="2"
+            />  
+
+               
         </div>
     )
 }
