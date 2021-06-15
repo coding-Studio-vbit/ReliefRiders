@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import {Link,useHistory} from 'react-router-dom';
 import { AuthContext } from "../../context/auth/authProvider";
+import InputField from "../../../global_ui/input";
 import Navbar from "../../global_ui/nav";
 const PinAddress = () => {
-    const { dispatch, loading ,error} = useContext(AuthContext);
-    const [details, setdetails] = useState({
+    const { loading,error} = useContext(AuthContext);
+    
+    const [location, setlocation] = useState({
       address: "",
       city: "",
       pincode: "",
@@ -21,29 +23,7 @@ const PinAddress = () => {
           ...errors,
           showErrors: true,
         });
-        /*{if (!errors.address && !errors.city && !errors.pincode) {
-            let someUser
-            let res;
-            if (isRequester) {
-             someUser = new Requester(details.number, details.name, details.yearOfBirth)
-             res =   registerRequester(dispatch, someUser)
-          } else {
-            someUser = new Rider(details.number, details.name)
-             res =   registerRider(dispatch, someUser)
-          }
-          res.then((r)=>{
-          if(r==1)
-            route.push("/verify", {
-                isRequester: isRequester,
-                authType: "register",
-                user:someUser
-              });
-          else{
-            console.log(error);
-            toggle()
-          }
-          })
-        }}*/
+        
       }
       const _handleAddress = (e) => {
         const address = e.target.value;
@@ -67,8 +47,8 @@ const PinAddress = () => {
             address: "",
           });
         }
-        setdetails({
-          ...details,
+        setlocation({
+          ...location,
           address: e.target.value,
         });
       };
@@ -87,8 +67,8 @@ const PinAddress = () => {
               city: "",
             });
           }
-          setdetails({
-            ...details,
+          setlocation({
+            ...location,
             city: e.target.value,
           });
       };
@@ -114,8 +94,8 @@ const PinAddress = () => {
             pincode: "",
           });
         }
-        setdetails({
-          ...details,
+        setlocation({
+          ...location,
           pincode: e.target.value,
         });
       };
@@ -126,12 +106,12 @@ return(
     <form className="address_form" onSubmit={submit}>
         <div>
         <p style={{margin:0.5+'em', textAlign: "center", fontSize: 1 + "em" }}>
-        Choose {isPickUp ? "Pickup" : "Drop"} Location:
+        Choose PickUP Location:
       </p>
-        <TextArea
+        <InputField
         rows="5" 
         cols="33"
-        value={details.address}
+        value={location.address}
         type="text"
         error={errors.showErrors ? errors.address : ""}
         onChange={_handleAddress}
@@ -139,7 +119,7 @@ return(
       />
       <div className="sec-row">
         <InputField
-          value={details.city}
+          value={location.city}
           error={errors.showErrors ? errors.city : ""}
           onChange={_handleCity}
           type="text"
@@ -147,7 +127,7 @@ return(
         />
         
           <InputField
-            value={details.pincode}
+            value={location.pincode}
             error={errors.showErrors ? errors.pincode : ""}
             onChange={_handlePincode}
             type="number"
@@ -158,10 +138,7 @@ return(
           <br/>
           <p style={{margin:0.7+'em', textAlign: "center", fontSize: 0.5 + "em" }}>or</p>
 
-      </div>
-
-    
-    {loading ? (
+          {loading ? (
         <Spinner radius="2" />
       ) : (
         <button
@@ -173,16 +150,15 @@ return(
           Choose Location
         </button>
       )}
+      </div>
+
       <div className="req-confirm">
 
-        <button className="btn-proceed">
-          <Link
-            to={{
-              pathname:"/",
-            }}
-          >
-            Proceed
-          </Link>
+        <button className="btn-proceed"
+        type="submit"
+        onClick={(e) => handleProceed(e)}
+        value="Proceed">
+        Proceed
         </button>
       </div>
       </form>
