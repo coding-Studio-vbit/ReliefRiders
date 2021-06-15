@@ -1,4 +1,5 @@
 /*
+Author: Sai Kiran
 	This script resets the TEMP_OTP.json file.
 */
 
