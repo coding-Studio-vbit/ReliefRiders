@@ -12,10 +12,10 @@ const checkIsRider = (req, res, next)=>{
 		res.json({status:"failure", message: "You are not a rider."});
 }
 
-router.use(tokenAuth);
+router.use(verifyToken);
 router.use(checkIsRider);
 
-router.get("/profile", verifyToken,  function(req, res)  {
+router.get("/profile",function(req, res)  {
   rider.findOne({phoneNumber: req.user.phoneNumber},{phoneNumber:1, name: 1, defaultAddress: 1}, function (err, result) {
   if (err) {
     res.json({
@@ -35,7 +35,7 @@ router.get("/profile", verifyToken,  function(req, res)  {
 })
 
 
-router.put("/profile", verifyToken, function(req,res) {
+router.put("/profile",function(req,res) {
   rider.findOneAndUpdate({phoneNumber: req.user.phoneNumber }, {$set:{name:req.body.name}}, {new: true}, function(err, doc) {
     if (err) {
       res.json({
