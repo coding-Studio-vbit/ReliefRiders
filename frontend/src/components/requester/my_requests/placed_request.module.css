@@ -11,20 +11,11 @@
 }
 
 .container p:first-child{
-    font-size: clamp(1.5rem,2vw,2.5rem)
+    font-size: clamp(1.4rem,1.7vw,2.5rem)
 }
 
-h3{
-    margin: 0px;
-    font-size: clamp(1.2rem,2vw,1.5rem)
-}
-nav{
-    /* background: var(--gradient); */
-    background: palegreen;
-    line-height: 1.5;
-    margin-bottom: 0.65em;
 
-}
+
 p{
     margin:0px;
 }
@@ -88,9 +79,7 @@ p{
     justify-items: center;
     grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
 } */
-.irItems{
-    font-size: 1em;
-}
+
 
 .imagesContainer  {
     display: grid;
@@ -101,10 +90,39 @@ p{
 }
 
 
-img{
+.singleImage img{
     height: auto;
     box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.137);
 
     border-radius: 8px;
     width: clamp(160px,50%,200px);
+}
+
+.buttonsContainer {
+    display: flex;
+    justify-content: space-around;
+    width: min(100%,350px);
+}
+.buttonsContainer button{
+    color: black;
+    padding: 0.6em;
+
+    cursor: pointer;
+    box-shadow: 0 1px 12px rgba(0, 0, 0, 0.263);
+    transition: transform 70ms, outline 70ms;
+}
+.buttonsContainer button:hover , button:focus    {
+    transform: scale(1.02);
+    outline: 2px solid black;
+    border-radius: 4px;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.263);
+
+    
+}
+.buttonsContainer button:first-child{
+    background: rgb(253, 129, 129); 
+}
+.buttonsContainer button:last-child{
+    background: palegreen;
+    
 }

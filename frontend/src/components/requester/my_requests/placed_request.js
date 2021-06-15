@@ -11,6 +11,9 @@ const PlacedRequest = () => {
     itemsListImages: [
       // "https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
     ],
+    riderID:{
+      name:"Someone"
+    },
     itemsListList: [
       {
         itemName: "Tomato",
@@ -24,10 +27,10 @@ const PlacedRequest = () => {
     itemCategories: ["MEDICINES", "MISC"],
     remarks: "Something here",
     billsImageList: [
-      "https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+      // "https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
     ],
     rideImages: [
-      "https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+      // "https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
     ],
     pickupLocationAddress: {
       addressLine: "Some place far away",
@@ -54,14 +57,15 @@ const PlacedRequest = () => {
   //Extra area property in address ? what?
   return (
     <>
-      <Navbar title="Order Details" />
+      <Navbar style={{background:"palegreen",marginBottom:0.75+'em'}}  title="Order Details" />
       <div className={styles.container}>
         <p>Request #{request.requesterID}</p>
         <span>
           Order Status:{" "}
           <span style={statusStyle}> {request.requestStatus}</span>
         </span>
-        {request.requestStatus[0] === "D" && <p>Order deliver</p>}
+
+        {request.requestStatus[0] === "D" && <p>Order delivered by {request.riderID.name}</p>}
         <Address
           pickup={request.pickupLocationAddress}
           drop={request.dropLocationAddress}
@@ -85,7 +89,10 @@ const PlacedRequest = () => {
             images = {request.rideImages}
           />
           </>
+
         )}
+
+        { request.requestStatus[0] != "D" && <BottomButton/>}
         
       </div>
     </>
@@ -93,6 +100,15 @@ const PlacedRequest = () => {
 };
 
 export default PlacedRequest;
+
+const BottomButton = () => {
+  return ( <div className={styles.buttonsContainer} >
+    <button>Cancel Request</button>
+    <button>Confirm Request</button>
+
+  </div> );
+}
+ 
 
 const ItemsRequestedImagesAndOthers = ({bills, images ,items=[]}) => {
   return (
