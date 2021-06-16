@@ -7,7 +7,6 @@ import {
   Route,
 } from "react-router-dom";
 import InitialHomeRouting from './components/home/initial_home/initialHomeRouting';
-import MyRequests from './components/requester/my_requests/MyRequests';
 import PlacedRequest from './components/requester/my_requests/placed_request';
 
 function App() {

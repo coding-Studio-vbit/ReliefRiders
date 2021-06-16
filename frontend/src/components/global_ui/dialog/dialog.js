@@ -56,7 +56,7 @@ const Dialog = ({
                 className="modal-close-button"
                 onClick={() => onOK()}
               >
-                Okay
+                Okay!
               </button>
             </div>
           </div>
