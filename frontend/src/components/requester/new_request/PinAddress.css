@@ -1,0 +1,41 @@
+.requester_choose_address {
+  justify-items: center;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  display: grid;
+
+  gap: min(15%, 4rem);
+  padding: 1em 1em;
+}
+.address_form {
+  display: grid;
+  height: 100vh;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+}
+.locationbtn {
+  padding: 0.6em;
+  font-weight: bold;
+  width: fit-content;
+  align-self: flex-start;
+  background-color: white;
+  border-color: lightpink;
+  color: black;
+  place-self: center;
+}
+.btn-proceed {
+  padding: 0.6em;
+  color: white;
+  background-color: #00cf15;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1em;
+}
+.city-pincode {
+  margin-top: 1rem;
+  margin-bottom: min(10%, 100px);
+  display: grid;
+  grid-auto-flow: column;
+  gap: 5%;
+}

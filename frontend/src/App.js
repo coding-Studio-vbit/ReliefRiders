@@ -7,6 +7,7 @@ import {
   Route,
 } from "react-router-dom";
 import InitialHomeRouting from './components/home/initial_home/initialHomeRouting';
+import PinAddress from './components/requester/new_request/PinAddress';
 
 function App() {
   //todo
@@ -17,8 +18,8 @@ function App() {
         <Router>
           <Switch>
           
-            <Route path="/about">
-              About
+            <Route path="/">
+              <PinAddress />
           </Route>
             <Route path="/">
               <InitialHomeRouting />

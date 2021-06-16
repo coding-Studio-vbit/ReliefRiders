@@ -1,10 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
-import {Link,useHistory} from 'react-router-dom';
+import React, { useContext, useState } from "react";
+import Spinner from "../../global_ui/spinner";
 import { AuthContext } from "../../context/auth/authProvider";
-import InputField from "../../../global_ui/input";
+import InputField from "../../global_ui/input";
 import Navbar from "../../global_ui/nav";
+import "./PinAddress.css";
+
 const PinAddress = () => {
-    const { loading,error} = useContext(AuthContext);
+    const { loading} = useContext(AuthContext);
     
     const [location, setlocation] = useState({
       address: "",
@@ -101,26 +103,24 @@ const PinAddress = () => {
       };
     
 return( 
-    <div className="requester-choose-address">
+    <div className="requester_choose_address">
         <Navbar title="Choose Location" />
     <form className="address_form" onSubmit={submit}>
         <div>
-        <p style={{margin:0.5+'em', textAlign: "center", fontSize: 1 + "em" }}>
+        <p style={{margin:0.1+'em', textAlign: "center", fontSize: 1 + "em" }}>
         Choose PickUP Location:
       </p>
         <InputField
-        rows="5" 
-        cols="33"
         value={location.address}
         type="text"
-        error={errors.showErrors ? errors.address : ""}
+        //error={errors.showErrors ? errors.address : ""}
         onChange={_handleAddress}
         placeholder="Enter Address"
       />
-      <div className="sec-row">
+      <div className="city-pincode">
         <InputField
           value={location.city}
-          error={errors.showErrors ? errors.city : ""}
+          //error={errors.showErrors ? errors.city : ""}
           onChange={_handleCity}
           type="text"
           placeholder="City"
@@ -128,25 +128,25 @@ return(
         
           <InputField
             value={location.pincode}
-            error={errors.showErrors ? errors.pincode : ""}
+            //error={errors.showErrors ? errors.pincode : ""}
             onChange={_handlePincode}
             type="number"
             placeholder="Pincode"
           />
       </div>
-          <br/>
-          <br/>
-          <p style={{margin:0.7+'em', textAlign: "center", fontSize: 0.5 + "em" }}>or</p>
+
+          <p style={{margin:1+'em', textAlign: "center", fontSize: 1 + "em" }}>or</p>
 
           {loading ? (
         <Spinner radius="2" />
       ) : (
         <button
           type="button"
-          onClick={(e) => handleLocation(e)}
+          //onClick={(e) => handleLocation(e)}
           value="Choose Location"
           className="locationbtn"
         >
+          <i className="fas fa-search-location"></i>
           Choose Location
         </button>
       )}
@@ -156,7 +156,7 @@ return(
 
         <button className="btn-proceed"
         type="submit"
-        onClick={(e) => handleProceed(e)}
+        //onClick={(e) => handleProceed(e)}
         value="Proceed">
         Proceed
         </button>
