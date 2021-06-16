@@ -1,7 +1,7 @@
 .modal-wrapper {
   display: grid;
   place-content: center;
-  background: rgba(0, 0, 0, 0.096);
+  background: rgba(0, 0, 0, 0.130);
   position: fixed;
   top: 0;
   left: 0;
@@ -17,7 +17,7 @@
   justify-self: center;
   margin: auto 0;
  
-  width: min(100%,400px);
+  width: min(90%,400px);
   box-shadow: 0 20px 20px rgba(0, 0, 0, 0.185);
   gap: 1em;
   align-content: center;

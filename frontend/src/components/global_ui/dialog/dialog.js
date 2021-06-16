@@ -48,7 +48,7 @@ const Dialog = ({
 
               {confirmDialog && (
                 <button className="modal-close-button" onClick={onCancel}>
-                  CANCEL
+                  Cancel
                 </button>
               )}
               <button
@@ -56,7 +56,7 @@ const Dialog = ({
                 className="modal-close-button"
                 onClick={() => onOK()}
               >
-                OKAY
+                Okay!
               </button>
             </div>
           </div>
