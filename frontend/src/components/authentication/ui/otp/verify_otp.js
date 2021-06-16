@@ -6,7 +6,7 @@ import { AuthContext } from '../../../context/auth/authProvider';
 import Spinner from '../../../global_ui/spinner';
 import { useHistory, useLocation } from 'react-router';
 import Logo from '../../../global_ui/logo';
-import { verify } from '../../../context/auth/authOperations';
+import { registerRequester, registerRider, requestOTPLogin, verify } from '../../../context/auth/authOperations';
 import useModal from '../error_dialog/useerr';
 import Modal from '../error_dialog/err_dialog';
 const VerifyOTP = () => {
@@ -65,6 +65,17 @@ const VerifyOTP = () => {
             }
         )
     }
+    const resendOTP = () => {
+        if(authType=="login"){
+            requestOTPLogin(dispatch,user.mobile,isRequester?"requester":"rider");
+        }else{
+            if(isRequester){
+                registerRequester(dispatch,user)
+            }else{
+                registerRider(dispatch,user)
+            }
+        }
+    }
 
     return (
         <div className="otp-container">
@@ -76,7 +87,7 @@ const VerifyOTP = () => {
       />
             <span style={{ textAlign: 'center', marginBottom: 0.3 + 'em' }} >You will get an OTP via SMS</span>
             <InputField error={errorMsg.showError ? errorMsg.error : ""} textAlign="center" placeholder="Enter OTP" type="number" onChange={(e) => validateOTP(e.target.value)} />
-            <span>Still haven't received the OTP ? <a onClick={() => console.log("fff")} className="send-otp-btn" >Resend OTP</a> </span>
+            <span>Still haven't received the OTP ? <a onClick={resendOTP} className="send-otp-btn" >Resend OTP</a> </span>
             <div style={{ height: 5 + 'rem' }} ></div>
             {loading ?
                 <Spinner radius="2" /> : <button onClick={submit} className="verify-btn" >Verify</button>}
