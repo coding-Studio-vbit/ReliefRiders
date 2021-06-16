@@ -7,23 +7,26 @@ import {
   Route,
 } from "react-router-dom";
 import InitialHomeRouting from './components/home/initial_home/initialHomeRouting';
+import MyRequests from './components/requester/my_requests/MyRequests';
 
 function App() {
   //todo
-  
+
   return (
     <div className="App">
       <AuthProvider>
         <Router>
           <Switch>
-          
-            <Route path="/about">
+
+            <Route exact path="/about">
               About
-          </Route>
-            <Route path="/">
+            </Route>
+            <Route exact path="/">
               <InitialHomeRouting />
             </Route>
-            
+            <Route exact path="/myrequests">
+              <MyRequests/>
+            </Route>
           </Switch>
         </Router>
 
@@ -31,7 +34,7 @@ function App() {
 
 
 
-      
+
     </div>
   );
 }
