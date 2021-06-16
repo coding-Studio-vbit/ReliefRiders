@@ -2,6 +2,10 @@ import React from "react";
 // import { useLocation } from 'react-router';
 import Navbar from "../../global_ui/nav";
 import styles from "./placed_request.module.css";
+/**
+ * NOT yet done.WIP
+ * @returns //TODO
+ */
 const PlacedRequest = () => {
   // const {state:{request}} = useLocation()
   const request = {
