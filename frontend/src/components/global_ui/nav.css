@@ -1,0 +1,15 @@
+
+.nav-bar {
+    width:'100%';
+            padding: 0.7em;
+            height:fit-content;
+            text-align:center;
+            letter-spacing:2px;
+            font-size: clamp(1.2rem,2vw,1.5rem);
+            color:'black';
+}
+.nav-bar h3{
+    
+        margin: 0px;
+    
+}
