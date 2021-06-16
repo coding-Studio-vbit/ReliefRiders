@@ -5,14 +5,11 @@ const Navbar = ({title}) => {
         
         style={{
             width:'100%',
-            height:'60px',
+            height:'fit-content',
             textAlign:'center',
             letterSpacing:2+'px',
             fontSize:1.3+'em',
-            color:'white',
-            alignContent: 'center',
-            display: 'grid',
-            backgroundColor: '#79cbc5'
+            color:'black'
         }}>
             <h3>
                   {title}
