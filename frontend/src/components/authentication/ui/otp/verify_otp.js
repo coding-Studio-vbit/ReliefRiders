@@ -12,15 +12,14 @@ import {
   requestOTPLogin,
   verify,
 } from "../../../context/auth/authOperations";
-import useModal from "../error_dialog/useerr";
-import Modal from "../error_dialog/err_dialog";
+import Dialog from "../../../global_ui/error_dialog/dialog";
 const VerifyOTP = () => {
   const [otp, setOtp] = useState("");
   const [errorMsg, setError] = useState({
     error: "Please enter OTP",
     showError: false,
   });
-  const { isShowing, toggle } = useModal();
+  const [isShowing, toggle ] = useState(false);
   const route = useHistory();
   const {
     state: { isRequester, authType, user },
@@ -43,7 +42,7 @@ const VerifyOTP = () => {
 
           route.push(`/home/${isRequester ? "requester" : "rider"}`);
         } else {
-          toggle();
+          toggle(true);
         }
       });
     }
@@ -89,7 +88,7 @@ const VerifyOTP = () => {
   return (
     <div className="otp-container">
       <Logo></Logo>
-      <Modal isShowing={isShowing} hide={toggle} msg={error} />
+      <Dialog  isShowing={isShowing} onOK={()=>{toggle(false)}} msg={error} />
       <span style={{ textAlign: "center", marginBottom: 0.3 + "em" }}>
         You will get an OTP via SMS
       </span>

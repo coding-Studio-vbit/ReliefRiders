@@ -2,16 +2,18 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../context/auth/authProvider";
 import InputField from "../../../global_ui/input";
 import "./register_form.css";
-import Requester from '../../../../models/requester'
-import Rider from '../../../../models/rider'
+import Requester from "../../../../models/requester";
+import Rider from "../../../../models/rider";
 import Spinner from "../../../global_ui/spinner";
-import { registerRequester, registerRider } from '../../../context/auth/authOperations';
-import useModal from "../error_dialog/useerr";
-import Modal from "../error_dialog/err_dialog";
+import {
+  registerRequester,
+  registerRider,
+} from "../../../context/auth/authOperations";
+import Dialog from "../../../global_ui/error_dialog/dialog";
 import Logo from "../../../global_ui/logo";
 import { useHistory, useParams } from "react-router";
 const RegisterScreen = () => {
-  const { dispatch, loading ,error} = useContext(AuthContext);
+  const { dispatch, loading, error } = useContext(AuthContext);
   const [details, setdetails] = useState({
     number: "",
     name: "",
@@ -19,10 +21,10 @@ const RegisterScreen = () => {
   });
   const { user } = useParams();
   let isRequester = user === "rider" ? false : true;
-  const {isShowing, toggle} = useModal();
+  const [isShowing, toggle] = useState(false);
 
   const route = useHistory();
- 
+
   useEffect(() => {
     if (!isRequester) {
       dispatch({
@@ -38,34 +40,38 @@ const RegisterScreen = () => {
     yearOfBirth: "",
   });
 
-   function submit(event) {
+  function submit(event) {
     event.preventDefault();
     setErrors({
       ...errors,
       showErrors: true,
     });
     if (!errors.number && !errors.name && !errors.yearOfBirth) {
-        let someUser
-        let res;
-        if (isRequester) {
-         someUser = new Requester(details.number, details.name, details.yearOfBirth)
-         res =   registerRequester(dispatch, someUser)
+      let someUser;
+      let res;
+      if (isRequester) {
+        someUser = new Requester(
+          details.number,
+          details.name,
+          details.yearOfBirth
+        );
+        res = registerRequester(dispatch, someUser);
       } else {
-        someUser = new Rider(details.number, details.name)
-         res =   registerRider(dispatch, someUser)
+        someUser = new Rider(details.number, details.name);
+        res = registerRider(dispatch, someUser);
       }
-      res.then((r)=>{
-      if(r==1)
-        route.push("/verify", {
+      res.then((r) => {
+        if (r == 1)
+          route.push("/verify", {
             isRequester: isRequester,
             authType: "register",
-            user:someUser
+            user: someUser,
           });
-      else{
-        console.log(error);
-        toggle()
-      }
-      })
+        else {
+          console.log(error);
+          toggle(true);
+        }
+      });
     }
   }
 
@@ -171,48 +177,55 @@ const RegisterScreen = () => {
 
   return (
     <form className="form" onSubmit={submit}>
-         
-    <Modal
+      <Dialog
+        
         isShowing={isShowing}
-        hide={toggle}
+        onOK={() => {
+          toggle(false);
+        }}
         msg={error}
       />
+
       <div>
-      <Logo />
-      <p style={{margin:0.5+'em', textAlign: "center", fontSize: 2 + "em" }}>
-        {isRequester ? "Requester" : "Rider"} Register
-      </p>
-      
+        <Logo />
+        <p
+          style={{
+            margin: 0.5 + "em",
+            textAlign: "center",
+            fontSize: 2 + "em",
+          }}
+        >
+          {isRequester ? "Requester" : "Rider"} Register
+        </p>
 
-      <InputField
-        value={details.number}
-        type="number"
-        error={errors.showErrors ? errors.number : ""}
-        onChange={_handleNumber}
-        maxLength="10"
-        placeholder="Enter Phone number"
-      />
-      <div className="sec-row">
         <InputField
-          value={details.name}
-          error={errors.showErrors ? errors.name : ""}
-          onChange={_handleName}
-          type="text"
-          placeholder="Enter Name"
+          value={details.number}
+          type="number"
+          error={errors.showErrors ? errors.number : ""}
+          onChange={_handleNumber}
+          maxLength="10"
+          placeholder="Enter Phone number"
         />
-        {isRequester && (
+        <div className="sec-row">
           <InputField
-            value={details.yearOfBirth}
-            error={errors.showErrors ? errors.yearOfBirth : ""}
-            onChange={_handleYear}
-            type="number"
-            placeholder="Year Of Birth"
+            value={details.name}
+            error={errors.showErrors ? errors.name : ""}
+            onChange={_handleName}
+            type="text"
+            placeholder="Enter Name"
           />
-        )}
-      </div>
+          {isRequester && (
+            <InputField
+              value={details.yearOfBirth}
+              error={errors.showErrors ? errors.yearOfBirth : ""}
+              onChange={_handleYear}
+              type="number"
+              placeholder="Year Of Birth"
+            />
+          )}
+        </div>
       </div>
 
-      
       {loading ? (
         <Spinner radius="2" />
       ) : (
