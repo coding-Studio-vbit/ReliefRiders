@@ -11,7 +11,7 @@ import PlacedRequest from './components/requester/my_requests/placed_request';
 
 function App() {
   //todo
-  
+
   return (
     <div className="App">
       <AuthProvider>
@@ -24,15 +24,10 @@ function App() {
             <Route path="/">
               <InitialHomeRouting />
             </Route>
-            
           </Switch>
         </Router>
 
       </AuthProvider>
-
-
-
-      
     </div>
   );
 }

@@ -1,6 +1,8 @@
 import React from 'react';
 import { Route, Switch } from 'react-router';
 import RequesterHomeScreen from './RequesterHomeScreen';
+import MyRequests from '../../requester/my_requests/MyRequests';
+
 const RequesterHomeRoutes = () => {
     return ( 
         <Switch>
@@ -8,7 +10,7 @@ const RequesterHomeRoutes = () => {
                 <RequesterHomeScreen/>
             </Route>
             <Route path="/my_requests" >
-                MyRequestsHere
+                <MyRequests/>
             </Route>
             <Route path="/new_request" >
                 NewRequestHere
