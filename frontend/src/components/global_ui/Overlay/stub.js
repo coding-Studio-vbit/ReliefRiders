@@ -65,13 +65,14 @@ function temp() {
 
             </div>
 
-            {/* <DeliveryStatus 
+            <DeliveryStatus 
+            dialogType="confirmation"
+            message="Are you sure you want to cancel?"
+            closeOverlay={showOverlay}
             display={showCancelOverlay} 
-            showOverlay={showOverlay}
             type={cancel}
-            z_index="1"
-            deliveryOperation={deliveryOperation}
-            /> */}
+            operation={deliveryOperation}
+            />
 
             <DeliveryStatus 
             dialogType="confirmation"
@@ -79,7 +80,6 @@ function temp() {
             closeOverlay={ showOverlay}
             display={showConfirmOverlay} 
             type={confirm}
-            z_index="2"
             operation={deliveryOperation}
             />  
 
@@ -88,7 +88,6 @@ function temp() {
             message="Authentication Error"
             closeOverlay={ dialog_function}
             display={showDialog} 
-            z_index="2"
             />  
 
                

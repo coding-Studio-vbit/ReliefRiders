@@ -1,14 +1,15 @@
 import React from 'react';
 import './App.css'
-import { AuthProvider } from './components/context/auth/authProvider';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from "react-router-dom";
-import InitialHomeRouting from './components/home/initial_home/initialHomeRouting';
-import RequesterHomeScreen from './components/home/Requester/RequesterHomeScreen';
-import Temp from './components/requester/my_requests/temp';
+// import { AuthProvider } from './components/context/auth/authProvider';
+// import {
+//   BrowserRouter as Router,
+//   Switch,
+//   Route,
+// } from "react-router-dom";
+// import InitialHomeRouting from './components/home/initial_home/initialHomeRouting';
+// import RequesterHomeScreen from './components/home/Requester/RequesterHomeScreen';
+import Stub from './components/global_ui/Overlay/stub'
+
 
 function App() {
   
@@ -34,10 +35,7 @@ function App() {
         </Router>
 
       </AuthProvider> */}
-      <Temp/>
-
-
-
+      <Stub/>
       
     </div>
   );

@@ -1,5 +1,5 @@
 import React from 'react'
-import '../overlayStyles.css'
+import './overlayStyles.css'
 
 //for confirmation page 
 // type
@@ -12,7 +12,6 @@ function DelivaryStatus({
     closeOverlay,
     type,// used for confirmation type : cancel or confirm
     display,//css prop
-    z_index,//css prop
     operation//function to be performed on pressing yes
     }) {
     
@@ -20,12 +19,11 @@ function DelivaryStatus({
     const confirmation="confirmation";
 
     return (
-        <div className="overlay" style={{ display:`${display}`,zIndex:`${z_index}`}}>
+        <div className="overlay" style={{ display:`${display}`}}>
             <div className="overlay-content"> 
 
-                {/* Shows Dynamic Content for cancelling and confirmation */}
-            
-                <p>
+                {/* Shows Dynamic Content for cancelling and confirmation */}            
+                <p className="message">
                 {message}
                 </p>  
 
@@ -39,8 +37,8 @@ function DelivaryStatus({
                 }
                 {
                     (dialogType==error)&&
-                    <span>
-                        <button onClick={()=>closeOverlay()}>0K</button>
+                    <span >
+                        <button className="ok" onClick={()=>closeOverlay()}>OK</button>
                     </span>
                 }               
                 
