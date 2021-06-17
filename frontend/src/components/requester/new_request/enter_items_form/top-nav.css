@@ -1,0 +1,30 @@
+.top-banner {
+    display        : flex;
+    padding        : 0.5em 1em;
+    margin-bottom  : 0.5em;
+    width: 100%;
+    height         : max-content;
+    font-size: 0.9rem;
+    gap            : 1em;
+    background     : hsl(180, 70%, 45%);
+    font-weight    : bolder;
+    color          : white;
+}
+
+.nnn {
+    padding-left: 0.5em;
+    align-self  : center;
+    color: white;
+}
+
+.header {
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.faicon {
+    position: absolute;
+}
+
