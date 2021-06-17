@@ -1,41 +1,108 @@
-.requester_choose_address {
-  justify-items: center;
-  align-items: center;
+.chooseAddresspage {
+  height: 100%;
   text-align: center;
-  justify-content: center;
-  display: grid;
-
-  gap: min(15%, 4rem);
-  padding: 1em 1em;
 }
+
+.nav-bar {
+  background-color: #79cbc5;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 55px;
+}
+
+.nav-icon {
+  text-align: left;
+}
+
+.page-title {
+  display: grid;
+  margin: 0px auto;
+}
+
+.header-text {
+  margin: 2em auto;
+}
+
 .address_form {
   display: grid;
-  height: 100vh;
   justify-content: center;
   justify-items: center;
-  align-items: center;
 }
+
+.address_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-items: center;
+
+  padding: 2px;
+}
+
+.city-pincode {
+  margin: 1rem auto;
+  padding: 0px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  justify-items: center;
+  width: 500px;
+}
+
+.headField {
+  padding: 3px;
+  min-width: 495px;
+  min-height: 150px;
+  font-size: 1em;
+  border-radius: 4px;
+}
+
 .locationbtn {
-  padding: 0.6em;
+  padding: 0.5em 1em;
   font-weight: bold;
-  width: fit-content;
-  align-self: flex-start;
-  background-color: white;
-  border-color: lightpink;
+  outline: none;
+  border: 0.8px solid lightpink;
   color: black;
   place-self: center;
+  background-color: white;
 }
+
+.locationbtn:active {
+  outline: none;
+}
+
+#locationIcon {
+  justify-self: center;
+  margin: auto;
+  margin-left: 8px;
+}
+
 .btn-proceed {
+  margin-top: 1em;
   padding: 0.6em;
+  font-weight: bold;
   color: white;
-  background-color: #00cf15;
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: green;
   font-size: 1em;
+  display: block;
+  width: 100%;
+  border: none;
 }
-.city-pincode {
-  margin-top: 1rem;
-  margin-bottom: min(10%, 100px);
-  display: grid;
-  grid-auto-flow: column;
-  gap: 5%;
+
+@media screen and (max-width: 480px) {
+  .city-pincode {
+    width: 80%;
+  }
+  .headField {
+    min-width: 100%;
+  }
+  .textAreaContainer {
+    margin: auto 10%;
+  }
+  .btn-proceed {
+    width: 80%;
+    margin-top: 2rem;
+  }
 }

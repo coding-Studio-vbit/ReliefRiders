@@ -2,20 +2,19 @@ import React, { useContext, useState } from "react";
 import Spinner from "../../global_ui/spinner";
 import { AuthContext } from "../../context/auth/authProvider";
 import InputField from "../../global_ui/input";
-import Navbar from "../../global_ui/nav";
 import "./PinAddress.css";
-import { useHistory } from "react-router-dom";
+//import { useHistory } from "react-router-dom";
 
 
 const PinAddress = () => {
     const { loading} = useContext(AuthContext);
-    const route = useHistory();
+    //const route = useHistory();
     const [location, setlocation] = useState({
       address: "",
       city: "",
       pincode: "",
     });
-    const { state: { type }, } = useLocation();
+    //const { state: { type }, } = useLocation();
     const [errors, setErrors] = useState({
         address: "",
         showErrors: false,
@@ -105,86 +104,110 @@ const PinAddress = () => {
           pincode: e.target.value,
         });
       };
-      const _handleProceed = (e) =>{
-       if(type === "pickup")
-       {
-         console.log(type);
-       }  
-      else if(type === "drop")
-      {
-        console.log(type);
-      }
-      else 
-      {
-        console.log(type);
-      }
-      };
-      const _handleLocation = (e) =>{
+      // const _handleProceed = (e) =>{
+      //  if(type === "pickup")
+      //  {
+      //    console.log(type);
+      //  }  
+      // else if(type === "drop")
+      // {
+      //   console.log(type);
+      // }
+      // else 
+      // {
+      //   console.log(type);
+      // }
+      // };
+      // const _handleLocation = (e) =>{
 
-      };
+      // };
     
 return( 
-    <div className="requester_choose_address">
-        <Navbar title="Choose Location" />
-    <form className="address_form" onSubmit={submit}>
-        <div>
-          <p style={{margin:0.1+'em', textAlign: "center", fontSize: 1 + "em" }}>
-        Choose {type} Location:
-      </p>
+  <div className="chooseAddresspage">
+  <nav className="nav-bar">
+    <i className="fas fa-chevron-left nav-icon"></i>
+    <p className="page-title">New Request</p>
+  </nav>
 
-        <InputField
-        value={location.address}
-        type="text"
-        //error={errors.showErrors ? errors.address : ""}
-        onChange={_handleAddress}
-        placeholder="Enter Address"
-      />
-      <div className="city-pincode">
-        <InputField
-          value={location.city}
-          //error={errors.showErrors ? errors.city : ""}
-          onChange={_handleCity}
+  <div className="header-text">
+      Choose Pickup Location
+  </div>
+
+  <form className="address_form" onSubmit={submit}>
+      <div className="address_container" >
+          <div className="textAreaContainer">
+
+          <InputField        
+          fieldType="textarea"
+          textAreaClass="headField"
+          value={location.address}
           type="text"
-          placeholder="City"
-        />
-        
-          <InputField
-            value={location.pincode}
-            //error={errors.showErrors ? errors.pincode : ""}
-            onChange={_handlePincode}
-            type="number"
-            placeholder="Pincode"
+          //error={errors.showErrors ? errors.address : ""}
+          onChange={_handleAddress}
+          placeholder="Enter Address"
           />
-      </div>
+          </div>
 
-          <p style={{margin:1+'em', textAlign: "center", fontSize: 1 + "em" }}>or</p>
+          <div className="city-pincode"> 
+              <div className="childField">
+                <InputField
+                    value={location.city}
+                    //error={errors.showErrors ? errors.city : ""}
+                    onChange={_handleCity}
+                    type="text"
+                    placeholder="City"
+                  />    
+              </div> 
 
-          {loading ? (
-        <Spinner radius="2" />
-      ) : (
-        <button
-          type="button"
-          onClick={(e) => handleLocation(e)}
-          value="Choose Location"
-          className="locationbtn"
-        >
-          <i className="fas fa-search-location"></i>
-          Choose Location
-        </button>
-      )}
-      </div>
+              <div style={{ width:'20px'}}></div>
 
-      <div className="req-confirm">
+              <div className="childField">
+              <InputField          
+                value={location.pincode}
+                //error={errors.showErrors ? errors.pincode : ""}
+                onChange={_handlePincode}
+                type="number"
+                placeholder="Pincode"
+              />
+                    
+              </div> 
+              
 
-        <button className="btn-proceed"
+              
+              
+          </div>
+
+      </div>        
+
+      <p style={{margin:1+'em', textAlign: "center", fontSize: 1.2 + "em" }}>OR</p>
+
+      <div style={{marginBottom:1.3+'em'}}>
+      {
+          loading ? 
+          (<Spinner radius="2"/>) 
+          :(
+            <button
+              type="button"
+              //onClick={(e) => handleLocation(e)}
+              value="Choose Location"
+              className="locationbtn"
+            > 
+            <i className="fas fa-search-location" id="locationIcon"></i>                  
+              Choose Location
+            </button>
+          )
+      }                
+      </div>          
+
+      <button className="btn-proceed"
         type="submit"
-        onClick={(e) => handleProceed(e)}
+        //onClick={(e) => handleProceed(e)}
         value="Proceed">
         Proceed
-        </button>
-      </div>
-      </form>
-    </div>
+      </button>
+     
+  </form>
+</div>
     
 );
 };
