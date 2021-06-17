@@ -1,21 +1,21 @@
 import React from 'react';
 import './App.css'
-// import { AuthProvider } from './components/context/auth/authProvider';
-// import {
-//   BrowserRouter as Router,
-//   Switch,
-//   Route,
-// } from "react-router-dom";
-// import InitialHomeRouting from './components/home/initial_home/initialHomeRouting';
-// import RequesterHomeScreen from './components/home/Requester/RequesterHomeScreen';
-import Stub from './components/global_ui/Overlay/stub'
+import { AuthProvider } from './components/context/auth/authProvider';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
+import InitialHomeRouting from './components/home/initial_home/initialHomeRouting';
+import RequesterHomeScreen from './components/home/Requester/RequesterHomeScreen';
+// import Stub from './components/global_ui/Overlay/stub'
 
 
 function App() {
   
   return (
     <div className="App">
-      {/* <AuthProvider>
+      <AuthProvider>
         <Router>
           <Switch>
           <Route path="/home/requester">
@@ -34,8 +34,8 @@ function App() {
           </Switch>
         </Router>
 
-      </AuthProvider> */}
-      <Stub/>
+      </AuthProvider>
+      {/* <Stub/> */}
       
     </div>
   );
