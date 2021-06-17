@@ -174,6 +174,7 @@ async function _handle(dispatch, res,verify=false,user=null) {
     if (res.ok) {
         const data = await res.json()
         console.log(data);
+        console.log("hgg");
         if (data.status[0] === 's') {
             dispatch(
                 {
@@ -205,5 +206,6 @@ async function _handle(dispatch, res,verify=false,user=null) {
         
         
     }
+    console.log("some");
     return 0;
 }
