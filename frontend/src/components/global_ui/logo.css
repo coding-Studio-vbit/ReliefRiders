@@ -3,8 +3,8 @@
   display: flex;
   justify-content: center;
 }
-img{
+.logo-container img{
     
     height: auto;
-    width: clamp(200px,60vw,300px);
+    width: clamp(150px,50vw,250px);
 }

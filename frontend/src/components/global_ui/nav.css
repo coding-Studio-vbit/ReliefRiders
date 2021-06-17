@@ -1,15 +1,21 @@
-
 .nav-bar {
-    width:'100%';
-            padding: 0.7em;
-            height:fit-content;
-            text-align:center;
-            letter-spacing:2px;
-            font-size: clamp(1.2rem,2vw,1.5rem);
-            color:'black';
+  width: 100%;
+  padding: 0.7em;
+  display: flex;
+  align-items: center;
+  position: relative;
+  justify-content: center;
+  height: fit-content;
+  text-align: center;
+  letter-spacing: 2px;
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
 }
-.nav-bar h3{
-    
-        margin: 0px;
-    
+.nav-bar h3 {
+  margin: 0px;
+}
+.nav-bar i {
+  padding: 0.5em;
+  position: absolute;
+  left: 1rem;
+  margin: 0px;
 }

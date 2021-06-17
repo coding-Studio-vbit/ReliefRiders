@@ -1,9 +1,29 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import MyRequestsListItem from './MyRequestsListItem'
 import styles from "./MyRequests.module.css";
 import Navbar from '../../global_ui/nav';
+import axios from 'axios';
+import { AuthContext } from '../../context/auth/authProvider';
 
 const MyRequests = () => {
+
+    // const [allRequests, setRequests] = useState([]);
+    const { token } = useContext(AuthContext);
+    useEffect(
+        () => {
+            console.log(token)
+            const options = {
+                headers: {
+                    'authorization': 'Bearer ' + token
+                }
+            }
+            axios.get('http://localhost:8000/requester/myRequests', options)
+                .then(response => {
+                    console.log(response.data);
+                })
+        }
+    )
+
 
     return (
 

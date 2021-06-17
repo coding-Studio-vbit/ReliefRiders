@@ -4,13 +4,11 @@ import RequesterHomeScreen from './RequesterHomeScreen';
 import MyRequests from '../../requester/my_requests/MyRequests';
 
 const RequesterHomeRoutes = () => {
-    return ( 
+    return (
         <Switch>
-            <Route path="/">
-                <RequesterHomeScreen/>
-            </Route>
-            <Route path="/my_requests" >
-                <MyRequests/>
+
+            <Route path="/requester/myrequests" >
+                <MyRequests />
             </Route>
             <Route path="/new_request" >
                 NewRequestHere
@@ -18,8 +16,11 @@ const RequesterHomeRoutes = () => {
             <Route path="/my_profile" >
                 MyProfileHere
             </Route>
+            <Route path="/">
+                <RequesterHomeScreen />
+            </Route>
         </Switch>
-     );
+    );
 }
- 
+
 export default RequesterHomeRoutes;
