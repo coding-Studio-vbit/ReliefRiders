@@ -8,7 +8,6 @@ import {
 } from "react-router-dom";
 import InitialHomeRouting from './components/home/initial_home/initialHomeRouting';
 import PlacedRequest from './components/requester/my_requests/placed_request';
-import MyRequests from './components/requester/my_requests/MyRequests';
 function App() {
   //todo
 
@@ -17,9 +16,6 @@ function App() {
       <AuthProvider>
         <Router>
           <Switch>
-            <Route path="/myrequests">
-              <MyRequests />
-            </Route>
             <Route path="/about">
               <PlacedRequest />
             </Route>
