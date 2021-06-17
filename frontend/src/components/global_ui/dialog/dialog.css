@@ -1,24 +1,28 @@
 .modal-wrapper {
   display: grid;
   place-content: center;
-  background: rgba(0, 0, 0, 0.130);
+  background: rgba(0, 0, 0, 0.15);
   position: fixed;
   top: 0;
   left: 0;
+
   opacity: 0;
-  z-index: 1050;
   width: 100vw;
   height: 100vh;
   animation: fade forwards 300ms;
+}
+.modal-wrapper-b {
+  opacity: 1;
+  animation: fadeOut forwards 300ms;
 }
 .modal {
   display: grid;
   grid-template-columns: 1fr 1fr;
   justify-self: center;
   margin: auto 0;
- 
-  width: min(90%,400px);
-  box-shadow: 0 20px 20px rgba(0, 0, 0, 0.185);
+
+  width: min(90%, 500px);
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.185), 0 10px 10px rgba(0, 0, 0, 0.225);
   gap: 1em;
   align-content: center;
   justify-content: center;
@@ -29,14 +33,33 @@
   transform: scale(0.1);
   animation: zoomin forwards 250ms;
 }
+.modal-b {
+  transform: scale(1);
+  animation: zoomout forwards 250ms;
+}
+
 @keyframes zoomin {
-  to{
+  to {
     transform: scale(1);
+  }
+}
+@keyframes zoomout {
+  25% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
   }
 }
 
 @keyframes fade {
-  to{
+  to {
     opacity: 1;
   }
 }
@@ -51,12 +74,11 @@
 
   justify-self: center;
 }
-.modal-close-button:is(:hover,:focus){
+.modal-close-button:is(:hover, :focus) {
   outline: none;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.397);
-  
 }
- .modal-wrapper h3 {
+.modal-wrapper h3 {
   color: rgb(211, 61, 111);
   margin: 0;
   grid-column: 1/-1;
