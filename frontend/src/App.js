@@ -7,8 +7,8 @@ import {
   Route,
 } from "react-router-dom";
 import InitialHomeRouting from './components/home/initial_home/initialHomeRouting';
-import PlacedRequest from './components/requester/my_requests/placed_request';
-
+//import PlacedRequest from './components/requester/my_requests/placed_request';
+import MapComponent from './components/requester/new_request/MapComponent';
 function App() {
   //todo
 
@@ -19,7 +19,7 @@ function App() {
           <Switch>
           
             <Route path="/about">
-              <PlacedRequest/>
+              <MapComponent/>
           </Route>
             <Route path="/">
               <InitialHomeRouting />

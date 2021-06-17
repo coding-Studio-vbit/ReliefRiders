@@ -4,15 +4,18 @@ import { AuthContext } from "../../context/auth/authProvider";
 import InputField from "../../global_ui/input";
 import Navbar from "../../global_ui/nav";
 import "./PinAddress.css";
+import { useHistory } from "react-router-dom";
+
 
 const PinAddress = () => {
     const { loading} = useContext(AuthContext);
-    
+    const route = useHistory();
     const [location, setlocation] = useState({
       address: "",
       city: "",
       pincode: "",
     });
+    const { state: { type }, } = useLocation();
     const [errors, setErrors] = useState({
         address: "",
         showErrors: false,
@@ -74,6 +77,7 @@ const PinAddress = () => {
             city: e.target.value,
           });
       };
+      
 
       const _handlePincode = (e) => {
         const pincode = e.target.value;
@@ -101,15 +105,33 @@ const PinAddress = () => {
           pincode: e.target.value,
         });
       };
+      const _handleProceed = (e) =>{
+       if(type === "pickup")
+       {
+         console.log(type);
+       }  
+      else if(type === "drop")
+      {
+        console.log(type);
+      }
+      else 
+      {
+        console.log(type);
+      }
+      };
+      const _handleLocation = (e) =>{
+
+      };
     
 return( 
     <div className="requester_choose_address">
         <Navbar title="Choose Location" />
     <form className="address_form" onSubmit={submit}>
         <div>
-        <p style={{margin:0.1+'em', textAlign: "center", fontSize: 1 + "em" }}>
-        Choose PickUP Location:
+          <p style={{margin:0.1+'em', textAlign: "center", fontSize: 1 + "em" }}>
+        Choose {type} Location:
       </p>
+
         <InputField
         value={location.address}
         type="text"
@@ -142,7 +164,7 @@ return(
       ) : (
         <button
           type="button"
-          //onClick={(e) => handleLocation(e)}
+          onClick={(e) => handleLocation(e)}
           value="Choose Location"
           className="locationbtn"
         >
@@ -156,7 +178,7 @@ return(
 
         <button className="btn-proceed"
         type="submit"
-        //onClick={(e) => handleProceed(e)}
+        onClick={(e) => handleProceed(e)}
         value="Proceed">
         Proceed
         </button>
