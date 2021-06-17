@@ -11,7 +11,7 @@ function RequesterHomeScreen() {
   const { dispatch } = useContext(AuthContext);
 
   const routehandler = (route) => {
-    history.push({ route });
+    history.push(route);
   };
 
   return (
@@ -19,16 +19,16 @@ function RequesterHomeScreen() {
       <Navbar title="HOME" />
       <div className="riderhome">
         <Logo />
-        <button  onClick={()=>routehandler("new_request")} className="rider-home-btn">
+        <button onClick={() => routehandler("new_request")} className="rider-home-btn">
           <i className="fas fa-plus"></i>
           Place new Request
         </button>
-        <button onClick={()=>routehandler("my_request")} className="rider-home-btn">
+        <button onClick={() => routehandler("/myrequests")} className="rider-home-btn">
           <i className="fas fa-exclamation-circle"></i>
           My Requests
         </button>
 
-        <button onClick={()=>routehandler("my_profile")} className="rider-home-btn">
+        <button onClick={() => routehandler("my_profile")} className="rider-home-btn">
           <i className="fas fa-user"></i>
           My Profile
         </button>
