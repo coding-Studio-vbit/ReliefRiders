@@ -16,7 +16,6 @@ function App() {
       <AuthProvider>
         <Router>
           <Switch>
-
             <Route path="/about">
               <PlacedRequest />
             </Route>
