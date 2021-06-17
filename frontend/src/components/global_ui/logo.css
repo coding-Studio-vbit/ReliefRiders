@@ -6,6 +6,5 @@
 img{
     
     height: auto;
-    
-    max-width: min(15rem,55vw);
+    width: clamp(200px,60vw,300px);
 }

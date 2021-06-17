@@ -29,14 +29,13 @@ const VerifyOTP = () => {
     const submit =  () => {
         setError({ ...errorMsg, showError: true })
         if (!errorMsg.error) {
-            
            const res = verify(dispatch,otp,authType,isRequester,user)
-           console.log(res);
-           res.then((r)=>{
+                              res.then((r)=>{
             if(r == 1){
-                console.log('HOME');
-                
+                window.location.reload()
+
                 route.push(`/home/${isRequester?"requester":'rider'}`)
+                
             }else{
              toggle()
             }

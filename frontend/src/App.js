@@ -7,23 +7,16 @@ import {
   Route,
 } from "react-router-dom";
 import InitialHomeRouting from './components/home/initial_home/initialHomeRouting';
-import RequesterHomeScreen from './components/home/Requester/RequesterHomeScreen';
-// import Stub from './components/global_ui/Overlay/stub'
-
 
 function App() {
+  //todo
   
   return (
     <div className="App">
       <AuthProvider>
         <Router>
           <Switch>
-          <Route path="/home/requester">
-              <RequesterHomeScreen />
-            </Route>
-            <Route path="/home/rider">
-              TODO by anisha
-            </Route>
+          
             <Route path="/about">
               About
           </Route>
