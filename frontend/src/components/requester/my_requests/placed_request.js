@@ -61,7 +61,7 @@ const PlacedRequest = () => {
   //Extra area property in address ? what?
   return (
     <>
-      <Navbar style={{background:"palegreen",marginBottom:0.75+'em'}}  title="Order Details" />
+      <Navbar style={{background:"#79cbc5",marginBottom:0.75+'em'}}  title="Order Details" />
       <div className={styles.container}>
         <p>Request #{request.requesterID}</p>
         <span>
