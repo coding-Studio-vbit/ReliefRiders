@@ -1,28 +1,30 @@
 .myRequestsList
 {
     height: 100vh;
-    display: grid;
     text-align: center;
     margin-left: auto;
     margin-right: auto;
-    align-items: center;
     justify-items: center;
 }
 
 .myRequestsListItem
 {
-    margin-bottom: 20px;
-    font-size: clamp(0.85rem, 1vw, 1.2rem); 
+    max-height: 150px;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    row-gap: 3px;
+    font-size: clamp(0.7rem, 1vw, 1.2rem); 
     display: grid;
-    width: min(90%, 400px);
-    grid-template-columns: 25% 25% 25% 25%;
+    width: min(90%, 500px);
+    grid-template-columns: 30% 30% 15% 25%;
     grid-template-rows: auto;
     grid-template-areas: 
-        "date requestType requestType requestStatus"
+        "date requestType . requestStatus"
         "category1 category2 category3 viewButton";
     border-radius: 4px;
     box-shadow: 0 0 5px #242323 ;
-    padding: 10px;
+    padding: 5px;
 }
 .date
 {
@@ -31,8 +33,10 @@
 }
 .requestType
 {   
+    font-weight: bold;
+    background-color: rgb(167, 255, 255);
     grid-area: requestType;
-    border: 2px solid black;
+    border: 2px solid rgb(33, 117, 235);
     border-radius: 20px;
     color: black;
     text-align: center;
@@ -42,32 +46,35 @@
 
 .medicines
 {
+    color: white;
     margin: auto;
     grid-area: category1;
     border-radius: 10px;
-    border: 2px solid black;
-    background-color: red;
-    padding: 3px;
+    border: 2px solid rgb(184, 5, 5);
+    background-color: rgb(216, 0, 0);
+    padding: 0px 3px 0px 3px;
 
 }
 .groceries
 {
+    color: white;
     margin: auto;
     grid-area: category2;
     border-radius: 10px;
-    border: 2px solid black;
-    background-color: green;
-    padding: 3px;
+    border: 2px solid rgb(8, 126, 22);
+    background-color: rgb(3, 209, 3);
+    padding: 0px 3px 0px 3px;
 
 }
 .misc
 {
+    color: white;
     margin: auto;
     grid-area: category3;
     border-radius: 10px;
-    border: 2px solid black;
+    border: 2px solid rgb(7, 75, 144);
     background-color: blue;
-    padding: 3px;
+    padding: 0px 3px 0px 3px;
 
 }
 

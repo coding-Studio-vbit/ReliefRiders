@@ -32,7 +32,7 @@ function RiderHome() {
           Current Request
         </button>
         <button onClick={()=>routehandler("my_deliveries")} className="rider-home-btn">
-          <i className="fas fa-align-justify"></i>
+        <i className="fas fa-list-ul"></i>
           My Deliveries
         </button>
         <button onClick={()=>routehandler("my_profile")} className="rider-home-btn">
@@ -46,7 +46,7 @@ function RiderHome() {
           }}
           className="rider-home-btn"
         >
-          <i className="fas fa-arrow-right"></i>
+          <i className="fas fa-sign-out-alt"></i>
           Logout
         </button>
       </div>
