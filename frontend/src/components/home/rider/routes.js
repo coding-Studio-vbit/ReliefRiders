@@ -1,14 +1,16 @@
 import React from 'react';
 import { Route, Switch } from 'react-router';
+import { BrowserRouter } from 'react-router-dom';
 import RiderHome from './RiderHome';
 const RiderHomeRoutes = () => {
     return ( 
+        <BrowserRouter basename="/home/rider">
         <Switch>
-            <Route path="/">
+            <Route exact path="/">
                 <RiderHome/>
             </Route>
             <Route path="/new_delivery" >
-                
+                newDelivery
             </Route>
             <Route path="/current_request" >
                 NewRequestHere
@@ -20,6 +22,7 @@ const RiderHomeRoutes = () => {
                 MyProfileHere
             </Route>
         </Switch>
+        </BrowserRouter>
      );
 }
  

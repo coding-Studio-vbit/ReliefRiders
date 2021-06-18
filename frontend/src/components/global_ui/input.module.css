@@ -1,4 +1,4 @@
-.input-field {
+.inputField {
     position : relative;
     font-size: 1rem;
     margin: 0px auto;
@@ -6,8 +6,7 @@
     width: min(100%,35rem);
     --label-top:calc(23%);
 }
-
- label {
+.label {
     position      : absolute;
     left          : 0.6em;
     padding-left  : 0.2em;
@@ -21,7 +20,7 @@
         color 0.2s ease;
 }
 
-input {
+.input {
     box-sizing:border-box;
     border       : 2px solid #ddd;
     padding      : 0.6em;
@@ -35,7 +34,7 @@ input {
     
 }
 
-.input-field span{
+.inputField span{
     position: absolute;
     left: 0.4%;
     color: red;
@@ -43,21 +42,21 @@ input {
     padding-top: 0.2em;
     padding-left: 0.3em;
 }
-.input-field .normal-field{
+.inputField .normalField{
     --label-top:calc(50% - 10px);
 }
-.error-field{
+.errorField{
     border-color: red;
 }
 
-.error-field +.label{
+.errorField +.label{
     color: red;
     --label-top:17%;
 
     
 }
-input:valid+label,
-input:focus+label {
+.input:valid+.label,
+.input:focus+.label {
     font-size   : 0.7em;
     top         : -8px;
     color       : black;
@@ -65,14 +64,18 @@ input:focus+label {
     background  : white;
 }
 
-input:focus {
+.input:focus {
     border-color: black;
 }
-.error-field:focus{
+.errorField:focus{
     border-color: red;
 }
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
+.errorField:valid+.label,
+.errorField:focus +.label{
+    color: red;
+}
+.input[type=number]::-webkit-inner-spin-button, 
+.input[type=number]::-webkit-outer-spin-button { 
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
