@@ -38,9 +38,10 @@ const VerifyOTP = () => {
       const res = verify(dispatch, otp, authType, isRequester, user);
       res.then((r) => {
         if (r == 1) {
-          window.location.reload();
+          
 
-          route.push(`/home/${isRequester ? "requester" : "rider"}`);
+          route.replace(`/home/${isRequester ? "requester" : "rider"}`);
+          window.location.reload();
         } else {
           toggle(true);
         }
