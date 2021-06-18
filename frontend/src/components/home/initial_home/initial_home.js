@@ -4,12 +4,12 @@ import TopBanner from "./top-banner";
 import { LeaderBoard } from "./leaderboard";
 
 import './initial-home.css'
-import { useHistory } from "react-router";
+import { Redirect, useHistory } from "react-router";
 import { AuthContext } from "../../context/auth/authProvider";
 const InitialHome = () => {
     const routes = useHistory()
-      const { dispatch} = useContext(AuthContext);
-
+      const { dispatch,isAuthenticated,isRequester} = useContext(AuthContext);
+    if(isAuthenticated) return <Redirect to={`/home/${isRequester?"requester":"rider"}`}/>
     const goToLoginRider= ()=>{
         dispatch({
             type:"ISRIDER",

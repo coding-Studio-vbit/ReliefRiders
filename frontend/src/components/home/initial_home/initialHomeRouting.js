@@ -15,8 +15,9 @@ import InitialHome from "./initial_home";
 
 const InitialHomeRouting = () => {
 
-    const { dispatch, isAuthenticated } = useContext(AuthContext)
+    const { dispatch, isAuthenticated,isRequester } = useContext(AuthContext)
     const route = useHistory()
+    const previousLocation = location.pathname
     useEffect(() => {
         const token = localStorage.getItem('token')
 
@@ -27,20 +28,23 @@ const InitialHomeRouting = () => {
                 type: "AUTHENTICATED",
                 payload: { token, user }
             })
-            route.push(`/home/${user.isRequester ? "requester" : "rider"}`)
-
+            // console.log("path",location.pathname);
+            // // if(location.pathname==='/')
+            if(previousLocation != '/' && previousLocation != '/verify')
+             route.push(previousLocation)
+            
         }
 
     }, [])
 
     return (
         <Switch>
-            <ProtectedRoute isAuthenticated={isAuthenticated} path="/home/requester">
+            {isRequester && <ProtectedRoute isAuthenticated={isAuthenticated} path="/home/requester">
                 <RequesterHomeRoutes />
-            </ProtectedRoute>
-            <ProtectedRoute isAuthenticated={isAuthenticated} path="/home/rider">
+            </ProtectedRoute>}
+            { !isRequester && <ProtectedRoute isAuthenticated={isAuthenticated} path="/home/rider">
                 <RiderHomeRoutes />
-            </ProtectedRoute>
+            </ProtectedRoute>}
             <Route path="/login/:user"
 
             >
@@ -57,7 +61,7 @@ const InitialHomeRouting = () => {
             >
                 <RegisterScreen></RegisterScreen>
             </Route>
-            <Route path="/">
+            <Route  path="/">
 
                 <InitialHome />
             </Route>

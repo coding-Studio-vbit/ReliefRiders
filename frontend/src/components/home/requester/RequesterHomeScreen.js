@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import "./style.css";
-import Logo from "./../../global_ui/logo";
+import Logo from "../../global_ui/logo";
 import Navbar from "../../global_ui/nav";
 import { AuthContext } from "../../context/auth/authProvider";
 import { logout } from "../../context/auth/authOperations";
@@ -23,7 +23,7 @@ function RequesterHomeScreen() {
           <i className="fas fa-plus"></i>
           Place new Request
         </button>
-        <button onClick={() => routehandler("/myrequests")} className="rider-home-btn">
+        <button onClick={() => routehandler("/my_requests")} className="rider-home-btn">
           <i className="fas fa-exclamation-circle"></i>
           My Requests
         </button>
@@ -39,7 +39,7 @@ function RequesterHomeScreen() {
           }}
           className="rider-home-btn"
         >
-          <i className="fas fa-arrow-right"></i>
+           <i className="fas fa-sign-out-alt"></i>
           Logout
         </button>
       </div>
