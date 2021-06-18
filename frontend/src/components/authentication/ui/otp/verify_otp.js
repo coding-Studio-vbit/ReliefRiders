@@ -90,9 +90,9 @@ const VerifyOTP = () => {
     <div className="otp-container">
       <Logo></Logo>
       <Dialog  isShowing={isShowing} onOK={()=>{toggle(false)}} msg={error} />
-      <span style={{ textAlign: "center", marginBottom: 0.3 + "em" }}>
+      <p style={{ textAlign: "center", marginBottom: 0.3 + "em" }}  >
         You will get an OTP via SMS
-      </span>
+      </p>
       <InputField
         error={errorMsg.showError ? errorMsg.error : ""}
         textAlign="center"
@@ -100,12 +100,12 @@ const VerifyOTP = () => {
         type="number"
         onChange={(e) => validateOTP(e.target.value)}
       />
-      <span>
+      <p style={{ textAlign: "center"}} >
         Still haven't received the OTP ?{" "}
         <a onClick={resendOTP} className="send-otp-btn">
           Resend OTP
         </a>{" "}
-      </span>
+      </p>
       <div style={{ height: 5 + "rem" }}></div>
       {loading ? (
         <Spinner radius="2" />
