@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import "./style.css";
-import Logo from "./../../global_ui/logo";
+import Logo from "../../global_ui/logo";
 import Navbar from "../../global_ui/nav";
 import { AuthContext } from "../../context/auth/authProvider";
 import { logout } from "../../context/auth/authOperations";
@@ -39,7 +39,7 @@ function RequesterHomeScreen() {
           }}
           className="rider-home-btn"
         >
-          <i className="fas fa-arrow-right"></i>
+           <i className="fas fa-sign-out-alt"></i>
           Logout
         </button>
       </div>
