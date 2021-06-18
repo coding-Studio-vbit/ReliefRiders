@@ -80,7 +80,7 @@ const VerifyOTP = () => {
     }
     res.then((r) => {
         if (r != 1) {
-            toggle();
+            toggle(true);
 
         } 
       });
