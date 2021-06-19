@@ -8,7 +8,9 @@ const user = new mongoose.Schema({
     min: 1000000000,
     max: 9999999999,
     validate:{
-          validator: (phone)=> {return (isMobilePhone(phone,"en-IN"))}
+          validator: (phone)=> {
+            var patt = /^[6789]\d{9}$/; return patt.test(phone)
+          }
         }
   },
   name: {
@@ -17,45 +19,36 @@ const user = new mongoose.Schema({
       minLength: 3,
       maxLength: [40, "Exceeded Characters"]
   },
-  dateOfBirth: {
-    type: Date,
+  yearOfBirth: {
+    type: Number,
     required: true,
-    trim: true
+    minLength: 4,
+    maxLength: 4,
+    validate:{
+          validator: (yearOfBirth)=>{
+            var date = new Date();
+            var year = date.getFullYear();
+            return (year >= year - 100 && year <= year + 15)
+          }
+        }
 },
  defaultAddress: {
        addressLine:{
-         type:String,
-         required:true
-       },
-       state: {
-         type:String,
-         required:true
+         type:String
        },
        city:{
-         type:String,
-         required:true
+         type:String
        },
-       Pincode:{
+       pincode:{
          type:Number,
-         required:true,
          validate:{
               validator: (pincode)=>{return (pincode>=100000 && pincode<=999999)}
           }
         }
  },
  location: {
-   latitude : {
-     type: Number,
-     minimum: -90,
-     maximum: 90,
-     default: null
-   },
-   longitude : {
-     type: Number,
-     minimum: -180,
-     maximum: 180,
-     default: null
-   }
+		type: {type: String, default: "Point"},
+		coordinates: [Number]
  }
 });
 

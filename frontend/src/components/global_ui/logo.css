@@ -1,0 +1,10 @@
+
+.logo-container{
+  display: flex;
+  justify-content: center;
+}
+.logo-container img{
+    
+    height: auto;
+    width: clamp(150px,50vw,250px);
+}
