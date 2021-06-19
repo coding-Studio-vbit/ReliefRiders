@@ -7,9 +7,9 @@ import {
   Route,
 } from "react-router-dom";
 import InitialHomeRouting from './components/home/initial_home/initialHomeRouting';
-//import PlacedRequest from './components/requester/my_requests/placed_request';
+import PlacedRequest from './components/requester/my_requests/placed_request';
 //import PinAddress from './components/requester/new_request/PinAddress';
-import Upload from './components/requester/new_request/upload_images';
+
 function App() {
   //todo
 
@@ -22,7 +22,7 @@ function App() {
               <PinAddress />
             </Route> */}
             <Route path="/about">
-              <Upload />
+              <PlacedRequest />
             </Route>
             <Route path="/">
               <InitialHomeRouting />
