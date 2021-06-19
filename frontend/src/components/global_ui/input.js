@@ -1,5 +1,5 @@
 import React from 'react';
-import './input.css'
+import inputStyles from './input.module.css'
 
 /**
  * 
@@ -12,33 +12,33 @@ const InputField = ({
     textAlign,size,minLength,value,placeholder,name,type,onChange,error,maxLength}) => {
     
     return ( 
-        <div className="input-field">
+        <div className={inputStyles.inputfield}>
             {
                 fieldType=="textarea" &&
                 <textarea
                 rows={rows}
                 cols={cols}
-                 size={size} style={{textAlign:textAlign}} className={`${error?"error-field":"normal-field"} ${textAreaClass}`} type={type} name={name} value={value} minLength={minLength} maxLength={maxLength} onChange={onChange} required/>
+                 size={size} style={{textAlign:textAlign}} className={`${error?`${inputStyles.errorfield}`:`${inputStyles.normalfield}`} ${textAreaClass}`} type={type} name={name} value={value} minLength={minLength} maxLength={maxLength} onChange={onChange} required/>
             }
             {
                 fieldType=="textarea" &&                
-                <label className="label" htmlFor={name}>{placeholder}</label>
+                <label className={inputStyles.label} htmlFor={name}>{placeholder}</label>
             }            
             {
                 !fieldType &&
                 <input 
                 size={size} 
                 style={{textAlign:textAlign}} 
-                className={error?"error-field":"normal-field"} 
+                className={error?`${inputStyles.errorfield}`:`${inputStyles.normalfield}`} 
                 type={type} name={name} value={value} minLength={minLength} maxLength={maxLength} onChange={onChange} required/>
             }
             {
                 !fieldType &&
-                <label className="label" htmlFor={name}>{placeholder}</label>
+                <label className={inputStyles.label} htmlFor={name}>{placeholder}</label>
             }            
             <br />
             
-            {error && <span className="error-msg" >{error}</span>}
+            {error && <span className={inputStyles.errormsg} >{error}</span>}
             {error && <div style={{ height: 1 + 'rem' }} ></div>}
 
         </div>
