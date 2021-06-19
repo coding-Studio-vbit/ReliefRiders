@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
     
     const [data,setData] = useLocalStorageState("data","")
  */
-const useLocalStorageState = (key,initialValue) => {
+export const useLocalStorageState = (key,initialValue) => {
 
     const [data,setData] = useState(()=>{
         const value = localStorage.getItem(key)
@@ -22,4 +22,17 @@ const useLocalStorageState = (key,initialValue) => {
     return [data,setData];
 }
  
-export default useLocalStorageState;
+export const useSessionStorageState = (key,initialValue) => {
+
+    const [data,setData] = useState(()=>{
+        const value = sessionStorage.getItem(key)
+        if(value)
+        return JSON.parse(value)
+        return initialValue
+    })
+    useEffect(()=>{
+        sessionStorage.setItem(key,JSON.stringify(data))
+    },[data])
+
+    return [data,setData];
+}
