@@ -31,7 +31,7 @@ const MyRequests = () => {
 
         }, [])
 
-    return (error ? (<Dialog isShowing={true} onOK={() => { history.push("/home/requester") }} msg={JSON.stringify(error.message)} />
+    return (error ? (<Dialog isShowing={true} onOK={() => { history.push("/") }} msg={JSON.stringify(error.message)} />
     ) : (
         <div>
             <Navbar back={true} backStyle={{ color: 'white' }} title="My Requests" titleStyle={{ color: 'white' }} style={{ backgroundColor: '#79CBC5', marginBottom: "10px" }} />

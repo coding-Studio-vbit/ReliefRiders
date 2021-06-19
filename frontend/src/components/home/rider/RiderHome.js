@@ -12,7 +12,7 @@ function RiderHome() {
   const { dispatch } = useContext(AuthContext);
 
   const routehandler = (route) => {
-    history.push({ route });
+    history.push( route );
   };
 
 
@@ -23,19 +23,19 @@ function RiderHome() {
       <Navbar title="HOME" />
       <div className="riderhome">
         <Logo />
-        <button  onClick={()=>routehandler("new_delivery")} className="rider-home-btn">
+        <button  onClick={()=>routehandler("/new_delivery")} className="rider-home-btn">
           <i className="fas fa-plus"></i>
           Make New Delivery
         </button>
-        <button onClick={()=>routehandler("current_request")} className="rider-home-btn">
+        <button onClick={()=>routehandler("/current_request")} className="rider-home-btn">
           <i className="fas fa-exclamation-circle"></i>
           Current Request
         </button>
-        <button onClick={()=>routehandler("my_deliveries")} className="rider-home-btn">
+        <button onClick={()=>routehandler("/my_deliveries")} className="rider-home-btn">
         <i className="fas fa-list-ul"></i>
           My Deliveries
         </button>
-        <button onClick={()=>routehandler("my_profile")} className="rider-home-btn">
+        <button onClick={()=>routehandler("/my_profile")} className="rider-home-btn">
           <i className="fas fa-user"></i>
           My Profile
         </button>

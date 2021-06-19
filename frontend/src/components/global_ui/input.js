@@ -1,5 +1,5 @@
 import React from 'react';
-import './input.css'
+import styles from './input.module.css'
 
 
 /**
@@ -12,11 +12,11 @@ const InputField = ({textAlign,size,minLength,value,placeholder,name,type,onChan
 
     return ( 
 
-        <div className="input-field">
-            <input size={size} style={{textAlign:textAlign}} className={error?"error-field":"normal-field"} type={type} name={name} value={value} minLength={minLength} maxLength={maxLength} onChange={onChange} required/>
-            <label className="label" htmlFor={name}>{placeholder}</label>
+        <div className={styles.inputField}>
+            <input size={size} style={{textAlign:textAlign}} className={styles.input+" "+(error?styles.errorField:styles.normalField)} type={type} name={name} value={value} minLength={minLength} maxLength={maxLength} onChange={onChange} required/>
+            <label className={styles.label} htmlFor={name}>{placeholder}</label>
             <br />
-            {error && <span className="error-msg" >{error}</span>}
+            {error && <span className={styles.errorMsg} >{error}</span>}
             {error && <div style={{ height: 1 + 'rem' }} ></div>}
 
         </div>
