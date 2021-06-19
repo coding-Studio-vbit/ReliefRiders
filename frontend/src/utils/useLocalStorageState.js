@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
  * 
  * @param {string} key Any unqiue key
  * @param {any} initialValue 
+ * 
+ *  * Data will be stored in local storage.
+
     usage 
     
     const [data,setData] = useLocalStorageState("data","")
@@ -21,7 +24,17 @@ export const useLocalStorageState = (key,initialValue) => {
 
     return [data,setData];
 }
- 
+/**
+ * 
+ * @param {string} key Any unqiue key
+ * @param {any} initialValue 
+ * 
+ * Data will be deleted when browser or app is closed. Best for storing temporary session data.
+ * 
+    usage 
+    
+    const [data,setData] = useSessionStorageState("data","")
+ */
 export const useSessionStorageState = (key,initialValue) => {
 
     const [data,setData] = useState(()=>{
