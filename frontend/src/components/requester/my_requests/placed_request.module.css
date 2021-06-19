@@ -45,10 +45,10 @@ p {
   border-radius: 1rem;
 }
 .catGreen {
-  background: #fb4444;
+  background: rgb(243, 149, 149);
 }
 .catGray {
-  background: #0091ff;
+  background: rgb(126, 178, 255);
 }
 .requested {
   display: grid;
@@ -115,8 +115,8 @@ button:focus {
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.263);
 }
 .buttonsContainer button:first-child {
-  background: #ff0000;
+  background: rgb(253, 129, 129) ;
 }
 .buttonsContainer button:last-child {
-  background: #218838;
+  background: palegreen;
 }
