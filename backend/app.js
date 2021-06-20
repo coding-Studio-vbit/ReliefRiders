@@ -9,6 +9,7 @@ const clearExpiredOTP = require("./clearExpiredOTPs")
 //express middleware usage.
 app.use(express.json());
 app.use(cors())
+app.use(express.static( __dirname + '/' +  process.env.IMAGE_DIR_PATH));
 
 //mongoose connection.
 mongoose.set('useFindAndModify', false);
