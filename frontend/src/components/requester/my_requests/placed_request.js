@@ -5,11 +5,12 @@ import styles from "./placed_request.module.css";
 
 
 const PlacedRequest = () => {
+  const history = useHistory()
   const {
     location: {
       state: { request },
     },
-  } = useHistory();
+  } = history
   const statusStyle = {
     color: request.requestStatus === "PENDING" ? "red" : "green",
     fontWeight: "bold",
