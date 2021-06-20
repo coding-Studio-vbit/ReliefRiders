@@ -38,7 +38,7 @@ const schema = new mongoose.Schema({
 	
 	Remarks: {type: String, maxLength: 240},
 	
-	billsImageList: [String],
+	billsImageList: [String], 
 
 	rideImages: [String],
 
