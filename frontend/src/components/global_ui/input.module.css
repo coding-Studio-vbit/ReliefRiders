@@ -1,8 +1,4 @@
-<<<<<<< HEAD:frontend/src/components/global_ui/input.module.css
-.inputField {
-=======
 .inputfield {
->>>>>>> textarae:frontend/src/components/global_ui/input.css
     position : relative;
     font-size: 1rem;
     margin: 0px auto;
@@ -38,11 +34,7 @@
     
 }
 
-<<<<<<< HEAD:frontend/src/components/global_ui/input.module.css
-.inputField span{
-=======
 .inputfield span{
->>>>>>> textarae:frontend/src/components/global_ui/input.css
     position: absolute;
     left: 0.4%;
     color: red;
@@ -50,16 +42,6 @@
     padding-top: 0.2em;
     padding-left: 0.3em;
 }
-<<<<<<< HEAD:frontend/src/components/global_ui/input.module.css
-.inputField .normalField{
-    --label-top:calc(50% - 10px);
-}
-.errorField{
-    border-color: red;
-}
-
-.errorField +.label{
-=======
 .inputfield .normalfield{
     --label-top:calc(50% - 10px);
 }
@@ -68,7 +50,6 @@
 }
 
 .errorfield +.label{
->>>>>>> textarae:frontend/src/components/global_ui/input.css
     color: red;
     --label-top:17%;    
 }
@@ -84,11 +65,7 @@
 .input:focus {
     border-color: black;
 }
-<<<<<<< HEAD:frontend/src/components/global_ui/input.module.css
-.errorField:focus{
-=======
 .errorfield:focus{
->>>>>>> textarae:frontend/src/components/global_ui/input.css
     border-color: red;
 }
 .errorField:valid+.label,

@@ -1,9 +1,5 @@
 import React from 'react';
-<<<<<<< HEAD
-import styles from './input.module.css'
-=======
 import inputStyles from './input.module.css'
->>>>>>> textarae
 
 /**
  * 
