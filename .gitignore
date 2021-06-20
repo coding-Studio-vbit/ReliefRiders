@@ -1,3 +1,4 @@
 node_modules
 TEMP_OTP.json
+data/images
 .env
