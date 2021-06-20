@@ -40,7 +40,7 @@ router.post("/login/requestOTP", (req, res) => {
 	})
 		.then(doc => {
 			if (doc == null) {
-				return res.json( { status: "failure", message: "No such phone number! Please register." });
+				throw ({ status: "failure", message: "No such phone number! Please register." });
 			}
 			//return res.json({status:"failure", message: "No such phone number! Please register."});
 
@@ -94,6 +94,7 @@ router.post("/login/requestOTP", (req, res) => {
 			}
 		})
 		.catch(err => {
+			if(err.message == "Internal Server Error")
 			console.log(err);
 			return res.json(err);
 		})
