@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import MyRequestsListItem from './MyRequestsListItem'
 import styles from "./MyRequests.module.css";
 import Navbar from '../../global_ui/nav';
 import axios from 'axios';
 import Dialog from '../../global_ui/dialog/dialog';
 import { useHistory } from 'react-router-dom';
+import { useSessionStorageState } from '../../../utils/useLocalStorageState';
+import { AuthContext } from '../../context/auth/authProvider';
 
 const MyRequests = () => {
     const history = useHistory();
-    const [allRequests, setRequests] = useState([]);
+    const [allRequests, setRequests] = useSessionStorageState("my_requests",[]);
     const [error, setError] = useState(null);
-    const token = localStorage.getItem('token')
+    const {token} = useContext(AuthContext)
     useEffect(
         () => {
             console.log(token)
@@ -24,16 +26,14 @@ const MyRequests = () => {
                     setRequests(response.data.message);
                     console.log(response.data);
                 }, error => {
-                    console.log("An error occured", error);
-                    //show dialog box.
-                    setError(error);
+                    setError(error.message);
                 })
 
         }, [])
 
-    return (error ? (<Dialog isShowing={true} onOK={() => { history.push("/home/requester") }} msg={JSON.stringify(error.message)} />
-    ) : (
+    return (
         <div>
+            <Dialog isShowing={error} onOK={() => { history.push("/") }} msg={error}/>
             <Navbar back={true} backStyle={{ color: 'white' }} title="My Requests" titleStyle={{ color: 'white' }} style={{ backgroundColor: '#79CBC5', marginBottom: "10px" }} />
             <div className={styles.myRequestsList}>
                 {
@@ -62,7 +62,7 @@ const MyRequests = () => {
             </div>
         </div>)
 
-    )
+    
 }
 
 export default MyRequests;

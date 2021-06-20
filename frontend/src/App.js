@@ -9,6 +9,7 @@ import {
 import InitialHomeRouting from './components/home/initial_home/initialHomeRouting';
 import PlacedRequest from './components/requester/my_requests/placed_request';
 //import PinAddress from './components/requester/new_request/PinAddress';
+
 function App() {
   //todo
 
@@ -17,7 +18,7 @@ function App() {
       <AuthProvider>
         <Router>
           <Switch>
-          {/* <Route path="/">
+           {/* <Route path="/address">
               <PinAddress />
             </Route> */}
             <Route path="/about">

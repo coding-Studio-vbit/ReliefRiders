@@ -2,7 +2,8 @@ import React, { useContext, useState } from "react";
 import Spinner from "../../global_ui/spinner";
 import { AuthContext } from "../../context/auth/authProvider";
 import InputField from "../../global_ui/input";
-import "./PinAddress.css";
+import Navbar from '../../global_ui/nav';
+import styles from "./PinAddress.module.css";
 //import { useHistory } from "react-router-dom";
 
 
@@ -123,19 +124,17 @@ const PinAddress = () => {
       // };
     
 return( 
-  <div className="chooseAddresspage">
-  <nav className="nav-bar">
-    <i className="fas fa-chevron-left nav-icon"></i>
-    <p className="page-title">New Request</p>
-  </nav>
+  <div className={styles.chooseAddressPage}>
+  <Navbar back={true} backStyle={{ color: 'white' }} title="Choose Location" titleStyle={{ color: 'white' }} style={{ backgroundColor: '#79CBC5', marginBottom: "10px" }} />
 
-  <div className="header-text">
+  <div className={styles.headerText}>
       Choose Pickup Location
+      {/* Choose {type} Location: */}
   </div>
 
-  <form className="address_form" onSubmit={submit}>
-      <div className="address_container" >
-          <div className="textAreaContainer">
+  <form className={styles.addressForm} onSubmit={submit}>
+      <div className={styles.addressContainer} >
+          <div className={styles.textAreaContainer}>
 
           <InputField        
           fieldType="textarea"
@@ -148,8 +147,8 @@ return(
           />
           </div>
 
-          <div className="city-pincode"> 
-              <div className="childField">
+          <div className={styles.cityPincode}> 
+              <div className={styles.childField}>
                 <InputField
                     value={location.city}
                     //error={errors.showErrors ? errors.city : ""}
@@ -190,7 +189,7 @@ return(
               type="button"
               //onClick={(e) => handleLocation(e)}
               value="Choose Location"
-              className="locationbtn"
+              className={styles.locationBtn}
             > 
             <i className="fas fa-search-location" id="locationIcon"></i>                  
               Choose Location
@@ -199,7 +198,7 @@ return(
       }                
       </div>          
 
-      <button className="btn-proceed"
+      <button className={styles.btnProceed}
         type="submit"
         //onClick={(e) => handleProceed(e)}
         value="Proceed">

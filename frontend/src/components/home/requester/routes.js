@@ -2,12 +2,14 @@ import React from 'react';
 import { Route, Switch } from 'react-router';
 import RequesterHomeScreen from './RequesterHomeScreen';
 import MyRequests from '../../requester/my_requests/MyRequests';
+import { BrowserRouter } from 'react-router-dom';
 
 const RequesterHomeRoutes = () => {
     return (
+        <BrowserRouter basename="/home/requester" >
         <Switch>
 
-            <Route path="/requester/myrequests" >
+            <Route path="/my_requests" >
                 <MyRequests />
             </Route>
             <Route path="/new_request" >
@@ -20,6 +22,7 @@ const RequesterHomeRoutes = () => {
                 <RequesterHomeScreen />
             </Route>
         </Switch>
+        </BrowserRouter>
     );
 }
 
