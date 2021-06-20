@@ -61,7 +61,7 @@ const MyRequests = () => {
         msg={error}
       />
       <Navbar
-        back={true}
+        back='/'
         backStyle={{ color: "white" }}
         title="My Requests"
         titleStyle={{ color: "white" }}

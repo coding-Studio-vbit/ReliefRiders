@@ -13,13 +13,13 @@ import './nav.css'
  * 
  * @returns Custom Navbar
  */
-const Navbar = ({ style, back, backStyle, title = "UNSET", titleStyle }) => {
+const Navbar = ({ style, backStyle,titleStyle,back, title = "UNSET" }) => {
     const route = useHistory()
     return (
         <nav
             className="nav-bar"
             style={style}>
-            {back && <i style={backStyle} onClick={() => { route.goBack() }} className="fas fa-chevron-left"></i>}
+            {back && <i style={backStyle} onClick={()=>route.replace(back)} className="fas fa-chevron-left"></i>}
             <h3 style={titleStyle}>
                 {title}
             </h3>

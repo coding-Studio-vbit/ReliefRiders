@@ -19,7 +19,7 @@ const PlacedRequest = () => {
   return (
     <>
       <Navbar
-        back
+        back="my_requests"
         style={{
           color: "white",
           background: "#79cbc5",
