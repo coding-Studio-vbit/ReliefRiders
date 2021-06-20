@@ -1,15 +1,15 @@
 const express = require('express');
 const router  = express.Router();
-const mongoose  = require('mongoose');
 const dotenv = require('dotenv');
 const requestModel = require('../../models/request');
-const cors = require('cors');
 var md5 = require('md5');
 const multer = require("multer");
 var md5 = require('md5');
 const fs = require('fs')
 const path = require('path');
 const verifyToken = require('../common/tokenAuth');
+//const mongoose  = require('mongoose');
+//const cors = require('cors');
 //app.use(cors())
 //app.use(express.json())
 router.use(verifyToken);
@@ -48,7 +48,7 @@ var upload = multer({ storage: storage })
 
 var pastReqTime = 0
 router.post('/requests/newRequest/general',upload.any('images'),(req,res)=>{
-    newReqSetTime = Date.now()
+    let newReqSetTime = Date.now()
     if (newReqSetTime-pastReqTime <= 2000){
         return res.json({status: "failure", message: "Request cannot be placed"})
     }
@@ -74,7 +74,11 @@ router.post('/requests/newRequest/general',upload.any('images'),(req,res)=>{
     .catch(err =>{
         return res.json({status:"failure",message:"Sorry!request could not be placed"})
     })
+
+    pastReqTime = newReqSetTime;
     
     
     
 })
+// --------------------------
+module.exports = router;
