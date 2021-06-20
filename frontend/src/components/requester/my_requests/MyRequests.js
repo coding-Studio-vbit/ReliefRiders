@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 import React, { useContext, useEffect, useState } from "react";
 import MyRequestsListItem from "./MyRequestsListItem";
 import styles from "./MyRequests.module.css";
@@ -24,7 +23,9 @@ const MyRequests = () => {
         authorization: "Bearer " + token,
       },
     };
-    axios.get("http://localhost:8000/requester/myRequests", options).then(
+    /* eslint-disable no-undef */
+
+    axios.get(`${process.env.REACT_APP_URL}/requester/myRequests`, options).then(
       (response) => {
         //Tempo
         if(response.data.message.length === 0){
@@ -70,7 +71,7 @@ const MyRequests = () => {
       {
         allRequests.length === 0 ? (
 
-          <h3 className={styles.noRequests}> "You haven't made any requests"</h3>
+          <h3 className={styles.noRequests}> You haven&apos;t made any requests</h3>
         ) : 
         (
           <div className={styles.myRequestsList}>
