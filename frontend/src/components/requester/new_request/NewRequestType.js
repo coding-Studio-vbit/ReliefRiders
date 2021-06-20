@@ -6,8 +6,8 @@ function RequestType() {
     return(
       <div>
         <nav className={RequestTypeCSS.navbar}>
-          <div className={RequestTypeCSS.back_div}>
-            <button className={RequestTypeCSS.btn_back}>
+          <div className={RequestTypeCSS.backDiv}>
+            <button className={RequestTypeCSS.btnBack}>
               <span className={RequestTypeCSS.i1}>
               <i className='fas fa-chevron-left'></i>
               </span>
