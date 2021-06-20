@@ -11,19 +11,19 @@
     padding: 5px 0px 10px 0px;
     border: 0.5px solid darkgrey;
 }
-.nav_head{
+.navHead{
     font-weight: bolder;
     align-self: center;
     color: white;
     margin-top: 2px;
     font-size: large;
 }
-.back_div{
+.backDiv{
     position: absolute;
     left: 0;
     top:0;
 }
-.btn_back{
+.btnBack{
     background-color:rgba(121, 203, 197);
     margin-top: 3px;
     overflow: hidden;
@@ -43,7 +43,7 @@
     overflow: hidden;
     cursor: pointer;
 }
-.btn2_text{
+.btn2Text{
     margin-left: 20px;
     color: white;
     font-size: 23px;

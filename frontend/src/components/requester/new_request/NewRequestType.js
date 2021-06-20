@@ -1,41 +1,41 @@
 import React from 'react';
 import Logo from '../../global_ui/logo'
-import Requests from './RequestType.module.css'
+import RequestTypeCSS from './RequestType.module.css'
 
 function RequestType() {
     return(
       <div>
-        <nav className={Requests.navbar}>
-          <div className={Requests.back_div}>
-            <button className={Requests.btn_back}>
-              <span className={Requests.i1}>
+        <nav className={RequestTypeCSS.navbar}>
+          <div className={RequestTypeCSS.backDiv}>
+            <button className={RequestTypeCSS.btnBack}>
+              <span className={RequestTypeCSS.i1}>
               <i className='fas fa-chevron-left'></i>
               </span>
             </button>
           </div>
-          <span className={Requests.nav_head}>
+          <span className={RequestTypeCSS.navHead}>
               Choose Request Type
             </span>
         </nav>
-        <div className={Requests.container}>
+        <div className={RequestTypeCSS.container}>
           <Logo />
-          <button className={Requests.btn2}>
-            <span className={Requests.i2}>
-            <span className={Requests.box}>
+          <button className={RequestTypeCSS.btn2}>
+            <span className={RequestTypeCSS.i2}>
+            <span className={RequestTypeCSS.box}>
               <i className='fas fa-plus'></i>
             </span>
             </span>
-            <span className={Requests.btn2_text}>
+            <span className={RequestTypeCSS.btn2Text}>
               General Request
             </span>
           </button>
-          <button className={Requests.btn2}>
-            <span className={Requests.icon2}>
-              <span className={Requests.i3}>
+          <button className={RequestTypeCSS.btn2}>
+            <span className={RequestTypeCSS.icon2}>
+              <span className={RequestTypeCSS.i3}>
               <i className='fas fa-truck-pickup'></i>
               </span>
             </span>
-            <span className={Requests.btn2_text}>
+            <span className={RequestTypeCSS.btn2Text}>
               Pick Up / Drop
             </span>
           </button>
@@ -44,5 +44,3 @@ function RequestType() {
     )
 }
 export default RequestType;
-
-
