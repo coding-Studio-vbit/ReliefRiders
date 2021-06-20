@@ -3,8 +3,8 @@ import React, { useContext, useEffect, useState } from "react";
 import "./verify_otp.css";
 import InputField from "../../../global_ui/input";
 import { AuthContext } from "../../../context/auth/authProvider";
-import Spinner from "../../../global_ui/spinner";
-import { useHistory, useLocation } from "react-router";
+import {Spinner} from "../../../global_ui/spinner";
+import { useHistory, useLocation } from "react-router-dom";
 import Logo from "../../../global_ui/logo";
 import {
   registerRequester,
@@ -25,12 +25,12 @@ const VerifyOTP = () => {
     state: { isRequester, authType, user },
   } = useLocation();
   const { dispatch, loading, error } = useContext(AuthContext);
-
+  console.log(user);
   useEffect(() => {
     dispatch({
       type: "ISRIDER",
       payload: null,
-    });
+    }); 
   }, []);
   const submit = () => {
     setError({ ...errorMsg, showError: true });
