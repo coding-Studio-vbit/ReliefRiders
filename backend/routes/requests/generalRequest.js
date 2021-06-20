@@ -21,16 +21,16 @@ dotenv.config()
 var paths = [];
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        let hashVal = md5(file.originalname+Date.now());
-        pathVal = path.join('data\images',hashVal.slice(0,1),hashVal.slice(0,2))
-        if (fs.existsSync(pathVal)) {
-            cb(null, (pathVal))
+        let hashValue = md5(file.originalname+Date.now());
+        pathValue = path.join('data\images',hashValue.slice(0,1),hashValue.slice(0,2))
+        if (fs.existsSync(pathValue)) {
+            cb(null, (pathValue))
           }
         else{
-            fs.mkdir(pathVal,{ recursive: true },(err)=>{
+            fs.mkdir(pathValue,{ recursive: true },(err)=>{
                 if (err) { console.log('asshat')}
                 else{
-                    cb(null, (pathVal))
+                    cb(null, (pathValue))
                 }
             })
         }
@@ -38,7 +38,7 @@ const storage = multer.diskStorage({
     filename: function (req, file, cb) {
         fileName = file.fieldname+Date.now() + file.originalname
         cb(null, fileName)
-        paths.push(path.join(pathVal,fileName))
+        paths.push(path.join(pathValue,fileName))
         console.log(paths)
     }
 });
@@ -49,7 +49,7 @@ var upload = multer({ storage: storage })
 var pastReqTime = 0
 router.post('/requests/newRequest/general',upload.any('images'),(req,res)=>{
     let newReqSetTime = Date.now()
-    if (newReqSetTime-pastReqTime <= 2000){
+    if (newReqSetTime-pastReqTime <= process.env.REQUEST_INTERVAL){
         return res.json({status: "failure", message: "Request cannot be placed"})
     }
     let newRequest = new requestModel({
