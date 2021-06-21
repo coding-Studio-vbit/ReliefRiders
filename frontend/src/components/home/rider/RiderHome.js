@@ -42,7 +42,7 @@ function RiderHome() {
         <button
           onClick={() => {
             logout(dispatch);
-            history.push("/");
+            history.replace("/");
           }}
           className="rider-home-btn"
         >

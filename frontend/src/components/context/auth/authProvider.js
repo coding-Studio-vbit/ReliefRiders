@@ -21,8 +21,10 @@ const AuthReducer = (state, action) => {
       return { ...state, loading: !state.loading };
     case "VERIFIED":
       return { ...state, loading: false, user: action.payload };
+    case "UNAUTHENTICATED":
+      return {...state,isAuthenticated:false}
     case "LOGOUT":
-      return initState;
+      return {...initState,isAuthenticated:false};
   }
 };
 
@@ -30,7 +32,7 @@ const initState = {
   isRequester: true,
   user: null,
   loading: false,
-  isAuthenticated: false,
+  isAuthenticated: null,
   token: null,
   error: "",
 };

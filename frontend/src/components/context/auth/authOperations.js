@@ -123,6 +123,7 @@ export function logout(dispatch) {
             type: `LOGOUT`,
         }
     )
+    console.log('loggedOUT');
 }
 
 /**
@@ -138,10 +139,10 @@ export async function verify(dispatch, otp,authType,isRequester,user) {
         }
     )
     try {
-        const url = authType[0]==='r'?`${url}/auth/${authType}${isRequester?`/requester`:`/rider`}/verifyOTP`:
+        const right_url = authType[0]==='r'?`${url}/auth/${authType}${isRequester?`/requester`:`/rider`}/verifyOTP`:
     `${url}/auth/${authType}/verifyOTP`
     const res = await fetch(
-        url,
+        right_url,
         {
             method: `POST`,
             headers: {
@@ -158,7 +159,7 @@ export async function verify(dispatch, otp,authType,isRequester,user) {
         }
     )
     user.isRequester = isRequester
-    return _handle(dispatch, res,true,user)
+    return await _handle(dispatch, res,true,user)
     } catch (error) {
         dispatch({
             type:`SETERROR`,
