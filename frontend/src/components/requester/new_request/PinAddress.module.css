@@ -88,8 +88,8 @@
   .textAreaContainer {
     margin: auto 10%;
   }
-  .btn-proceed {
+  .btnProceed {
     width: 80%;
-    margin-top: 6rem;
+    margin-top: 8rem;
   }
 }
