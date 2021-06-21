@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { Fragment, useEffect, useState } from 'react';
-import Spinner from '../../global_ui/spinner';
+import {Spinner} from '../../global_ui/spinner';
 import './leaderboard.css'
 export const LeaderBoard = () => {
     const [data,setData] = useState([])
