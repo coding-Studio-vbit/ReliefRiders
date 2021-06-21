@@ -1,80 +1,100 @@
 import React, { useContext, useEffect } from "react";
-import {
-    Switch,
-    Route,
-    Redirect,
-    useHistory,
-} from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import Login from "../../authentication/ui/login/login";
 import VerifyOTP from "../../authentication/ui/otp/verify_otp";
 import RegisterScreen from "../../authentication/ui/register/register_form";
 import { AuthContext } from "../../context/auth/authProvider";
+import { LoadingScreen } from "../../global_ui/spinner";
 import RequesterHomeRoutes from "../requester/routes";
 import RiderHomeRoutes from "../rider/routes";
 import InitialHome from "./initial_home";
 
 const InitialHomeRouting = () => {
+    const { dispatch, isRequester, isAuthenticated } = useContext(AuthContext);
 
-    const { dispatch, isAuthenticated,isRequester } = useContext(AuthContext)
-    const route = useHistory()
-    const previousLocation = location.pathname
     useEffect(() => {
-        const token = localStorage.getItem('token')
+        const token = localStorage.getItem("token");
 
         if (token) {
-            const user = JSON.parse(localStorage.getItem('user'))
+            const user = JSON.parse(localStorage.getItem("user"));
 
             dispatch({
                 type: "AUTHENTICATED",
-                payload: { token, user }
-            })
-            // console.log("path",location.pathname);
-            // // if(location.pathname==='/')
-            if(previousLocation != '/' && previousLocation != '/verify')
-             route.push(previousLocation)
-            
-        }
+                payload: { token, user },
+            });
+        } else
+            dispatch({
+                type: "UNAUTHENTICATED",
+            });
+    }, []);
 
-    }, [])
-
-    return (
+    return isAuthenticated === null ? (
+        <LoadingScreen />
+    ) : (
         <Switch>
-            {isRequester && <ProtectedRoute isAuthenticated={isAuthenticated} path="/home/requester">
+            <ProtectedRoute
+                isAuthenticated={isAuthenticated}
+                path="/home/requester"
+            >
                 <RequesterHomeRoutes />
-            </ProtectedRoute>}
-            { !isRequester && <ProtectedRoute isAuthenticated={isAuthenticated} path="/home/rider">
+            </ProtectedRoute>
+
+            <ProtectedRoute
+                isAuthenticated={isAuthenticated}
+                path="/home/rider"
+            >
                 <RiderHomeRoutes />
-            </ProtectedRoute>}
-            <Route path="/login/:user"
+            </ProtectedRoute>
 
+            <ProtectedRoute
+                isAuthenticated={!isAuthenticated}
+                path="/login/:user"
             >
-                <Login></Login>
-            </Route>
-            <Route path="/verify" exact render={(match) => {
-                if (!match.location.state) {
-                    return <Redirect to="/" />
-                } else return <VerifyOTP />
-            }} />
+                {" "}
+                <Login />{" "}
+            </ProtectedRoute>
 
-            <Route path="/register/:user"
+            <Route
+                path="/verify"
+                exact
+                render={(match) => {
+                    if (!match.location.state) {
+                        return <Redirect to="/" />;
+                    } else return <VerifyOTP />;
+                }}
+            />
 
+            <ProtectedRoute
+                isAuthenticated={!isAuthenticated}
+                path="/register/:user"
             >
-                <RegisterScreen></RegisterScreen>
-            </Route>
-            <Route  path="/">
-
-                <InitialHome />
+                <RegisterScreen />
+            </ProtectedRoute>
+            <Route path="/">
+                
+                {isAuthenticated ? (
+                    <Redirect
+                        to={`/home/${isRequester ? "requester" : "rider"}`}
+                    />
+                ) : (
+                    <InitialHome />
+                )}
             </Route>
         </Switch>
     );
-}
+};
 
 export default InitialHomeRouting;
 
 const ProtectedRoute = ({ isAuthenticated, children, path }) => {
     if (isAuthenticated) {
-        return <Route path={path} > {children}</Route>
+        return (
+            <Route path={path}>
+                {" "}
+                {children}
+            </Route>
+        );
     } else {
-        return <Redirect to="/" />
+        return <Redirect to="/" />;
     }
-}
+};
