@@ -8,6 +8,10 @@ const schema = new mongoose.Schema({
 	
 	requesterCovidStatus: Boolean,
 	
+	lastRequestTime : {type: Number, default: Date.now()}, // Added lastRequestTime
+
+	noContactDelivery: Boolean, // Added No Contact Delivery
+
 	requestStatus: {
 		type: String,
 		default: 'PENDING',

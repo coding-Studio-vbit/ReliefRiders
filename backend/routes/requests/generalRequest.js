@@ -2,6 +2,7 @@ const express = require('express');
 const router  = express.Router();
 const dotenv = require('dotenv');
 const requestModel = require('../../models/request');
+const requester = require('../../models/requesters')
 var md5 = require('md5');
 const multer = require("multer");
 var md5 = require('md5');
@@ -18,7 +19,7 @@ dotenv.config()
 
 
 //multer storage
-var paths = [];
+
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         let hashValue = md5(file.originalname+Date.now());
@@ -28,7 +29,7 @@ const storage = multer.diskStorage({
           }
         else{
             fs.mkdir(pathValue,{ recursive: true },(err)=>{
-                if (err) { console.log('asshat')}
+                if (err) { console.log('Path Error! Folder cannot be created.')}
                 else{
                     cb(null, (pathValue))
                 }
@@ -38,25 +39,46 @@ const storage = multer.diskStorage({
     filename: function (req, file, cb) {
         fileName = file.fieldname+Date.now() + file.originalname
         cb(null, fileName)
-        paths.push(path.join(pathValue,fileName))
-        console.log(paths)
     }
 });
 
 var upload = multer({ storage: storage })
 
 
-var pastReqTime = 0
 router.post('/requests/newRequest/general',upload.any('images'),(req,res)=>{
-    let newReqSetTime = Date.now()
-    if (newReqSetTime-pastReqTime <= process.env.REQUEST_INTERVAL){
+    let currentReqTime = Date.now();
+    requester.findOne({req.user.phoneNumber})
+    .then(doc => {
+        if(doc != null)
+        {
+            lastReqTime = doc.lastRequestTime
+        }
+    })
+    .catch(err => {
+        console.log('Could Not find Previous request time')
+    })
+
+    if (currentReqTime-lastReqTime <= process.env.REQUEST_INTERVAL){
         return res.json({status: "failure", message: "Request cannot be placed"})
     }
+    //getting array of paths for all the saved files. This was simpler than storing paths
+    let paths = [];
+    try{
+        req.files.map(data=>{
+            paths.push(data.path)
+        })
+    }
+    catch(err){
+        console.log("Two things could've happened 1.)You did not Upload files, 2.) Paths cannot be fetched!")
+    }
+
     let newRequest = new requestModel({
         requestNumber : Date.now() + Math.floor(Math.random()*100),
         requesterCovidStatus : req.body.requesterCovidStatus,
+        lastRequestTime : currentReqTime,
+        noContactDelivery : req.body.noContactDelivery, // added no contact delivery
         requestStatus : req.body.requestStatus,
-        requestType : req.body.requestType,//change 
+        requestType : 'GENERAL',
         itemsListList: req.body.itemsListList,
         itemCategories : req.body.itemCategories,
         Remarks: req.body.Remarks,
@@ -66,7 +88,7 @@ router.post('/requests/newRequest/general',upload.any('images'),(req,res)=>{
 	    pickupLocationAddress: req.body.pickupLocationAddress,
         dropLocationCoordinates: req.body.dropLocationCoordinates,
         dropLocationAddress: req.body.dropLocationAddress
-    }); //have to add no-contact-delivery (true/false)
+    }); 
     newRequest.save()
     .then(result =>{
         return res.json({status:"success", message: "Request successfully made"})
@@ -74,8 +96,6 @@ router.post('/requests/newRequest/general',upload.any('images'),(req,res)=>{
     .catch(err =>{
         return res.json({status:"failure",message:"Sorry!request could not be placed"})
     })
-
-    pastReqTime = newReqSetTime;
     
     
     
