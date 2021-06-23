@@ -1,26 +1,26 @@
 import React from 'react';
 import { useState,} from 'react';
 import styles from './Upload_images.module.css';
+import { useSessionStorageState } from "../../../utils/useLocalStorageState";
 import Navbar from '../../global_ui/nav';
 
 const uploadImages =()=>{
 
-    const [files, setFiles]= useState([]);
-    const [num, setNum] = useState(0);
+    const [files, setFiles]= useSessionStorageState("images",[]);
+    const [num, setNum] = useSessionStorageState("num",0);
     const [error, setError] = useState(null);
-    const [preview, setPreview] = useState([]);
-    const [Medicine, setMedicine] = useState(false);
-    const [Grocery, setGrocery] = useState(false);    
-    const [Misc,setMisc] = useState(false);
-    const [categories,setcategories] = useState([]);
-  
-    
+    const [preview, setPreview] = useSessionStorageState("previews",[]);
+    const [Medicine, setMedicine] = useState(sessionStorage.getItem('Medicine')==='true');
+    const [Grocery, setGrocery] = useState(sessionStorage.getItem('Grocery')==='true');    
+    const [Misc,setMisc] = useState(sessionStorage.getItem('Misc')==='true'); 
+    const [categories,setcategories] = useSessionStorageState("tags",[]);
+            
 
     const onInputChange = (e)=>{
        
         if(num + e.target.files.length<=3)
         {
-            
+            console.log(e.target.files[0]);
             for(let i=0;i<e.target.files.length;i++){
             
             var t=e.target.files[i].type.split('/').pop().toLowerCase();
@@ -52,14 +52,15 @@ const uploadImages =()=>{
        
         }
 
+        
 
     const onSubmit = (e) =>{
         e.preventDefault();
        
-        if(num===0)
+        if(num!=0 && (Medicine===true || Grocery===true || Misc===true))
         {
-            setError("No file uploaded");
-        }
+            setError(" ");
+        
 
         if(Medicine===true)
         {
@@ -73,23 +74,20 @@ const uploadImages =()=>{
         {
             setcategories(categories=> [...categories,"MISC."]);           
         }
-
-         if(categories.length==0)
-         {
-             setError("Please select the category")
-         }
-
-        //console.log(categories.length);
-        for(let i=0; i<categories.length; i++)
-        {
-            //console.log(categories[i]);
-        }        
+         console.log(categories.length);
+         
 
         const data = new FormData();
 
         for(let i=0; i<files.length; i++){
             data.append('file',files[i]);
         }
+
+        }else{
+        setError("Please upload files and select the categories")
+        }
+
+
         }  
 
         const onCancel = ()=>{
@@ -100,7 +98,7 @@ const uploadImages =()=>{
     return(
        
         <>
-        <Navbar style={{backgroundColor:'#79CBC5',marginBottom:"10px"}} back={true} backStyle={{ color: 'white' }} 
+        <Navbar style={{backgroundColor:'#79CBC5',marginBottom:"10px"}} back='/' backStyle={{ color: 'white' }} 
         title="Upload Images" titleStyle={{ color: 'white' }} />       
             
             
@@ -110,6 +108,8 @@ const uploadImages =()=>{
                
             <p className={styles.up_img_header}>Please choose the items you want to request</p>
              <p className={styles.up_error_msg}>{error ? error : ""}</p>
+
+           
                           
              <label htmlFor="file" className={styles.labels}>
              <p className={styles.up_msg}>Upload Images: </p>
@@ -134,22 +134,31 @@ const uploadImages =()=>{
                
                   <div>
                      <label className={styles.up_check_label}>Medicine
-                      <input type="checkbox" name="Medicine" 
-                       onChange = {()=>setMedicine(!Medicine)} />
+                      <input type="checkbox" name="Medicine" checked={Medicine}
+                       onChange = {(e)=> {
+                        sessionStorage.setItem('Medicine',`${e.target.checked}`);
+                       setMedicine(e.target.checked);
+                       }} />
                       <span className={`${styles.up_check} ${styles.check_1}`}></span>
                       </label>
                   </div>
                   <div> 
                      <label className={styles.up_check_label}>Grocery
-                      <input type="checkbox" name="Grocery" 
-                      onChange = {()=>setGrocery(!Grocery)} />
+                      <input type="checkbox" name="Grocery" checked={Grocery}
+                      onChange = {(e)=> {
+                        sessionStorage.setItem('Grocery',`${e.target.checked}`);  
+                      setGrocery(e.target.checked);
+                      }} />
                       <span className={`${styles.up_check} ${styles.check_2}`}></span>
                       </label>
                   </div>
                   <div> 
                       <label className={styles.up_check_label}>Misc.
-                      <input type="checkbox" name="Misc" 
-                       onChange = {()=>setMisc(!Misc)}/>
+                      <input type="checkbox" name="Misc" checked={Misc}
+                       onChange = {(e)=> {
+                        sessionStorage.setItem('Misc',`${e.target.checked}`); 
+                       setMisc(e.target.checked);
+                       }}/>
                       <span className={`${styles.up_check} ${styles.check_3}`}></span>
                       </label>
                   </div>
@@ -158,8 +167,8 @@ const uploadImages =()=>{
           </div>
 
           <div className={styles.buttonscontrol}>
-          <button onClick={onCancel} className={styles.up_img_cancel}>Cancel Request</button>
-           <button onClick={onSubmit} className={styles.up_img_button}>Proceed Request</button>          
+          <button onClick={onCancel} className={styles.up_img_cancel}>Cancel </button>
+           <button onClick={onSubmit} className={styles.up_img_button}>Proceed</button>          
            </div>
     
        </div>         
