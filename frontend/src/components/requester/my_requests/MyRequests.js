@@ -119,16 +119,27 @@ const request = {
   rideImages: [
     // "https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
   ],
-  pickupLocationAddress: {
+  pickupLocationAddress: 
+  {
     addressLine: "Some place far away",
     area: "",
     city: "Unknown",
     pincode: "XXXXXX",
+  }
+  ,
+  dropLocationAddress: null
+  // {
+  //   addressLine: "Some place far away",
+  //   area: "",
+  //   city: "Unknown",
+  //   pincode: "XXXXXX",
+  // }
+  ,
+
+  pickupLocationCoordinates:{
+    coordinates:[17.9,78.6]
   },
-  dropLocationAddress: {
-    addressLine: "Some place far away",
-    area: "",
-    city: "Unknown",
-    pincode: "XXXXXX",
+  dropLocationCoordinates:{
+    coordinates:[17.9,78.6]
   }
 }
