@@ -1,17 +1,13 @@
-:root {
-  --gradient: rgb(233, 246, 255);
-}
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap');
 .container {
   display: grid;
-  /* background-image: linear-gradient(var(--gradient), rgb(255, 255, 255)); */
-
   align-content: flex-start;
   justify-items: center;
   gap: 0.2em;
 }
 
 .container p:first-child {
-  font-size: clamp(1.4rem, 1.7vw, 2.5rem);
+  font-size: clamp(1.5rem, 1.7vw, 2.5rem);
 }
 
 p {
@@ -27,7 +23,6 @@ p {
   margin-top: 0.2em;
   box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.137);
   margin-bottom: 0.5em;
-  /* border: 1px solid rgba(128, 128, 128, 0.26) ; */
 }
 .address span:first-child {
   font-weight: bold;
@@ -41,14 +36,14 @@ p {
   font-size: clamp(0.8rem, 1.2vw, 1rem);
   margin-right: 0.6em;
   padding: 0.3em 0.6em;
-
+  font-family: 'Lato', sans-serif;
   border-radius: 1rem;
 }
 .catGreen {
-  background: rgb(243, 149, 149);
+  background: rgb(247, 153, 153) ;
 }
 .catGray {
-  background: rgb(126, 178, 255);
+  background: rgb(152, 192, 252);
 }
 .requested {
   display: grid;
@@ -67,16 +62,6 @@ p {
   align-items: center;
   gap: 0.3em;
 }
-/* .imageContainer{
-    display: grid;
-    border-top: 2px solid rgba(0, 0, 0, 0.336);
-    width: min(90vw,350px);
-    padding-top: 0.5em;
-    justify-content: center;
-    padding-bottom: 0.5em;
-    justify-items: center;
-    grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
-} */
 
 .imagesContainer {
   display: grid;
@@ -102,7 +87,7 @@ p {
 .buttonsContainer button {
   color: black;
   padding: 0.6em;
-
+  font-family: 'Lato', sans-serif;
   cursor: pointer;
   box-shadow: 0 1px 12px rgba(0, 0, 0, 0.263);
   transition: transform 70ms, outline 70ms;
@@ -115,7 +100,7 @@ button:focus {
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.263);
 }
 .buttonsContainer button:first-child {
-  background: rgb(253, 129, 129) ;
+  background: rgb(247, 153, 153) ;
 }
 .buttonsContainer button:last-child {
   background: palegreen;

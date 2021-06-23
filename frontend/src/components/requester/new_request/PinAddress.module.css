@@ -1,37 +1,24 @@
-.chooseAddresspage {
+.chooseAddressPage {
   height: 100%;
   text-align: center;
 }
 
-.nav-bar {
-  background-color: #79cbc5;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 55px;
-}
-
-.nav-icon {
-  text-align: left;
-}
-
-.page-title {
+.pageTitle {
   display: grid;
   margin: 0px auto;
 }
 
-.header-text {
+.headerText {
   margin: 2em auto;
 }
 
-.address_form {
+.addressForm {
   display: grid;
   justify-content: center;
   justify-items: center;
 }
 
-.address_container {
+.addressContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -40,7 +27,7 @@
   padding: 2px;
 }
 
-.city-pincode {
+.cityPincode {
   margin: 1rem auto;
   padding: 0px;
 
@@ -59,7 +46,7 @@
   border-radius: 4px;
 }
 
-.locationbtn {
+.locationBtn {
   padding: 0.5em 1em;
   font-weight: bold;
   outline: none;
@@ -69,7 +56,7 @@
   background-color: white;
 }
 
-.locationbtn:active {
+.locationBtn:active {
   outline: none;
 }
 
@@ -79,8 +66,8 @@
   margin-left: 8px;
 }
 
-.btn-proceed {
-  margin-top: 1em;
+.btnProceed {
+  margin-top: 4em;
   padding: 0.6em;
   font-weight: bold;
   color: white;
@@ -92,7 +79,7 @@
 }
 
 @media screen and (max-width: 480px) {
-  .city-pincode {
+  .cityPincode {
     width: 80%;
   }
   .headField {
@@ -101,8 +88,8 @@
   .textAreaContainer {
     margin: auto 10%;
   }
-  .btn-proceed {
+  .btnProceed {
     width: 80%;
-    margin-top: 2rem;
+    margin-top: 6rem;
   }
 }
