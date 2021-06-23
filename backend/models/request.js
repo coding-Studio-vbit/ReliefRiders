@@ -12,7 +12,7 @@ const schema = new mongoose.Schema({
 		type: String,
 		default: 'PENDING',
 		uppercase:true,
-		enum: ['PENDING', 'UNDER DELIVERY', 'DELIVERED', 'CANCELLED']
+		enum: ['PENDING', 'UNDER DELIVERY', 'DELIVERED', 'CANCELLED BY REQUESTER', 'RIDER CONFIRMED', 'CANCELLED BY RIDER']
 		},
 	
 	requestType:{
@@ -22,18 +22,11 @@ const schema = new mongoose.Schema({
 		enum: ['GENERAL', 'P&D']
 		},
 	
-	itemsListType:{
-		required: [true, 'request type is required.'],
-		type: String,
-		uppercase:true,
-		enum: ['IMAGE', 'LIST']
-		},
-	
 	itemsListImages: [String],
 	
 	itemsListList:[{
 		itemName: {type: String},
-		quantity: {type: Number}
+		quantity: {type: String} //Yeah String only. Thank revanth. cuz units are different for things. The world is weird and the units are weirder.
 	}],
 	
 	itemCategories: [
@@ -57,15 +50,13 @@ const schema = new mongoose.Schema({
 		coordinates: [Number]
 	},
 
-
 	//Pickup location address MUST be there if the request is P&D and pickup coordinates have not been specified.
 	pickupLocationAddress:{
-		required: function(){return (this.requestType == "P&D" && !this.pickupLocationCoordinates)},
 		addressLine: { type: String, maxLength: 240},
 		area: String,
 		city: String,
 		pincode:{type:String, minLength: 6, maxLength:6},
-	}
+	},
 
 	dropLocationCoordinates:{
 		type: {type: String, default: "Point"},
@@ -74,7 +65,6 @@ const schema = new mongoose.Schema({
 
 	//drop location address MUST be there if the drop coordinates have not been specified.
 	dropLocationAddress:{
-		required: function(){return !(this.dropLocationCoordinates)},
 		addressLine: { type: String, maxLength: 240},
 		area: String,
 		city: String,

@@ -6,8 +6,7 @@ import { AuthContext } from "../../../context/auth/authProvider";
 import Spinner from "../../../global_ui/spinner";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { requestOTPLogin } from "../../../context/auth/authOperations";
-import useModal from "../error_dialog/useerr";
-import Modal from "../error_dialog/err_dialog";
+import Dialog from "../../../global_ui/dialog/dialog";
 import User from "../../../../models/user";
 function Login() {
   const [mobile, setMobile] = useState("");
@@ -17,7 +16,7 @@ function Login() {
   const route = useHistory();
   const { user } = useParams();
   let isRequester = user === "rider" ? false : true;
-  const { isShowing, toggle } = useModal();
+  const [ isShowing, toggle ] = useState(false);
  
   useEffect(() => {
     if (!isRequester) {
@@ -64,7 +63,7 @@ function Login() {
             user: user,
           });
         } else {
-          toggle();
+          toggle(true);
         }
       });
     }
@@ -74,7 +73,7 @@ function Login() {
     <div className="login">
       {/* Logo */}
 
-      <Modal isShowing={isShowing} hide={toggle} msg={error} />
+      <Dialog  isShowing={isShowing} onOK={()=>{toggle(false)}} msg={error} />
       {/*Form and Content*/}
 
       <div>

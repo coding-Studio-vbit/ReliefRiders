@@ -7,10 +7,11 @@ import {
   Route,
 } from "react-router-dom";
 import InitialHomeRouting from './components/home/initial_home/initialHomeRouting';
+import PlacedRequest from './components/requester/my_requests/placed_request';
 
 function App() {
   //todo
-  
+
   return (
     <div className="App">
       <AuthProvider>
@@ -18,18 +19,15 @@ function App() {
           <Switch>
           
             <Route path="/about">
-              About
+              <PlacedRequest/>
           </Route>
             <Route path="/">
               <InitialHomeRouting />
             </Route>
-            
           </Switch>
         </Router>
 
       </AuthProvider>
-      {/* <Stub/> */}
-      
     </div>
   );
 }
