@@ -6,8 +6,8 @@ const ConfirmRequestGeneral = () => {
     const [noContactDeliver,setNoContactDeliver] = useState(false);
     const [deliveryRemarks,setDeliverRemarks] = useState('');
     const [covidStatus,setCovidStatus] = useState(false);
-    //console.log(paymentPrefer);
-    //console.log(deliveryRemarks)
+    console.log(paymentPrefer);
+    console.log(deliveryRemarks)
     return (
         <div className = {ConfirmReqCSS.confirmRequestDiv}>
             <Navbar back={true} backStyle={{ color: 'white' }} title="New Requests" titleStyle={{ color: 'white' }} style={{ backgroundColor: '#79CBC5', marginBottom: "25px" }} />
@@ -40,6 +40,9 @@ const ConfirmRequestGeneral = () => {
                     <span>Are you COVID positive?</span><br />
                     <input type = 'checkbox' className = {ConfirmReqCSS.covidStatCheckbox}
                     onChange = {()=>setCovidStatus(!covidStatus)}></input><br />
+                    <button className = {ConfirmReqCSS.cancelRequestBtn} >Cancel Request
+                    <i className="fas fa-times" style = {{"marginLeft" : "1em"}}></i>
+                    </button>
                     <button className = {ConfirmReqCSS.confirmRequestBtn} >Confirm Request
                     <i className="fas fa-arrow-right" style = {{"marginLeft" : "1em"}}></i>
                     </button>
