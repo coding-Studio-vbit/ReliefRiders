@@ -1,3 +1,4 @@
+//Author: Shivani
 const JWT = require('jsonwebtoken')
 
 module.exports =
@@ -13,5 +14,5 @@ module.exports =
             }
             req.user = data
             next()
-        })
-    }
+     })
+}
