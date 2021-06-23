@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Spinner } from "../spinner";
 import "./dialog.css";
 /**
  * 
@@ -27,6 +28,7 @@ import "./dialog.css";
 const Dialog = ({
   confirmDialog,
   isShowing,
+  loading,
   msg,
   title = "Alert",
   onOK = () => {},
@@ -49,7 +51,8 @@ const Dialog = ({
               className="modal"
             >
               <h3>{title}</h3>
-              <p>{msg}</p>
+              {loading ? <Spinner radius='2'/> :<p>{msg}</p>  }
+              
 
               {confirmDialog && (
                 <button
