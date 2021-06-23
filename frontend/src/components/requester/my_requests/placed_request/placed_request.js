@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import Dialog from "../../global_ui/dialog/dialog";
-import Navbar from "../../global_ui/nav";
+import Dialog from "../../../global_ui/dialog/dialog";
+import Navbar from "../../../global_ui/nav";
 import styles from "./placed_request.module.css";
+import RequestImages from "./request_images";
 
 const PlacedRequest = () => {
     const history = useHistory();
@@ -17,16 +18,16 @@ const PlacedRequest = () => {
         fontWeight: "bold",
         fontSize: 1.2 + "em",
     };
-    
+
     return (
         <>
-        <Dialog
-                    isShowing={dialogData.show}
-                    msg={dialogData.msg}
-                    confirmDialog
-                    onOK={()=>setDialogData({show: false, msg: "" })}
-                    onCancel={() => setDialogData({show: false, msg: "" })}
-                />
+            <Dialog
+                isShowing={dialogData.show}
+                msg={dialogData.msg}
+                confirmDialog
+                onOK={() => setDialogData({ show: false, msg: "" })}
+                onCancel={() => setDialogData({ show: false, msg: "" })}
+            />
             <Navbar
                 back="my_requests"
                 style={{
@@ -37,8 +38,6 @@ const PlacedRequest = () => {
                 title="Order Details"
             />
             <div className={styles.container}>
-                
-
                 <p>Request #{request.requestNumber}</p>
                 <span>
                     Order Status:{" "}
@@ -50,7 +49,7 @@ const PlacedRequest = () => {
                 )}
                 <Address />
                 {request.itemsListImages.length > 0 ? (
-                    <ItemsRequestedImagesAndOthers
+                    <RequestImages
                         bills={request.billsImageList}
                         items={request.itemsListImages}
                         images={request.rideImages}
@@ -61,7 +60,7 @@ const PlacedRequest = () => {
                             list={request.itemsListList}
                             category={request.itemCategories}
                         />
-                        <ItemsRequestedImagesAndOthers
+                        <RequestImages
                             bills={request.billsImageList}
                             images={request.rideImages}
                         />
@@ -82,52 +81,25 @@ const BottomButton = ({ setDialogData }) => {
     return (
         <div className={styles.buttonsContainer}>
             <button
-                onClick={() =>{
+                onClick={() => {
                     setDialogData({
                         show: true,
                         msg: "Are you sure you want to cancel",
-                    })
+                    });
                 }}
             >
                 Cancel Request
             </button>
             <button
-                onClick={() =>
-                  {
+                onClick={() => {
                     setDialogData({
                         show: true,
                         msg: "Are you sure you want to confirm delivery",
-                    })
-                  }
-                }
+                    });
+                }}
             >
                 Confirm Request
             </button>
-        </div>
-    );
-};
-
-const ItemsRequestedImagesAndOthers = ({ bills, images, items = [] }) => {
-    return (
-        <div className={styles.imagesContainer}>
-            {items.map((link) => (
-                <div className={styles.singleImage} key={link}>
-                    <img src={link} alt="items-img" />
-                    <span>Items</span>
-                </div>
-            ))}
-            {bills.map((link, index) => (
-                <div className={styles.singleImage} key={link}>
-                    <img src={link} alt="items-img" />
-                    <span>Bill #{index + 1}</span>
-                </div>
-            ))}
-            {images.map((link) => (
-                <div className={styles.singleImage} key={link}>
-                    <img src={link} alt="items-img" />
-                    <span>Rider-Selfie</span>
-                </div>
-            ))}
         </div>
     );
 };
