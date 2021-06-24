@@ -1,4 +1,4 @@
-.input-field {
+.inputField {
     position : relative;
     font-size: 1rem;
     margin: 0px auto;
@@ -6,22 +6,21 @@
     width: min(100%,35rem);
     --label-top:calc(23%);
 }
-
- label {
+.label {
     position      : absolute;
-    left          : 0.6em;
+    left          : 0.8em;
     padding-left  : 0.2em;
     padding-right : 0.2em;
     color         : #5a5858;
     font-size     : 1em;
-    top           : var(--label-top);
+    top           : 0.1em;
     pointer-events: none;
     transition    : top 0.2s ease,
         font-size 0.2s ease,
         color 0.2s ease;
 }
 
-input {
+.input {
     box-sizing:border-box;
     border       : 2px solid #ddd;
     padding      : 0.6em;
@@ -35,7 +34,7 @@ input {
     
 }
 
-.input-field span{
+.inputField span{
     position: absolute;
     left: 0.4%;
     color: red;
@@ -43,43 +42,45 @@ input {
     padding-top: 0.2em;
     padding-left: 0.3em;
 }
-.input-field .normal-field{
+.inputField .normalField{
     --label-top:calc(50% - 10px);
 }
-.error-field{
+.errorField{
     border-color: red;
 }
 
-.error-field +.label{
+.errorField +.label{
     color: red;
-    --label-top:17%;
-
-    
+    --label-top:17%;    
 }
-input:valid+label,
-input:focus+label {
+.input:valid+.label,
+.input:focus+.label {
     font-size   : 0.7em;
-    top         : -8px;
+    top         : -18px;
     color       : black;
     border-color: black;
     background  : white;
 }
 
-input:focus {
+.input:focus {
     border-color: black;
 }
-.error-field:focus{
+.errorField:focus{
     border-color: red;
 }
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
+.errorField:valid+.label,
+.errorField:focus +.label{
+    color: red;
+}
+.input[type=number]::-webkit-inner-spin-button, 
+.input[type=number]::-webkit-outer-spin-button { 
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
     margin: 0; 
 }
 
-textarea {
+/* textarea {
     box-sizing:border-box;
     border       : 2px solid #ddd;
     font-size    : 1.1em;
@@ -91,6 +92,7 @@ textarea {
     ;    
     resize: none;
     padding: 10px;    
+    overflow: scroll;
 }
 textarea:focus{
     border-color: black;
@@ -119,4 +121,19 @@ textarea:valid+label,textarea:focus+label{
     font-size   : 0.7em;
 
     background-color: white;
+} */
+
+
+textarea::-webkit-scrollbar {
+    width: 17px;
+    background-color: #F5F5F5; 
 }
+
+textarea::-webkit-scrollbar-thumb {
+    border: 0.2px solid gray;
+    border-radius: 10px;
+    box-shadow:inset 0 0 6px rgba(0, 0, 0, 0.1) ;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+    background-color:#b2dfdb; 
+}
+

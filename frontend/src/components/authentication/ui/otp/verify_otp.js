@@ -3,8 +3,8 @@ import React, { useContext, useEffect, useState } from "react";
 import "./verify_otp.css";
 import InputField from "../../../global_ui/input";
 import { AuthContext } from "../../../context/auth/authProvider";
-import Spinner from "../../../global_ui/spinner";
-import { useHistory, useLocation } from "react-router";
+import {Spinner} from "../../../global_ui/spinner";
+import { useHistory, useLocation } from "react-router-dom";
 import Logo from "../../../global_ui/logo";
 import {
   registerRequester,
@@ -25,12 +25,12 @@ const VerifyOTP = () => {
     state: { isRequester, authType, user },
   } = useLocation();
   const { dispatch, loading, error } = useContext(AuthContext);
-
+  console.log(user);
   useEffect(() => {
     dispatch({
       type: "ISRIDER",
       payload: null,
-    });
+    }); 
   }, []);
   const submit = () => {
     setError({ ...errorMsg, showError: true });
@@ -38,9 +38,10 @@ const VerifyOTP = () => {
       const res = verify(dispatch, otp, authType, isRequester, user);
       res.then((r) => {
         if (r == 1) {
-          window.location.reload();
+          
 
-          route.push(`/home/${isRequester ? "requester" : "rider"}`);
+          route.replace(`/home/${isRequester ? "requester" : "rider"}`);
+          window.location.reload();
         } else {
           toggle(true);
         }
@@ -79,7 +80,7 @@ const VerifyOTP = () => {
     }
     res.then((r) => {
         if (r != 1) {
-            toggle();
+            toggle(true);
 
         } 
       });
@@ -89,9 +90,9 @@ const VerifyOTP = () => {
     <div className="otp-container">
       <Logo></Logo>
       <Dialog  isShowing={isShowing} onOK={()=>{toggle(false)}} msg={error} />
-      <span style={{ textAlign: "center", marginBottom: 0.3 + "em" }}>
+      <p style={{ textAlign: "center", marginBottom: 0.3 + "em" }}  >
         You will get an OTP via SMS
-      </span>
+      </p>
       <InputField
         error={errorMsg.showError ? errorMsg.error : ""}
         textAlign="center"
@@ -99,12 +100,12 @@ const VerifyOTP = () => {
         type="number"
         onChange={(e) => validateOTP(e.target.value)}
       />
-      <span>
+      <p style={{ textAlign: "center"}} >
         Still haven't received the OTP ?{" "}
         <a onClick={resendOTP} className="send-otp-btn">
           Resend OTP
         </a>{" "}
-      </span>
+      </p>
       <div style={{ height: 5 + "rem" }}></div>
       {loading ? (
         <Spinner radius="2" />

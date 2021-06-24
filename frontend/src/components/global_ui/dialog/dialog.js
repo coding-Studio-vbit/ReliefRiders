@@ -38,23 +38,42 @@ const Dialog = ({
         gridColumnEnd: -1,
       }
     : {};
+
+  
   return isShowing
     ? ReactDOM.createPortal(
         <React.Fragment>
-          <div className="modal-wrapper">
-            <div className="modal">
+          <div id="mw" className="modal-wrapper">
+            <div
+              id="modal"
+              className="modal"
+            >
               <h3>{title}</h3>
               <p>{msg}</p>
 
               {confirmDialog && (
-                <button className="modal-close-button" onClick={onCancel}>
+                <button
+                  className="modal-close-button"
+                  onClick={() => {
+                    document.getElementById("mw").classList.add("modal-wrapper-b")
+
+                  document.getElementById("modal").classList.add("modal-b")
+                  setTimeout(()=>onCancel(),250)
+                  }}
+                >
                   Cancel
                 </button>
               )}
               <button
                 style={style}
                 className="modal-close-button"
-                onClick={() => onOK()}
+                onClick={() => {
+                  document.getElementById("mw").classList.add("modal-wrapper-b")
+
+                  document.getElementById("modal").classList.add("modal-b")
+                  setTimeout(()=>onOK(),250)
+                  
+                }}
               >
                 Okay!
               </button>

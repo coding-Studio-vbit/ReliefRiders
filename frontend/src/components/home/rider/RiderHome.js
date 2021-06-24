@@ -3,8 +3,8 @@ import React, { useContext } from "react";
 import { AuthContext } from "../../context/auth/authProvider";
 import { logout } from "../../context/auth/authOperations";
 
-import "../Requester/style.css";
-import { useHistory } from "react-router";
+import "../requester/style.css";
+import { useHistory } from "react-router-dom";
 import Logo from "../../global_ui/logo";
 import Navbar from "../../global_ui/nav";
 function RiderHome() {
@@ -12,7 +12,7 @@ function RiderHome() {
   const { dispatch } = useContext(AuthContext);
 
   const routehandler = (route) => {
-    history.push({ route });
+    history.push( route );
   };
 
   return (
@@ -20,30 +20,30 @@ function RiderHome() {
       <Navbar title="HOME" />
       <div className="riderhome">
         <Logo />
-        <button  onClick={()=>routehandler("new_delivery")} className="rider-home-btn">
+        <button  onClick={()=>routehandler("/new_delivery")} className="rider-home-btn">
           <i className="fas fa-plus"></i>
           Make New Delivery
         </button>
-        <button onClick={()=>routehandler("current_request")} className="rider-home-btn">
+        <button onClick={()=>routehandler("/current_request")} className="rider-home-btn">
           <i className="fas fa-exclamation-circle"></i>
           Current Request
         </button>
-        <button onClick={()=>routehandler("my_deliveries")} className="rider-home-btn">
-          <i className="fas fa-align-justify"></i>
+        <button onClick={()=>routehandler("/my_deliveries")} className="rider-home-btn">
+        <i className="fas fa-list-ul"></i>
           My Deliveries
         </button>
-        <button onClick={()=>routehandler("my_profile")} className="rider-home-btn">
+        <button onClick={()=>routehandler("/my_profile")} className="rider-home-btn">
           <i className="fas fa-user"></i>
           My Profile
         </button>
         <button
           onClick={() => {
             logout(dispatch);
-            history.push("/");
+            history.replace("/");
           }}
           className="rider-home-btn"
         >
-          <i className="fas fa-arrow-right"></i>
+          <i className="fas fa-sign-out-alt"></i>
           Logout
         </button>
       </div>

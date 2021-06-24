@@ -10,11 +10,15 @@ import InitialHomeRouting from './components/home/initial_home/initialHomeRoutin
 import PlacedRequest from './components/requester/my_requests/placed_request';
 import RiderProfile from './components/rider/profile/RiderProfile';
 
+
 function App() {
   //todo
 
   return (
     <div className="App">
+      {/* <Map/> */}
+      {/* <MyMapComponent/> */}
+    
       <AuthProvider>
         <Router>
           <Switch>

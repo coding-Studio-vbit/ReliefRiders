@@ -1,9 +1,9 @@
 
 .otp-container{
     display: grid;
-    margin-top: 1em;
-    
+    padding:1rem;
     justify-content: center;
+    justify-items: center;
     gap: 0.5em;
 }
 .logo-container{
@@ -19,8 +19,8 @@
 }
 
 
+
 .verify-btn{
     width: fit-content;
-    justify-self: center;
     padding: 0.5em 1em
 }
