@@ -47,6 +47,7 @@ const PlacedRequest = () => {
               setDialogData({ ...dialogData, msg: "Cancelled successfully" });
             else
               setDialogData({ ...dialogData, msg: "Confirmed successfully" });
+            history.replace('my_requests')
           }
         }}
       />

@@ -1,7 +1,6 @@
 import React from "react";
 import { useRef } from "react";
 import ReactDOM from "react-dom";
-import { useHistory } from "react-router-dom";
 import { useState } from "react/cjs/react.development";
 import { Spinner } from "../spinner";
 import "./dialog.css";
@@ -100,14 +99,12 @@ const ConfirmDialog = ({
   isShowing,
   msg,
   setDialogData,
-  routeRedirect,
   title = "Alert",
   onOK = async () => {},
 }) => {
   const [loading, setLoading] = useState(false);
   const onOKCompleted = useRef(false);
   const [makeAlert, setMakeAlert] = useState(false);
-  const history = useHistory();
   const style = makeAlert
     ? {
         gridColumnStart: 1,
@@ -166,9 +163,7 @@ const ConfirmDialog = ({
                         document
                           .getElementById("modal")
                           .classList.add("modal-b");
-                        if (routeRedirect) {
-                          history.replace(routeRedirect);
-                        }
+                       
                         setTimeout(() => {
                           setDialogData({
                             show: false,
