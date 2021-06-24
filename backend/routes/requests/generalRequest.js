@@ -42,7 +42,8 @@ const storage = multer.diskStorage({
       //  }
     },
     filename: function (req, file, cb) {
-        fileName = md5(file.fieldname + String(Date.now()) + file.originalname);
+		console.log(file);
+        fileName = md5(file.fieldname + String(Date.now()) + file.originalname )+ "." + file.mimetype.slice(6);
         return cb(null, fileName)
     }
 });
@@ -71,7 +72,9 @@ router.post('/newRequest/general',upload.any('images'),(req,res)=>{
         // }
         if (req.files){
             req.files.map(data=>{
-                paths.push(data.path)
+				var path = data.path;
+				var path2 = "data/images";
+                paths.push(path.slice(path.search(path2) + path2.length));
             })
         }
         console.log(paths)
@@ -87,10 +90,10 @@ router.post('/newRequest/general',upload.any('images'),(req,res)=>{
             requestType : 'GENERAL',
             itemsListImages : paths,
             itemsListList : JSON.parse(req.body.itemsListList),
-            itemCategories : JSON.parse(req.body.itemCategories),
+            itemCategories : req.body.itemCategories,
             Remarks: req.body.Remarks,
-            dropLocationCoordinates: JSON.parse(req.body.dropLocationCoordinates),
-            dropLocationAddress: JSON.parse(req.body.dropLocationAddress)
+			dropLocationCoordinates: {coordinates : req.body.dropLocationCoordinates},
+            dropLocationAddress: req.body.dropLocationAddress
         }); 
         //console.log("YAY!")
         return newRequest.save()    
@@ -99,7 +102,8 @@ router.post('/newRequest/general',upload.any('images'),(req,res)=>{
         return res.json({status:"success", message: "Request successfully made"})
     })
     .catch(err =>{
-            return res.json(err)
+			console.log(err);
+            return res.json()
     })    
 })
 // --------------------------
