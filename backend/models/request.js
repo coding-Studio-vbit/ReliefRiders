@@ -7,8 +7,6 @@ const schema = new mongoose.Schema({
 	requesterID: mongoose.Schema.Types.ObjectId,
 	
 	requesterCovidStatus: Boolean,
-	
-	lastRequestTime : {type: Number, default: Date.now()}, // Added lastRequestTime
 
 	noContactDelivery: Boolean, // Added No Contact Delivery
 

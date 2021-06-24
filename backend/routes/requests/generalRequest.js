@@ -1,21 +1,15 @@
 const express = require('express');
 const router  = express.Router();
-const dotenv = require('dotenv');
 const requestModel = require('../../models/request');
 const requester = require('../../models/requesters')
-var md5 = require('md5');
 const multer = require("multer");
 var md5 = require('md5');
 const fs = require('fs')
 const path = require('path');
 const verifyToken = require('../common/tokenAuth');
-//const mongoose  = require('mongoose');
-//const cors = require('cors');
-//app.use(cors())
-//app.use(express.json())
+
 router.use(verifyToken);
 
-dotenv.config()
 
 
 //multer storage
@@ -23,7 +17,7 @@ dotenv.config()
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         let hashValue = md5(file.originalname+Date.now());
-        pathValue = path.join('data\images',hashValue.slice(0,1),hashValue.slice(0,2))
+        pathValue = path.join('../data/images',hashValue.slice(0,1),hashValue.slice(0,2))
         if (fs.existsSync(pathValue)) {
             cb(null, (pathValue))
           }
@@ -45,60 +39,57 @@ const storage = multer.diskStorage({
 var upload = multer({ storage: storage })
 
 
-router.post('/requests/newRequest/general',upload.any('images'),(req,res)=>{
+router.post('/newRequest/general',upload.any('images'),(req,res)=>{
     let currentReqTime = Date.now();
-    requester.findOne({req.user.phoneNumber})
+    console.log(currentReqTime);
+    requester.findOne({phoneNumber : req.user.phoneNumber})
     .then(doc => {
         if(doc != null)
         {
-            lastReqTime = doc.lastRequestTime
+            // lastReqTime = doc.lastRequestTime;
+            // console.log(lastRequestTime);
+            // return lastRequestTime;
+            
         }
+        return 16273927;
     })
-    .catch(err => {
-        console.log('Could Not find Previous request time')
+    .then(value =>{
+        let paths = [];
+        // if(currentReqTime - value <= process.env.REQUEST_INTERVAL){
+        //     throw { status : "failure",message : "Please wait some time to place a new Request "};
+        // }
+        if (req.files){
+            req.files.map(data=>{
+                paths.push(data.path)
+            })
+        }
+        console.log(paths)
+        return paths 
     })
-
-    if (currentReqTime-lastReqTime <= process.env.REQUEST_INTERVAL){
-        return res.json({status: "failure", message: "Request cannot be placed"})
-    }
-    //getting array of paths for all the saved files. This was simpler than storing paths
-    let paths = [];
-    try{
-        req.files.map(data=>{
-            paths.push(data.path)
-        })
-    }
-    catch(err){
-        console.log("Two things could've happened 1.)You did not Upload files, 2.) Paths cannot be fetched!")
-    }
-
-    let newRequest = new requestModel({
-        requestNumber : Date.now() + Math.floor(Math.random()*100),
-        requesterCovidStatus : req.body.requesterCovidStatus,
-        lastRequestTime : currentReqTime,
-        noContactDelivery : req.body.noContactDelivery, // added no contact delivery
-        requestStatus : req.body.requestStatus,
-        requestType : 'GENERAL',
-        itemsListList: req.body.itemsListList,
-        itemCategories : req.body.itemCategories,
-        Remarks: req.body.Remarks,
-        billsImageList : paths,
-        rideImages: req.body.rideImages,
-        pickupLocationCoordinates: req.body.pickupLocationCoordinates,
-	    pickupLocationAddress: req.body.pickupLocationAddress,
-        dropLocationCoordinates: req.body.dropLocationCoordinates,
-        dropLocationAddress: req.body.dropLocationAddress
-    }); 
-    newRequest.save()
+    .then(paths =>{
+        console.log(req.body);
+        let newRequest = new requestModel({
+            requestNumber : Date.now() + Math.floor(Math.random()*100),
+            requesterCovidStatus : req.body.requesterCovidStatus,
+            noContactDelivery : req.body.noContactDelivery, // Added no contact delivery
+            requestStatus : req.body.requestStatus,
+            requestType : 'GENERAL',
+            itemsListImages : paths,
+            itemsListList : JSON.parse(req.body.itemsListList),
+            itemCategories : JSON.parse(req.body.itemCategories),
+            Remarks: req.body.Remarks,
+            dropLocationCoordinates: JSON.parse(req.body.dropLocationCoordinates),
+            dropLocationAddress: JSON.parse(req.body.dropLocationAddress)
+        }); 
+        //console.log("YAY!")
+        return newRequest.save()    
+    })
     .then(result =>{
         return res.json({status:"success", message: "Request successfully made"})
     })
     .catch(err =>{
-        return res.json({status:"failure",message:"Sorry!request could not be placed"})
-    })
-    
-    
-    
+            return res.json(err)
+    })    
 })
 // --------------------------
 module.exports = router;
