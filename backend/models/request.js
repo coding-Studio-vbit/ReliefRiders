@@ -7,7 +7,9 @@ const schema = new mongoose.Schema({
 	requesterID: mongoose.Schema.Types.ObjectId,
 	
 	requesterCovidStatus: Boolean,
-	
+
+	noContactDelivery: Boolean, // Added No Contact Delivery
+
 	requestStatus: {
 		type: String,
 		default: 'PENDING',
@@ -38,7 +40,7 @@ const schema = new mongoose.Schema({
 	
 	Remarks: {type: String, maxLength: 240},
 	
-	billsImageList: [String],
+	billsImageList: [String], 
 
 	rideImages: [String],
 
