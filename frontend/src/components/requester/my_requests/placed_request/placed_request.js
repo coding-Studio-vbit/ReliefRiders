@@ -1,18 +1,24 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import Dialog from "../../../global_ui/dialog/dialog";
+import { useContext } from "react/cjs/react.development";
+import { AuthContext } from "../../../context/auth/authProvider";
+import {ConfirmDialog} from "../../../global_ui/dialog/dialog";
 import Navbar from "../../../global_ui/nav";
+import cancelConfirmRequest from "./cancel_confirm_request";
 import styles from "./placed_request.module.css";
 import RequestImages from "./request_images";
 
 const PlacedRequest = () => {
     const history = useHistory();
+    const {token} = useContext(AuthContext)
+    console.log(token)
     const {
         location: {
             state: { request },
         },
     } = history;
-    const [dialogData, setDialogData] = useState({ show: false, msg: "" });
+    const [dialogData, setDialogData] = useState({ show: false, msg: ""});
+    const [cancel,setCancel] = useState(false)
     const statusStyle = {
         color: request.requestStatus === "PENDING" ? "red" : "green",
         fontWeight: "bold",
@@ -21,12 +27,26 @@ const PlacedRequest = () => {
 
     return (
         <>
-            <Dialog
+            <ConfirmDialog
                 isShowing={dialogData.show}
                 msg={dialogData.msg}
-                confirmDialog
-                onOK={() => setDialogData({ show: false, msg: "" })}
-                onCancel={() => setDialogData({ show: false, msg: "" })}
+                setDialogData={setDialogData}
+                routeRedirect='my_requests'
+                onOK={async () => {
+                    
+                    const res = await cancelConfirmRequest(token,request.requestNumber,cancel) 
+                    console.log(res);
+                    if(res!==1){
+                        setDialogData({show:true,msg:res})
+                    }else{
+                        if(cancel)
+                        setDialogData({...dialogData,msg:"Cancelled successfully"})
+                        else
+                        setDialogData({...dialogData,msg:"Confirmed successfully"})
+
+
+                    }
+                }}
             />
             <Navbar
                 back="my_requests"
@@ -68,7 +88,7 @@ const PlacedRequest = () => {
                 )}
 
                 {request.requestStatus[0] != "D" && (
-                    <BottomButton setDialogData={setDialogData} />
+                    <BottomButton setCancel={setCancel} setDialogData={setDialogData} />
                 )}
             </div>
         </>
@@ -77,11 +97,12 @@ const PlacedRequest = () => {
 
 export default PlacedRequest;
 
-const BottomButton = ({ setDialogData }) => {
+const BottomButton = ({ setDialogData,setCancel }) => {
     return (
         <div className={styles.buttonsContainer}>
             <button
                 onClick={() => {
+                    setCancel(true)
                     setDialogData({
                         show: true,
                         msg: "Are you sure you want to cancel",
