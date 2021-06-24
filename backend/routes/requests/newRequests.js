@@ -49,6 +49,15 @@ router.post('/requests/newRequest/pd',upload.any('images'),(req,res)=>{
     if (newReqSetTime-pastReqTime <= process.env.REQUEST_INTERVAL){
         return res.json({status: "failure", message: "Files failed to be uploaded"})
     }
+    let paths = [];
+    try{
+        req.files.map(data=>{
+            paths.push(data.path)
+        })
+    }
+    catch(err){
+        console.log("Files cannot be fetched!")
+    }
     let newRequest = new requestModel({
         requestNumber : Date.now() + Math.floor(Math.random()*100),
         requesterCovidStatus : req.body.requesterCovidStatus,
