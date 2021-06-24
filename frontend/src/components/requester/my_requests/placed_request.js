@@ -1,75 +1,42 @@
 import React from "react";
-// import { useLocation } from 'react-router';
+import { useHistory } from "react-router-dom";
 import Navbar from "../../global_ui/nav";
 import styles from "./placed_request.module.css";
-/**
- * NOT yet done.WIP
- * @returns //TODO
- */
+
+
 const PlacedRequest = () => {
-  // const {state:{request}} = useLocation()
-  const request = {
-    requesterID: "8628290",
-    requestStatus: "PENDING",
-    requestType: "P&D",
-    itemsListImages: [
-      // "https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
-    ],
-    riderID:{
-      name:"Someone"
+  const history = useHistory()
+  const {
+    location: {
+      state: { request },
     },
-    itemsListList: [
-      {
-        itemName: "Tomato",
-        quantity: "2kg",
-      },
-      {
-        itemName: "Tomato",
-        quantity: "2kg",
-      },
-    ],
-    itemCategories: ["MEDICINES", "MISC"],
-    remarks: "Something here",
-    billsImageList: [
-      // "https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
-    ],
-    rideImages: [
-      // "https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
-    ],
-    pickupLocationAddress: {
-      addressLine: "Some place far away",
-      area: "",
-      city: "Unknown",
-      pincode: "XXXXXX",
-    },
-    dropLocationAddress: {
-      addressLine: "Some place far away",
-      area: "",
-      city: "Unknown",
-      pincode: "XXXXXX",
-    },
-  };
+  } = history
   const statusStyle = {
     color: request.requestStatus === "PENDING" ? "red" : "green",
     fontWeight: "bold",
     fontSize: 1.2 + "em",
   };
-  //quantity  -- must be string
-  //itemsListType  -- unnecessary
-  //RiderName in screen how if order is delivered?
-  //remarks -- lowercase the remarks
-  //Extra area property in address ? what?
   return (
     <>
-      <Navbar style={{background:"#79cbc5",marginBottom:0.75+'em'}}  title="Order Details" />
+      <Navbar
+        back="my_requests"
+        style={{
+          color: "white",
+          background: "#79cbc5",
+          marginBottom: 0.75 + "em",
+        }}
+        title="Order Details"
+      />
       <div className={styles.container}>
-        <p>Request #{request.requesterID}</p>
+        <p>Request #{request.requestNumber}</p>
         <span>
           Order Status:{" "}
           <span style={statusStyle}> {request.requestStatus}</span>
         </span>
 
-        {request.requestStatus[0] === "D" && <p>Order delivered by {request.riderID.name}</p>}
+        {request.requestStatus[0] === "D" && (
+          <p>Order delivered by {request.riderID.name}</p>
+        )}
         <Address
           pickup={request.pickupLocationAddress}
           drop={request.dropLocationAddress}
@@ -79,25 +46,22 @@ const PlacedRequest = () => {
           <ItemsRequestedImagesAndOthers
             bills={request.billsImageList}
             items={request.itemsListImages}
-            images = {request.rideImages}
+            images={request.rideImages}
           />
         ) : (
           <>
-          
-          <ItemsRequestedList
-            list={request.itemsListList}
-            category={request.itemCategories}
-          />
-          <ItemsRequestedImagesAndOthers
-            bills={request.billsImageList}
-            images = {request.rideImages}
-          />
+            <ItemsRequestedList
+              list={request.itemsListList}
+              category={request.itemCategories}
+            />
+            <ItemsRequestedImagesAndOthers
+              bills={request.billsImageList}
+              images={request.rideImages}
+            />
           </>
-
         )}
 
-        { request.requestStatus[0] != "D" && <BottomButton/>}
-        
+        {request.requestStatus[0] != "D" && <BottomButton />}
       </div>
     </>
   );
@@ -106,27 +70,27 @@ const PlacedRequest = () => {
 export default PlacedRequest;
 
 const BottomButton = () => {
-  return ( <div className={styles.buttonsContainer} >
-    <button>Cancel Request</button>
-    <button>Confirm Request</button>
+  return (
+    <div className={styles.buttonsContainer}>
+      <button>Cancel Request</button>
+      <button>Confirm Request</button>
+    </div>
+  );
+};
 
-  </div> );
-}
- 
-
-const ItemsRequestedImagesAndOthers = ({bills, images ,items=[]}) => {
+const ItemsRequestedImagesAndOthers = ({ bills, images, items = [] }) => {
   return (
     <div className={styles.imagesContainer}>
-    {items.map((link) => (
+      {items.map((link) => (
         <div className={styles.singleImage} key={link}>
           <img src={link} alt="items-img" />
           <span>Items</span>
         </div>
       ))}
-      {bills.map((link,index) => (
+      {bills.map((link, index) => (
         <div className={styles.singleImage} key={link}>
           <img src={link} alt="items-img" />
-          <span>Bill #{index+1}</span>
+          <span>Bill #{index + 1}</span>
         </div>
       ))}
       {images.map((link) => (

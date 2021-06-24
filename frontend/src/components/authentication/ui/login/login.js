@@ -3,7 +3,7 @@ import "./loginStyles.css";
 import Logo from "../../../global_ui/logo";
 import InputField from "../../../global_ui/input";
 import { AuthContext } from "../../../context/auth/authProvider";
-import Spinner from "../../../global_ui/spinner";
+import {Spinner} from "../../../global_ui/spinner";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { requestOTPLogin } from "../../../context/auth/authOperations";
 import Dialog from "../../../global_ui/dialog/dialog";

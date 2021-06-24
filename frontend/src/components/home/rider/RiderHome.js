@@ -4,7 +4,7 @@ import { AuthContext } from "../../context/auth/authProvider";
 import { logout } from "../../context/auth/authOperations";
 
 import "../requester/style.css";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 import Logo from "../../global_ui/logo";
 import Navbar from "../../global_ui/nav";
 function RiderHome() {
@@ -42,7 +42,7 @@ function RiderHome() {
         <button
           onClick={() => {
             logout(dispatch);
-            history.push("/");
+            history.replace("/");
           }}
           className="rider-home-btn"
         >

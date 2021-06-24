@@ -1,5 +1,5 @@
 import React from 'react';
-import './spinner.css'
+import styles from './spinner.module.css'
 /**
  * 
  * @param {string} radius radius of spinner
@@ -7,10 +7,17 @@ import './spinner.css'
  */
 const Spinner = ({radius}) => {
     return ( 
-        <div className="spinner" style={{width:radius+'em',height:radius+'em'}}  >
+        <div className={styles.spinner} style={{width:radius+'em',height:radius+'em'}}  >
 
         </div>
      );
 }
  
-export default Spinner;
+const LoadingScreen = () => {
+    return ( 
+        <div className={styles.loadingScreen} >
+            <Spinner radius='3' />
+        </div>
+     );
+}
+export  {Spinner,LoadingScreen};

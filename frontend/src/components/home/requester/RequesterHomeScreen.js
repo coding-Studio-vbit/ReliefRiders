@@ -23,7 +23,7 @@ function RequesterHomeScreen() {
           <i className="fas fa-plus"></i>
           Place new Request
         </button>
-        <button onClick={() => routehandler("/my_requests")} className="rider-home-btn">
+        <button onClick={() => routehandler("my_requests")} className="rider-home-btn">
           <i className="fas fa-exclamation-circle"></i>
           My Requests
         </button>
@@ -35,7 +35,7 @@ function RequesterHomeScreen() {
         <button
           onClick={() => {
             logout(dispatch);
-            history.push("/");
+            history.replace("/");
           }}
           className="rider-home-btn"
         >
