@@ -36,7 +36,7 @@ function EnterItemsForm() {
 	};
 
 	const handleAddClick = () => {
-		setInputList([...inputList, { itemName: "", itemQty: "" }]);
+		setInputList([{ itemName: "", itemQty: "" }, ...inputList]);
 	};
 
 	return (
@@ -113,7 +113,12 @@ function EnterItemsForm() {
 
 			<div className={'container'}>
 				<div className={'row'} style={{marginTop: '20%'}}>
-					<button type="button" className="btn btn-success">Proceed</button>
+					<div className={'col'}>
+						<button type="button" className="btn btn-danger">Cancel</button>
+					</div>
+					<div className={'col'}>
+						<button type="button" className="btn btn-success">Proceed</button>
+					</div>
 				</div>
 			</div>
 		</div>
