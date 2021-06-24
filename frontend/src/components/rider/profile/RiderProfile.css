@@ -1,0 +1,38 @@
+.riderProfileContainer{
+    display:grid;
+    grid-gap: 15px;
+    
+    justify-items: center;
+   
+}
+label{
+    font-weight: bold;
+    align-self: start;
+    position: relative;
+  
+}
+img{
+    border: 1px solid black;
+  background-color: pink;
+  margin: 5px;
+  margin-bottom:9px;
+  align-self: center;
+  justify-self: center;
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+}
+
+
+span {
+    position : relative;
+    margin: 0px auto;
+    height: fit-content;
+    width: min(80%,35rem);
+    box-sizing:border-box;
+    border       : 2px solid #ddd;
+    padding      : 0.6em;
+    font-size    : 1.1em;
+    border-radius: 4px;
+}
+
