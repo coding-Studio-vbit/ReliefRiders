@@ -6,7 +6,7 @@ import { AuthContext } from "../../../context/auth/authProvider";
 import {Spinner} from "../../../global_ui/spinner";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { requestOTPLogin } from "../../../context/auth/authOperations";
-import Dialog from "../../../global_ui/dialog/dialog";
+import {Dialog} from "../../../global_ui/dialog/dialog";
 import User from "../../../../models/user";
 function Login() {
   const [mobile, setMobile] = useState("");
