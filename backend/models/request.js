@@ -2,6 +2,15 @@ const mongoose = require("mongoose");
 
 const schema = new mongoose.Schema({
 	
+	
+	date:{
+		type: Date,
+		default: ()=>{
+			var now = new Date();
+			return (now.getDate() + '/' + (now.getMonth()+1) + '/' + now.getFullYear());
+		}
+	},
+	
 	requestNumber: {type: Number, required: [true, 'request number is required.']},
 	
 	requesterID: mongoose.Schema.Types.ObjectId,
