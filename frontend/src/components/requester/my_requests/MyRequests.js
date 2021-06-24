@@ -3,7 +3,7 @@ import MyRequestsListItem from "./MyRequestsListItem";
 import styles from "./MyRequests.module.css";
 import Navbar from "../../global_ui/nav";
 import axios from "axios";
-import Dialog from "../../global_ui/dialog/dialog";
+import {Dialog} from "../../global_ui/dialog/dialog";
 import { useSessionStorageState } from "../../../utils/useLocalStorageState";
 import { AuthContext } from "../../context/auth/authProvider";
 import { LoadingScreen } from "../../global_ui/spinner";
