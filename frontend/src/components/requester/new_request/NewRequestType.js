@@ -1,25 +1,25 @@
 import React from 'react';
+import { useHistory } from "react-router-dom";
 import Logo from '../../global_ui/logo'
 import RequestTypeCSS from './RequestType.module.css'
+import Navbar from '../../global_ui/nav';
+
 
 function RequestType() {
+  const history = useHistory();
+
+  const routehandler = (route) => {
+    history.push(route);
+  };
+  
     return(
       <div>
-        <nav className={RequestTypeCSS.navbar}>
-          <div className={RequestTypeCSS.backDiv}>
-            <button className={RequestTypeCSS.btnBack}>
-              <span className={RequestTypeCSS.i1}>
-              <i className='fas fa-chevron-left'></i>
-              </span>
-            </button>
-          </div>
-          <span className={RequestTypeCSS.navHead}>
-              Choose Request Type
-            </span>
-        </nav>
+        <div className={'row'}>
+			    <Navbar back='/' backStyle={{ color: "white" }} title="Choose Request Type" titleStyle={{ color: "white" }} style={{ backgroundColor: "#79CBC5", marginBottom: "10px" }}/>
+ 		    </div>
         <div className={RequestTypeCSS.container}>
           <Logo />
-          <button className={RequestTypeCSS.btn2}>
+          <button onClick={() => routehandler("list_type")} className={RequestTypeCSS.btn2}>
             <span className={RequestTypeCSS.i2}>
             <span className={RequestTypeCSS.box}>
               <i className='fas fa-plus'></i>
