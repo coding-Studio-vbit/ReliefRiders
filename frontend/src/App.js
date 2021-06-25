@@ -7,6 +7,7 @@ import {
   Route,
 } from "react-router-dom";
 import InitialHomeRouting from './components/home/initial_home/initialHomeRouting';
+import Map from './components/requester/new_request/Map';
 function App() {
 
   return (
@@ -15,7 +16,8 @@ function App() {
         <Router>
           <Switch>
             <Route path="/temp">
-              TestYourScreensHere
+              {/* TestYourScreensHere */}
+              <Map/>
             </Route>
             <Route path="/">
               <InitialHomeRouting />
