@@ -25,6 +25,9 @@ const ConfirmRequestPD = () =>{
                     <span>Are you COVID positive?</span><br />
                     <input type = 'checkbox' className = {ConfirmReqCSS.covidStatCheckbox}
                     onChange = {()=>setCovidStatus(!covidStatus)} /><br />
+                    <button className = {ConfirmReqCSS.cancelRequestBtn} >Cancel Request
+                    <i className="fas fa-times" style = {{"marginLeft" : "1em"}}></i>
+                    </button>
                     <button className = {ConfirmReqCSS.confirmRequestBtn} >Confirm Request
                     <i className="fas fa-arrow-right" style = {{"marginLeft" : "1em"}}></i>
                     </button>
