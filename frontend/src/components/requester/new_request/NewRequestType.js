@@ -29,7 +29,7 @@ function RequestType() {
               General Request
             </span>
           </button>
-          <button className={RequestTypeCSS.btn2}>
+          <button onClick={() => routehandler("list_type")} className={RequestTypeCSS.btn2}>
             <span className={RequestTypeCSS.icon2}>
               <span className={RequestTypeCSS.i3}>
               <i className='fas fa-truck-pickup'></i>
