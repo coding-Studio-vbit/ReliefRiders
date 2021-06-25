@@ -1,0 +1,40 @@
+.inputContainer {
+  width: 450px;
+  padding: 0px;
+  margin: 10px auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  justify-self: center;
+  align-content: center;
+}
+
+.searchBtn {
+  width: 15%;
+  margin: 0px;
+  border-radius: 0px 12px 12px 0px;
+  border: none;
+  height: 50px;
+}
+
+input {
+  margin: 0px;
+  outline: none;
+  border-radius: 12px 0px 0px 12px;
+  border: 1px solid green;
+  height: 50px;
+  padding-left: 15px;
+  font-size: large;
+  color: darkslategray;
+  width: 85%;
+}
+
+input[type="text"]:focus {
+  border: 1px solid green;
+}
+
+@media screen and (max-width: 480px) {
+  .inputContainer {
+    width: 90%;
+  }
+}

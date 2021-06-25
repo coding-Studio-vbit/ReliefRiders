@@ -15,15 +15,18 @@ const PinAddress = () => {
       city: "",
       pincode: "",
     });
+
     //const { state: { type }, } = useLocation();
     const [errors, setErrors] = useState({
-        address: "",
-        showErrors: false,
-        city: "",
-        pincode: "",
+        address: null,
+        city: null,
+        pincode: null,
       });
       function submit(event) {
         event.preventDefault();
+        if(errors.city===errors.pincode===errors.address===null){
+          //http request to be performed
+        }
         setErrors({
           ...errors,
           showErrors: true,
@@ -81,13 +84,12 @@ const PinAddress = () => {
 
       const _handlePincode = (e) => {
         const pincode = e.target.value;
-        const regE = /^[6-9]\d{9}$/;
-        if (pincode.length > 6) {
+        const regE = /^[0-9]*$/;
+        if (pincode.length < 6 || pincode.length > 6) {
           setErrors({
             ...errors,
             showErrors: true,
-    
-            pincode: "Pincode exceeds 6 digits",
+            pincode: "Pincode must contain 6 digits",
           });
         } else if (!regE.test(pincode)) {
           setErrors({
@@ -97,7 +99,7 @@ const PinAddress = () => {
         } else {
           setErrors({
             ...errors,
-            pincode: "",
+            pincode: null,
           });
         }
         setlocation({
@@ -141,8 +143,8 @@ return(
           textAreaClass="headField"
           value={location.address}
           type="text"
-          //error={errors.showErrors ? errors.address : ""}
-          onChange={_handleAddress}
+          error={errors.address}
+          onChange={(e)=>_handleAddress(e)}
           placeholder="Enter Address"
           />
           </div>
@@ -151,8 +153,8 @@ return(
               <div className={styles.childField}>
                 <InputField
                     value={location.city}
-                    //error={errors.showErrors ? errors.city : ""}
-                    onChange={_handleCity}
+                    error={errors.city}
+                    onChange={(e)=>_handleCity(e)}
                     type="text"
                     placeholder="City"
                   />    
@@ -163,8 +165,8 @@ return(
               <div className="childField">
               <InputField          
                 value={location.pincode}
-                //error={errors.showErrors ? errors.pincode : ""}
-                onChange={_handlePincode}
+                error={errors.pincode}
+                onChange={(e)=>_handlePincode(e)}
                 type="number"
                 placeholder="Pincode"
               />
