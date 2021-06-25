@@ -1,0 +1,18 @@
+.chooseLocation {
+  display: grid;
+  justify-content: center;
+}
+.navBar {
+  background-color: cyan;
+  color: white;
+  height: 50px;
+}
+
+.googleMap {
+  height: 60vh;
+}
+
+button {
+  width: auto;
+  place-self: center;
+}

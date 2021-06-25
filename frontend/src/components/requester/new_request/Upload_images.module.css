@@ -156,11 +156,12 @@
 .up_img_button{
     /* width:min(95%, 380px); */
     /* height:35px; */
+    width:clamp(100px,30%,300px);
     font-size:clamp(1.1rem, 2.5vw, 1.4rem);
-    padding: 0.4em 0.4em;
+    padding: 0.5em 0.5em;
     font-weight: bold;
     margin-bottom: 1.5em;
-    margin-top:1.5em;
+    margin-top:2.0em;
     cursor: pointer;  
     background-color: #00CF15;  
 }
@@ -180,13 +181,13 @@
 }
 
 .up_img_cancel{
-    /* width: 200px; */
+    width:clamp(100px,30%,230px);
     /* height:35px; */
     font-size:clamp(1.1rem, 2.5vw, 1.4rem);
-    padding: 0.4em 0.4em;
+    padding: 0.5em 0.5em;
     font-weight: bold;
     margin-bottom: 1.5em;
-    margin-top:1.5em;
+    margin-top:2.0em;
     cursor: pointer; 
     background-color: #FB4444;
 }
