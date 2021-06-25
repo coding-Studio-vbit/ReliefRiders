@@ -35,10 +35,13 @@ const uploadImages =()=>{
                 setError("Maximum file size is 10MB");         
                 
             }else{
-
-                setNum(num => num + 1)
-                setFiles(files=> [...files, e.target.files[i]]);
-                setPreview(preview=> [...preview, URL.createObjectURL(e.target.files[i])])    
+                const reader = new FileReader();
+                setNum(num => num + 1);                
+                setPreview(preview=> [...preview, URL.createObjectURL(e.target.files[i])]);
+                reader.onload = function(){
+                    setFiles(files=> [...files, reader.result]);
+                }
+                 reader.readAsDataURL(e.target.files[i]);  
                 setError(" ");    
             }
             }
@@ -50,9 +53,7 @@ const uploadImages =()=>{
             setError("More than 3 files are not allowed");           
         }
        
-        }
-
-        
+        }        
 
     const onSubmit = (e) =>{
         e.preventDefault();
