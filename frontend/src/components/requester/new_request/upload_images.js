@@ -9,21 +9,20 @@ const uploadImages =()=>{
     const [files, setFiles]= useSessionStorageState("images",[]);
     const [num, setNum] = useSessionStorageState("num",0);
     const [error, setError] = useState(null);
-    const [preview, setPreview] = useSessionStorageState("previews",[]);
-    const [Medicine, setMedicine] = useState(sessionStorage.getItem('Medicine')==='true');
+    const [Medicine, setMedicine] = useState(sessionStorage.getItem('Medicine')==='true'); 
     const [Grocery, setGrocery] = useState(sessionStorage.getItem('Grocery')==='true');    
     const [Misc,setMisc] = useState(sessionStorage.getItem('Misc')==='true'); 
     const [categories,setcategories] = useSessionStorageState("tags",[]);
             
 
-    const onInputChange = (e)=>{
+     const onInputChange = (e) =>{
        
         if(num + e.target.files.length<=3)
         {
-            console.log(e.target.files[0]);
+            
             for(let i=0;i<e.target.files.length;i++){
             
-            var t=e.target.files[i].type.split('/').pop().toLowerCase();
+            var t = e.target.files[i].type.split('/').pop().toLowerCase();
             
             if(t!= "jpeg" && t!="jpg" && t!="png")
             {
@@ -31,18 +30,26 @@ const uploadImages =()=>{
             }
             else{
 
-            if(e.target.files[i].size>10240000){
+            if(e.target.files[i].size > 10240000){
                 setError("Maximum file size is 10MB");         
                 
             }else{
                 const reader = new FileReader();
                 setNum(num => num + 1);                
-                setPreview(preview=> [...preview, URL.createObjectURL(e.target.files[i])]);
-                reader.onload = function(){
-                    setFiles(files=> [...files, reader.result]);
+                
+                reader.onload = async function(){
+                    
+                    const base64Response = await fetch(reader.result);
+                    const blob = await base64Response.blob();
+                    const blobUrl = URL.createObjectURL(blob);
+                    // let blob1 = await fetch(blobUrl).then(r => r.blob());
+                    // console.log(blob1)
+                    // console.log(blob)
+                    setFiles(files=> [...files, blobUrl])
                 }
-                 reader.readAsDataURL(e.target.files[i]);  
-                setError(" ");    
+                   
+                 reader.readAsDataURL(e.target.files[i])
+                 setError(" ");    
             }
             }
   
@@ -53,7 +60,9 @@ const uploadImages =()=>{
             setError("More than 3 files are not allowed");           
         }
        
-        }        
+        }   
+
+        
 
     const onSubmit = (e) =>{
         e.preventDefault();
@@ -75,17 +84,19 @@ const uploadImages =()=>{
         {
             setcategories(categories=> [...categories,"MISC."]);           
         }
-         console.log(categories.length);
+        console.log(categories.length);
          
 
-        const data = new FormData();
+        // const data = new FormData();
 
-        for(let i=0; i<files.length; i++){
-            data.append('file',files[i]);
-        }
+        // for(let i=0; i<files.length; i++){
+        //     data.append('file',files[i]);
+        // }
 
         }else{
-        setError("Please upload files and select the categories")
+
+        setError("Please upload files and select the categories");
+
         }
 
 
@@ -126,7 +137,7 @@ const uploadImages =()=>{
             
  
              <div className={styles.up_img_preview}>         
-             <Display previewImages={preview}/>
+             <Display previewImages={files}/>
            </div>
            
 
