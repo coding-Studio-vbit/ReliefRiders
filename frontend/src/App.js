@@ -8,7 +8,6 @@ import {
 } from "react-router-dom";
 import InitialHomeRouting from './components/home/initial_home/initialHomeRouting';
 import PlacedRequest from './components/requester/my_requests/placed_request';
-import RiderProfile from './components/rider/profile/editRiderProfile';
 
 
 function App() {
@@ -16,9 +15,7 @@ function App() {
 
   return (
     <div className="App">
-      {/* <Map/> */}
-      {/* <MyMapComponent/> */}
-{/*     
+        
       <AuthProvider>
         <Router>
           <Switch>
@@ -32,9 +29,8 @@ function App() {
           </Switch>
         </Router>
 
-      </AuthProvider> */}
-      <RiderProfile/>
-
+      </AuthProvider>
+\
     </div>
   );
 }

@@ -45,7 +45,7 @@ const EditRiderProfile = () => {
       event.preventDefault();
       console.log(event);
       
-      if(data.fullName=="")
+      validateName("submit");
       setErrors({
         ...errors,
         showErrors: true,
