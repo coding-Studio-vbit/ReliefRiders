@@ -4,6 +4,7 @@ import styles from "./RiderProfile.module.css"
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import {useEffect, useState} from 'react';
+import Button from '../../global_ui/buttons/button'
 
 import Dialog from '../../global_ui/dialog/dialog';
 
@@ -32,7 +33,7 @@ const RiderProfile=()=>{
     }, [])
 
     return (
-        null? 
+        error? 
         <Dialog 
         isShowing={true} 
         onOK={() => { history.push("/home/rider") }} 
@@ -40,21 +41,28 @@ const RiderProfile=()=>{
         :
         <div className={styles.riderProfileContainer}>
 
-            <Navbar back={true} backStyle={{ color: 'white' }} title="My Account" titleStyle={{ color: 'white' }} style={{ backgroundColor: '#79CBC5', marginBottom: "10px" }} />
+            <Navbar back={true} backStyle={{ color: 'white' }} title="My Account" titleStyle={{ color: 'white' }} style={{ backgroundColor: '#79CBC5', marginBottom: "8px" }} />
             
             <img className={styles.profileImage}></img>
 
             <label>Full Name</label>
-            <span className="name" >
-                {data.name}mcm
+            <span>
+                {data.name}
             </span>
 
             <label>Phone Number</label>
-            <span className="phoneNumber">
+            <span>
                 {data.mobile}
             </span>
-            {/* should add onClick function to edit button */}
-            <button className="edit">EDIT</button>
+
+            <p style={{margin:0.1+'em'}}></p>
+
+            <Button 
+                bgColor="green"
+                isRounded="true"
+                text="EDIT"
+                fontSize="17px"
+            />
         </div>
         )
     };
