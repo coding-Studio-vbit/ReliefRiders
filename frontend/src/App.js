@@ -7,36 +7,31 @@ import {
   Route,
 } from "react-router-dom";
 import InitialHomeRouting from './components/home/initial_home/initialHomeRouting';
-import RequesterHomeScreen from './components/home/Requester/RequesterHomeScreen';
-// import Stub from './components/global_ui/Overlay/stub'
+import PlacedRequest from './components/requester/my_requests/placed_request';
 
 
 function App() {
-  
+  //todo
+
   return (
     <div className="App">
+      {/* <Map/> */}
+      {/* <MyMapComponent/> */}
+    
       <AuthProvider>
         <Router>
           <Switch>
-          <Route path="/home/requester">
-              <RequesterHomeScreen />
-            </Route>
-            <Route path="/home/rider">
-              TODO by anisha
-            </Route>
+          
             <Route path="/about">
-              About
+              <PlacedRequest/>
           </Route>
             <Route path="/">
               <InitialHomeRouting />
             </Route>
-            
           </Switch>
         </Router>
 
       </AuthProvider>
-      {/* <Stub/> */}
-      
     </div>
   );
 }

@@ -1,3 +1,4 @@
+//Author: Sai Kiran
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
@@ -11,321 +12,314 @@ const fs = require("fs").promises;
 const OTP_FILE_PATH = "./TEMP_OTP.json";
 const OTP_CLEAR_TIMEOUT_MINS = 5;
 const MAX_OTP_GUESSES = 5;
-const MAX_OTP_RESENDS = 10;
+const MAX_OTP_RESENDS = 5;
 
 
-router.post("/login/requestOTP", (req, res)=>{
+router.post("/login/requestOTP", (req, res) => {
 
-	if(!req.body.type || !req.body.phone)
-		return res.json({status:"failure", message: "Invalid properties"});
+	if (!req.body.type || !req.body.phone)
+		return res.json({ status: "failure", message: "Invalid properties" });
 
 	let userModel;
 
-	const {type, phone} = req.body;
+	const { type, phone } = req.body;
 
-	switch(type)
-	{
+	switch (type) {
 		case "rider": userModel = rider; break;
-		case "requester":userModel = requester;break;
+		case "requester": userModel = requester; break;
 		default: userModel = null;
 	}
-	if(!userModel)
-		return res.json({status:"failure", message: "Invalid user type!"});
-	
+	if (!userModel)
+		return res.json({ status: "failure", message: "Invalid user type!" });
+
 	let OTP;
+	let obj;
 
 	userModel.findOne({
 		phoneNumber: phone
 	})
-	.then(doc =>{
-		if(doc == null)
-		{
-			throw {status: "failure", message: "No such phone number! Please register."};
-		}
+		.then(doc => {
+			if (doc == null) {
+				throw ({ status: "failure", message: "No such phone number! Please register." });
+			}
 			//return res.json({status:"failure", message: "No such phone number! Please register."});
 
-		//phone number is valid.
-		//now create an otp and set it.
-		return otp.generateOTP();
-	})
-	.then(Oteepee=>{
-		OTP = Oteepee;
-		return fs.readFile(OTP_FILE_PATH)
-	})
-	.then(data=>{
-		let obj = JSON.parse(data);
-		if(obj.hasOwnProperty(phone))
-		{
-			//if the OTP has already been set.
-			//if it has, just update the OTP and decrement the number of resends
-			if(obj[phone].otpResendsLeft > 0)
-			{
-				obj[phone].otpResendsLeft--;
-				obj[phone].otp = OTP;
-				console.log("New OTP set for " + req.body.type + " login");
-				res.json({status: "success", message:"OTP Set"});
-				sms.sendOTP(req.body.phone, OTP);
+			//phone number is valid.
+			//now create an otp and set it.
+			return otp.generateOTP();
+		})
+		.then(Oteepee => {
+			OTP = Oteepee;
+			return fs.readFile(OTP_FILE_PATH)
+		})
+		.then(data => {
+			try {
+				obj = JSON.parse(data);
 			}
-			else
-			{
-				throw {status: "failure", message: "You have exceeded the number of OTP resends. Try again after sometime."};
+			catch (error) {
+				res.json ({ status: "failure", message: "Internal Server Error" });
 			}
-		}
-		else
-		{
-			obj[phone] = {
-				type: req.body.type, 
-				otp: OTP,
-				otpSetTime: Date.now(),
-				otpTriesLeft: MAX_OTP_GUESSES,
-				otpResendsLeft: MAX_OTP_RESENDS
-			};
-		}
-		fs.writeFile(OTP_FILE_PATH, JSON.stringify(obj), 'utf-8', (err)=>{
-			if(err){
-				console.log("An error occured while writing to OTP_Temp.json");
-				throw({status:"failure", message: "Server Internal Error"});
+
+			if (obj.hasOwnProperty(phone)) {
+				//if the OTP has already been set.
+				//if it has, just update the OTP and decrement the number of resends
+				//Update the otp timestamp
+				//NOT UPDATING THE OTP TRIES.
+
+				if (obj[phone].otpResendsLeft > 0)
+				{
+					obj[phone].otpResendsLeft--;
+					obj[phone].otpSetTime = Date.now(),
+					obj[phone].otp = OTP;
+
+					console.log("New " + req.body.type + " login OTP request.");
+					res.json({ status: "success", message: "OTP Set" });
+					sms.sendOTP(req.body.phone, OTP);
+				}
+				else {
+					res.json({ status: "failure", message: "You have exceeded the number of OTP resends. Try again after sometime." });
+				}
 			}
-			else{
+			else {
+				obj[phone] = {
+					type: req.body.type,
+					otp: OTP,
+					otpSetTime: Date.now(),
+					otpTriesLeft: MAX_OTP_GUESSES,
+					otpResendsLeft: MAX_OTP_RESENDS
+				};
 				console.log("New " + req.body.type + " login OTP request.");
-				res.json({status: "success", message:"OTP Set"});
+				res.json({ status: "success", message: "OTP Set" });
 				sms.sendOTP(req.body.phone, OTP);
 			}
 		})
-	})
-	.catch(err=>{
-		console.log(err);
-		return res.json(err);
-	})
+		.catch(err => {
+			if(err.message == "Internal Server Error")
+			console.log(err);
+			return res.json(err);
+		})
+		.finally(()=>{
+			return fs.writeFile(OTP_FILE_PATH, JSON.stringify(obj), 'utf-8');
+		})
 })
 
-router.post("/login/verifyOTP", (req, res)=>{
-	console.log(req.body);
-	if(!req.body.phone ||  !req.body.OTP){
-		return res.json({status:"failure", message: "Invalid properties"});
+router.post("/login/verifyOTP", (req, res) => {
+	if (!req.body.phone || !req.body.OTP) {
+		return res.json({ status: "failure", message: "Invalid properties" });
 	}
 
-	let {phone, OTP} = req.body;
+	let { phone, OTP } = req.body;
+	let obj, token;
 
 	fs.readFile(OTP_FILE_PATH)
-	.then(data=>{{
-		let obj = JSON.parse(data.toString());
-		if(obj.hasOwnProperty(phone)) //has the OTP even been set?
-		{
-			//check if OTP has expired.
-			const timeDiffMins = (Date.now() - obj[phone].otpSetTime)/(1000 * 60);
-			if(timeDiffMins > process.env.OTP_LIFE)
+		.then(data => {
 			{
-				res.json({status: "failure", message: "OTP has expired, try again."});
-			}
-			//check if there are enough OTP tries left.
-			else if(obj[phone].otpTriesLeft <= 0)
-			{
-				res.json({status: "failure", message: "Exceeded max. OTP tries. Try again."});
-			}
-			else if(obj[phone].otp == OTP)
-			{
-				//OTP match.
+				obj = JSON.parse(data.toString());
+				if (obj.hasOwnProperty(phone)) //has the OTP even been set?
+				{
+					//check if OTP has expired.
+					const timeDiffMins = (Date.now() - obj[phone].otpSetTime) / (1000 * 60);
+					if (timeDiffMins > process.env.OTP_LIFE) {
+						res.json({ status: "failure", message: "OTP has expired, try again." });
+					}
+					//check if there are enough OTP tries left.
+					else if (obj[phone].otpTriesLeft <= 0) {
+						res.json ({ status: "failure", message: "Exceeded max. OTP tries. Try again after sometime." });
+					}
+					else if (obj[phone].otp == OTP) {
+						//OTP match.
 
-				var token = jwt.sign({
-					phoneNumber: phone,
-					userType: obj[phone].type
-				}, process.env.TOKEN_SECRET);
+						token = jwt.sign({
+							phoneNumber: phone,
+							userType: obj[phone].type
+						}, process.env.TOKEN_SECRET);
 
-				res.json({status:"success", message: token});
-			}
-			else
-			{
-				//OTP did not match.
-				obj[phone].otpTriesLeft--;
-				res.json({status:"failure", message: `OTP Invalid, ${obj[phone].otpTriesLeft} tries are left.`});
-			}
+						delete obj[phone];
+						
+						res.json({ status: "success", message: token });
 
-		}
-		else
-		{
-			res.json({status:"failure", message: "OTP has expired or has not been set!"});
-		}
-	}
-		
-	})
-	.catch(error=>{
-			console.log("An error occurred while reading ", OTP_FILE_PATH, error);
-			res.json({status: "failure", message: "Server internal error"});
-	})
+					}
+					else {
+						//OTP did not match.
+						obj[phone].otpTriesLeft--;
+						res.json({ status: "failure", message: `OTP Invalid, ${obj[phone].otpTriesLeft} tries are left.` });
+					}
+
+				}
+				else {
+					res.json ({ status: "failure", message: "OTP has expired or has not been set!" });
+				}
+			}
+		})
+		.catch(error => {
+			console.log(error);
+			res.json({ status: "failure", message: error });
+		})
+		.finally(()=>{
+			fs.writeFile(OTP_FILE_PATH, JSON.stringify(obj), 'utf-8');
+		})
 })
 
 
-router.post("/register/requestOTP", (req, res)=>{
+router.post("/register/requestOTP", (req, res) => {
 
-	if(!req.body.phone || !req.body.type)
-	{
-		return res.json({status: "failure", message: "Invalid properties."});
+	if (!req.body.phone || !req.body.type) {
+		return res.json({ status: "failure", message: "Invalid properties." });
 	}
 
 	let userModel;
-	let OTP;
+	let OTP, obj;
 
-	const {type, phone} = req.body;
+	const { type, phone } = req.body;
 
-	switch(type)
-	{
+	switch (type) {
 		case "rider": userModel = rider; break;
-		case "requester":userModel = requester;break;
+		case "requester": userModel = requester; break;
 		default: userModel = null;
 	}
-	if(!userModel)
-		return res.json({status:"failure", message: "Invalid user type!"});
+	if (!userModel)
+		return res.json({ status: "failure", message: "Invalid user type!" });
 
 	userModel.findOne({
 		phoneNumber: phone
 	})
-	.then(doc=>{
-		if(doc != null)
-		{
-			throw {status: "failure", message:"User already exists."}
-		}
-		return otp.generateOTP();
-	})
-	.then(Oteepee=>{
-		OTP = Oteepee;
-		return fs.readFile(OTP_FILE_PATH);
-	})
-	.then(data=>{
-		let obj = JSON.parse(data);
-		if(obj.hasOwnProperty(phone))
-		{
-			console.log("hi")
-			//if the OTP has already been set.
-			//if it has, just update the OTP and decrement the number of resends
-			if(obj[phone].otpResendsLeft > 0)
-			{
-				obj[phone].otpResendsLeft--;
-				obj[phone].otp = OTP;
-				console.log("New OTP set for " + req.body.type + " login");
-				res.json({status: "success", message:"OTP Set"});
+		.then(doc => {
+			if (doc != null) {
+				throw { status: "failure", message: "User already exists." }
+			}
+			return otp.generateOTP();
+		})
+		.then(Oteepee => {
+			OTP = Oteepee;
+			return fs.readFile(OTP_FILE_PATH);
+		})
+		.then(data => {
+			obj = JSON.parse(data);
+			if (obj.hasOwnProperty(phone)) {
+				//if the OTP has already been set.
+				//if it has, just update the OTP and decrement the number of resends
+				if (obj[phone].otpResendsLeft > 0) {
+					obj[phone].otpResendsLeft--;
+					obj[phone].otpSetTime = Date.now(),
+					obj[phone].otp = OTP;
+					console.log("New OTP set for " + req.body.type + " login");
+					res.json({ status: "success", message: "OTP Set" });
+					sms.sendOTP(req.body.phone, OTP);
+				}
+				else {
+					throw { status: "failure", message: "You have exceeded the number of allowed OTP resends. Try again after sometime." }
+				}
+			}
+			else {
+
+				obj[phone] = {
+					type: req.body.type,
+					otp: OTP,
+					otpSetTime: Date.now(),
+					otpTriesLeft: MAX_OTP_GUESSES,
+					otpResendsLeft: MAX_OTP_RESENDS
+				};
+				console.log("New " + req.body.type + " registration OTP request.");
+				res.json({ status: "success", message: "OTP Set" });
 				sms.sendOTP(req.body.phone, OTP);
 			}
-			else
-			{
-				throw {status: "failure", message: "You have exceeded the number of allowed OTP resends. Try again after sometime."}	
-			}
-		}
-		else
-		{
-			
-			obj[phone] = {
-				type: req.body.type, 
-				otp: OTP,
-				otpSetTime: Date.now(),
-				otpTriesLeft: MAX_OTP_GUESSES,
-				otpResendsLeft: MAX_OTP_RESENDS
-			};
-		}
-
-		return fs.writeFile(OTP_FILE_PATH, JSON.stringify(obj), 'utf-8')
-	
-	})
-	.then(()=>{
-			console.log("New " + req.body.type + " registration OTP request.");
-			res.json({status: "success", message:"OTP Set"});
-			sms.sendOTP(req.body.phone, OTP);
-		
-	})
-	.catch(error=>{
-		console.log(error)
-		res.json(error)
-	})
+		})
+		.catch(error => {
+			console.log(error)
+			res.json(error)
+		})
+		.finally(()=>{
+			return fs.writeFile(OTP_FILE_PATH, JSON.stringify(obj), 'utf-8')
+		})
 });
 
 
 //rider register---------------------------------------------------------------------------------------------
 
 router.post("/register/rider/verifyOTP", (req, res) => {
-  if(!req.body.phone ||  !req.body.OTP ||!req.body.name){
-    return res.json({status:"failure", message: "Invalid properties"});
-  }
+	if (!req.body.phone || !req.body.OTP || !req.body.name) {
+		return res.json({ status: "failure", message: "Invalid properties" });
+	}
 
-  let {phone, OTP} = req.body;
+	let { phone, OTP } = req.body;
+	let obj, token;
 
 	fs.readFile(OTP_FILE_PATH)
-	.then(data=>{
-    	let obj = JSON.parse(data.toString());
-    	if(obj.hasOwnProperty(phone))
-    	{
+		.then(data => {
+			obj = JSON.parse(data.toString());
+			if (obj.hasOwnProperty(phone)) {
 				//check if OTP has expired.
-				const timeDiffMins = (Date.now() - obj[phone].otpSetTime)/(1000 * 60);
-				if(timeDiffMins > process.env.OTP_LIFE)
-				{
-					return res.json({status: "failure", message: "OTP has expired, try again."});
+				const timeDiffMins = (Date.now() - obj[phone].otpSetTime) / (1000 * 60);
+				if (timeDiffMins > process.env.OTP_LIFE) {
+					res.json({ status: "failure", message: "OTP has expired, try again." });
 				}
 				//check if there are enough OTP tries left.
-				else if(obj[phone].otpTriesLeft <= 0)
-				{
-					return res.json({status: "failure", message: "Exceeded max. OTP tries. Try again."});
+				else if (obj[phone].otpTriesLeft <= 0) {
+					res.json({ status: "failure", message: "Exceeded max. OTP tries. Try again after sometime." });
 				}
-				else if(obj[phone].otp == OTP)
-				{
+				else if (obj[phone].otp == OTP) {
 					//OTP match.
-    	    		var token = jwt.sign({
-    	    		  phoneNumber: phone,
-    	    		  userType: obj[phone].type
-    	    		}, process.env.TOKEN_SECRET);
+					token = jwt.sign({
+						phoneNumber: phone,
+						userType: obj[phone].type
+					}, process.env.TOKEN_SECRET);
 
-    	    		let riderData = new rider({
-    	    		  name : req.body.name,
-    	    		  phoneNumber : req.body.phone
-    	    		});
-    	    		riderData.save()
-    	    		.then(result => {
-    	    		  console.log(riderData);
-    	    		  return res.json({status:"success", message: token});
-    	    		})
-    	    		.catch(err => {
-						console.log(err);
-						res.json({
-								status:"failure",
-								message: "Rider could not be registered."
+					let riderData = new rider({
+						name: req.body.name,
+						phoneNumber: req.body.phone
+					});
+					riderData.save()
+						.then(result => {
+							console.log(riderData);
+							delete obj[phone];
+							res.json({ status: "success", message: token });
 						})
-    	    		})
+						.catch(err => {
+							console.log(err);
+							res.json({
+								status: "failure",
+								message: "Rider could not be registered."
+							})
+						})
 
 				}
-				else
-				{
+				else {
 					//OTP did not match.
 					obj[phone].otpTriesLeft--;
-					return res.json({status:"failure", message: `OTP Invalid, ${obj[phone].otpTriesLeft} tries are left.`});
+					res.json({ status: "failure", message: `OTP Invalid, ${obj[phone].otpTriesLeft} tries are left.` });
 				}
 
-    	}
-    	else
-    	{
-    	  return res.json({status:"failure", message: "OTP has expired or has not been set!"});
-    	}
-	})
-	.catch(error=>{
-		console.log(error);
-		return res.json({status:"failure", message: "server internal error!"});
-	})
+			}
+			else {
+				res.json({ status: "failure", message: "OTP has expired or has not been set!" });
+			}
+		})
+		.catch(error => {
+			console.log(error);
+			res.json({ status: "failure", message: "server internal error!" });
+		})
+		.finally(()=>{
+			return fs.writeFile(OTP_FILE_PATH, JSON.stringify(obj), 'utf-8');
+		})
 })
 
-router.get("/allRiders",  function(req, res, next) {
-    Rider.find( function (err, result) {
-  if (err) {
-    res.json({
-    status:"failure",
-    message: "Unable to retrieve data"
-})
-    console.error(err);
-  }
-  else {
-  res.json({
-    status:"success",
-    message: "All Riders shown",
-    result : result
-  })
- }
-})
+router.get("/allRiders", function (req, res, next) {
+	Rider.find(function (err, result) {
+		if (err) {
+			res.json({
+				status: "failure",
+				message: "Unable to retrieve data"
+			})
+			console.error(err);
+		}
+		else {
+			res.json({
+				status: "success",
+				message: "All Riders shown",
+				result: result
+			})
+		}
+	})
 })
 
 
@@ -333,94 +327,93 @@ router.get("/allRiders",  function(req, res, next) {
 //requeter request ----------------------------------------------------------------------------
 
 router.post("/register/requester/verifyOTP", (req, res) => {
-  if(!req.body.phone ||  !req.body.OTP || !req.body.yearOfBirth || !req.body.name){
-    return res.json({status:"failure", message: "Invalid properties"});
-  }
+	if (!req.body.phone || !req.body.OTP || !req.body.yearOfBirth || !req.body.name) {
+		return res.json({ status: "failure", message: "Invalid properties" });
+	}
 
-  let {phone, OTP} = req.body;
+	let { phone, OTP } = req.body;
+	let obj, token;
 
 	fs.readFile(OTP_FILE_PATH)
-	.then(data=>{
-		
-    	let obj = JSON.parse(data.toString());
-    	if(obj.hasOwnProperty(phone))
-    	{
+		.then(data => {
+
+			obj = JSON.parse(data.toString());
+			if (obj.hasOwnProperty(phone)) {
 				//check if OTP has expired.
-				const timeDiffMins = (Date.now() - obj[phone].otpSetTime)/(1000 * 60);
-				if(timeDiffMins > process.env.OTP_LIFE)
-				{
-					return res.json({status: "failure", message: "OTP has expired, try again."});
+				const timeDiffMins = (Date.now() - obj[phone].otpSetTime) / (1000 * 60);
+				if (timeDiffMins > process.env.OTP_LIFE) {
+					res.json({ status: "failure", message: "OTP has expired, try again." });
 				}
 				//check if there are enough OTP tries left.
-				else if(obj[phone].otpTriesLeft <= 0)
-				{
-					return res.json({status: "failure", message: "Exceeded max. OTP tries. Try again."});
+				else if (obj[phone].otpTriesLeft <= 0) {
+					res.json({ status: "failure", message: "Exceeded max. OTP tries. Try again." });
 				}
-				else if(obj[phone].otp == OTP)
-				{
-    	   			 var token = jwt.sign({
-    	   			   phoneNumber: phone,
-    	   			   userType: obj[phone].type
-    	   			 }, process.env.TOKEN_SECRET);
+				else if (obj[phone].otp == OTP) {
+					token = jwt.sign({
+						phoneNumber: phone,
+						userType: obj[phone].type
+					}, process.env.TOKEN_SECRET);
 
-		   			let requesterData = new requester({
-		   		       name : req.body.name,
-		   		       phoneNumber : req.body.phone,
-		   		       yearOfBirth : req.body.yearOfBirth
-		   		     });
-    	   			 requesterData.save()
-    	   			 .then(result => {
-    	   			   console.log(requesterData);
-    	   			   return res.json({status:"success", message: token});
-    	   			 })
-    	   			 .catch(err => {
-		   			 		console.log(err);
-		   			 		res.json({
-		   			 				status:"failure",
-		   			 				message: "Requester could not be registered."
-		   			 		})
-    	   			 })
+					let requesterData = new requester({
+						name: req.body.name,
+						phoneNumber: req.body.phone,
+						yearOfBirth: req.body.yearOfBirth
+					});
+					requesterData.save()
+						.then(result => {
+							delete obj[phone];
+							console.log(requesterData);
+							res.json({ status: "success", message: token });
+						})
+						.catch(err => {
+							console.log(err);
+							res.json({
+								status: "failure",
+								message: "Requester could not be registered."
+							})
+						})
 
 				}
-				else
-				{
+				else {
 					//OTP did not match.
 					obj[phone].otpTriesLeft--;
-					return res.json({status:"failure", message: `OTP Invalid, ${obj[phone].otpTriesLeft} tries are left.`});
+					res.json({ status: "failure", message: `OTP Invalid, ${obj[phone].otpTriesLeft} tries are left.` });
 				}
 
-    	}
-    	else
-    	{
-    	  return res.json({status:"failure", message: "OTP has expired or has not been set!"});
-    	}
+			}
+			else {
+				res.json({ status: "failure", message: "OTP has expired or has not been set!" });
+			}
+		})
+		.catch(error => {
+			console.log(error);
+			return res.json({ status: "failure", message: "server internal error" });
+		})
+		.finally(()=>{
+			fs.writeFile(OTP_FILE_PATH, JSON.stringify(obj), 'utf-8');
+		})
+})
+
+
+
+
+router.get("/allRequesters", function (req, res, next) {
+	Requester.find(function (err, result) {
+		if (err) {
+			res.json({
+				status: "failure",
+				message: "Unable to retrieve data"
+			})
+			console.error(err);
+		}
+		else {
+			res.json({
+				status: "success",
+				message: "All Requesters shown",
+				result: result
+			})
+		}
 	})
-	.catch(error=>{
-		console.log(error);
-		return res.json({status: "failure", message:"server internal error"});
-	})
-})
-
-
-
-
-router.get("/allRequesters",  function(req, res, next) {
-    Requester.find( function (err, result) {
-  if (err) {
-    res.json({
-    status:"failure",
-    message: "Unable to retrieve data"
-})
-    console.error(err);
-  }
-  else {
-  res.json({
-    status:"success",
-    message: "All Requesters shown",
-    result : result
-  })
- }
-})
 })
 
 //--------------------------------------------------------------------------------------------

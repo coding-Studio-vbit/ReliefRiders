@@ -7,7 +7,7 @@ export default class Rider extends User {
      */
     constructor(number,name){
         super(name,number)
-            
+   
     }
     
 }

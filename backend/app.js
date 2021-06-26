@@ -5,10 +5,11 @@ const mongoose = require("mongoose");
 const port = process.env.PORT || 8000;
 const cors = require('cors')
 const clearExpiredOTP = require("./clearExpiredOTPs")
-app.use(cors())
+
 //express middleware usage.
 app.use(express.json());
-
+app.use(cors())
+app.use(express.static( __dirname + '/' +  process.env.IMAGE_DIR_PATH));
 
 //mongoose connection.
 mongoose.set('useFindAndModify', false);
@@ -23,8 +24,8 @@ mongoose.connection.once('open',function(){
 
 //Import routers here.
 const authRouter = require("./routes/authentication/authRouter");
-const requesterProfileRouter = require("./routes/requester/requesterProfile");
-const riderProfileRouter = require("./routes/rider/riderProfile");
+const requesterRouter = require("./routes/requester/requesterRouter");
+const riderRouter = require("./routes/rider/riderRouter");
 
 app.get("/", (req, res)=>{
 	res.send("Hey I am alive!");
@@ -34,9 +35,10 @@ app.get("/", (req, res)=>{
 //Use routers here.
 
 app.use("/auth", authRouter);
-app.use("/profilePageRequester", requesterProfileRouter);
-app.use("/profilePageRider", riderProfileRouter);
+app.use("/requester", requesterRouter);
+app.use("/rider", riderRouter);
 
+//This call starts the periodic cleanup of the TEMP_OTP.json file, which is handled by the clearAllExpiredOTPs.js script.
 clearExpiredOTP();
 
 app.listen(port, () => {

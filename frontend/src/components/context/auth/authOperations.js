@@ -1,22 +1,23 @@
-import User from "../../../models/user"
-
+/* eslint-disable no-undef */
+import User from '../../../models/user'
+const url = process.env.REACT_APP_URL
 export async function registerRider(dispatch, user) {
     dispatch(
         {
-            type: "SETUSER",
+            type: `SETUSER`,
             payload: user
         }
     )
     try {
         const res = await fetch(
-            "http://localhost:8000/auth/register/requestOTP",
+            `${url}/auth/register/requestOTP`,
             {
-                method: "POST",
+                method: `POST`,
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    type: "rider",
+                    type: `rider`,
                     phone: user.mobile,
                 })
             }
@@ -26,8 +27,8 @@ export async function registerRider(dispatch, user) {
         return _handle(dispatch, res)
     } catch (error) {
         dispatch({
-            type:"SETERROR",
-            payload:"Unable to connect to server, please try again later"
+            type:`SETERROR`,
+            payload:`Unable to connect to server, please try again later`
         })
         return 0;
     }
@@ -39,20 +40,20 @@ export async function registerRider(dispatch, user) {
 export async function registerRequester(dispatch, user) {
     dispatch(
         {
-            type: "SETUSER",
+            type: `SETUSER`,
             payload: user
         }
     )
     try {
         const res = await fetch(
-            "http://localhost:8000/auth/register/requestOTP",
+            `${url}/auth/register/requestOTP`,
             {
-                method: "POST",
+                method: `POST`,
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    type: "requester",
+                    type: `requester`,
                     phone: user.mobile,
                     
                 })
@@ -63,8 +64,8 @@ export async function registerRequester(dispatch, user) {
     } catch (error) {
 
         dispatch({
-            type:"SETERROR",
-            payload:"Unable to connect to server, please try again later"
+            type:`SETERROR`,
+            payload:`Unable to connect to server, please try again later`
         })
         return 0;
         
@@ -73,18 +74,18 @@ export async function registerRequester(dispatch, user) {
 
 
 export async function requestOTPLogin(dispatch, number, type) {
-    const user = new User("xxx",number)
+    const user = new User(`xxx`,number)
     dispatch(
         {
-            type: "SETUSER",
+            type: `SETUSER`,
             payload: user
         }
     )
     try {
         const res = await fetch(
-            "http://localhost:8000/auth/login/requestOTP",
+            `${url}/auth/login/requestOTP`,
             {
-                method: "POST",
+                method: `POST`,
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -100,8 +101,8 @@ export async function requestOTPLogin(dispatch, number, type) {
         
     } catch (error) {
         dispatch({
-            type:"SETERROR",
-            payload:"Unable to connect to server, please try again later"
+            type:`SETERROR`,
+            payload:`Unable to connect to server, please try again later`
         })
         return 0;
         
@@ -115,19 +116,14 @@ export async function requestOTPLogin(dispatch, number, type) {
  *  @param {any} dispatch Dispatch object from AuthContext
  */
 export function logout(dispatch) {
+   
+    localStorage.clear();
     dispatch(
         {
-            type: "SETLOADING",
-            payload: null
+            type: `LOGOUT`,
         }
     )
-    document.cookie = "val=;expires=Thu ,01 Jan 1970 00:00:00 UTC; path=/;"
-    dispatch(
-        {
-            type: "LOGOUT",
-            payload: null
-        }
-    )
+    console.log('loggedOUT');
 }
 
 /**
@@ -138,23 +134,23 @@ export function logout(dispatch) {
 export async function verify(dispatch, otp,authType,isRequester,user) {
     dispatch(
         {
-            type: "SETUSER",
+            type: `SETUSER`,
             payload: user
         }
     )
     try {
-        const url = authType[0]==='r'?`http://localhost:8000/auth/${authType}${isRequester?"/requester":"/rider"}/verifyOTP`:
-    `http://localhost:8000/auth/${authType}/verifyOTP`
+        const right_url = authType[0]==='r'?`${url}/auth/${authType}${isRequester?`/requester`:`/rider`}/verifyOTP`:
+    `${url}/auth/${authType}/verifyOTP`
     const res = await fetch(
-        url,
+        right_url,
         {
-            method: "POST",
+            method: `POST`,
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
                 phone: user.mobile,
-                type:isRequester?"requester":"rider",
+                type:isRequester?`requester`:`rider`,
                 name:user.name,
                 OTP:otp,
                 yearOfBirth: user.yearOfBirth
@@ -162,43 +158,51 @@ export async function verify(dispatch, otp,authType,isRequester,user) {
             })
         }
     )
-   
-    return _handle(dispatch, res)
+    user.isRequester = isRequester
+    return await _handle(dispatch, res,true,user)
     } catch (error) {
         dispatch({
-            type:"SETERROR",
-            payload:"Unable to connect to server, please try again later"
+            type:`SETERROR`,
+            payload:`Unable to connect to server, please try again later`
         })
         return 0;
     }
 }
 
 
-async function _handle(dispatch, res) {
+async function _handle(dispatch, res,verify=false,user=null) {
 
    
     if (res.ok) {
         const data = await res.json()
-        console.log(data);
+        
         if (data.status[0] === 's') {
-            console.log("UNSET");
             dispatch(
                 {
-                    type: "SETLOADING",
+                    type: `SETLOADING`,
                     payload: null
                 }
             )
+            if(verify){
+                const token = data.msg
+                dispatch({
+                    type:`AUTHENTICATED`,
+                    payload:{token,user}
+                })
+                localStorage.setItem('token',data.message)
+                localStorage.setItem('user',JSON.stringify(user))
+            }
             return 1;
         } else {
             dispatch({
-                type:"SETERROR",
+                type:`SETERROR`,
                 payload:data.message
             })
         }
     } else {
         dispatch({
-            type:"SETERROR",
-            payload:"Unable to access server."
+            type:`SETERROR`,
+            payload:`Unable to access server.`
         })
         
         

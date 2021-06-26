@@ -1,0 +1,38 @@
+.riderhome{
+    display: flex;
+    flex-flow: column;
+    gap: min(2vh,20px);
+    align-self: flex-start;
+  
+    font-size: min(4.5vw,1.25rem);
+  }
+  .rider-home-container{
+    height: 100vh;
+    display: grid;
+    align-content: flex-start;
+  }
+  
+  .rider-home-btn{
+    width: min(80%,400px);
+    position: relative;
+    text-transform: uppercase;
+  
+    padding: min(3vh,1.2em);
+    font-weight: bold;
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.349);
+  
+    background: #ff7978;
+  }
+  .rider-home-btn:focus , .rider-home-btn:hover{
+    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.5);
+  
+    transform: scale(1.02);
+  }
+  
+  .rider-home-btn i{
+    position: absolute;
+    left: 9%;
+    
+    width: max-content;
+  }
+  
