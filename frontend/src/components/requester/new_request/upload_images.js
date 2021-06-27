@@ -14,8 +14,9 @@ const uploadImages =()=>{
     const [Medicine, setMedicine] = useState(sessionStorage.getItem('Medicine')==='true'); 
     const [Grocery, setGrocery] = useState(sessionStorage.getItem('Grocery')==='true');    
     const [Misc,setMisc] = useState(sessionStorage.getItem('Misc')==='true'); 
-    const [categories,setcategories] = useSessionStorageState("tags",[]);
-    const history= useHistory();        
+    const [categories,setcategories] = useSessionStorageState("categories",[]);
+    const history= useHistory();  
+    history      
 
      const onInputChange = (e) =>{
        
@@ -71,33 +72,15 @@ const uploadImages =()=>{
     const onSubmit = (e) =>{
         e.preventDefault();
        
+       
         if(num!=0 && (Medicine===true || Grocery===true || Misc===true))
         {
             setError(" ");
-        
-
-        if(Medicine===true)
-        {
-            setcategories(categories=> [...categories,"MEDICINES"]);
-        }
-        if(Grocery===true)
-        {
-            setcategories(categories=> [...categories,"GROCERIES"]);            
-        }
-        if(Misc===true)
-        {
-            setcategories(categories=> [...categories,"MISC."]);           
-        }
+                
         console.log(categories.length);
         files
         history.push('/address');
-         
-
-        // const data = new FormData();
-
-        // for(let i=0; i<files.length; i++){
-        //     data.append('file',files[i]);
-        // }
+       
 
         }else{
 
@@ -106,6 +89,65 @@ const uploadImages =()=>{
         }
         
         }  
+
+        const OnCheckBox = (e)=>
+        {
+            if(e.target.name === "Medicine"){
+                sessionStorage.setItem('Medicine',`${e.target.checked}`);
+                setMedicine(e.target.checked); 
+
+                if(e.target.checked === true)
+                {   
+                    let displayItems = JSON.parse(sessionStorage.getItem("categories"));
+                    setcategories( displayItems=>[...displayItems,"MEDICINES"]);
+                    sessionStorage.setItem("categories",JSON.stringify(displayItems))
+                }else
+                {
+                    let displayItems = JSON.parse(sessionStorage.getItem("categories"));
+                    displayItems = displayItems.filter(e => e !== "MEDICINES");
+                    setcategories([...displayItems])
+                     sessionStorage.setItem("categories",JSON.stringify(displayItems))
+                }
+            }
+
+            if(e.target.name === "Grocery"){
+                sessionStorage.setItem('Grocery',`${e.target.checked}`);
+                setGrocery(e.target.checked); 
+
+                if(e.target.checked === true)
+                {   
+                    let displayItems = JSON.parse(sessionStorage.getItem("categories"));
+                    setcategories( displayItems=>[...displayItems,"GROCERY"]);
+                    sessionStorage.setItem("categories",JSON.stringify(displayItems))
+                }else
+                {
+                    let displayItems = JSON.parse(sessionStorage.getItem("categories"));
+                    displayItems = displayItems.filter(e => e !== "GROCERY");
+                    setcategories([...displayItems])
+                     sessionStorage.setItem("categories",JSON.stringify(displayItems))
+                }
+            }
+
+            if(e.target.name === "Misc"){
+                sessionStorage.setItem('Misc',`${e.target.checked}`);
+                setMisc(e.target.checked); 
+
+                if(e.target.checked === true)
+                {   
+                    let displayItems = JSON.parse(sessionStorage.getItem("categories"));
+                    setcategories( displayItems=>[...displayItems,"MISC."]);
+                    sessionStorage.setItem("categories",JSON.stringify(displayItems))
+                }else
+                {
+                    let displayItems = JSON.parse(sessionStorage.getItem("categories"));
+                    displayItems = displayItems.filter(e => e !== "MISC.");
+                    setcategories([...displayItems])
+                     sessionStorage.setItem("categories",JSON.stringify(displayItems))
+                }
+            }
+            
+
+        }
 
         const onCancel = ()=>{
 
@@ -152,30 +194,21 @@ const uploadImages =()=>{
                   <div>
                      <label className={styles.up_check_label}>Medicine
                       <input type="checkbox" name="Medicine" checked={Medicine}
-                       onChange = {(e)=> {
-                        sessionStorage.setItem('Medicine',`${e.target.checked}`);
-                       setMedicine(e.target.checked);
-                       }} />
+                       onChange = {OnCheckBox} />
                       <span className={`${styles.up_check} ${styles.check_1}`}></span>
                       </label>
                   </div>
                   <div> 
                      <label className={styles.up_check_label}>Grocery
                       <input type="checkbox" name="Grocery" checked={Grocery}
-                      onChange = {(e)=> {
-                        sessionStorage.setItem('Grocery',`${e.target.checked}`);  
-                      setGrocery(e.target.checked);
-                      }} />
+                      onChange = {OnCheckBox} />
                       <span className={`${styles.up_check} ${styles.check_2}`}></span>
                       </label>
                   </div>
                   <div> 
                       <label className={styles.up_check_label}>Misc.
                       <input type="checkbox" name="Misc" checked={Misc}
-                       onChange = {(e)=> {
-                        sessionStorage.setItem('Misc',`${e.target.checked}`); 
-                       setMisc(e.target.checked);
-                       }}/>
+                       onChange = {OnCheckBox}/>
                       <span className={`${styles.up_check} ${styles.check_3}`}></span>
                       </label>
                   </div>
