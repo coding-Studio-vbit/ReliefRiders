@@ -1,41 +1,41 @@
 import React from 'react';
+import { useHistory } from "react-router-dom";
 import Logo from '../../global_ui/logo'
-import RequestTypeCSS from './RequestType.module.css'
+import Navbar from '../../global_ui/nav';
+import rtstyles from './NewRequestType.module.css'
+
 
 function RequestType() {
+  const history = useHistory();
+
+  const routehandler = (route) => {
+    history.push(route);
+  };
+  
     return(
       <div>
-        <nav className={RequestTypeCSS.navbar}>
-          <div className={RequestTypeCSS.backDiv}>
-            <button className={RequestTypeCSS.btnBack}>
-              <span className={RequestTypeCSS.i1}>
-              <i className='fas fa-chevron-left'></i>
-              </span>
-            </button>
-          </div>
-          <span className={RequestTypeCSS.navHead}>
-              Choose Request Type
-            </span>
-        </nav>
-        <div className={RequestTypeCSS.container}>
+        <div className={'row'}>
+			    <Navbar back='/requester' backStyle={{ color: "white" }} title="Choose Request Type" titleStyle={{ color: "white" }} style={{ backgroundColor: "#79CBC5", marginBottom: "10px" }}/>
+ 		    </div>
+        <div className={rtstyles.rcontainer}>
           <Logo />
-          <button className={RequestTypeCSS.btn2}>
-            <span className={RequestTypeCSS.i2}>
-            <span className={RequestTypeCSS.box}>
+          <button onClick={() => routehandler("list_type")} className={rtstyles.rbtn2}>
+            <span className={rtstyles.ri2}>
+            <span className={rtstyles.rbox}>
               <i className='fas fa-plus'></i>
             </span>
             </span>
-            <span className={RequestTypeCSS.btn2Text}>
+            <span className={rtstyles.rbtn2Text}>
               General Request
             </span>
           </button>
-          <button className={RequestTypeCSS.btn2}>
-            <span className={RequestTypeCSS.icon2}>
-              <span className={RequestTypeCSS.i3}>
+          <button onClick={() => routehandler("list_type")} className={rtstyles.rbtn2}>
+            <span className={rtstyles.ricon2}>
+              <span className={rtstyles.ri3}>
               <i className='fas fa-truck-pickup'></i>
               </span>
             </span>
-            <span className={RequestTypeCSS.btn2Text}>
+            <span className={rtstyles.rbtn2Text}>
               Pick Up / Drop
             </span>
           </button>
