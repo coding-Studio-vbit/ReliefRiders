@@ -7,17 +7,44 @@ import Navbar from "../../global_ui/nav";
 import { useHistory } from 'react-router-dom';
 
 const EditRequesterProfile = () => {
+
   const history = useHistory();
   const token = localStorage.getItem('token')
   const [requestError, setRequestError] = useState(null); 
-  useEffect(() => {
-    
-    return () => {
-      
-    }
-  }, [])
 
-  useEffect(() => {
+  //use when you pass prop
+
+  // const [data, setData] = useState({
+  //   profilePhoto:profile.profilePhoto ,
+  //   fullName :profile.fullName,
+  //   phoneNumber:profile.phoneNumber,
+  //   yearOfBirth:profile.yearOfBirth,
+  //   address:profile.address,
+  //   city:profile.city,
+  //   pincode:profile.pincode,
+  // });
+
+  const [data, setData] = useState({
+    profilePhoto:"" ,
+    fullName :"",
+    phoneNumber:"",
+    yearOfBirth:"",
+    address:"",
+    city:"",
+    pincode:"",
+  });   
+
+  const [errors, setErrors] = useState({ 
+    fullName :null,
+    phoneNumber:null,
+    yearOfBirth:null,
+    address:null,
+    city:null,
+    pincode:null,
+  });
+
+  useEffect(
+    () => {
     console.log("Making HTTP Request");
     const options = {
         headers: {
@@ -29,83 +56,44 @@ const EditRequesterProfile = () => {
     }, error => {
         console.log("An error occured", error);
         setRequestError();
-    },[])   
-  
-    const [data, setData] = useState({
-        profilePhoto: "",
-        fullName :"",
-        phoneNumber:"",
-        yearOfBirth:"",
-        address:"",
-        city:"",
-        pincode:"",
-    });   
+    },
+    [])   
     
-    const [errors, setErrors] = useState({ 
-        fullName :null,
-        phoneNumber:null,
-        yearOfBirth:null,
-        address:null,
-        city:null,
-        pincode:null,
-    });
-  
     const submit = async(event)=> {
-      const message="Field Cannot be Empty";
       let makeRequest=true;
       event.preventDefault();
+      const d=data;
 
-      const emptyObject=errors;      
-      if(data.fullName==""){
-        emptyObject.fullName=message       
-      }
-      if(data.address==""){
-        emptyObject.address=message         
-      }
-      if(data.city==""){
-        emptyObject.city=message 
-      }
-      if(data.yearOfBirth==""){
-        emptyObject.yearOfBirth=message 
-      }
-      if(data.phoneNumber==""){
-        emptyObject.phoneNumber=message 
-      }
-      if(data.pincode==""){
-        emptyObject.pincode=message 
-      }
+      setTimeout(() => {
+        validateCity({target:{value:d.city}})
+        // validateName({target:{value:d.fullName}})
+        // validatePincode({target:{value:d.city}})
+        // validateYear({target:{value:d.yearOfBirth}})
+        // validatePhNumber({target:{value:d.phoneNumber}})
+        // validateAddress({target:{value:d.address}})         
+        
+        for (var key in errors) {
+          if (errors[key]!= null){
+            console.log("ldl");
 
-      for (var key in emptyObject) {
-        if (emptyObject[key]!= null){
-          makeRequest=false
-          break;
+            console.log(10,errors[key]);
+            makeRequest=false
+            break;
+          }
         }
-      }
-    if(makeRequest){
-      //Make HTTP Request
-      console.log("make Req");
-    }
-    else{
-      console.log("Cancel Req");
-    }
-    setErrors({ 
-      fullName :emptyObject.fullName,
-      phoneNumber:emptyObject.phoneNumber,
-      yearOfBirth:emptyObject.yearOfBirth,
-      address:emptyObject.address,
-      city:emptyObject.city,
-      pincode:emptyObject.pincode,
-      });
+        if(makeRequest){
+          //Make HTTP Request
+          console.log("make Req");
+        }
+        else{
+          console.log("Cancel Req");
+        }
+      }, 500); 
     }
   
     const validatePhNumber = (e) => {
       const phoneNumber = e.target.value;
       const regE = /^[6-9]\d{9}$/;
-
-      setErrors({
-        ...errors,
-        phoneNumber:null,
-      });
 
       if (phoneNumber.length > 10) {
         setErrors({
@@ -134,10 +122,6 @@ const EditRequesterProfile = () => {
     const validateName = (e) => {
       const fullName = e.target.value;
 
-      setErrors({
-        ...errors,
-        fullName:null,
-      });
       if (fullName === "") {
         setErrors({
           ...errors,  
@@ -170,10 +154,7 @@ const EditRequesterProfile = () => {
 
     const validateAddress = (e) => { 
       const address = e.target.value;
-      setErrors({
-        ...errors,
-        address:null,
-      })
+      
       if(address===""){
         setErrors({
           ...errors,
@@ -195,17 +176,11 @@ const EditRequesterProfile = () => {
     const validateCity = (e) => {
       const city = e.target.value;
 
-      setErrors({
-        ...errors,
-        city:null,
-      })
-
       if(city===""){
         setErrors({
           ...errors,
           city:"City field cannot be Empty"
         })
-        console.log(data);
       }  
       else{
         setErrors({
@@ -223,12 +198,7 @@ const EditRequesterProfile = () => {
     const validatePincode = (e) => {
       const pincode = e.target.value;
 
-      setErrors({
-        ...errors,
-        pincode:null,
-      });
-
-        if (pincode === "") {
+       if (pincode === "") {
           setErrors({
             ...errors,   
             pincode: "Please enter Pincode",
@@ -259,11 +229,6 @@ const EditRequesterProfile = () => {
     };
   
     const validateYear = (e) => {
-      setErrors({
-        ...errors,
-        yearOfBirth: null,
-      });
-      
       console.log(new Date().getFullYear() - 100);
       const year = e.target.value;
       const cyear = new Date().getFullYear();

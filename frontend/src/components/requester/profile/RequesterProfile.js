@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 import {useEffect, useState} from 'react';
 import Button from '../../global_ui/buttons/button'
 
+import {LoadingScreen} from '../../global_ui/spinner';
 import Dialog from '../../global_ui/dialog/dialog';
 
 const RequesterProfile=()=>{
@@ -13,8 +14,15 @@ const RequesterProfile=()=>{
     const [data, setData] = useState({});
     const [error, setError] = useState(null);
     const token = localStorage.getItem('token')
+    const [isLoaded, setisLoaded] = useState(false);
+
+    function stateChange() {
+        setTimeout(function () {
+        }, 5000);
+    }
+
     useEffect(
-        () => {
+        async () => {
             console.log(token)
             const options = {
                 headers: {
@@ -24,22 +32,31 @@ const RequesterProfile=()=>{
             axios.get('http://localhost:8000/requester/profile',options)
             .then(response => {
                 setData(response.data.message);
-                console.log(response.data);
+                setisLoaded(true);
+                setTimeout(() => {
+                }, 5000);
+                setError(null)
             }, error => {
                 console.log("An error occured", error);
-                setError();
+                setError(error.toString());
+                setisLoaded(true);
             })
     }, [])
 
 
     return (
-        error ? 
-        <Dialog 
-        isShowing={true} 
-        onOK={() => { history.push("/home/requester") }} 
-        msg={JSON.stringify(error.message)} />
-        :
-        <div className={styles.requesterProfileContainer}>
+        isLoaded?  
+        (
+            error?
+            <Dialog 
+            isShowing={error} 
+            onOK={() => {
+                //  history.push("/home/requester") 
+                setError(false)
+            }} 
+            msg={"Profile Not Loaded"} />
+            :
+            <div className={styles.requesterProfileContainer}>
 
             <Navbar back={true} backStyle={{ color: 'white' }} title="My Account" titleStyle={{ color: 'white' }} style={{ backgroundColor: '#79CBC5', marginBottom: "10px" }} />
             
@@ -76,6 +93,10 @@ const RequesterProfile=()=>{
             />           
 
         </div>
+        )    
+        
+        :
+        <LoadingScreen />
         )
     };
 
