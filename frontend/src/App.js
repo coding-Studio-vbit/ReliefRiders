@@ -7,7 +7,7 @@ import {
   Route,
 } from "react-router-dom";
 import InitialHomeRouting from './components/home/initial_home/initialHomeRouting';
-import Map from './components/requester/new_request/maps/map';
+import UploadImages from './components/requester/new_request/upload_images';
 function App() {
 
   return (
@@ -16,7 +16,8 @@ function App() {
         <Router>
           <Switch>
             <Route path="/temp">
-              <Map />
+              {/* TestYourScreensHere */}
+              <UploadImages/>
             </Route>
             <Route path="/">
               <InitialHomeRouting />

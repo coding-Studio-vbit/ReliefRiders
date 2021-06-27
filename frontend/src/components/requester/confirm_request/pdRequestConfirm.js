@@ -1,11 +1,16 @@
 import ConfirmReqCSS from './confirmRequest.module.css';
 import React, { useState } from 'react';
 import Navbar from '../../global_ui/nav';
+import {useHistory} from "react-router-dom";
 
 const ConfirmRequestPD = () =>{
     const [noContactDeliver,setNoContactDeliver] = useState(false);
     const [deliveryRemarks,setDeliverRemarks] = useState('');
     const [covidStatus,setCovidStatus] = useState(false);
+    const history =useHistory();
+    const routehandler = (route) => {
+		history.push(route);
+	};
     console.log(deliveryRemarks)
     return (
         <div className = {ConfirmReqCSS.confirmRequestDiv}>
@@ -28,7 +33,7 @@ const ConfirmRequestPD = () =>{
                     <button className = {ConfirmReqCSS.cancelRequestBtn} >Cancel Request
                     <i className="fas fa-times" style = {{"marginLeft" : "1em"}}></i>
                     </button>
-                    <button className = {ConfirmReqCSS.confirmRequestBtn} >Confirm Request
+                    <button className = {ConfirmReqCSS.confirmRequestBtn} onClick={() => routehandler("/requester")}>Confirm Request
                     <i className="fas fa-arrow-right" style = {{"marginLeft" : "1em"}}></i>
                     </button>
                 </div>

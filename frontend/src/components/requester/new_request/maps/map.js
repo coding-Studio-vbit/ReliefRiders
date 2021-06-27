@@ -7,13 +7,16 @@ import { StandaloneSearchBox } from "@react-google-maps/api";
 import { useRef,useState } from "react";
 import { LoadingScreen } from "../../../global_ui/spinner";
 import { useEffect } from "react";
+import {useHistory} from "react-router-dom";
 
 
 const libraries = ["drawing", "places"];
+
 function Map() {
   const containerStyle = {
     minHeight: "60vh",
   };
+  const history= useHistory();
   const [loading, setLoading] = useState(true);
   const [coordinates, setCoordinates] = useState(null);
   const [centerMaps, setCenterMaps] = useState(null);
@@ -58,6 +61,7 @@ function Map() {
   };
   const chooseAddress = () => {
     console.log(coordinates);
+    history.push('/address');
   };
   return loading ? (
     <LoadingScreen />
@@ -111,9 +115,10 @@ function Map() {
           </StandaloneSearchBox>
         </GoogleMap>
       </LoadScript>
-      <p style={{ textAlign: "center", marginTop: "2vw", marginBottom: "2%" }}>Pin your location</p>
+      <p style={{ textAlign: "center", marginTop: "1vw", marginBottom: "2%" }}>Pin your location</p>
       <button
         onClick={chooseAddress}
+        
         style={{
           position: "fixed",
           top: "85vh",
