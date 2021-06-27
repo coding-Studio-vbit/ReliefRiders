@@ -3,6 +3,7 @@ import { useState,} from 'react';
 import styles from './Upload_images.module.css';
 import { useSessionStorageState } from "../../../utils/useLocalStorageState";
 import Navbar from '../../global_ui/nav';
+import { useHistory } from 'react-router-dom';
 
 const uploadImages =()=>{
 
@@ -13,7 +14,7 @@ const uploadImages =()=>{
     const [Grocery, setGrocery] = useState(sessionStorage.getItem('Grocery')==='true');    
     const [Misc,setMisc] = useState(sessionStorage.getItem('Misc')==='true'); 
     const [categories,setcategories] = useSessionStorageState("tags",[]);
-            
+    const history= useHistory();        
 
      const onInputChange = (e) =>{
        
@@ -85,6 +86,7 @@ const uploadImages =()=>{
             setcategories(categories=> [...categories,"MISC."]);           
         }
         console.log(categories.length);
+        history.push('/address');
          
 
         // const data = new FormData();
@@ -98,8 +100,7 @@ const uploadImages =()=>{
         setError("Please upload files and select the categories");
 
         }
-
-
+        
         }  
 
         const onCancel = ()=>{
