@@ -33,7 +33,7 @@ const ConfirmRequestPD = () =>{
                     <button className = {ConfirmReqCSS.cancelRequestBtn} >Cancel Request
                     <i className="fas fa-times" style = {{"marginLeft" : "1em"}}></i>
                     </button>
-                    <button className = {ConfirmReqCSS.confirmRequestBtn} onClick={() => routehandler("/home/requester")}>Confirm Request
+                    <button className = {ConfirmReqCSS.confirmRequestBtn} onClick={() => routehandler("/requester")}>Confirm Request
                     <i className="fas fa-arrow-right" style = {{"marginLeft" : "1em"}}></i>
                     </button>
                 </div>
