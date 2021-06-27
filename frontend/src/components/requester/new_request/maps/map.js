@@ -119,7 +119,7 @@ function Map() {
           top: "85vh",
           left: 0,
           fontWeight: "bold",
-          color: "black",
+          color: "white",
           background: "hsl(180, 70%, 60%)",
           padding: 0.8 + "em",
           right: 0,
