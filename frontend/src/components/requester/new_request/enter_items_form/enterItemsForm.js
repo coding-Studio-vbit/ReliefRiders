@@ -41,7 +41,7 @@ function EnterItemsForm() {
 	};
 
 	const handleAddClick = () => {
-		setInputList([{ itemName: "", itemQty: "" }, ...inputList]);
+		setInputList([...inputList, { itemName: "", itemQty: "" }]);
 	};
 
 	return (
@@ -53,25 +53,20 @@ function EnterItemsForm() {
 		<div className={restyles.container}>
 			{/* Prompt Text */}
 				<div className={restyles.rmessage}>
-					<p>Please choose the items you want to request</p>
+					<p style={{fontWeight: 'bold'}}>Please choose the items you want to request</p>
 				</div>
-			
-			{/* Main Form */}
-			<div className={restyles.renter}>
-				<p>Enter Items:</p>
-			</div>
 				
 
-			<div className={restyles.rlistname}>
+			<div style={{marginTop: '5%'}} className={restyles.rlistname}>
 				<div className={restyles.row}>
 					<div className={restyles.col}>
-						<p>item name</p>
+						<p style={{fontWeight: 'bold'}}>item name</p>
 					</div>
 					<div className={restyles.col}>
-						<p>strips/qty</p>
+						<p style={{fontWeight: 'bold'}}>strips/qty</p>
 					</div>
 					<div className={restyles.col}>
-						<p>Add/Delete</p>
+						<p style={{fontWeight: 'bold'}}>Add/Delete</p>
 					</div>
 				</div>
 
@@ -81,14 +76,14 @@ function EnterItemsForm() {
 							<div key={inputList.id}>
 								<div className={restyles.row} style={{marginTop: '2%'}}>
 									<div className={restyles.col1}>
-										<InputField type="text" placeholder="Itm Name..." name="itemName" value={x.itemName} onChange={e => handleInputChange(e, i)}/>
+										<InputField type="text" placeholder="Item Name..." name="itemName" value={x.itemName} onChange={e => handleInputChange(e, i)}/>
 									</div>
 									<div className={restyles.col1}>
-										<InputField type="number" placeholder="Itm qty..." name="itemQty" value={x.itemQty} onChange={e => handleInputChange(e, i)}/>
+										<InputField type="text" placeholder="Item qty..." name="itemQty" value={x.itemQty} onChange={e => handleInputChange(e, i)}/>
 									</div>
 									<div className={restyles.col1}>
-										{inputList.length - 1 === i && <button style={{marginRight: '2%', backgroundColor: 'green', color: 'white'}} type="button" className={restyles.btn} onClick={handleAddClick} value="Add">Add</button>}
-										{inputList.length !== 1 && <button style={{marginLeft: '1%', backgroundColor: 'red', color: 'white'}} type="button" className={restyles.btn} onClick={() => handleRemoveClick(i)} >X</button>}
+										{inputList.length - 1 === i && <button style={{marginRight: '2%', backgroundColor: 'green', color: 'white', fontWeight: 'bold'}} type="button" className={restyles.btn} onClick={handleAddClick} value="Add">Add</button>}
+										{inputList.length !== 1 && <button style={{marginLeft: '1%', backgroundColor: 'red', color: 'white', fontWeight: 'bold'}} type="button" className={restyles.btn} onClick={() => handleRemoveClick(i)} >X</button>}
 									</div>
 								</div>
 							</div>
@@ -118,7 +113,7 @@ function EnterItemsForm() {
 				</div>
 
 				<div className={restyles.container}>
-					<div className={restyles.row} style={{marginTop: '10%'}}>
+					<div className={restyles.row} style={{marginTop: '10%', marginBottom: '2%'}}>
 					<div className={restyles.col} onClick={() => routehandler("/")}>
 							<button type="button" style={{backgroundColor: 'red', color: 'white'}} className={restyles.btn}>Cancel</button>
 						</div>
