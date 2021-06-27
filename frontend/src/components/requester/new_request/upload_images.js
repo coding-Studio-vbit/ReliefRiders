@@ -16,7 +16,7 @@ const uploadImages =()=>{
     const [Misc,setMisc] = useState(sessionStorage.getItem('Misc')==='true'); 
     const [categories,setcategories] = useSessionStorageState("categories",[]);
     const history= useHistory();  
-    history      
+         
 
      const onInputChange = (e) =>{
        
