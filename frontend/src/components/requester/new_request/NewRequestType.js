@@ -15,7 +15,7 @@ function RequestType() {
     return(
       <div>
         <div className={'row'}>
-			    <Navbar back='/' backStyle={{ color: "white" }} title="Choose Request Type" titleStyle={{ color: "white" }} style={{ backgroundColor: "#79CBC5", marginBottom: "10px" }}/>
+			    <Navbar back='/requester' backStyle={{ color: "white" }} title="Choose Request Type" titleStyle={{ color: "white" }} style={{ backgroundColor: "#79CBC5", marginBottom: "10px" }}/>
  		    </div>
         <div className={rtstyles.rcontainer}>
           <Logo />

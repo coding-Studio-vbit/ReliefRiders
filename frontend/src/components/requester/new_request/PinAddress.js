@@ -4,12 +4,17 @@ import { AuthContext } from "../../context/auth/authProvider";
 import InputField from "../../global_ui/input";
 import Navbar from '../../global_ui/nav';
 import styles from "./PinAddress.module.css";
-//import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 
 const PinAddress = () => {
     const { loading} = useContext(AuthContext);
     //const route = useHistory();
+    const history = useHistory();
+
+    const routehandler = (route) => {
+        history.push(route);
+    };
     const [location, setlocation] = useState({
       address: "",
       city: "",
@@ -189,7 +194,7 @@ return(
           :(
             <button
               type="button"
-              //onClick={(e) => handleLocation(e)}
+              onClick={() => routehandler("map_location")}
               value="Choose Location"
               className={styles.locationBtn}
             > 
@@ -202,7 +207,7 @@ return(
 
       <button className={styles.btnProceed}
         type="submit"
-        //onClick={(e) => handleProceed(e)}
+        onClick={() => routehandler("confirm_general")}
         value="Proceed">
         Proceed
       </button>

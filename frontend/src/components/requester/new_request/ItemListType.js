@@ -21,7 +21,7 @@ function ListType() {
                 <span className={ItemListTypeCSS.headText}>
                     Please choose the items you want to request
                 </span>
-                <button className={ItemListTypeCSS.btnUpload1}>
+                <button onClick={() => routehandler("add_image")} style={{alignSelf:'center'}} className={ItemListTypeCSS.btnUpload1}>
                     <span className={ItemListTypeCSS.btnUploadText}>
                         Upload Image
                     </span>

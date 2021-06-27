@@ -117,7 +117,7 @@ function EnterItemsForm() {
 					<div className={restyles.col} onClick={() => routehandler("/")}>
 							<button type="button" style={{backgroundColor: 'red', color: 'white'}} className={restyles.btn}>Cancel</button>
 						</div>
-						<div className={restyles.col} onClick={() => routehandler("map_location")}>
+						<div className={restyles.col} onClick={() => routehandler("address")}>
 							<button type="button" style={{backgroundColor: 'green', color: 'white'}} className={restyles.btn}>Proceed</button>
 						</div>
 					</div>
