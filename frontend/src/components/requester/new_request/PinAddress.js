@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import Spinner from "../../global_ui/spinner";
+import {Spinner} from "../../global_ui/spinner";
 import { AuthContext } from "../../context/auth/authProvider";
 import InputField from "../../global_ui/input";
 import Navbar from '../../global_ui/nav';
