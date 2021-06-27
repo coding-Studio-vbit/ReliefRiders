@@ -11,10 +11,10 @@ const uploadImages =()=>{
     const [num, setNum] = useSessionStorageState("num",0);
     const [error, setError] = useState(null);
     const [preview, setpreview] = useSessionStorageState("preview",[]);
-    const [Medicine, setMedicine] = useState(sessionStorage.getItem('Medicine')==='true'); 
-    const [Grocery, setGrocery] = useState(sessionStorage.getItem('Grocery')==='true');    
-    const [Misc,setMisc] = useState(sessionStorage.getItem('Misc')==='true'); 
-    const [categories,setcategories] = useSessionStorageState("categories",[]);
+   const [Medicine, setMedicine] = useState(sessionStorage.getItem('Medicine')==='true'); 
+   const [Grocery, setGrocery] = useState(sessionStorage.getItem('Grocery')==='true');    
+   const [Misc,setMisc] = useState(sessionStorage.getItem('Misc')==='true'); 
+    const [categories,setcategories] = useSessionStorageState("tags",[]);
     const history= useHistory();  
          
 
@@ -73,7 +73,7 @@ const uploadImages =()=>{
         e.preventDefault();
        
        
-        if(num!=0 && (Medicine===true || Grocery===true || Misc===true))
+        if(num!=0 && (categories.length!=0))
         {
             setError(" ");
                 
@@ -97,16 +97,15 @@ const uploadImages =()=>{
                 setMedicine(e.target.checked); 
 
                 if(e.target.checked === true)
-                {   
-                    let displayItems = JSON.parse(sessionStorage.getItem("categories"));
-                    setcategories( displayItems=>[...displayItems,"MEDICINES"]);
-                    sessionStorage.setItem("categories",JSON.stringify(displayItems))
+                {                    
+                    setcategories( categories=>[...categories,"MEDICINES"]);
+                   
                 }else
                 {
-                    let displayItems = JSON.parse(sessionStorage.getItem("categories"));
+                    let displayItems = JSON.parse(sessionStorage.getItem("tags"));
                     displayItems = displayItems.filter(e => e !== "MEDICINES");
                     setcategories([...displayItems])
-                     sessionStorage.setItem("categories",JSON.stringify(displayItems))
+                     sessionStorage.setItem("tags",JSON.stringify(displayItems))
                 }
             }
 
@@ -115,16 +114,15 @@ const uploadImages =()=>{
                 setGrocery(e.target.checked); 
 
                 if(e.target.checked === true)
-                {   
-                    let displayItems = JSON.parse(sessionStorage.getItem("categories"));
-                    setcategories( displayItems=>[...displayItems,"GROCERY"]);
-                    sessionStorage.setItem("categories",JSON.stringify(displayItems))
+                {                     
+                    setcategories( categories=>[...categories,"GROCERY"]);
+                   
                 }else
                 {
-                    let displayItems = JSON.parse(sessionStorage.getItem("categories"));
+                    let displayItems = JSON.parse(sessionStorage.getItem("tags"));
                     displayItems = displayItems.filter(e => e !== "GROCERY");
                     setcategories([...displayItems])
-                     sessionStorage.setItem("categories",JSON.stringify(displayItems))
+                     sessionStorage.setItem("tags",JSON.stringify(displayItems))
                 }
             }
 
@@ -133,16 +131,15 @@ const uploadImages =()=>{
                 setMisc(e.target.checked); 
 
                 if(e.target.checked === true)
-                {   
-                    let displayItems = JSON.parse(sessionStorage.getItem("categories"));
-                    setcategories( displayItems=>[...displayItems,"MISC."]);
-                    sessionStorage.setItem("categories",JSON.stringify(displayItems))
+                {                     
+                    setcategories( categories=>[...categories,"MISC."]);
+                    
                 }else
                 {
-                    let displayItems = JSON.parse(sessionStorage.getItem("categories"));
+                    let displayItems = JSON.parse(sessionStorage.getItem("tags"));
                     displayItems = displayItems.filter(e => e !== "MISC.");
                     setcategories([...displayItems])
-                     sessionStorage.setItem("categories",JSON.stringify(displayItems))
+                     sessionStorage.setItem("tags",JSON.stringify(displayItems))
                 }
             }
             
