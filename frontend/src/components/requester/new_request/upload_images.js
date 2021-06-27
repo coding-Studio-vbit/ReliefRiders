@@ -10,6 +10,7 @@ const uploadImages =()=>{
     const [files, setFiles]= useSessionStorageState("images",[]);
     const [num, setNum] = useSessionStorageState("num",0);
     const [error, setError] = useState(null);
+    const [preview, setpreview] = useSessionStorageState("preview",[]);
     const [Medicine, setMedicine] = useState(sessionStorage.getItem('Medicine')==='true'); 
     const [Grocery, setGrocery] = useState(sessionStorage.getItem('Grocery')==='true');    
     const [Misc,setMisc] = useState(sessionStorage.getItem('Misc')==='true'); 
@@ -43,10 +44,12 @@ const uploadImages =()=>{
                     const base64Response = await fetch(reader.result);
                     const blob = await base64Response.blob();
                     const blobUrl = URL.createObjectURL(blob);
+                    //var byteString = reader.result.split(',')[1];
                     // let blob1 = await fetch(blobUrl).then(r => r.blob());
                     // console.log(blob1)
                     // console.log(blob)
                     setFiles(files=> [...files, blobUrl])
+                    setpreview(preview=>[...preview, reader.result]);
                 }
                    
                  reader.readAsDataURL(e.target.files[i])
@@ -86,6 +89,7 @@ const uploadImages =()=>{
             setcategories(categories=> [...categories,"MISC."]);           
         }
         console.log(categories.length);
+        files
         history.push('/address');
          
 
@@ -111,7 +115,7 @@ const uploadImages =()=>{
     return(
        
         <>
-        <Navbar style={{backgroundColor:'#79CBC5',marginBottom:"10px"}} back='/' backStyle={{ color: 'white' }} 
+        <Navbar style={{backgroundColor:'#79CBC5',marginBottom:"10px"}} back='/list_type' backStyle={{ color: 'white' }} 
         title="Upload Images" titleStyle={{ color: 'white' }} />       
             
             
@@ -138,7 +142,7 @@ const uploadImages =()=>{
             
  
              <div className={styles.up_img_preview}>         
-             <Display previewImages={files}/>
+             <Display previewImages={preview}/>
            </div>
            
 
