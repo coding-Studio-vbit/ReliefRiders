@@ -1,8 +1,8 @@
-.container{
+.rcontainer{
     display: grid;
     justify-items:center;
 }
-.navbar{
+.rnavbar{
     position: relative;
     display: flex;
     background-color:rgba(121, 203, 197);
@@ -11,25 +11,25 @@
     padding: 5px 0px 10px 0px;
     border: 0.5px solid darkgrey;
 }
-.navHead{
+.rnavHead{
     font-weight: bolder;
     align-self: center;
     color: white;
     margin-top: 2px;
     font-size: large;
 }
-.backDiv{
+.rbackDiv{
     position: absolute;
     left: 0;
     top:0;
 }
-.btnBack{
+.rbtnBack{
     background-color:rgba(121, 203, 197);
     margin-top: 3px;
     overflow: hidden;
     cursor: pointer;
 }
-.btn2{
+.rbtn2{
     display: flex;
     width:350px;
     height: 80px;
@@ -43,14 +43,14 @@
     overflow: hidden;
     cursor: pointer;
 }
-.btn2Text{
+.rbtn2Text{
     margin-left: 20px;
     color: white;
     font-size: 23px;
     font-weight:545;
     align-self: center;
 }
-.box{
+.rbox{
     display: flex;
     height: 40px;
     width:  40px;
@@ -59,25 +59,25 @@
     align-self: center;
     justify-content: space-evenly;
 }
-.icon2{
+.ricon2{
     align-self: center;
 }
-img{
+.rimg{
   height: auto;
   width: 130px;
   margin-bottom: 50px;
   margin-top:20px
 }
-.i1{
+.ri1{
     color: white;
     font-weight: bolder;
     font-size:x-large;
 }
-.i2{
+.ri2{
     color:#ff7978;
     font-size: 50px;
     align-self: center;
 }
-.i3{
+.ri3{
     font-size:45px;
 }

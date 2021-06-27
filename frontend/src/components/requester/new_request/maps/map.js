@@ -8,6 +8,7 @@ import { useRef,useState } from "react";
 import { LoadingScreen } from "../../../global_ui/spinner";
 import { useEffect } from "react";
 
+
 const libraries = ["drawing", "places"];
 function Map() {
   const containerStyle = {
@@ -63,14 +64,14 @@ function Map() {
   ) : (
     <div style={{ display: `grid`, height: "100%" }}>
       <Navbar
-        back="/"
+        back="/enter_items"
         title="Choose Location"
-        style={{ background: "hsl(180, 70%, 60%)", color: "black" }}
+        style={{ backgroundColor: "#79CBC5", color: 'white' }}
       />
 
       <LoadScript
         libraries={libraries}
-        googleMapsApiKey="AIzaSyAyaQMOSOaeZrbH-SZGO0eQD4H4IC3yddA"
+        googleMapsApiKey={process.env.REACT_APP_GMAP_API_KEY}
       >
         <GoogleMap
           onClick={(e) => _handleMarker(e.latLng)}
@@ -99,7 +100,7 @@ function Map() {
                 fontSize: `14px`,
                 textOverflow: `ellipses`,
                 position: "fixed",
-                marginTop: "1rem",
+                marginTop: "3%",
                 left: 0,
                 right: 0,
                 marginLeft: "auto",
@@ -110,7 +111,7 @@ function Map() {
           </StandaloneSearchBox>
         </GoogleMap>
       </LoadScript>
-      <p style={{ textAlign: "center", marginTop: "2vw" }}>Pin your location</p>
+      <p style={{ textAlign: "center", marginTop: "2vw", marginBottom: "2%" }}>Pin your location</p>
       <button
         onClick={chooseAddress}
         style={{
@@ -124,6 +125,7 @@ function Map() {
           right: 0,
           marginRight: "auto",
           marginLeft: "auto",
+          marginTop: "2vw"
         }}
       >
         Choose Pinned Address
