@@ -15,7 +15,7 @@ const ConfirmRequestGeneral = () => {
     console.log(deliveryRemarks)
     return (
         <div className = {ConfirmReqCSS.confirmRequestDiv}>
-            <Navbar back={true} backStyle={{ color: 'white' }} title="New Requests" titleStyle={{ color: 'white' }} style={{ backgroundColor: '#79CBC5', marginBottom: "25px" }} />
+            <Navbar back={'/address'} backStyle={{ color: 'white' }} title="New Requests" titleStyle={{ color: 'white' }} style={{ backgroundColor: '#79CBC5', marginBottom: "25px" }} />
             <div>
                 <p className = {ConfirmReqCSS.paymentLabel}>Select Payment Preference:</p> 
                 <div 
