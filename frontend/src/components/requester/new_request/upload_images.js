@@ -9,7 +9,10 @@ const uploadImages =()=>{
 
     const [files, setFiles]= useSessionStorageState("images",[]);
     const [num, setNum] = useSessionStorageState("num",0);
-    const [error, setError] = useState(null);
+    const [err, setErr] = useState({
+        input:null ,
+        check:null
+    })
     const [preview, setpreview] = useSessionStorageState("preview",[]);
    const [Medicine, setMedicine] = useState(sessionStorage.getItem('Medicine')==='true'); 
    const [Grocery, setGrocery] = useState(sessionStorage.getItem('Grocery')==='true');    
@@ -29,12 +32,20 @@ const uploadImages =()=>{
             
             if(t!= "jpeg" && t!="jpg" && t!="png")
             {
-                setError("Please select a valid image file");
+                
+                setErr({
+                    ...err,
+                    input:"Please select a valid image file"
+                })
             }
             else{
 
             if(e.target.files[i].size > 10240000){
-                setError("Maximum file size is 10MB");         
+                
+                setErr({
+                    ...err,
+                    input:"Maximum file size is 10MB"
+                })     
                 
             }else{
                 const reader = new FileReader();
@@ -54,7 +65,11 @@ const uploadImages =()=>{
                 }
                    
                  reader.readAsDataURL(e.target.files[i])
-                 setError(" ");    
+                   
+                 setErr({
+                    ...err,
+                    input:""
+                })  
             }
             }
   
@@ -62,7 +77,11 @@ const uploadImages =()=>{
         }
         else{
             
-            setError("More than 3 files are not allowed");           
+              
+            setErr({
+                ...err,
+                input:"More than 3 files are not allowed"
+            })         
         }
        
         }   
@@ -73,19 +92,37 @@ const uploadImages =()=>{
         e.preventDefault();
        
        
-        if(num!=0 && (categories.length!=0))
+        if(num!=0)
         {
-            setError(" ");
-                
-        console.log(categories.length);
-        files
-        history.push('/address');
-       
+            
+            setErr({
+                ...err,
+                input:""
+            }) 
+
+            if(categories.length!=0)
+            {
+                setErr({
+                    ...err,
+                    check:""
+                })
+                history.push('/address');
+            }
+            else{
+                setErr({
+                    input:"",
+                    check:"Select the categories"
+                })
+            }      
 
         }else{
 
-        setError("Please upload files and select the categories");
-
+        
+        setErr({
+            ...err,
+            input:"Please upload images"
+        })
+        
         }
         
         }  
@@ -147,9 +184,23 @@ const uploadImages =()=>{
         }
 
         const onCancel = ()=>{
-
+            history.push('/');
         }
 
+        const ButtonEffect = (index)=>{
+            const list = [...preview];
+            list.splice(index, 1);
+            setpreview(list);
+
+            const list1 = [...files];
+            list1.splice(index, 1);
+            setFiles(list1);
+            
+            setNum(num => num - 1);
+        }
+    
+
+        
 
     return(
        
@@ -163,7 +214,8 @@ const uploadImages =()=>{
            
                
             <p className={styles.up_img_header}>Please choose the items you want to request</p>
-             <p className={styles.up_error_msg}>{error ? error : ""}</p>
+             {/* <p className={styles.up_error_msg}>{error ? error : ""}</p> */}
+             <p className={styles.up_error_msg}>{err.input ? err.input : ""}</p>
 
            
                           
@@ -180,11 +232,24 @@ const uploadImages =()=>{
             </label>
             
  
-             <div className={styles.up_img_preview}>         
-             <Display previewImages={preview}/>
-           </div>
-           
+             {/* <div className={styles.up_img_preview}>         
+             <Display previewImages={preview}/>             
+             </div> */}
 
+             <div className={styles.up_img_preview}>         
+             {preview.map((image,index) =>{
+                 return (
+                 <div key={index}>
+                     <img className={styles.img_style} style={{ maxHeight:'350px'}} key={index} src={image}/>
+                     <button className={styles.img_button} key={index} onClick={()=> ButtonEffect(index)}>Delete</button>
+                 </div>
+                 )
+             })
+
+             }           
+             </div>
+           
+             <p className={styles.up_error_msg}>{err.check ? err.check : ""}</p>
 
           <div className={styles.up_list}> 
                
@@ -227,11 +292,16 @@ const uploadImages =()=>{
 
 export default uploadImages;
 
-const Display = ({previewImages}) => {
+// const Display = ({previewImages}) => {
 
-    if(!previewImages){
-        return null;
-    }
+//     if(!previewImages){
+//         return null;
+//     }
 
-    return previewImages.map((image, index) => <img className={styles.img_style} style={{ maxHeight:'350px'}} key={index} src={image}/>);
-};
+//     return  previewImages.map((image, index) => <img className={styles.img_style} style={{ maxHeight:'350px'}} key={index} src={image}/> )   
+// };
+
+
+
+
+
