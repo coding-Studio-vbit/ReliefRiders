@@ -16,14 +16,8 @@ const RequesterProfile=()=>{
     const token = localStorage.getItem('token')
     const [isLoaded, setisLoaded] = useState(false);
 
-    function stateChange() {
-        setTimeout(function () {
-        }, 5000);
-    }
-
     useEffect(
         async () => {
-            console.log(token)
             const options = {
                 headers: {
                     'authorization': 'Bearer ' + token
@@ -33,8 +27,6 @@ const RequesterProfile=()=>{
             .then(response => {
                 setData(response.data.message);
                 setisLoaded(true);
-                setTimeout(() => {
-                }, 5000);
                 setError(null)
             }, error => {
                 console.log("An error occured", error);
@@ -48,13 +40,13 @@ const RequesterProfile=()=>{
         isLoaded?  
         (
             error?
-            <Dialog 
+            <Dialog
             isShowing={error} 
             onOK={() => {
-                //  history.push("/home/requester") 
+                history.push("/home/requester") 
                 setError(false)
             }} 
-            msg={"Profile Not Loaded"} />
+            msg={"Unable to Load Profile"} />
             :
             <div className={styles.requesterProfileContainer}>
 
@@ -93,8 +85,7 @@ const RequesterProfile=()=>{
             />           
 
         </div>
-        )    
-        
+        )
         :
         <LoadingScreen />
         )
