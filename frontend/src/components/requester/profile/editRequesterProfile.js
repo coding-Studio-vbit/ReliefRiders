@@ -1,86 +1,101 @@
 import React from 'react';
-import {useState } from "react";
-import "./editRequesterProfile.css";
+import {useState} from "react";
+import axios from 'axios'
+import styles from "./editRequesterProfile.module.css";
 import InputField from "../../global_ui/input";
 import Navbar from "../../global_ui/nav";
+import { useHistory } from 'react-router-dom';
+import Dialog from '../../global_ui/dialog/dialog';
 
 const EditRequesterProfile = () => {
+  //pass a prop here to get data
+
   const history = useHistory();
   const token = localStorage.getItem('token')
-    useEffect(
-        () => {
-            console.log(token)
-            const options = {
-                headers: {
-                    'authorization': 'Bearer ' + token
-                }
-            }
-            
-            axios.put('http://localhost:8000/requester/profile',options)
-                  .then(response => setData(response.data));
-          
-          
-            }, error => {
-                console.log("An error occured", error);
-                setError();
-            })
+  const [requestError, setRequestError] = useState(null); 
 
-    
+  //use when you pass prop
+  // const [data, setData] = useState({
+  //   profilePhoto:profile.profilePhoto ,
+  //   fullName :profile.fullName,
+  //   phoneNumber:profile.phoneNumber,
+  //   yearOfBirth:profile.yearOfBirth,
+  //   address:profile.address,
+  //   city:profile.city,
+  //   pincode:profile.pincode,
+  // });
+
+  const [data, setData] = useState({
+    profilePhoto:"" ,
+    fullName :"",
+    phoneNumber:"",
+    yearOfBirth:"",
+    address:"",
+    city:"",
+    pincode:"",
+  });
+
+  const [fullNameError, setfullNameError] = useState(null);
+  const [phoneNumberError, setphoneNumberError] = useState(null);
+  const [yearOfBirthError, setyearOfBirthError] = useState(null);
+  const [addressError, setaddressError] = useState(null);
+  const [cityError, setcityError] = useState(null);
+  const [pincodeError, setpincodeError] = useState(null);
+
   
 
-    
-    const [data, setData] = useState({
-        profilePhoto: "",
-        fullName :"",
-        phoneNumber:"",
-        yearOfBirth:"",
-        address:"",
-        city:"",
-        pincode:""
-    });
+  function updateProfile() {
+    const options = {
+      headers: {
+          'authorization': 'Bearer ' + token
+      }
+    }
+    axios.put('http://localhost:8000/requester/profile',options)
+          .then(response => setData(response.data))
+          .catch((error)=>{
+          setRequestError(error)
+    })    
+  }
 
-    
-    
-    const [errors, setErrors] = useState({
-        
-        fullName :"",
-        phoneNumber:"",
-        yearOfBirth:"",
-        address:"",
-        city:"",
-        pincode:"",
-        showError: false
-    });
-  
-     function submit(event) {
+    const submit = async(event)=> {
       event.preventDefault();
-      console.log(data);
-      setErrors({
-        ...errors,
-        showErrors: true,
-      });
+      const d=data;      
+      validateCity({target:{value:d.city}})
+      validateName({target:{value:d.fullName}})
+      validatePincode({target:{value:d.city}})
+      validateYear({target:{value:d.yearOfBirth}})
+      validatePhNumber({target:{value:d.phoneNumber}})
+      validateAddress({target:{value:d.address}})
+      
+      console.log(cityError||phoneNumberError || pincodeError || fullNameError || yearOfBirthError ||addressError);
+
+
+      if(cityError||phoneNumberError || pincodeError || fullNameError || yearOfBirthError ||addressError){
+        console.log(cityError,phoneNumberError,pincodeError,fullNameError,yearOfBirthError,addressError);
+      }
+      else{
+        updateProfile();
+      }    
     }
   
     const validatePhNumber = (e) => {
       const phoneNumber = e.target.value;
       const regE = /^[6-9]\d{9}$/;
+
       if (phoneNumber.length > 10) {
-        setErrors({
-          ...errors,
-          showErrors: true,
-  
-          phoneNumber: "Phone number exceeds 10 digits",
-        });
-      } else if (!regE.test(phoneNumber)) {
-        setErrors({
-          ...errors,
-          phoneNumber: "Please enter a valid number",
-        });
-      } else {
-        setErrors({
-          ...errors,
-          phoneNumber: "",
-        });
+        setphoneNumberError(
+          "Phone number exceeds 10 digits"
+          );
+      } 
+      else if (!regE.test(phoneNumber)) {
+        setphoneNumberError(
+          "Please enter a valid number"
+          );
+      } 
+      else {
+        setphoneNumberError(
+          null
+        );
       }
       setData({
         ...data,
@@ -90,112 +105,127 @@ const EditRequesterProfile = () => {
   
     const validateName = (e) => {
       const fullName = e.target.value;
+
       if (fullName === "") {
-        setErrors({
-          ...errors,
-  
-          fullName: "Please enter your name",
-        });
-      } else if (!/^[a-zA-Z]*$/.test(fullName)) {
-        setErrors({
-          ...errors,
-  
-          fullName: "Please enter a valid name",
-        });
-      } else if (fullName.length < 3) {
-        setErrors({
-          ...errors,
-  
-          fullName: "Name must be atleast 3 characters!",
-        });
-      } else {
-        setErrors({
-          ...errors,
-          fullName: "",
-        });
-      }
+        setfullNameError(
+           "Please enter your name"
+      );
+      } 
+      else if (!/^[a-zA-Z]*$/.test(fullName)) {
+        setfullNameError(
+          "Please enter a valid name"
+        );
+      } 
+      else if (fullName.length < 3) {
+        setfullNameError(
+           "Name must be atleast 3 characters!"
+        );
+      } 
+      else {
+        setfullNameError(
+          null
+        );
+      }      
       setData({
         ...data,
         fullName: e.target.value,
       });
     };
-    const validateAddress = (e) => {
-       
-        setData({
-            ...data,
-            address: e.target.value
-        })
 
+    const validateAddress = (e) => { 
+      const address = e.target.value;
+      
+      if(address===""){
+        setaddressError(
+        "Address cannot be Empty"
+        )
+      } 
+      else{
+        setaddressError(
+          null
+        )
+      }      
+      setData({
+          ...data,
+          address: e.target.value
+      })
     };
 
     const validateCity = (e) => {
-       
-        setData({
-            ...data,
-            city: e.target.value
-        })
+      const city = e.target.value;
 
+      if(city===""){
+        setcityError(
+          "City field cannot be Empty"
+        )
+      }  
+      else{
+        setcityError(
+          null
+        )
+      }     
+      setData({
+          ...data,
+          city: city
+      })
     };
 
     const validatePincode = (e) => {
-        const pincode = e.target.value;
-        if (pincode === "") {
-          setErrors({
-            ...errors,
-    
-            pincode: "Please enter Pincode",
-          });
+      const pincode = e.target.value;
+
+       if (pincode === "") {
+          setpincodeError(
+           "Please enter Pincode"
+          );
         }
         else if(pincode.length>6){
-            setErrors({
-                ...errors,
-                pincode: "Invalid Pincode!",
-            });
-        } else {
-            setErrors({
-                ...errors,
-                pincode: "",
-            });
-        } setData({
+            setpincodeError(
+                "Invalid Pincode!"
+            );
+        }
+        else if(pincode.length<6){
+          setpincodeError(
+            "Invalid Pincode!"
+          );
+        } 
+        else {
+          setpincodeError(null);
+        } 
+        setData({
             ...data,
             pincode: e.target.value,
         });
     };
   
     const validateYear = (e) => {
-      console.log(new Date().getFullYear() - 100);
+      // console.log(new Date().getFullYear() - 100);
       const year = e.target.value;
       const cyear = new Date().getFullYear();
   
       if (!parseInt(year) || parseInt(year) < cyear - 100) {
-        setErrors({
-          ...errors,
-  
-          yearOfBirth: "Invalid Year!",
-        });
-      } else if (parseInt(year) > cyear - 13) {
-        setErrors({
-          ...errors,
-  
-          yearOfBirth: "Invalid Year!",
-        });
-      } else if (year.length == 0) {
-        setErrors({
-          ...errors,
-  
-          yearOfBirth: "Enter Year!",
-        });
-      } else if (year.length != 4) {
-        setErrors({
-          ...errors,
-  
-          yearOfBirth: "Invalid Year",
-        });
-      } else {
-        setErrors({
-          ...errors,
-          yearOfBirth: "",
-        });
+        setyearOfBirthError(
+         "Invalid Year!"
+        );
+      } 
+      else if (parseInt(year) > cyear - 13) {
+        setyearOfBirthError(
+          "Invalid Year!"
+        );
+      } 
+      else if (year.length == 0) {
+        setyearOfBirthError(
+         "Enter Year!"
+        );
+      } 
+      else if (year.length != 4) {
+        setyearOfBirthError(  
+           "Invalid Year"
+        );
+      } 
+      else {
+        setyearOfBirthError(  
+          null
+       );
       }
       setData({
         ...data,
@@ -203,91 +233,81 @@ const EditRequesterProfile = () => {
       });
     };
 
+    return (        
+        <div className={styles.requesterProfileContainer}>
 
-    return (
-        
-        <div className="requesterProfile-container">
             <Navbar back={true} backStyle={{ color: 'white' }} title="My Account" titleStyle={{ color: 'white' }} style={{ backgroundColor: '#79CBC5', marginBottom: "10px" }} />
-            <form className="form" onSubmit={submit}>
-          
-            <img ></img>
-            <InputField 
+            
+            <Dialog isShowing={requestError} onOK={()=>setRequestError()} />
+            
+            <form className={styles.editProfileForm} onSubmit={submit}>
+                
+                <img className={styles.profileImage}></img>
+
+                <InputField 
+                
                 value={data.fullName}
                 type = "text"
                 maxLength ="40"
-                placeholder="Enter your name"
-                error={errors.showErrors ? errors.fullName : ""}
-                onChange={validateName}
-                
-               
-            />
-        <InputField
-          value={data.phoneNumber}
-          type="number"
-          maxLength="10"
-          placeholder="Enter Phone number"
-          error={errors.showErrors ? errors.phoneNumber : ""}
-          onChange={validatePhNumber}
-          
+                placeholder="Name"
+                error={fullNameError?fullNameError:null}
+                onChange={validateName}                
+                />
+                <InputField
+                value={data.phoneNumber}
+                type="number"
+                maxLength="10"
+                placeholder="Mobile Number"
+                error={ phoneNumberError  ? phoneNumberError : null}
+                onChange={validatePhNumber}            
+                />
+                <InputField
+                value={data.yearOfBirth}
+                type="number"
+                maxLength="4"
+                placeholder="Year Of Birth"
+                error={ yearOfBirthError ? yearOfBirthError : null}
+                onChange={validateYear}
+                />
 
-        
-          />
-        <InputField
-        value={data.yearOfBirth}
-        type="number"
-        maxLength="4"
-        placeholder="Year Of Birth"
-        error={errors.showErrors ? errors.yearOfBirth : ""}
-        onChange={validateYear}
-        />
-        <div className="address">
-<div className="completeAdress">
+                <div className={styles.address}>
+                    <div className={styles.completeAddress}>
+                        <InputField                
+                        value={data.address}
+                        placeholder="Address"
+                        onChange={validateAddress}
+                        error={ addressError ? addressError :null}
+                        />
+                    </div>
 
-        <InputField
-        textAreaClass="address1"
-        rows='5'
-        cols='1'
-        fieldType="textarea"
-        style={{height:'100px'}}
-        value={data.address}
-        type="textarea"
-        placeholder="Enter your Address"
-        onChange={validateAddress}
-        />
-       
-</div>
+                    <div className={styles.city}>
+                        <InputField
+                          value={data.city}
+                          type="text"
+                          placeholder="City"
+                          error={cityError? cityError : null}
+                          onChange={validateCity}
+                          />                        
+                    </div>
 
-<div className="city">
+                    <div className={styles.pincode}>
+                        <InputField 
+                        value={data.pincode}
+                        type="number"
+                        placeholder="Pincode"
+                        error={ pincodeError ? pincodeError:null}
+                        onChange={validatePincode}
+                        />
+                    </div>  
 
-        <InputField
-        value={data.city}
-        type="text"
-        placeholder="City"
-        onChange={validateCity}
-        />
-</div>
-<div className="pincode">
+                </div>       
+            </form>
+              
+            <button onClick={submit} className="submit">Save Changes</button>
 
-        <InputField 
-        value={data.pincode}
-        type="number"
-        placeholder="Pincode"
-        error={errors.showErrors ? errors.pincode : ""}
-        onChange={validatePincode}
-        />
-</div>
-        
-        </div>
-        
-        
-          </form>
-          <button onClick={submit} className="submit">Save Changes</button>
-          </div>
+        </div>  
+        );
+      };
   
-        
-        
-    );
-  };
-  
-  export default EditRequesterProfile;
+export default EditRequesterProfile;
   
