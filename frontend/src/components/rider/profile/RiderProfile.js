@@ -51,7 +51,7 @@ const RiderProfile=()=>{
          : 
         <div className="riderProfileContainer">
             <Navbar back={true} backStyle={{ color: 'white' }} title="My Account" titleStyle={{ color: 'white' }} style={{ backgroundColor: '#79CBC5', marginBottom: "10px" }} />
-            <img></img>
+            <img>className=profileImage</img>
             <label>Full Name:</label>
             <span className="name" >
                {data.name}

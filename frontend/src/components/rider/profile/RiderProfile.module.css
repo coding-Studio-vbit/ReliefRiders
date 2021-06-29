@@ -42,5 +42,6 @@ span {
 .edit{
     font-size: large;
     padding: auto 20px;
+    align-self: center;
         
 }

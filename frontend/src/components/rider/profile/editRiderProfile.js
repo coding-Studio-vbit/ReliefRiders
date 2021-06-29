@@ -1,14 +1,14 @@
 import React from 'react';
-import {useState,useEffect } from "react";
+import {useState } from "react";
 import styles from "./editRiderProfile.module.css";
 import axios from 'axios';
 import InputField from "../../global_ui/input";
 import Navbar from "../../global_ui/nav";
-import { useHistory } from 'react-router';
+
 import Dialog from '../../global_ui/dialog/dialog';
 
 const EditRiderProfile = () => {
-  const history = useHistory();
+
   const [requestError, setRequestError] = useState(null);
   const token = localStorage.getItem('token')
 
@@ -17,6 +17,7 @@ const EditRiderProfile = () => {
     fullName :"",
     phoneNumber:"",       
   });    
+ 
 
   const [fullNameError, setfullNameError] = useState(null);
   const [phoneNumberError, setphoneNumberError] = useState(null);
@@ -110,19 +111,22 @@ const validateName = (e) => {
                 <img className={styles.profileImage}></img>
 
                 <InputField 
-                    value={data.fullName}
-                    type = "text"
-                    maxLength ="40"
-                    placeholder="Name"
-                    error={errors.fullName ? errors.fullName : ""}
-                    onChange={validateName}/>
+            value={data.fullName}
+            type = "text"
+            maxLength ="40"
+            placeholder="Enter your name"
+            error={fullNameError? fullNameError : null}
+            onChange={validateName}
+            
+           
+        />
 
                 <InputField
                   value={data.phoneNumber}
                   type="number"
                   maxLength="10"
                   placeholder="Mobile Number"
-                  error={errors.phoneNumber ? errors.phoneNumber : ""}
+                  error={phoneNumberError ? phoneNumberError : ""}
                   onChange={validatePhNumber}/> 
 
 
