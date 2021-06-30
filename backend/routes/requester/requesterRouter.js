@@ -127,7 +127,7 @@ router.put("/profile", function (req, res) {
 })
 
 router.get("/myRequests", (req, res) => {
-	requester.find({ phoneNumber: req.user.phoneNumber })
+	requester.findOne({ phoneNumber: req.user.phoneNumber })
 		.then(doc => {
 			if (!doc)
 				throw { status: "failure", message: "Invalid user!" };
