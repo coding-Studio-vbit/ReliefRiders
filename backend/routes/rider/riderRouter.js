@@ -5,6 +5,8 @@ const router = express.Router();
 const rider = require("../../models/riders");
 const verifyToken = require("../common/tokenAuth");
 
+const requests = require("../../models/request");
+
 const checkIsRider = (req, res, next) => {
   if (req.user.userType == 'rider')
     next();
@@ -53,5 +55,13 @@ router.put("/profile", function (req, res) {
   })
 })
 
-
+router.get("/makeDelivery/:requestID", (req, res)=>{
+		
+		const {requestID} = req.params;
+		requests.findOne({requestID: requestID})
+		.then(doc=>{
+					
+			})
+})
 module.exports = router;
+

@@ -27,6 +27,7 @@ const authRouter = require("./routes/authentication/authRouter");
 const requesterRouter = require("./routes/requester/requesterRouter");
 const riderRouter = require("./routes/rider/riderRouter");
 const requestsRouter = require("./routes/requests/generalRequest");
+
 app.get("/", (req, res)=>{
 	res.send("Hey I am alive!");
 });
