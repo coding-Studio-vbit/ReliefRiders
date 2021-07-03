@@ -40,7 +40,7 @@ const PinAddress = () => {
       }
       const _handleAddress = (e) => {
         const address = e.target.value;
-        const regE = /^[a-zA-Z0-9\s,'-]*$/;
+        const regE = /^[A-Za-z0-9'\-\s]*$/;
         if (address === "") {
           setErrors({
             ...errors,
@@ -51,7 +51,7 @@ const PinAddress = () => {
         else if (!regE.test(address)) {
             setErrors({
               ...errors,
-              address: "Please enter a valid address(symbols allowed are : - / . ,)",
+              address: "Please enter a valid address",
             });
         }
         else {
@@ -132,7 +132,7 @@ const PinAddress = () => {
     
 return( 
   <div className={styles.chooseAddressPage}>
-  <Navbar back='/' backStyle={{ color: 'white' }} title="Choose Location" titleStyle={{ color: 'white' }} style={{ backgroundColor: '#79CBC5', marginBottom: "10px" }} />
+  <Navbar back='/add_image' backStyle={{ color: 'white' }} title="Choose Location" titleStyle={{ color: 'white' }} style={{ backgroundColor: '#79CBC5', marginBottom: "10px" }} />
 
   <div className={styles.headerText}>
       Choose Pickup Location
