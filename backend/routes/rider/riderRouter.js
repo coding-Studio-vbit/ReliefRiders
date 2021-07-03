@@ -181,5 +181,20 @@ router.get("/requestDetails/:requestID", ( req, res )=>{
 	})
 })
 
+router.get("/myDeliveries", (req, res)=>{
+	let riderID;
+	rider.findOne({phoneNumber: req.user.phoneNumber})
+	.then((riderDoc)=>{
+		return request.find({requestStatus: "DELIVERED", riderID: riderDoc._id})
+	})
+	.then(docs=>{
+		return res.json({status: "success", message: docs.data.rows});
+	})
+	.catch(error=>{
+		console.log(error);
+		return res.json({status: "failure", message: error});
+	})
+})
+
 module.exports = router;
 
