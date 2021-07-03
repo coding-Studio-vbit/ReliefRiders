@@ -58,10 +58,49 @@ router.put("/profile", function (req, res) {
 router.get("/makeDelivery/:requestID", (req, res)=>{
 		
 		const {requestID} = req.params;
-		requests.findOne({requestID: requestID})
+		let riderID;
+		rider.findOne({phoneNumber: req.user.phoneNumber})
+		.then(doc => {
+			if(!doc)
+				throw ({status:"failure", message: "Rider not found!"});
+			else
+				riderID = doc._id;
+			return requests.findOne({requestID:requestID});
+		})
 		.then(doc=>{
-					
-			})
+			if(!doc)
+				throw {status: "failure", message: "No such request found!"};
+			
+			if(doc.requestStatus != "PENDING")
+				throw {status: "failure", message: "Request is not PENDING, you cannot take this up."};
+			
+			doc.requestStatus = "UNDER DELIVERY";
+			doc.riderID = riderID;
+			return doc.save();
+		})
+		.then(()=>{
+			res.json({status: "success", message: "makeDelivery confirmed"});
+		})
+		.catch(error => {
+			console.log(error);
+			res.json(error);
+		})
 })
+
+router.get("/requestDetails/:requestID", ( req, res )=>{
+	const {requestID} = req.params;
+	request.findOne({requestID: requestID})
+	.then((doc)=>{
+		if(!doc)
+			res.json ({status: "failure", message: "No such request found!"});
+		else
+			res.json({status:"success", message: doc});
+	})
+	.catch(error=>{
+		console.log(error);
+		res.json({status:"failure", message: "Internal Server Error"});
+	})
+})
+
 module.exports = router;
 

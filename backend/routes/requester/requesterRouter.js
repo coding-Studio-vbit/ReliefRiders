@@ -74,7 +74,7 @@ router.get("/cancelRequest/:requestID", (req, res) => {
 				//request is made by this person only.
 				//Now check if the status is "PENDING"
 				if (doc.requestStatus != "PENDING")
-					throw { status: "failure", message: "Cannot confirm this request, status is not PENDING" };
+					throw { status: "failure", message: "Cannot cancel this request, status is not PENDING" };
 
 				doc.requestStatus = "CANCELLED";
 				return doc.save();
