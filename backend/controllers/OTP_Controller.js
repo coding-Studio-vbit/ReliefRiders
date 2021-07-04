@@ -49,9 +49,13 @@ async function verifyOTP(userDoc, type, otpGuess)
 			reject("No OTP object found!")
 		else if(userDoc.OTP.guessesLeft <= 0)
 		{
-			reject("You have exceeded the maximum number of OTP tries, please try again after some time.");
+			const timeDiff = (Date.now() - userDoc.OTP.otpSetTime)/(1000 * 60);
+			if(timeDiff > OTP_PUNISHMENT_INTERVAL)
+				userDoc.OTP.guessesLeft = 10;
+			else
+				reject("You have exceeded the maximum number of OTP tries, please try again after some time.");
 		}
-		else
+		if(userDoc.OTP.guessesLeft > 0)
 		{
 			const timeDiffMins = (Date.now() - userDoc.OTP.otpSetTime)/(1000 * 60);
 				if(timeDiffMins > process.env.OTP_LIFE){

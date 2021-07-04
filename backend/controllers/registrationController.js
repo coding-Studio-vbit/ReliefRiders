@@ -108,6 +108,9 @@ async function riderOTPVerify(phone, OTP, name)
 				.catch(error=>{
 					resolve(sendError(error));
 				})
+				.finally(()=>{
+					return registrationDoc.save()
+				})
 			}
 		})
 		.catch(error=>{
@@ -148,6 +151,9 @@ async function requesterOTPVerify(phone, OTP, yearOfBirth, name)
 				})
 				.catch(error=>{
 					resolve(sendError(error));
+				})
+				.finally(()=>{
+					return registrationDoc.save()
 				})
 			}
 		})
