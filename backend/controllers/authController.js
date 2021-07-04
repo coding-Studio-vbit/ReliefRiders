@@ -1,5 +1,5 @@
-const riders = require("../models/rider");
-const requesters = require("../models/requester");
+const rider = require("../models/riders");
+const requester = require("../models/requesters");
 const otpController = require("./OTP_Controller.js");
 const sms = require("./sms.js");
 
@@ -21,7 +21,7 @@ function sendResponse(message)
 
 async function loginRequestOTP(type, phone)
 {
-	return new Promise((reject, resolve)=>{
+	return new Promise((resolve, reject)=>{
 		
 		let userModel;
 		switch (type) {
@@ -51,7 +51,7 @@ async function loginRequestOTP(type, phone)
 					//OTP is already set, this is a resend.
 					//update the OTP
 					if(doc.OTP.resendsLeft <= 0)
-						return resolve(sendError("Exceeded Max resends")):
+						return resolve(sendError("Exceeded Max resends"));
 					
 					return otpController.resendOTP(doc.OTP)
 				}
@@ -66,16 +66,17 @@ async function loginRequestOTP(type, phone)
 			return userDoc.save();
 		})
 		.then(()=>{
-			resolve(sendResponse(`New OTP set for ${userDoc.phoneNumber}: ${userDoc.OTP.currentOTP}`));
+			sms.sendOTP(phone, userDoc.OTP.currentOTP);
+			resolve(sendResponse(`New OTP set`));
 		})
 		.catch(error=>{
 			console.log(error);
-			sendError("Internal Server Error");
+			resolve(sendError("Internal Server Error"));
 		})
 	});
 }
 
-async function verifyOTP(phone, OTP, type)
+async function loginVerifyOTP(phone, OTP, type)
 {
 	return new Promise((resolve, reject)=>{
 			
@@ -86,7 +87,7 @@ async function verifyOTP(phone, OTP, type)
 			default: userModel = null;
 		}
 		if (!userModel)
-			return resolve({ status: "failure", message: "Invalid user type!" });
+			return resolve(sendError("Invalid User Type"));
 		
 		let userDoc;
 
@@ -97,46 +98,24 @@ async function verifyOTP(phone, OTP, type)
 			else
 			{
 				userDoc = doc;
-				if(!userDoc.OTP)
-					resolve(sendError("OTP has not been set."));
-				else if(userDoc.OTP.guessesLeft <= 0)
-				{
-					resolve(sendError("You have exceeded the maximum number of OTP guesses, please try again after some time."));
-				}
-				else
-				{
-					const timeDiffMins = (Date.now() - userDoc.OTP.otpSetTime)/(1000 * 60);
-						if(timeDiffMins > process.env.OTP_LIFE){
-							resolve(sendError("OTP has expired. Try resend OTP."));
-						}
-						else
-						{
-							if(userDoc.OTP.currentOTP == OTP)
-							{
-								userDoc.OTP = null;
-								token = jwt.sign({
-									phoneNumber: phone,
-									type: type
-								}, process.env.TOKEN_SECRET);
-
-								resolve(sendResponse(token));
-							}
-							else
-							{
-								userDoc.OTP.guessesLeft--;
-								resolve(sendError(`Wrong OTP, ${userDoc.OTP.guessesLeft} guesses left.`))
-							}
-						}
-				}
+				otpController.verifyOTP(userDoc, type, OTP)
+				.then(token =>{
+					resolve(sendResponse(token));
+				})
+				.catch(errorMessage=>{
+					console.log(errorMessage);
+					resolve(sendError(errorMessage));
+				})
 			}
 			return doc.save();
 		})
 		.catch(error=>{
 			console.log(error);
-			reject(sendError("Internal Server Error"));
+			resolve(sendError("Internal Server Error"));
 		})
 	})
 }
 module.exports = {
-	
+	loginRequestOTP,
+	loginVerifyOTP
 };

@@ -4,7 +4,6 @@ const app = express();
 const mongoose = require("mongoose");
 const port = process.env.PORT || 8000;
 const cors = require('cors')
-const clearExpiredOTP = require("./clearExpiredOTPs")
 
 //express middleware usage.
 app.use(express.json());
@@ -40,7 +39,6 @@ app.use("/requester", requesterRouter);
 app.use("/rider", riderRouter);
 app.use("/requests",requestsRouter);
 //This call starts the periodic cleanup of the TEMP_OTP.json file, which is handled by the clearAllExpiredOTPs.js script.
-clearExpiredOTP();
 
 app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`)
