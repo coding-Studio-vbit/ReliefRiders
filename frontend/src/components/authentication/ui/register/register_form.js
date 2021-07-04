@@ -9,7 +9,7 @@ import {
   registerRequester,
   registerRider,
 } from "../../../context/auth/authOperations";
-import Dialog from "../../../global_ui/dialog/dialog";
+import {Dialog} from "../../../global_ui/dialog/dialog";
 import Logo from "../../../global_ui/logo";
 import { useHistory, useParams } from "react-router-dom";
 const RegisterScreen = () => {

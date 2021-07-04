@@ -1,7 +1,7 @@
 import React from "react";
 import { Redirect, Route, Switch } from "react-router";
 import MyRequests from "./MyRequests";
-import PlacedRequest from "./placed_request";
+import PlacedRequest from "./placed_request/placed_request";
 const MyRequestsRoutes = () => {
   return (
     <Switch>
