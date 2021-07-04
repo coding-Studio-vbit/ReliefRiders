@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const OTPSchema = require("./otpSchema");
 
 const user = new mongoose.Schema({
 
@@ -50,7 +51,8 @@ const user = new mongoose.Schema({
  location: {
 		type: {type: String, default: "Point"},
 		coordinates: [Number]
- }
+ },
+ OTP: OTPSchema
 });
 
 
