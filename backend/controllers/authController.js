@@ -51,7 +51,15 @@ async function loginRequestOTP(type, phone)
 					//OTP is already set, this is a resend.
 					//update the OTP
 					if(doc.OTP.resendsLeft <= 0)
-						return resolve(sendError("Exceeded Max resends"));
+					{
+						const timeDiff = (Date.now() - doc.OTP.otpSetTime)/(60 * 1000);
+						if(timeDiff > OTP_PUNISHMENT_INTERVAL)
+						{
+							return otpController.newOTP(doc);
+						}
+						else
+							return resolve(sendError("Exceeded Max resends, try again after some time"));
+					}
 					
 					return otpController.resendOTP(doc.OTP)
 				}

@@ -1,17 +1,8 @@
 //Author: Sai Kiran
 const express = require("express");
-const jwt = require("jsonwebtoken");
 const router = express.Router();
-const fs = require("fs").promises;
 const authController = require("../../controllers/authController");
 const registrationController = require("../../controllers/registrationController");
-
-
-const OTP_FILE_PATH = "./TEMP_OTP.json";
-const OTP_CLEAR_TIMEOUT_MINS = 5;
-const MAX_OTP_GUESSES = 5;
-const MAX_OTP_RESENDS = 5;
-
 
 function sendError(message)
 {
