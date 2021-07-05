@@ -1,6 +1,7 @@
 //React
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
+import { useSessionStorageState } from "../../../../utils/useLocalStorageState";
 
 //CSS
 import InputField from "../../../global_ui/input";
@@ -14,18 +15,8 @@ function EnterItemsForm() {
     history.push(route);
   };
 
-  const [inputList, setInputList] = useState([{ itemName: "", itemQty: "" }]);
+  const [inputList, setInputList] = useSessionStorageState('enteredItems',[{ itemName: "", itemQty: "" }]);
 
-  useEffect(() => {
-    const items = localStorage.getItem("items");
-    if (items) {
-      setInputList(JSON.parse(items));
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("items", JSON.stringify(inputList));
-  }, [inputList]);
 
   const handleInputChange = (e, index) => {
     const { name, value } = e.target;
@@ -49,7 +40,7 @@ function EnterItemsForm() {
       {/* Navbar */}
 
       <Navbar
-        back="/list_type"
+        back="list_type"
         backStyle={{ color: "white" }}
         title="Enter Items"
         titleStyle={{ color: "white" }}

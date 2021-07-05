@@ -1,21 +1,23 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import { useContext } from "react/cjs/react.development";
+import { NewRequestContext } from "../../context/new_request/newRequestProvider";
 import Logo from "../../global_ui/logo";
 import Navbar from "../../global_ui/nav";
 import rtstyles from "./NewRequestType.module.css";
 
 function RequestType() {
   const history = useHistory();
-
+  const { dispatch } = useContext(NewRequestContext);
   const routehandler = (route) => {
-    history.push(route);
+    history.push("new_request/" + route);
   };
 
   return (
     <div>
       <div className={"row"}>
         <Navbar
-          back="/requester"
+          back="/"
           backStyle={{ color: "white" }}
           title="Choose Request Type"
           titleStyle={{ color: "white" }}
@@ -25,7 +27,10 @@ function RequestType() {
       <div className={rtstyles.rcontainer}>
         <Logo />
         <button
-          onClick={() => routehandler("list_type")}
+          onClick={() => {
+            dispatch({ type: "REQUEST_TYPE", payload: "general" });
+            routehandler("list_type");
+          }}
           className={rtstyles.rbtn2}
         >
           <span className={rtstyles.ri2}>
@@ -36,7 +41,11 @@ function RequestType() {
           <span className={rtstyles.rbtn2Text}>General Request</span>
         </button>
         <button
-          onClick={() => routehandler("list_type")}
+          onClick={() => {
+            dispatch({ type: "REQUEST_TYPE", payload: "p&d" });
+
+            routehandler("list_type");
+          }}
           className={rtstyles.rbtn2}
         >
           <span className={rtstyles.ricon2}>
