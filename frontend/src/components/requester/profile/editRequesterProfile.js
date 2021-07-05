@@ -4,13 +4,13 @@ import axios from 'axios'
 import styles from "./editRequesterProfile.module.css";
 import InputField from "../../global_ui/input";
 import Navbar from "../../global_ui/nav";
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 import Dialog from '../../global_ui/dialog/dialog';
 
 const EditRequesterProfile = () => {
   //pass a prop here to get data
 
-  const history = useHistory();
+  // const history = useHistory();
   const token = localStorage.getItem('token')
   const [requestError, setRequestError] = useState(null); 
 

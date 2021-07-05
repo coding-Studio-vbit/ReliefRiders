@@ -8,15 +8,7 @@ import {
 } from "react-router-dom";
 import InitialHomeRouting from './components/home/initial_home/initialHomeRouting';
 import PlacedRequest from './components/requester/my_requests/placed_request';
-import RequesterProfile from './components/requester/profile/editRequesterProfile';
-// import { AuthProvider } from './components/context/auth/authProvider';
-// import {
-//   BrowserRouter as Router,
-//   Switch,
-//   Route,
-// } from "react-router-dom";
-// import InitialHomeRouting from './components/home/initial_home/initialHomeRouting';
-// import PlacedRequest from './components/requester/my_requests/placed_request';
+
 
 
 function App() {
@@ -24,7 +16,7 @@ function App() {
 
   return (
     <div className="App">        
-      {/* <AuthProvider>
+      <AuthProvider>
         <Router>
           <Switch>
           
@@ -36,8 +28,7 @@ function App() {
             </Route>
           </Switch>
         </Router>
-      </AuthProvider> */}
-      <RequesterProfile/>
+      </AuthProvider>
     </div>
   );
 }
