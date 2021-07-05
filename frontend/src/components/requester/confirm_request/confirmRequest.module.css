@@ -120,6 +120,7 @@
   border: none;
   font-weight: bold;
   transition-duration: 0.4s;
+  width: 11.5em
 }
 
 .cancelRequestBtn:hover{
