@@ -3,22 +3,8 @@ const requester = require("../models/requesters");
 const registrations = require("../models/registrations");
 const otpController = require("./OTP_Controller.js");
 const sms = require("./sms.js");
+const {sendError, sendResponse} = require("./common.js");
 
-function sendError(message)
-{
-	return {
-		status: "failure",
-		message: message
-	}
-}
-
-function sendResponse(message)
-{
-	return {
-		status: "success",
-		message: message
-	}
-}
 async function registrationRequestOTP(phone, type){
 	return new Promise((resolve, reject)=>{
 		

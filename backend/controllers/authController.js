@@ -2,22 +2,8 @@ const rider = require("../models/riders");
 const requester = require("../models/requesters");
 const otpController = require("./OTP_Controller.js");
 const sms = require("./sms.js");
+const {sendError, sendResponse} = require("./common");
 
-function sendError(message)
-{
-	return {
-		status: "failure",
-		message: message
-	}
-}
-
-function sendResponse(message)
-{
-	return {
-		status: "success",
-		message: message
-	}
-}
 
 async function loginRequestOTP(type, phone)
 {
