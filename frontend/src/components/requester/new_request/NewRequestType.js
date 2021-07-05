@@ -13,14 +13,12 @@ function RequestType() {
   };
   
     return(
-      <div style={{display:'grid'}}>
+      <div>
         <div className={'row'}>
-			    <Navbar back='/requester' backStyle={{ color: "white", position:'absolute',left:0}} title="Choose Request Type" titleStyle={{ color: "white",fontSize:'18px'}} style={{ backgroundColor: "#79CBC5", marginBottom: "10px", display:'flex', position:'relative' }}/>
+			    <Navbar back='/requester' backStyle={{ color: "white" }} title="Choose Request Type" titleStyle={{ color: "white" }} style={{ backgroundColor: "#79CBC5", marginBottom: "10px" }}/>
  		    </div>
         <div className={rtstyles.rcontainer}>
-        <span className={rtstyles.rimg}>
-            <Logo />
-            </span>
+          <Logo />
           <button onClick={() => routehandler("list_type")} className={rtstyles.rbtn2}>
             <span className={rtstyles.ri2}>
             <span className={rtstyles.rbox}>
