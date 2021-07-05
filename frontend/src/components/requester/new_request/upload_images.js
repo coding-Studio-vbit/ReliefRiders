@@ -1,45 +1,75 @@
 import React from 'react';
 import { useState,} from 'react';
 import styles from './Upload_images.module.css';
+import { useSessionStorageState } from "../../../utils/useLocalStorageState";
 import Navbar from '../../global_ui/nav';
+import { useHistory } from 'react-router-dom';
 
 const uploadImages =()=>{
 
-    const [files, setFiles]= useState([]);
-    const [num, setNum] = useState(0);
-    const [error, setError] = useState(null);
-    const [preview, setPreview] = useState([]);
-    const [Medicine, setMedicine] = useState(false);
-    const [Grocery, setGrocery] = useState(false);    
-    const [Misc,setMisc] = useState(false);
-    const [categories,setcategories] = useState([]);
-  
-    
+    const [files, setFiles]= useSessionStorageState("images",[]);
+    const [num, setNum] = useSessionStorageState("num",0);
+    const [err, setErr] = useState({
+        input:null ,
+        check:null
+    })
+    const [preview, setpreview] = useSessionStorageState("preview",[]);
+   const [Medicine, setMedicine] = useState(sessionStorage.getItem('Medicine')==='true'); 
+   const [Grocery, setGrocery] = useState(sessionStorage.getItem('Grocery')==='true');    
+   const [Misc,setMisc] = useState(sessionStorage.getItem('Misc')==='true'); 
+    const [categories,setcategories] = useSessionStorageState("tags",[]);
+    const history= useHistory();  
+         
 
-    const onInputChange = (e)=>{
+     const onInputChange = (e) =>{
        
         if(num + e.target.files.length<=3)
         {
             
             for(let i=0;i<e.target.files.length;i++){
             
-            var t=e.target.files[i].type.split('/').pop().toLowerCase();
+            var t = e.target.files[i].type.split('/').pop().toLowerCase();
             
             if(t!= "jpeg" && t!="jpg" && t!="png")
             {
-                setError("Please select a valid image file");
+                
+                setErr({
+                    ...err,
+                    input:"Please select a valid image file"
+                })
             }
             else{
 
-            if(e.target.files[i].size>10240000){
-                setError("Maximum file size is 10MB");         
+            if(e.target.files[i].size > 10240000){
+                
+                setErr({
+                    ...err,
+                    input:"Maximum file size is 10MB"
+                })     
                 
             }else{
-
-                setNum(num => num + 1)
-                setFiles(files=> [...files, e.target.files[i]]);
-                setPreview(preview=> [...preview, URL.createObjectURL(e.target.files[i])])    
-                setError(" ");    
+                const reader = new FileReader();
+                setNum(num => num + 1);                
+                
+                reader.onload = async function(){
+                    
+                    const base64Response = await fetch(reader.result);
+                    const blob = await base64Response.blob();
+                    const blobUrl = URL.createObjectURL(blob);
+                    //var byteString = reader.result.split(',')[1];
+                    // let blob1 = await fetch(blobUrl).then(r => r.blob());
+                    // console.log(blob1)
+                    // console.log(blob)
+                    setFiles(files=> [...files, blobUrl])
+                    setpreview(preview=>[...preview, reader.result]);
+                }
+                   
+                 reader.readAsDataURL(e.target.files[i])
+                   
+                 setErr({
+                    ...err,
+                    input:""
+                })  
             }
             }
   
@@ -47,60 +77,135 @@ const uploadImages =()=>{
         }
         else{
             
-            setError("More than 3 files are not allowed");           
+              
+            setErr({
+                ...err,
+                input:"More than 3 files are not allowed"
+            })         
         }
        
-        }
+        }   
 
+        
 
     const onSubmit = (e) =>{
         e.preventDefault();
        
-        if(num===0)
+       
+        if(num!=0)
         {
-            setError("No file uploaded");
-        }
+            
+            setErr({
+                ...err,
+                input:""
+            }) 
 
-        if(Medicine===true)
-        {
-            setcategories(categories=> [...categories,"MEDICINES"]);
-        }
-        if(Grocery===true)
-        {
-            setcategories(categories=> [...categories,"GROCERIES"]);            
-        }
-        if(Misc===true)
-        {
-            setcategories(categories=> [...categories,"MISC."]);           
-        }
+            if(categories.length!=0)
+            {
+                setErr({
+                    ...err,
+                    check:""
+                })
+                history.push('/address');
+            }
+            else{
+                setErr({
+                    input:"",
+                    check:"Select the categories"
+                })
+            }      
 
-         if(categories.length==0)
-         {
-             setError("Please select the category")
-         }
+        }else{
 
-        //console.log(categories.length);
-        for(let i=0; i<categories.length; i++)
-        {
-            //console.log(categories[i]);
-        }        
-
-        const data = new FormData();
-
-        for(let i=0; i<files.length; i++){
-            data.append('file',files[i]);
+        
+        setErr({
+            ...err,
+            input:"Please upload images"
+        })
+        
         }
+        
         }  
 
-        const onCancel = ()=>{
+        const OnCheckBox = (e)=>
+        {
+            if(e.target.name === "Medicine"){
+                sessionStorage.setItem('Medicine',`${e.target.checked}`);
+                setMedicine(e.target.checked); 
+
+                if(e.target.checked === true)
+                {                    
+                    setcategories( categories=>[...categories,"MEDICINES"]);
+                   
+                }else
+                {
+                    let displayItems = JSON.parse(sessionStorage.getItem("tags"));
+                    displayItems = displayItems.filter(e => e !== "MEDICINES");
+                    setcategories([...displayItems])
+                     sessionStorage.setItem("tags",JSON.stringify(displayItems))
+                }
+            }
+
+            if(e.target.name === "Grocery"){
+                sessionStorage.setItem('Grocery',`${e.target.checked}`);
+                setGrocery(e.target.checked); 
+
+                if(e.target.checked === true)
+                {                     
+                    setcategories( categories=>[...categories,"GROCERY"]);
+                   
+                }else
+                {
+                    let displayItems = JSON.parse(sessionStorage.getItem("tags"));
+                    displayItems = displayItems.filter(e => e !== "GROCERY");
+                    setcategories([...displayItems])
+                     sessionStorage.setItem("tags",JSON.stringify(displayItems))
+                }
+            }
+
+            if(e.target.name === "Misc"){
+                sessionStorage.setItem('Misc',`${e.target.checked}`);
+                setMisc(e.target.checked); 
+
+                if(e.target.checked === true)
+                {                     
+                    setcategories( categories=>[...categories,"MISC."]);
+                    
+                }else
+                {
+                    let displayItems = JSON.parse(sessionStorage.getItem("tags"));
+                    displayItems = displayItems.filter(e => e !== "MISC.");
+                    setcategories([...displayItems])
+                     sessionStorage.setItem("tags",JSON.stringify(displayItems))
+                }
+            }
+            
 
         }
 
+        const onCancel = ()=>{
+            history.push('/');
+        }
+
+        const ButtonEffect = (index)=>{
+            const list = [...preview];
+            list.splice(index, 1);
+            setpreview(list);
+
+            const list1 = [...files];
+            list1.splice(index, 1);
+            setFiles(list1);
+            
+            setNum(num => num - 1);
+        }
+    
+
+        
 
     return(
        
         <>
-        <Navbar style={{backgroundColor:'#79CBC5',marginBottom:"10px"}} back={true} backStyle={{ color: 'white' }} 
+        <Navbar style={{backgroundColor:'#79CBC5',marginBottom:"10px"}} back='/list_type' backStyle={{ color: 'white' }} 
         title="Upload Images" titleStyle={{ color: 'white' }} />       
             
             
@@ -109,7 +214,10 @@ const uploadImages =()=>{
            
                
             <p className={styles.up_img_header}>Please choose the items you want to request</p>
-             <p className={styles.up_error_msg}>{error ? error : ""}</p>
+             {/* <p className={styles.up_error_msg}>{error ? error : ""}</p> */}
+             <p className={styles.up_error_msg}>{err.input ? err.input : ""}</p>
+
+           
                           
              <label htmlFor="file" className={styles.labels}>
              <p className={styles.up_msg}>Upload Images: </p>
@@ -124,32 +232,45 @@ const uploadImages =()=>{
             </label>
             
  
-             <div className={styles.up_img_preview}>         
-             <Display previewImages={preview}/>
-           </div>
-           
+             {/* <div className={styles.up_img_preview}>         
+             <Display previewImages={preview}/>             
+             </div> */}
 
+             <div className={styles.up_img_preview}>         
+             {preview.map((image,index) =>{
+                 return (
+                 <div key={index}>
+                     <img className={styles.img_style} style={{ maxHeight:'350px'}} key={index} src={image}/>
+                     <button className={styles.img_button} key={index} onClick={()=> ButtonEffect(index)}>Delete</button>
+                 </div>
+                 )
+             })
+
+             }           
+             </div>
+           
+             <p className={styles.up_error_msg}>{err.check ? err.check : ""}</p>
 
           <div className={styles.up_list}> 
                
                   <div>
                      <label className={styles.up_check_label}>Medicine
-                      <input type="checkbox" name="Medicine" 
-                       onChange = {()=>setMedicine(!Medicine)} />
+                      <input type="checkbox" name="Medicine" checked={Medicine}
+                       onChange = {OnCheckBox} />
                       <span className={`${styles.up_check} ${styles.check_1}`}></span>
                       </label>
                   </div>
                   <div> 
                      <label className={styles.up_check_label}>Grocery
-                      <input type="checkbox" name="Grocery" 
-                      onChange = {()=>setGrocery(!Grocery)} />
+                      <input type="checkbox" name="Grocery" checked={Grocery}
+                      onChange = {OnCheckBox} />
                       <span className={`${styles.up_check} ${styles.check_2}`}></span>
                       </label>
                   </div>
                   <div> 
                       <label className={styles.up_check_label}>Misc.
-                      <input type="checkbox" name="Misc" 
-                       onChange = {()=>setMisc(!Misc)}/>
+                      <input type="checkbox" name="Misc" checked={Misc}
+                       onChange = {OnCheckBox}/>
                       <span className={`${styles.up_check} ${styles.check_3}`}></span>
                       </label>
                   </div>
@@ -158,8 +279,8 @@ const uploadImages =()=>{
           </div>
 
           <div className={styles.buttonscontrol}>
-          <button onClick={onCancel} className={styles.up_img_cancel}>Cancel Request</button>
-           <button onClick={onSubmit} className={styles.up_img_button}>Proceed Request</button>          
+          <button onClick={onCancel} className={styles.up_img_cancel}>Cancel </button>
+           <button onClick={onSubmit} className={styles.up_img_button}>Proceed</button>          
            </div>
     
        </div>         
@@ -171,11 +292,16 @@ const uploadImages =()=>{
 
 export default uploadImages;
 
-const Display = ({previewImages}) => {
+// const Display = ({previewImages}) => {
 
-    if(!previewImages){
-        return null;
-    }
+//     if(!previewImages){
+//         return null;
+//     }
 
-    return previewImages.map((image, index) => <img className={styles.img_style} style={{ maxHeight:'350px'}} key={index} src={image}/>);
-};
+//     return  previewImages.map((image, index) => <img className={styles.img_style} style={{ maxHeight:'350px'}} key={index} src={image}/> )   
+// };
+
+
+
+
+

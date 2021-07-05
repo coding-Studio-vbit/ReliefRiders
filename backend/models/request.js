@@ -2,12 +2,26 @@ const mongoose = require("mongoose");
 
 const schema = new mongoose.Schema({
 	
+	date:{
+		type: String,
+		default: ()=>{
+			var now = new Date();
+			return (now.getDate() + '/' + (now.getMonth()+1) + '/' + now.getFullYear());
+		}
+	},
+	
 	requestNumber: {type: Number, required: [true, 'request number is required.']},
 	
 	requesterID: mongoose.Schema.Types.ObjectId,
+	riderID:{
+		type: mongoose.Schema.Types.ObjectId,
+		default: null
+	},
 	
 	requesterCovidStatus: Boolean,
-	
+
+	noContactDelivery: Boolean, // Added No Contact Delivery
+
 	requestStatus: {
 		type: String,
 		default: 'PENDING',
@@ -38,7 +52,7 @@ const schema = new mongoose.Schema({
 	
 	Remarks: {type: String, maxLength: 240},
 	
-	billsImageList: [String],
+	billsImageList: [String], 
 
 	rideImages: [String],
 

@@ -7,10 +7,7 @@ import {
   Route,
 } from "react-router-dom";
 import InitialHomeRouting from './components/home/initial_home/initialHomeRouting';
-import PlacedRequest from './components/requester/my_requests/placed_request';
-
-
-
+import UploadImages from './components/requester/new_request/upload_images';
 function App() {
   //todo
 
@@ -19,10 +16,10 @@ function App() {
       <AuthProvider>
         <Router>
           <Switch>
-          
-            <Route path="/about">
-              <PlacedRequest/>
-          </Route>
+            <Route path="/temp">
+              {/* TestYourScreensHere */}
+              <UploadImages/>
+            </Route>
             <Route path="/">
               <InitialHomeRouting />
             </Route>

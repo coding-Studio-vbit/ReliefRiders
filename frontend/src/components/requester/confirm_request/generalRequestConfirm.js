@@ -1,16 +1,21 @@
 import ConfirmReqCSS from './confirmRequest.module.css';
 import React, { useState } from 'react';
 import Navbar from '../../global_ui/nav';
+import {useHistory} from "react-router-dom";
 const ConfirmRequestGeneral = () => {
     const [paymentPrefer, setPaymentPrefer] = useState('');
     const [noContactDeliver,setNoContactDeliver] = useState(false);
     const [deliveryRemarks,setDeliverRemarks] = useState('');
     const [covidStatus,setCovidStatus] = useState(false);
-    //console.log(paymentPrefer);
-    //console.log(deliveryRemarks)
+    const history =useHistory();
+    const routehandler = (route) => {
+		history.push(route);
+	};
+    console.log(paymentPrefer);
+    console.log(deliveryRemarks)
     return (
         <div className = {ConfirmReqCSS.confirmRequestDiv}>
-            <Navbar back={true} backStyle={{ color: 'white' }} title="New Requests" titleStyle={{ color: 'white' }} style={{ backgroundColor: '#79CBC5', marginBottom: "25px" }} />
+            <Navbar back={'/address'} backStyle={{ color: 'white' }} title="New Requests" titleStyle={{ color: 'white' }} style={{ backgroundColor: '#79CBC5', marginBottom: "25px" }} />
             <div>
                 <p className = {ConfirmReqCSS.paymentLabel}>Select Payment Preference:</p> 
                 <div 
@@ -40,7 +45,10 @@ const ConfirmRequestGeneral = () => {
                     <span>Are you COVID positive?</span><br />
                     <input type = 'checkbox' className = {ConfirmReqCSS.covidStatCheckbox}
                     onChange = {()=>setCovidStatus(!covidStatus)}></input><br />
-                    <button className = {ConfirmReqCSS.confirmRequestBtn} >Confirm Request
+                    <button className = {ConfirmReqCSS.cancelRequestBtn} >Cancel Request
+                    <i className="fas fa-times" style = {{"marginLeft" : "1em"}}></i>
+                    </button>
+                    <button className = {ConfirmReqCSS.confirmRequestBtn} onClick={() => routehandler("/requester")}>Confirm Request
                     <i className="fas fa-arrow-right" style = {{"marginLeft" : "1em"}}></i>
                     </button>
                 </div>

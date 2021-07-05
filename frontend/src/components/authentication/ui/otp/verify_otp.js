@@ -12,7 +12,7 @@ import {
   requestOTPLogin,
   verify,
 } from "../../../context/auth/authOperations";
-import Dialog from "../../../global_ui/dialog/dialog";
+import {Dialog} from "../../../global_ui/dialog/dialog";
 const VerifyOTP = () => {
   const [otp, setOtp] = useState("");
   const [errorMsg, setError] = useState({

@@ -94,3 +94,7 @@
 .modal button:first-of-type {
   background: rgb(248, 138, 175);
 }
+.spinnerModal{
+  grid-column: 1/-1;
+  text-align: center;
+}

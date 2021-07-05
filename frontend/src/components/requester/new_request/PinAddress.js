@@ -1,29 +1,37 @@
 import React, { useContext, useState } from "react";
-import Spinner from "../../global_ui/spinner";
+import {Spinner} from "../../global_ui/spinner";
 import { AuthContext } from "../../context/auth/authProvider";
 import InputField from "../../global_ui/input";
 import Navbar from '../../global_ui/nav';
 import styles from "./PinAddress.module.css";
-//import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 
 const PinAddress = () => {
     const { loading} = useContext(AuthContext);
     //const route = useHistory();
+    const history = useHistory();
+
+    const routehandler = (route) => {
+        history.push(route);
+    };
     const [location, setlocation] = useState({
       address: "",
       city: "",
       pincode: "",
     });
+
     //const { state: { type }, } = useLocation();
     const [errors, setErrors] = useState({
-        address: "",
-        showErrors: false,
-        city: "",
-        pincode: "",
+        address: null,
+        city: null,
+        pincode: null,
       });
       function submit(event) {
         event.preventDefault();
+        if(errors.city===errors.pincode===errors.address===null){
+          //http request to be performed
+        }
         setErrors({
           ...errors,
           showErrors: true,
@@ -32,7 +40,7 @@ const PinAddress = () => {
       }
       const _handleAddress = (e) => {
         const address = e.target.value;
-        const regE = /^[a-zA-Z0-9\s,'-]*$/;
+        const regE = /^[A-Za-z0-9'\-\s]*$/;
         if (address === "") {
           setErrors({
             ...errors,
@@ -43,7 +51,7 @@ const PinAddress = () => {
         else if (!regE.test(address)) {
             setErrors({
               ...errors,
-              address: "Please enter a valid address(symbols allowed are : - / . ,)",
+              address: "Please enter a valid address",
             });
         }
         else {
@@ -81,13 +89,12 @@ const PinAddress = () => {
 
       const _handlePincode = (e) => {
         const pincode = e.target.value;
-        const regE = /^[6-9]\d{9}$/;
-        if (pincode.length > 6) {
+        const regE = /^[0-9]*$/;
+        if (pincode.length < 6 || pincode.length > 6) {
           setErrors({
             ...errors,
             showErrors: true,
-    
-            pincode: "Pincode exceeds 6 digits",
+            pincode: "Pincode must contain 6 digits",
           });
         } else if (!regE.test(pincode)) {
           setErrors({
@@ -97,7 +104,7 @@ const PinAddress = () => {
         } else {
           setErrors({
             ...errors,
-            pincode: "",
+            pincode: null,
           });
         }
         setlocation({
@@ -125,7 +132,7 @@ const PinAddress = () => {
     
 return( 
   <div className={styles.chooseAddressPage}>
-  <Navbar back={true} backStyle={{ color: 'white' }} title="Choose Location" titleStyle={{ color: 'white' }} style={{ backgroundColor: '#79CBC5', marginBottom: "10px" }} />
+  <Navbar back='/add_image' backStyle={{ color: 'white' }} title="Choose Location" titleStyle={{ color: 'white' }} style={{ backgroundColor: '#79CBC5', marginBottom: "10px" }} />
 
   <div className={styles.headerText}>
       Choose Pickup Location
@@ -141,8 +148,8 @@ return(
           textAreaClass="headField"
           value={location.address}
           type="text"
-          //error={errors.showErrors ? errors.address : ""}
-          onChange={_handleAddress}
+          error={errors.address}
+          onChange={(e)=>_handleAddress(e)}
           placeholder="Enter Address"
           />
           </div>
@@ -151,8 +158,8 @@ return(
               <div className={styles.childField}>
                 <InputField
                     value={location.city}
-                    //error={errors.showErrors ? errors.city : ""}
-                    onChange={_handleCity}
+                    error={errors.city}
+                    onChange={(e)=>_handleCity(e)}
                     type="text"
                     placeholder="City"
                   />    
@@ -163,8 +170,8 @@ return(
               <div className="childField">
               <InputField          
                 value={location.pincode}
-                //error={errors.showErrors ? errors.pincode : ""}
-                onChange={_handlePincode}
+                error={errors.pincode}
+                onChange={(e)=>_handlePincode(e)}
                 type="number"
                 placeholder="Pincode"
               />
@@ -187,7 +194,7 @@ return(
           :(
             <button
               type="button"
-              //onClick={(e) => handleLocation(e)}
+              onClick={() => routehandler("map_location")}
               value="Choose Location"
               className={styles.locationBtn}
             > 
@@ -200,7 +207,7 @@ return(
 
       <button className={styles.btnProceed}
         type="submit"
-        //onClick={(e) => handleProceed(e)}
+        onClick={() => routehandler("confirm_general")}
         value="Proceed">
         Proceed
       </button>

@@ -13,7 +13,7 @@ import './nav.css'
  * 
  * @returns Custom Navbar
  */
-const Navbar = ({ style, backStyle,titleStyle,back, title = "UNSET" }) => {
+const Navbar = ({ style,titleStyle,back, title = "UNSET",backStyle={} }) => {
     const route = useHistory()
     return (
         <nav
