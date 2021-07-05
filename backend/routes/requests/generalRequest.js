@@ -54,6 +54,7 @@ var upload = multer({ storage: storage })
 router.post('/newRequest/general',upload.any('images'),(req,res)=>{
     let currentReqTime = Date.now();
     console.log(currentReqTime);
+	let requesterId;
     requester.findOne({phoneNumber : req.user.phoneNumber})
     .then(doc => {
         if(doc != null)
@@ -61,7 +62,7 @@ router.post('/newRequest/general',upload.any('images'),(req,res)=>{
             // lastReqTime = doc.lastRequestTime;
             // console.log(lastRequestTime);
             // return lastRequestTime;
-            
+            requesterId = doc._id;
         }
         return 16273927;
     })
@@ -83,6 +84,7 @@ router.post('/newRequest/general',upload.any('images'),(req,res)=>{
     .then(paths =>{
         console.log(req.body);
         let newRequest = new requestModel({
+			requesterID: requesterId,
             requestNumber : Date.now() + Math.floor(Math.random()*100),
             requesterCovidStatus : req.body.requesterCovidStatus,
             noContactDelivery : req.body.noContactDelivery, // Added no contact delivery

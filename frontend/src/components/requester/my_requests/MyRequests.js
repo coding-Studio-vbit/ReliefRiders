@@ -3,7 +3,7 @@ import MyRequestsListItem from "./MyRequestsListItem";
 import styles from "./MyRequests.module.css";
 import Navbar from "../../global_ui/nav";
 import axios from "axios";
-import Dialog from "../../global_ui/dialog/dialog";
+import {Dialog} from "../../global_ui/dialog/dialog";
 import { useSessionStorageState } from "../../../utils/useLocalStorageState";
 import { AuthContext } from "../../context/auth/authProvider";
 import { LoadingScreen } from "../../global_ui/spinner";
@@ -15,6 +15,8 @@ const MyRequests = () => {
   const [error, setError] = useState(null);
   const { token } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
+
+  
   useEffect(() => {
     console.log(token);
     
@@ -119,16 +121,27 @@ const request = {
   rideImages: [
     // "https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
   ],
-  pickupLocationAddress: {
+  pickupLocationAddress: 
+  {
     addressLine: "Some place far away",
     area: "",
     city: "Unknown",
     pincode: "XXXXXX",
+  }
+  ,
+  dropLocationAddress: null
+  // {
+  //   addressLine: "Some place far away",
+  //   area: "",
+  //   city: "Unknown",
+  //   pincode: "XXXXXX",
+  // }
+  ,
+
+  pickupLocationCoordinates:{
+    coordinates:[17.9,78.6]
   },
-  dropLocationAddress: {
-    addressLine: "Some place far away",
-    area: "",
-    city: "Unknown",
-    pincode: "XXXXXX",
+  dropLocationCoordinates:{
+    coordinates:[17.9,78.6]
   }
 }
