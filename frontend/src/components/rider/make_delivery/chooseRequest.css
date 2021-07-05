@@ -1,0 +1,147 @@
+.navbar {
+  overflow: hidden;
+  background-color:#79CBC5;
+  font-family: Arial;
+  width: 100%;
+  padding: 0.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: fit-content;
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  
+
+}
+.navbar h3{
+  color : white;
+  letter-spacing:0.5px;
+}
+.navbar .backbtn {
+  color:white;
+  padding: 5px;
+  position: absolute;
+  left: 1rem;
+  margin: 0px;
+  
+  
+}
+
+.navbar p {
+  font-size: 16px;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.dropdown {
+  float: right;
+  overflow: hidden;
+  right: 1rem;
+}
+
+.navbar .dropdown .dropbtn {
+  float: right;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  color: white;
+  background-color: inherit;
+  margin: 0px;
+}
+.dropdownContent {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+.dropdownContent p {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+.dropdownContent p:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdownContent {
+  display: block;
+}
+
+.wholeList {
+
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    justify-items: center;
+}
+
+.chooseRequestItem
+{
+    max-height: 150px;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    row-gap: 3px;
+    font-size: clamp(0.7rem, 1vw, 1.2rem); 
+    display: grid;
+    width: min(90%, 500px);
+    grid-template-columns: 30% 30% 15% 25%;
+    grid-template-rows: auto;
+    grid-template-areas: 
+        "date requestType . requestStatus"
+        "category1 category2 category3 viewButton";
+    border-radius: 4px;
+    box-shadow: 0 0 5px #242323 ;
+    padding: 5px;
+}
+.requestType
+{   
+    font-weight: bold;
+    background-color: rgb(167, 255, 255);
+    grid-area: requestType;
+    border: 2px solid rgb(33, 117, 235);
+    border-radius: 20px;
+    color: black;
+    text-align: center;
+    margin: auto;
+    padding: 3px;
+}
+.medicines
+{
+    color: white;
+    margin: auto;
+    grid-area: category1;
+    border-radius: 10px;
+    border: 2px solid rgb(177, 32, 32);
+    background-color: rgb(226, 97, 97);
+    padding: 0px 3px 0px 3px;
+
+}
+.groceries
+{
+    color: white;
+    margin: auto;
+    grid-area: category2;
+    border-radius: 10px;
+    border: 2px solid rgb(8, 126, 22);
+    background-color: rgb(63, 145, 63);
+    padding: 0px 3px 0px 3px;
+
+}
+.misc
+{
+    color: white;
+    margin: auto;
+    grid-area: category3;
+    border-radius: 10px;
+    border: 2px solid rgb(7, 75, 144);
+    background-color: blue;
+    padding: 0px 3px 0px 3px;
+
+}
