@@ -1,5 +1,5 @@
 import React from "react";
-import  "./chooseRequest.css";
+import  {styles} from "./chooseRequest.module.css";
 import {LoadingScreen} from '../../global_ui/spinner';
 import Dialog from '../../global_ui/dialog/dialog';
 import {useState,useEffect} from 'react';
@@ -50,17 +50,17 @@ const ChooseRequest=()=> {
             msg={"Cannot load data"} />
        : 
           <div>
-        <div className="navbar">
+        <div className={styles.navbar}>
             <div className="backbtn">
   <i  className="fas fa-chevron-left"></i>
 
             </div>
 <h3>Requests</h3>
-  <div className="dropdown">
+  <div className={styles.dropdown}>
     <button className="dropbtn">Order By
       <i className="fa fa-caret-down"></i>
     </button>
-    <div className="dropdownContent">
+    <div className={styles.dropdownContent}>
      <p>order 1</p>
      <p>order 2</p>
      <p>order 3</p>
@@ -69,10 +69,10 @@ const ChooseRequest=()=> {
 </div> 
 {
     data.length=== 0 ? (
-        <h3 className="noRequests">There are no requests!</h3>
+        <h3 className={styles.noRequests}>There are no requests!</h3>
     ) : (
 
-<div className="wholeList">
+<div className={styles.wholeList}>
             {data.map((req)=>{
                 return <ChooseRequestItem key={req.requestNumber}
                 data={req} />

@@ -49,15 +49,15 @@ const RiderProfile=()=>{
          
          msg = {"An Error occured "}/>
          : 
-        <div className="riderProfileContainer">
+        <div className={styles.riderProfileContainer}>
             <Navbar back={true} backStyle={{ color: 'white' }} title="My Account" titleStyle={{ color: 'white' }} style={{ backgroundColor: '#79CBC5', marginBottom: "10px" }} />
             <img>className=profileImage</img>
             <label>Full Name:</label>
-            <span className="name" >
+            <span className={styles.name} >
                {data.name}
             </span>
             <label>Phone Number:</label>
-            <span className="phoneNumber">
+            <span className={styles.phoneNumber}>
                {data.phoneNumber}
             </span>
             

@@ -1,6 +1,6 @@
 import React from 'react';
 import {useHistory} from 'react-router-dom';
-import './chooseRequest.css';
+import {styles} from './chooseRequest.module.css';
 
 const ChooseRequestItem = (props) => {
     const routes = useHistory()
@@ -11,9 +11,9 @@ const ChooseRequestItem = (props) => {
             })
         }
          
-        } className="chooseRequestItem">
-            <span className="area"> <i className="fas fa-map-marker-alt"></i> {props.data.area}</span>
-            <span className="requestType">props.data.requestType</span>
+        } className={styles.chooseRequestItem}>
+            <span className={styles.area}> <i className="fas fa-map-marker-alt"></i> {props.data.area}</span>
+            <span className={styles.requestType}>props.data.requestType</span>
             {
                 props.data.itemCategories.map((category, index) => {
                     switch (category) {
