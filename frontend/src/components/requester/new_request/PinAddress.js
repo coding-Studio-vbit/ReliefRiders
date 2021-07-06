@@ -132,7 +132,7 @@ const PinAddress = () => {
     
 return( 
   <div className={styles.chooseAddressPage}>
-  <Navbar back='/add_image' backStyle={{ color: 'white' }} title="Choose Location" titleStyle={{ color: 'white' }} style={{ backgroundColor: '#79CBC5', marginBottom: "10px" }} />
+  <Navbar back='list_type' backStyle={{ color: 'white' }} title="Choose Location" titleStyle={{ color: 'white' }} style={{ backgroundColor: '#79CBC5', marginBottom: "10px" }} />
 
   <div className={styles.headerText}>
       Choose Pickup Location
