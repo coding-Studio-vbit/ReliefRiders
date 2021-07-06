@@ -90,6 +90,7 @@ router.post('/newRequest/general',upload.any('images'),(req,res)=>{
             noContactDelivery : req.body.noContactDelivery, // Added no contact delivery
             requestStatus : req.body.requestStatus,
             requestType : 'GENERAL',
+            paymentPreference : req.body.paymentPreference,
             itemsListImages : paths,
             itemsListList : JSON.parse(req.body.itemsListList),
             itemCategories : req.body.itemCategories,

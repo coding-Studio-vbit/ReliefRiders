@@ -6,6 +6,7 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
+import ConfirmRequestGeneral from './components/requester/confirm_request/generalRequestConfirm';
 import InitialHomeRouting from './components/home/initial_home/initialHomeRouting';
 import UploadImages from './components/requester/new_request/upload_images';
 function App() {
@@ -17,7 +18,11 @@ function App() {
           <Switch>
             <Route path="/temp">
               {/* TestYourScreensHere */}
-              <UploadImages/>
+              <ConfirmRequestGeneral />
+              {/* <UploadImages/> */}
+            </Route>
+            <Route path = "/upload">
+              <UploadImages />
             </Route>
             <Route path="/">
               <InitialHomeRouting />

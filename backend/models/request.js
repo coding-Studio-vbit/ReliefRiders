@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 
 const schema = new mongoose.Schema({
 	
-	
 	date:{
 		type: String,
 		default: ()=>{
@@ -14,6 +13,10 @@ const schema = new mongoose.Schema({
 	requestNumber: {type: Number, required: [true, 'request number is required.']},
 	
 	requesterID: mongoose.Schema.Types.ObjectId,
+	riderID:{
+		type: mongoose.Schema.Types.ObjectId,
+		default: null
+	},
 	
 	requesterCovidStatus: Boolean,
 
@@ -32,6 +35,13 @@ const schema = new mongoose.Schema({
 		uppercase:true,
 		enum: ['GENERAL', 'P&D']
 		},
+	
+	paymentPreference: [
+		{
+			type: String,
+			enum: ['CASH', 'PAYTM', 'GPAY'], 
+			uppercase:true,
+	}],
 	
 	itemsListImages: [String],
 	

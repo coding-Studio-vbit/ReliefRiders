@@ -1,9 +1,21 @@
 .confirmRequestDiv {
   text-align: center;
   font-family: 'Poppins', sans-serif;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
-
+.paymentDiv{
+  margin-top:1.5em ;
+    padding: 0;
+    display: -webkit-inline-box;
+    flex-direction: row;
+    align-content: stretch;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    vertical-align: middle;
+}
 
 .paymentLabel{
   font-weight: bold;
@@ -11,39 +23,76 @@
   margin: 0.5em;
 }
 
-.radioBtn,.radioLabel{
+.up_list{
+   
+  /* margin: 13px 13px; */
+  margin-top:1.5em ;
+  padding: 0;
+  /* overflow: hidden;
+  text-align: center; */
+  display: flex;
+  /* align-items:center; */
+  justify-content: space-around;
+  width:min(95%,400px);
   
-  display: inline-block;
-  vertical-align: middle;
-  margin: 5px;
+}
+.up_check_label{
+  display: block;
+  position: relative;
+  padding-left: 25px;
+  margin-bottom: 5px;
   cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
+.up_check_label input{
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.up_check{
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  height: 28px;
+  width: 28px;
+  display: block;
+  border-radius: 3px;
+  border: 2px solid #ffdbdb;
   
 }
-.radioBtn + .radioLabel:before {
-  content: '';
-  background: #fff;
-  border: 2px solid #ffd6d6;
-  display: inline-block;
-  vertical-align: middle;
-  width: 20px;
-  height: 20px;
-  padding: 2px;
-  margin-right: 10px;
-  text-align: center;
-}
-.radioBtn {
-  margin: 1em 0px 0px 1em;
-  transform: scale(2);
-  opacity: 0;
-  position: absolute;   
+
+
+.up_check:after {
+  content: "";
+  position: absolute;
+  display: none;
 }
 
-.radioBtn:checked + .radioLabel:before {
-  content: "\f00c";
-  font-family: 'FontAwesome';
-  background-color: rgba(246,237,240,255)
+.up_check_label input:checked ~ .up_check:after {
+  display: block;
+  background-color: #ffdbdb;
 }
 
+.up_check_label .up_check:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  
+  border: solid rgb(24, 24, 24);
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}  
 .noContactDelDiv {
   margin : 1em; 
   padding : 0.5em; 
@@ -98,13 +147,15 @@
   border: none;
   font-weight: bold;
   transition-duration: 0.4s;
+  /* width: 11.5em; */
+  height: 2.55em;
 }
 
 .confirmRequestBtn:hover{
   background: rgb(0, 148, 0);
 }
 .fas fa-arrow-right{
-  padding: 0.5em;
+  padding: 0.45em;
 }
 
 .cancelRequestBtn{
@@ -120,7 +171,8 @@
   border: none;
   font-weight: bold;
   transition-duration: 0.4s;
-  width: 11.5em
+  width: 11.5em;
+  height: 2.55em;
 }
 
 .cancelRequestBtn:hover{
