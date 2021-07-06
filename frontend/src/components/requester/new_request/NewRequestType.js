@@ -12,7 +12,6 @@ function RequestType() {
   const routehandler = (route) => {
     history.push("new_request/" + route);
   };
-
   return (
     <div>
       <div className={"row"}>
