@@ -15,7 +15,7 @@ const ConfirmRequestGeneral = () => {
     console.log(deliveryRemarks)
     return (
         <div className = {ConfirmReqCSS.confirmRequestDiv}>
-            <Navbar back={'/address'} backStyle={{ color: 'white' }} title="New Requests" titleStyle={{ color: 'white' }} style={{ backgroundColor: '#79CBC5', marginBottom: "25px" }} />
+            <Navbar back={'address'} backStyle={{ color: 'white' }} title="New Requests" titleStyle={{ color: 'white' }} style={{ backgroundColor: '#79CBC5', marginBottom: "25px" }} />
             <div>
                 <p className = {ConfirmReqCSS.paymentLabel}>Select Payment Preference:</p> 
                 {/* <div className = {ConfirmReqCSS.paymentDiv} onChange = {(e)=>{
@@ -82,7 +82,7 @@ const ConfirmRequestGeneral = () => {
                     <button className = {ConfirmReqCSS.cancelRequestBtn} >Cancel Request
                     <i className="fas fa-times" style = {{"marginLeft" : "1em"}}></i>
                     </button>
-                    <button className = {ConfirmReqCSS.confirmRequestBtn} onClick={() => routehandler("/requester")}>Confirm Request
+                    <button className = {ConfirmReqCSS.confirmRequestBtn} onClick={() => routehandler("/my_requests")}>Confirm Request
                     <i className="fas fa-arrow-right" style = {{"marginLeft" : "1em"}}></i>
                     </button>
                 </div>
