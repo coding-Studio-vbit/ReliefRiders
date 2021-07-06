@@ -7,6 +7,8 @@ async function getRequesterProfile(phoneNumber){
 		
 		requesters.findOne({phoneNumber: phoneNumber}, { phoneNumber: 1, name: 1, defaultAddress: 1, yearOfBirth: 1 })
 		.then((doc)=>{
+			if(doc.defaultAddress == undefined)
+				doc.defaultAddress = null;
 			resolve(sendResponse(doc));
 		})
 		.catch(error=>{
