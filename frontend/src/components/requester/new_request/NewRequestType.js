@@ -13,14 +13,14 @@ function RequestType() {
     history.push("new_request/" + route);
   };
   return (
-    <div>
-      <div className={"row"}>
+    <div style={{display:'grid'}}>
+      <div className={'row'}>
         <Navbar
           back="/"
-          backStyle={{ color: "white" }}
+          backStyle={{ color: "white", position:"absolute",left:"0" }}
           title="Choose Request Type"
-          titleStyle={{ color: "white" }}
-          style={{ backgroundColor: "#79CBC5", marginBottom: "10px" }}
+          titleStyle={{ color: "white" ,fontSize:"18px" }}
+          style={{ backgroundColor: "#79CBC5", marginBottom: "10px" , display:'flex', position:'relative'}}
         />
       </div>
       <div className={rtstyles.rcontainer}>
