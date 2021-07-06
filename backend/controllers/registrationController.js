@@ -124,7 +124,8 @@ async function requesterOTPVerify(phone, OTP, yearOfBirth, name)
 					let requesterData = new requester({
 						name: name,
 						phoneNumber: phone,
-						yearOfBirth: yearOfBirth
+						yearOfBirth: yearOfBirth,
+						defaultAddress: null
 					});
 					requesterData.save()
 					.then(result =>{
