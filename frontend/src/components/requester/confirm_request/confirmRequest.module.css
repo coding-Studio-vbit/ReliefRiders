@@ -106,3 +106,25 @@
 .fas fa-arrow-right{
   padding: 0.5em;
 }
+
+.cancelRequestBtn{
+  margin: 1.2em 1.2em 1.2em 1.2em;
+  place-self: center;
+  padding: 0.6em;
+  cursor: pointer;
+  align-self: center;
+  background: #f62222;
+  color: white;
+  font-size: 1em;
+  border-color: #4da455 ;
+  border: none;
+  font-weight: bold;
+  transition-duration: 0.4s;
+}
+
+.cancelRequestBtn:hover{
+  background: rgb(248, 0, 0);
+}
+.fas fa-arrow-right{
+  padding: 0.5em;
+}

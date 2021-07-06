@@ -94,9 +94,7 @@
 .modal button:first-of-type {
   background: rgb(248, 138, 175);
 }
-
-@media screen and (min-width: 1000px) {
-  .modal {
-    height: min(40vh,300px);
-  }
+.spinnerModal{
+  grid-column: 1/-1;
+  text-align: center;
 }
