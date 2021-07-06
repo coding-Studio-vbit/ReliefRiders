@@ -7,7 +7,7 @@ const requesterController = require("../../controllers/requesterController");
 
 //middleware to check if the user is a requester
 const checkIsRequester = (req, res, next) => {
-	if (req.user.userType == 'requester')
+	if (req.user.type == 'requester')
 		next();
 	else
 		res.json(sendError("You are not a requester"));

@@ -41,13 +41,10 @@ const user = new mongoose.Schema({
        city:{
          type:String
        },
-       pincode:{
-         type:Number,
-         validate:{
-              validator: (pincode)=>{return (pincode>=100000 && pincode<=999999)}
-          }
-        }
- },
+       area:{
+         type:String
+       }
+},
  location: {
 		type: {type: String, default: "Point"},
 		coordinates: [Number]

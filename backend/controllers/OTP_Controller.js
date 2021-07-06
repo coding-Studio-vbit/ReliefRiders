@@ -34,6 +34,7 @@ async function resendOTP(OTP)
 	return new Promise((resolve, reject)=>{
 			generateOTP()
 			.then(res=>{
+				OTP.otpSetTime = Date.now(),
 				OTP.currentOTP = res;
 				OTP.resendsLeft--;
 				resolve();

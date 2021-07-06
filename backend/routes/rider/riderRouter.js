@@ -8,7 +8,7 @@ const verifyToken = require("../common/tokenAuth");
 const requests = require("../../models/request");
 
 const checkIsRider = (req, res, next) => {
-  if (req.user.userType == 'rider')
+  if (req.user.type == 'rider')
     next();
   else
     res.json({ status: "failure", message: "You are not a rider." });
