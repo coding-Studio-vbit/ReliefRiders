@@ -1,148 +1,85 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import { useState } from "react";
 import styles from "./Upload_images.module.css";
-import { useLocalStorageState, useSessionStorageState } from "../../../utils/useLocalStorageState";
+import { useSessionStorageState } from "../../../utils/useLocalStorageState";
 import Navbar from "../../global_ui/nav";
 import { useHistory } from "react-router-dom";
+import { useContext } from "react";
+import { NewRequestContext } from "../../context/new_request/newRequestProvider";
 
 const uploadImages = () => {
-  const [files, setFiles] = useLocalStorageState("items_list_images", []);
-  const [num, setNum] = useSessionStorageState("num", 0);
   const [err, setErr] = useState({
     input: null,
     check: null,
   });
-  const [preview, setpreview] = useSessionStorageState("preview", []);
-  const [Medicine, setMedicine] = useState(
-    sessionStorage.getItem("Medicine") === "true"
-  );
-  const [Grocery, setGrocery] = useState(
-    sessionStorage.getItem("Grocery") === "true"
-  );
-  const [Misc, setMisc] = useState(sessionStorage.getItem("Misc") === "true");
-  const [categories, setcategories] = useSessionStorageState("tags", []);
+  const [imgSrcs, setImgSrcs] = useSessionStorageState("uploaded_images", []);
+  const { dispatch } = useContext(NewRequestContext);
+
+  const [categories, setcategories] = useSessionStorageState("tags", {Medicine:false,Grocery:false,Misc:false});
   const history = useHistory();
 
-  const onInputChange = (e) => {
-    if (num + e.target.files.length <= 3) {
-      for (let i = 0; i < e.target.files.length; i++) {
-        var t = e.target.files[i].type.split("/").pop().toLowerCase();
-
-        if (t != "jpeg" && t != "jpg" && t != "png") {
-          setErr({
-            ...err,
-            input: "Please select a valid image file",
-          });
-        } else {
-          if (e.target.files[i].size > 10240000) {
-            setErr({
-              ...err,
-              input: "Maximum file size is 10MB",
-            });
-          } else {
-            const reader = new FileReader();
-            setNum((num) => num + 1);
-
-            reader.onload = async function () {
-              const base64Response = await fetch(reader.result);
-              const blob = await base64Response.blob();
-              const blobUrl = URL.createObjectURL(blob);
-              //var byteString = reader.result.split(',')[1];
-              // let blob1 = await fetch(blobUrl).then(r => r.blob());
-              // console.log(blob1)
-              // console.log(blob)
-              setFiles((files) => [...files, blobUrl]);
-              setpreview((preview) => [...preview, reader.result]);
-            };
-
-            reader.readAsDataURL(e.target.files[i]);
-
-            setErr({
-              ...err,
-              input: "",
-            });
-          }
-        }
-      }
+  const onInputChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (file.type.slice(0, 5) !== "image") {
+      setErr({ ...err, input: "Please select an image file" });
     } else {
-      setErr({
-        ...err,
-        input: "More than 3 files are not allowed",
-      });
+      const src = URL.createObjectURL(file);
+      setImgSrcs((images) => [...images, src]);
+      document.getElementById("file").value = null;
     }
+
+    // const formData = new FormData()
+    // formData.append('photo', file)
+
+    // // eslint-disable-next-line no-undef
+    // const res = await fetch(process.env.REACT_APP_URL+'/upload',{
+    //   method:'POST',
+    //   body:formData
+    // })
+    // const data = await res.json()
+    // console.log(data);
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
-
-    if (num != 0) {
+    if(imgSrcs.length === 0 ){
       setErr({
         ...err,
-        input: "",
-      });
+        input:'Please select an image'
+      })
+    }else {
+      
+      if(categories.Medicine || categories.Misc || categories.Grocery){
+        let list = []
+        for(const cat in categories){
+          if(categories[cat])
+            list.push(cat)
+        }
+        dispatch({type:"ADD_CATEGORIES_IMAGES",payload:list})
+        history.push('address')
 
-      if (categories.length != 0) {
+      }else{
         setErr({
           ...err,
-          check: "",
-        });
-        history.push("address");
-      } else {
-        setErr({
-          input: "",
-          check: "Select the categories",
-        });
+          check:'Please select a category'
+        })
       }
-    } else {
-      setErr({
-        ...err,
-        input: "Please upload images",
-      });
+      
     }
+
+    
   };
 
   const OnCheckBox = (e) => {
-    if (e.target.name === "Medicine") {
-      sessionStorage.setItem("Medicine", `${e.target.checked}`);
-      setMedicine(e.target.checked);
-
-      if (e.target.checked === true) {
-        setcategories((categories) => [...categories, "MEDICINES"]);
-      } else {
-        let displayItems = JSON.parse(sessionStorage.getItem("tags"));
-        displayItems = displayItems.filter((e) => e !== "MEDICINES");
-        setcategories([...displayItems]);
-        sessionStorage.setItem("tags", JSON.stringify(displayItems));
-      }
-    }
-
-    if (e.target.name === "Grocery") {
-      sessionStorage.setItem("Grocery", `${e.target.checked}`);
-      setGrocery(e.target.checked);
-
-      if (e.target.checked === true) {
-        setcategories((categories) => [...categories, "GROCERY"]);
-      } else {
-        let displayItems = JSON.parse(sessionStorage.getItem("tags"));
-        displayItems = displayItems.filter((e) => e !== "GROCERY");
-        setcategories([...displayItems]);
-        sessionStorage.setItem("tags", JSON.stringify(displayItems));
-      }
-    }
-
-    if (e.target.name === "Misc") {
-      sessionStorage.setItem("Misc", `${e.target.checked}`);
-      setMisc(e.target.checked);
-
-      if (e.target.checked === true) {
-        setcategories((categories) => [...categories, "MISC."]);
-      } else {
-        let displayItems = JSON.parse(sessionStorage.getItem("tags"));
-        displayItems = displayItems.filter((e) => e !== "MISC.");
-        setcategories([...displayItems]);
-        sessionStorage.setItem("tags", JSON.stringify(displayItems));
-      }
-    }
+    
+      let data = {...categories}
+      data[e.target.name]=e.target.checked
+      
+      setcategories(data)
+   
+    
   };
 
   const onCancel = () => {
@@ -150,15 +87,9 @@ const uploadImages = () => {
   };
 
   const ButtonEffect = (index) => {
-    const list = [...preview];
+    const list = [...imgSrcs];
     list.splice(index, 1);
-    setpreview(list);
-
-    const list1 = [...files];
-    list1.splice(index, 1);
-    setFiles(list1);
-
-    setNum((num) => num - 1);
+    setImgSrcs(list);
   };
 
   return (
@@ -198,18 +129,16 @@ const uploadImages = () => {
              </div> */}
 
         <div className={styles.up_img_preview}>
-          {preview.map((image, index) => {
+          {imgSrcs.map((image, index) => {
             return (
               <div key={index}>
                 <img
                   className={styles.img_style}
                   style={{ maxHeight: "350px" }}
-                  key={index}
                   src={image}
                 />
                 <button
                   className={styles.img_button}
-                  key={index}
                   onClick={() => ButtonEffect(index)}
                 >
                   Delete
@@ -228,7 +157,7 @@ const uploadImages = () => {
               <input
                 type="checkbox"
                 name="Medicine"
-                checked={Medicine}
+                
                 onChange={OnCheckBox}
               />
               <span className={`${styles.up_check} ${styles.check_1}`}></span>
@@ -240,7 +169,7 @@ const uploadImages = () => {
               <input
                 type="checkbox"
                 name="Grocery"
-                checked={Grocery}
+                
                 onChange={OnCheckBox}
               />
               <span className={`${styles.up_check} ${styles.check_2}`}></span>
@@ -252,7 +181,7 @@ const uploadImages = () => {
               <input
                 type="checkbox"
                 name="Misc"
-                checked={Misc}
+                
                 onChange={OnCheckBox}
               />
               <span className={`${styles.up_check} ${styles.check_3}`}></span>
