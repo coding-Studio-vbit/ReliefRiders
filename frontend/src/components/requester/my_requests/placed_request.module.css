@@ -14,7 +14,7 @@ p {
   margin: 0px;
 }
 .address {
-  background: rgba(128, 87, 87, 0.048);
+  background: rgba(141, 139, 139, 0.048);
   display: flex;
   flex-flow: column;
   color: rgb(62, 62, 63);
