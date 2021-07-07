@@ -1,21 +1,51 @@
+/* eslint-disable no-unused-vars */
 import ConfirmReqCSS from './confirmRequest.module.css';
 import React, { useState } from 'react';
 import Navbar from '../../global_ui/nav';
 import {useHistory} from "react-router-dom";
+import { ConfirmDialog } from "../../global_ui/dialog/dialog";
+
 const ConfirmRequestGeneral = () => {
     const [paymentPrefer, setPaymentPrefer] = useState('');
     const [noContactDeliver,setNoContactDeliver] = useState(false);
     const [deliveryRemarks,setDeliverRemarks] = useState('');
     const [covidStatus,setCovidStatus] = useState(false);
     const history =useHistory();
-    const routehandler = (route) => {
-		history.push(route);
-	};
+   
+  const [dialogData, setDialogData] = useState({ show: false, msg: "" });
+  const [cancel, setCancel] = useState(false);
+
     console.log(paymentPrefer);
     console.log(deliveryRemarks)
+    const _handleConfirm = ()=>{
+        setDialogData({show:true,msg:'Are you sure you want to place a new request ?'})
+    }
+    const _handleCancel = ()=>{
+        setCancel(true)
+        setDialogData({show:true,msg:'Are you sure you want to cancel placing a new request ?'})
+    }
     return (
         <div className = {ConfirmReqCSS.confirmRequestDiv}>
             <Navbar back={'address'} backStyle={{ color: 'white' }} title="New Requests" titleStyle={{ color: 'white' }} style={{ backgroundColor: '#79CBC5', marginBottom: "25px" }} />
+            <ConfirmDialog
+        isShowing={dialogData.show}
+        msg={dialogData.msg}
+        setDialogData={setDialogData}
+        routeRedirect="my_requests"
+        onOK={async () => {
+            if(cancel){
+                history.push('/')
+                window.location.reload()
+            }else{
+                console.log('req');
+                setDialogData({ ...dialogData, msg: "Confirmed successfully" });
+                history.push('/my_requests')
+                window.location.reload()
+
+            }
+         
+        }}
+      />
             <div>
                 <p className = {ConfirmReqCSS.paymentLabel}>Select Payment Preference:</p> 
                 <div 
@@ -26,8 +56,8 @@ const ConfirmRequestGeneral = () => {
                     <label  className = {ConfirmReqCSS.radioLabel}>Paytm</label>
                     <input className = {ConfirmReqCSS.radioBtn} type="radio" name="payment" value="Gpay" />
                     <label className = {ConfirmReqCSS.radioLabel}>G-Pay</label>
-                    <input className = {ConfirmReqCSS.radioBtn} type="radio" name="payment" value="Card" />
-                    <label className = {ConfirmReqCSS.radioLabel}>Card</label>
+                    <input className = {ConfirmReqCSS.radioBtn} type="radio" name="payment" value="PhonePay" />
+                    <label className = {ConfirmReqCSS.radioLabel}>PhonePay</label>
                 </div>
             </div>
                 <div className = {ConfirmReqCSS.generalRequestDiv}>
@@ -45,10 +75,10 @@ const ConfirmRequestGeneral = () => {
                     <span>Are you COVID positive?</span><br />
                     <input type = 'checkbox' className = {ConfirmReqCSS.covidStatCheckbox}
                     onChange = {()=>setCovidStatus(!covidStatus)}></input><br />
-                    <button className = {ConfirmReqCSS.cancelRequestBtn} >Cancel Request
+                    <button onClick={_handleCancel} className = {ConfirmReqCSS.cancelRequestBtn} >Cancel Request
                     <i className="fas fa-times" style = {{"marginLeft" : "1em"}}></i>
                     </button>
-                    <button className = {ConfirmReqCSS.confirmRequestBtn} onClick={() => routehandler("/my_requests")}>Confirm Request
+                    <button className = {ConfirmReqCSS.confirmRequestBtn} onClick={_handleConfirm}>Confirm Request
                     <i className="fas fa-arrow-right" style = {{"marginLeft" : "1em"}}></i>
                     </button>
                 </div>
