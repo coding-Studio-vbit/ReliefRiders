@@ -3,46 +3,39 @@ const express = require("express");
 const router = express.Router();
 const authController = require("../../controllers/authController");
 const registrationController = require("../../controllers/registrationController");
-
-function sendError(message)
-{
-	return {
-		status: "failure",
-		message: message
-	}
-}
+const { sendError } = require("../../controllers/common");
 
 router.post("/login/requestOTP", (req, res) => {
 
 	if (!req.body.type || !req.body.phone)
 		return res.json({ status: "failure", message: "Invalid properties" });
-	
-	const {type, phone} = req.body;
+
+	const { type, phone } = req.body;
 
 	authController.loginRequestOTP(type, phone)
-	.then(responseObj=>{
-		res.json(responseObj);
-	})
-	.catch(error=>{
-		console.log(error);
-		res.json(sendError("Internal Server Error"));
-	})
+		.then(responseObj => {
+			res.json(responseObj);
+		})
+		.catch(error => {
+			console.log(error);
+			res.json(sendError("Internal Server Error"));
+		})
 })
 
 router.post("/login/verifyOTP", (req, res) => {
 	if (!req.body.phone || !req.body.OTP || !req.body.type) {
 		return res.json({ status: "failure", message: "Invalid properties" });
 	}
-	const {type, phone, OTP} = req.body;
+	const { type, phone, OTP } = req.body;
 
 	authController.loginVerifyOTP(phone, OTP, type)
-	.then(response=>{
-		res.json(response);
-	})
-	.catch(error=>{
-		console.log(error);
-		res.json(sendError("Internal Server Error"));
-	})
+		.then(response => {
+			res.json(response);
+		})
+		.catch(error => {
+			console.log(error);
+			res.json(sendError("Internal Server Error"));
+		})
 })
 
 
@@ -53,15 +46,15 @@ router.post("/register/requestOTP", (req, res) => {
 	}
 
 	const { type, phone } = req.body;
-	
+
 	registrationController.registrationRequestOTP(phone, type)
-	.then(response=>{
-		res.json(response);
-	})
-	.catch(error=>{
-		console.log(error);
-		res.json(sendError("Internal Server Error"));
-	})
+		.then(response => {
+			res.json(response);
+		})
+		.catch(error => {
+			console.log(error);
+			res.json(sendError("Internal Server Error"));
+		})
 });
 
 
@@ -72,16 +65,16 @@ router.post("/register/rider/verifyOTP", (req, res) => {
 		return res.json({ status: "failure", message: "Invalid properties" });
 	}
 
-	let { phone, OTP, name} = req.body;
+	let { phone, OTP, name } = req.body;
 
 	registrationController.riderOTPVerify(phone, OTP, name)
-	.then(response=>{
-		res.json(response);
-	})
-	.catch(error=>{
-		console.log(error);
-		res.json(sendError("Internal Server Error"));
-	})
+		.then(response => {
+			res.json(response);
+		})
+		.catch(error => {
+			console.log(error);
+			res.json(sendError("Internal Server Error"));
+		})
 })
 
 router.get("/allRiders", function (req, res, next) {
@@ -115,13 +108,13 @@ router.post("/register/requester/verifyOTP", (req, res) => {
 	let { phone, OTP, yearOfBirth, name } = req.body;
 
 	registrationController.requesterOTPVerify(phone, OTP, yearOfBirth, name)
-	.then(response=>{
-		res.json(response);
-	})
-	.catch(error=>{
-		console.log(error);
-		res.json(sendError("Internal Server Error"));
-	})
+		.then(response => {
+			res.json(response);
+		})
+		.catch(error => {
+			console.log(error);
+			res.json(sendError("Internal Server Error"));
+		})
 })
 
 
