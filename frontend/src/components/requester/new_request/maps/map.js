@@ -8,6 +8,8 @@ import { useRef,useState } from "react";
 import { LoadingScreen } from "../../../global_ui/spinner";
 import { useEffect } from "react";
 import {useHistory} from "react-router-dom";
+import { useContext } from "react/cjs/react.development";
+import { NewRequestContext } from "../../../context/new_request/newRequestProvider";
 
 
 const libraries = ["drawing", "places"];
@@ -17,6 +19,12 @@ function Map() {
     minHeight: "60vh",
   };
   const history= useHistory();
+   const {
+    location: {
+      state: { isPickUp },
+    },
+  } = history;
+  const {dispatch,state:{requestType,uploadItemsList}} = useContext(NewRequestContext)
   const [loading, setLoading] = useState(true);
   const [coordinates, setCoordinates] = useState(null);
   const [centerMaps, setCenterMaps] = useState(null);
@@ -61,20 +69,31 @@ function Map() {
   };
   const chooseAddress = () => {
     console.log(coordinates);
-    history.push('/address');
+    if(requestType === 'general'){
+      dispatch({type:"ADD_DROP_LOCATION_COORDINATES",payload:coordinates})
+      history.push('confirm_general')
+    }else{
+      if(isPickUp){
+        history.push('address',{isPickUp:false})
+      }else{
+        history.push('confirm_pd')
+      }
+    }
+    
   };
   return loading ? (
     <LoadingScreen />
   ) : (
     <div style={{ display: `grid`, height: "100%" }}>
       <Navbar
-        back="/enter_items"
+        back={uploadItemsList?"add_image": "enter_items"}
         title="Choose Location"
         style={{ backgroundColor: "#79CBC5", color: 'white' }}
       />
 
       <LoadScript
         libraries={libraries}
+        // eslint-disable-next-line no-undef
         googleMapsApiKey={process.env.REACT_APP_GMAP_API_KEY}
       >
         <GoogleMap
@@ -125,7 +144,7 @@ function Map() {
           left: 0,
           fontWeight: "bold",
           color: "white",
-          background: "hsl(180, 70%, 60%)",
+          background: "#79CBC5",
           padding: 0.8 + "em",
           right: 0,
           marginRight: "auto",
