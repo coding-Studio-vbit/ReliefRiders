@@ -22,7 +22,7 @@ async function updateRequesterProfile(phoneNumber, newDetails)
 {
 	return new Promise((resolve, reject)=>{
 		
-	requester.findOneAndUpdate({ phoneNumber: phoneNumber }, { $set: { name:  newDetails.name, yearOfBirth: newDetails.yearOfBirth, defaultAddress: newDetails.defaultAddress}},{ new: true }, function (err, doc) {
+	requesters.findOneAndUpdate({ phoneNumber: phoneNumber }, { $set: { name:  newDetails.name, yearOfBirth: newDetails.yearOfBirth, defaultAddress: newDetails.defaultAddress}},{ new: true }, function (err, doc) {
 		if (err) {
 			resolve(sendError("Unable to retrieve rider data, Internal Server Error"));
 			console.error(err);
@@ -103,7 +103,7 @@ async function fetchMyRequests(phoneNumber)
 {
 	return new Promise((resolve, reject)=>{
 		
-		requester.findOne({ phoneNumber: phoneNumber })
+		requesters.findOne({ phoneNumber: phoneNumber })
 		.then(doc => {
 			if (!doc)
 				resolve(sendError("Invalid User"));
