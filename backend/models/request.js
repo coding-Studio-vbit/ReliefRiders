@@ -69,7 +69,6 @@ const schema = new mongoose.Schema({
 		addressLine: { type: String, maxLength: 240},
 		area: String,
 		city: String,
-		pincode:{type:String, minLength: 6, maxLength:6},
 	},
 
 	dropLocationCoordinates:{
@@ -82,7 +81,6 @@ const schema = new mongoose.Schema({
 		addressLine: { type: String, maxLength: 240},
 		area: String,
 		city: String,
-		pincode:{type:String, minLength: 6, maxLength:6},
 	}
 })
 
