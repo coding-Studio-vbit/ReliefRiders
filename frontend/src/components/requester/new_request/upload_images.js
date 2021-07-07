@@ -1,11 +1,13 @@
 import React from 'react';
-import { useState,} from 'react';
+import { useState,useEffect,useRef} from 'react';
 import styles from './Upload_images.module.css';
 import { useSessionStorageState } from "../../../utils/useLocalStorageState";
 import Navbar from '../../global_ui/nav';
 import { useHistory } from 'react-router-dom';
 
 const uploadImages =()=>{
+
+    const fileInputRef = useRef();
 
     const [files, setFiles]= useSessionStorageState("images",[]);
     const [num, setNum] = useSessionStorageState("num",0);
@@ -60,8 +62,11 @@ const uploadImages =()=>{
                     // let blob1 = await fetch(blobUrl).then(r => r.blob());
                     // console.log(blob1)
                     // console.log(blob)
+                    let list = [...preview, reader.result];
                     setFiles(files=> [...files, blobUrl])
-                    setpreview(preview=>[...preview, reader.result]);
+                    setpreview(preview =>[...preview, reader.result]);
+                    setpreview(list);
+                    console.log(preview.length)
                 }
                    
                  reader.readAsDataURL(e.target.files[i])
@@ -74,6 +79,7 @@ const uploadImages =()=>{
             }
   
             }
+           //e.target.files = [];
         }
         else{
             
@@ -84,8 +90,12 @@ const uploadImages =()=>{
             })         
         }
        
+       
         }   
 
+        useEffect(() => {
+            if (fileInputRef) fileInputRef.current.value= null;
+          }, [preview]);
         
 
     const onSubmit = (e) =>{
@@ -190,14 +200,21 @@ const uploadImages =()=>{
         const ButtonEffect = (index)=>{
             const list = [...preview];
             list.splice(index, 1);
-            setpreview(list);
+            setpreview([...list]);
 
             const list1 = [...files];
             list1.splice(index, 1);
-            setFiles(list1);
+            setFiles([...list1]);
             
             setNum(num => num - 1);
+
+            //window.location.reload();
+           
+
         }
+
+       
+        
     
 
         
@@ -224,7 +241,7 @@ const uploadImages =()=>{
              <div className={styles.form_group}>
                 <i className="fa fa-upload"></i>
                 <p>Tap to add Image</p>
-             <input type="file" id="file" name="files"
+             <input type="file" id="file" name="files" ref={fileInputRef}
              onChange={onInputChange} 
              multiple />  
                       
@@ -236,12 +253,12 @@ const uploadImages =()=>{
              <Display previewImages={preview}/>             
              </div> */}
 
-             <div className={styles.up_img_preview}>         
+             <div className={styles.up_img_preview}>                      
              {preview.map((image,index) =>{
                  return (
-                 <div key={index}>
-                     <img className={styles.img_style} style={{ maxHeight:'350px'}} key={index} src={image}/>
-                     <button className={styles.img_button} key={index} onClick={()=> ButtonEffect(index)}>Delete</button>
+                 <div key={image}>
+                     <img className={styles.img_style} style={{ maxHeight:'350px'}} key={image.id} src={image}/>
+                     <button className={styles.img_button} key={image.id} onClick={()=> ButtonEffect(index)}>Delete</button>
                  </div>
                  )
              })
@@ -300,8 +317,3 @@ export default uploadImages;
 
 //     return  previewImages.map((image, index) => <img className={styles.img_style} style={{ maxHeight:'350px'}} key={index} src={image}/> )   
 // };
-
-
-
-
-

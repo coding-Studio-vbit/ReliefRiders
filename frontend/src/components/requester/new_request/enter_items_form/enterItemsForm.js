@@ -1,6 +1,7 @@
 //React
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import { useHistory } from "react-router-dom";
+import { useSessionStorageState } from "../../../../utils/useLocalStorageState";
 
 //CSS
 import InputField from '../../../global_ui/input';
@@ -14,35 +15,113 @@ function EnterItemsForm() {
 		history.push(route);
 	};
 
-	const [inputList, setInputList] = useState([{itemName: "", itemQty: ""}]);
+	const [inputList, setInputList] = useSessionStorageState("items",[]);
+	const [err, setErr] = useState({
+        first:'' ,
+        second:''
+    })
+	const [itemName, setitemName] = useState("");
+	const [itemQty, setitemQty] = useState("");
 	
-	useEffect( () => {
-		const items = localStorage.getItem("items")
-		if (items){
-			setInputList(JSON.parse(items))
-		}
-	},[])
+	// useEffect( () => {
+	// 	const items = localStorage.getItem("items")
+	// 	if (items){
+	// 		setInputList(JSON.parse(items))
+	// 	}
+	// },[])
 
-	useEffect( () => {
-		localStorage.setItem("items",JSON.stringify(inputList))		
-	},[inputList])
+	// useEffect( () => {
+	// 	localStorage.setItem("items",JSON.stringify(inputList))		
+	// },[inputList])
 
-	const handleInputChange = (e, index) => {
+	const handleInputChange = (e) => {
 		const { name, value } = e.target;
-		const list = [...inputList];
-		list[index][name] = value;
-		setInputList(list);
+		// const list = [...inputList];
+		// list[index][name] = value;
+		// setInputList(list);
+		//setInputList(inputList => ({...inputList, [name]:value}))
+		if(name === "itemName")
+		{
+			setitemName(value);
+		}
+		if(name === "itemQty")
+		{
+			setitemQty(value);
+		}
+		itemName
+		itemQty
 	};
 
-	const handleRemoveClick = index => {
-		const list = [...inputList];
-		list.splice(index, 1);
-		setInputList(list);
+	// const handleRemoveClick = index => {
+	// 	const list = [...inputList];
+	// 	list.splice(index, 1);
+	// 	setInputList(list);
+	// };
+
+	const handleAddClick = (e) => {
+		e.preventDefault();
+
+			
+		if(itemQty !== "" && itemName !== "")
+		{
+			let updatelist = [
+				...inputList,  
+				{
+					itemName: itemName, 
+					itemQty: itemQty
+				}
+			];
+		
+			setInputList(updatelist);
+			setitemName("");
+			setitemQty("");
+
+			setErr( 
+				{first:"",
+				second:""})
+
+		}
+		else{
+
+	if(itemName === "")
+		{
+			setErr( 
+				{...err,
+				first:"fill this field"})
+		}
+		if(itemQty === "")
+		{
+				setErr( 
+					{...err,
+					second:"fill this field"})
+		}
+
+		}
+		
+
+		
+		console.log(inputList);
+
 	};
 
-	const handleAddClick = () => {
-		setInputList([...inputList, { itemName: "", itemQty: "" }]);
-	};
+	const onEdititem = (index)=> {
+		setitemName(inputList[index].itemName);
+		setitemQty(inputList[index].itemQty);
+
+		const list = [...inputList];
+        list.splice(index, 1);
+        setInputList([...list]);
+
+		setErr( 
+			{first:"",
+			second:""})
+	}
+
+	const onDelete = (index)=> {
+		const list = [...inputList];
+        list.splice(index, 1);
+        setInputList([...list]);
+	}
 
 	return (
 		<div>
@@ -71,6 +150,44 @@ function EnterItemsForm() {
 				</div>
 
 				<div className={restyles.container}>
+				<div className={restyles.row} style={{marginTop: '2%'}}>
+						<div className={restyles.col1}>
+							<InputField type="text" placeholder="Item Name..." name="itemName" value={itemName} error={err.first} onChange={e => handleInputChange(e)}/>
+						</div>
+						<div className={restyles.col1}>
+							<InputField type="text" placeholder="Item qty..." name="itemQty" value={itemQty} error={err.second} onChange={e => handleInputChange(e)}/>
+						</div>
+						<div className={restyles.col1}>
+							{ <button style={{marginRight: '2%', backgroundColor: 'green', color: 'white', fontWeight: 'bold'}} type="button" className={restyles.btn} onClick={e=> handleAddClick(e)} value="Add">Add</button>}
+						</div>
+				</div>
+
+				</div>
+
+				<div className={restyles.itemcontainer}>
+					{inputList.map((x,index)=>{
+						return (
+							<div key={x.itemName}>
+								<div className={`${restyles.row} ${restyles.card}`}>
+									<div className={restyles.col1}>
+								        <span>{x.itemName}</span>
+									</div>
+									<div className={restyles.col1}>
+								        <span>{x.itemQty}</span>
+									</div>
+									<div className={restyles.col1}>	
+								    <span><i className="fa fa-pencil-square-o" aria-hidden="true" onClick={()=> onEdititem(index)}></i> &nbsp; &nbsp;
+								    <i className="fas fa-trash-alt" onClick={()=>onDelete(index)}></i></span>
+									</div>
+                                </div>
+							</div>
+						)
+
+                  })}
+
+				</div>
+
+				{/* <div className={restyles.container}>
 					{inputList.map((x, i) => {
 						return (
 							<div key={inputList.id}>
@@ -89,7 +206,7 @@ function EnterItemsForm() {
 							</div>
 						)
 					})}
-				</div>
+				</div> */}   
 
 				<div className={restyles.row} style={{marginTop: '5%'}}>
 					<div className={restyles.col}>
