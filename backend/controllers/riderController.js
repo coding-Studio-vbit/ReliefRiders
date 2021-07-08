@@ -82,10 +82,25 @@ async function makeDelivery(phoneNumber, requestID)
 	})
 }
 
-async function finishDelivery(phoneNumber)
+async function finishDelivery(phoneNumber,fileData)
 {
 	return new Promise((resolve, reject)=>{
-	
+		let billsImagePaths = [];
+		let rideImagePaths = [];
+        if(fileData){
+			for ( var key in fileData){
+				fileData[key].map(data=>{
+					var path = data.path;
+					var path2 = "data/images";
+					if (value.fieldname === 'billsImages'){
+                    	billsImagePaths.push(path.slice(path.search(path2) + path2.length));
+                	}
+                	else{
+                    	rideImagePaths.push(path.slice(path.search(path2) + path2.length));
+                	}
+				})
+			}
+		}
 		let riderDoc;
 		rider.findOne({phoneNumber: phoneNumber})
 		.then((doc)=>{
@@ -106,6 +121,8 @@ async function finishDelivery(phoneNumber)
 			{
 				requestDoc = doc;
 				requestDoc.requestStatus = "CONFIRMED BY RIDER";
+				requestDoc.billsImageList = billsImagePaths;
+				requestDoc.rideImages = rideImagePaths;
 				riderDoc.currentStatus = "AVAILABLE";
 				riderDoc.currentRequest = null;
 				return requestDoc.save();

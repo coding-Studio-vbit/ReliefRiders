@@ -1,8 +1,14 @@
 .confirmRequestDiv {
-  text-align: center;
-  font-family: 'Poppins', sans-serif;
-  max-width: 100%;
-  overflow-x: hidden;
+    display: flex;
+    justify-items: center;
+    grid-gap: 0.2em;
+    gap: 0.2em;
+    flex-direction: column;
+    align-content: stretch;
+    justify-content: space-evenly;
+    align-items: center;
+    overflow-x: hidden;
+    
 }
 
 .paymentDiv{
@@ -94,35 +100,67 @@ user-select: none;
   transform: rotate(45deg);
 }  
 .noContactDelDiv {
-  margin : 1em; 
+  /* margin : 1em; 
   padding : 0.5em; 
-  font-size:1.2em;
+  font-size:1.2em; */
+  display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+    padding : 0.5em;
+    margin : 0.5em; 
 } 
+
+.noContactTxt{
+  margin-right: 1.9em;
+
+}
 
 .noContactDelCheckbox {
   transform: scale(2);
-  margin-left: 5em;
+  /* margin-left: 5em; */
   cursor: pointer;
   filter: hue-rotate(242deg);
 }
 
 .delRemarksDiv{
-  font-size: 1.2em;
+  display: grid;
+  justify-content: center;
+  margin : 1em;
+  flex-direction: column;
+  font-size: 1em;
   font-weight: bold;
-  padding: 1em 11em 0em 0em;
+  
 }
+
+/* 
 .delRemarksText{
   height: 10em;
   width: 27em;
   margin:1em 1em 0em 0em;
   resize: none;
   padding: 0.5em;
-}
+} */
 
 .covidStat{
-  font-size: 1.2em;
+  /* font-size: 1.2em;
   font-weight: bold;
-  margin: 1em 0em 0em 0em;
+  margin: 1em 0em 0em 0em; */
+  display: grid;
+  justify-content: center;
+  
+  flex-direction: column;
+  font-size: 1em;
+  font-weight: bold;
+}
+.covidStatCheck{
+  display: grid;
+  justify-content: center;
+ 
+  flex-direction: column;
+  font-size: 1em;
+  font-weight: bold;
 }
 
 .covidStatCheckbox{
@@ -134,10 +172,19 @@ user-select: none;
 
 }
 
+.btns{
+  display: flex;
+  justify-content: space-evenly;
+  /* width: min(95%,400px); */
+  /* align-content: flex-end; */
+  /* align-items: baseline; */
+  flex-wrap: wrap;
+}
+
 .confirmRequestBtn{
   margin: 1.2em 1.2em 1.2em 1.2em;
   place-self: center;
-  padding: 0.6em;
+  padding-bottom: 1em;
   cursor: pointer;
   align-self: center;
   background: #01ce1b;
@@ -161,7 +208,7 @@ user-select: none;
 .cancelRequestBtn{
   margin: 1.2em 1.2em 1.2em 1.2em;
   place-self: center;
-  padding: 0.6em;
+  padding-bottom: 1em;
   cursor: pointer;
   align-self: center;
   background: #f62222;
@@ -171,7 +218,7 @@ user-select: none;
   border: none;
   font-weight: bold;
   transition-duration: 0.4s;
-  width: 11.5em;
+  width: 12.2em;
   height: 2.55em;
 }
 
@@ -181,3 +228,4 @@ user-select: none;
 .fas fa-arrow-right{
   padding: 0.5em;
 }
+
