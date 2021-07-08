@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React from "react";
 import { useState } from "react";
 import styles from "./Upload_images.module.css";
@@ -30,16 +29,7 @@ const uploadImages = () => {
       document.getElementById("file").value = null;
     }
 
-    // const formData = new FormData()
-    // formData.append('photo', file)
-
-    // // eslint-disable-next-line no-undef
-    // const res = await fetch(process.env.REACT_APP_URL+'/upload',{
-    //   method:'POST',
-    //   body:formData
-    // })
-    // const data = await res.json()
-    // console.log(data);
+    
   };
 
   const onSubmit = (e) => {

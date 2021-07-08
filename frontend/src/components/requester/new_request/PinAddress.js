@@ -152,7 +152,7 @@ const PinAddress = () => {
       pincode: e.target.value,
     });
   };
-
+ console.log(uploadItemsList);
   return (
     <div className={styles.chooseAddressPage}>
       <Navbar

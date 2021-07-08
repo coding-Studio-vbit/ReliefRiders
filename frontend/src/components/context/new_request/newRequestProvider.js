@@ -15,6 +15,9 @@ const newRequestReducer = (state, action) => {
         categories: action.categories,
         itemsList: action.itemsList,
       };
+    case "ADD_PICKUP_LOCATION_COORDINATES":
+      return { ...state, pickupLocationCoordinates: action.payload };
+
     case "ADD_DROP_LOCATION_COORDINATES":
       return { ...state, dropLocationCoordinates: action.payload };
     case "ADD_PICKUP_ADDRESS":
@@ -32,8 +35,8 @@ const initState = {
   itemsList: [],
   pickupLocation: {},
   dropLocation: {},
-  dropLocationCoordinates: {},
-  pickupLocationCoordinates: {},
+  dropLocationCoordinates: [],
+  pickupLocationCoordinates: [],
 };
 
 export const NewRequestContext = createContext();

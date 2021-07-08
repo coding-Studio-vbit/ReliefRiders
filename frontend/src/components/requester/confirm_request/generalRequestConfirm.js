@@ -4,6 +4,9 @@ import React, { useState } from 'react';
 import Navbar from '../../global_ui/nav';
 import {useHistory} from "react-router-dom";
 import { ConfirmDialog } from "../../global_ui/dialog/dialog";
+import { useContext } from 'react/cjs/react.development';
+import { AuthContext } from '../../context/auth/authProvider';
+import { NewRequestContext } from '../../context/new_request/newRequestProvider';
 
 const ConfirmRequestGeneral = () => {
     const [paymentPrefer, setPaymentPrefer] = useState('');
@@ -11,7 +14,8 @@ const ConfirmRequestGeneral = () => {
     const [deliveryRemarks,setDeliverRemarks] = useState('');
     const [covidStatus,setCovidStatus] = useState(false);
     const history =useHistory();
-   
+    const {token } = useContext(AuthContext)
+    const {state} = useContext(NewRequestContext)
   const [dialogData, setDialogData] = useState({ show: false, msg: "" });
   const [cancel, setCancel] = useState(false);
 
@@ -37,10 +41,38 @@ const ConfirmRequestGeneral = () => {
                 history.push('/')
                 window.location.reload()
             }else{
-                console.log('req');
+                const d = sessionStorage.getItem('uploaded_images')
+                const imgs = JSON.parse(d)
+                let promises = []
+                for(const src in imgs){
+                    promises.push(fetch(src).then(r=>r.blob()))
+                }
+                const blobs = await Promise.all(promises)
+
+                 const formData = new FormData()
+                 formData.append('images', blobs)
+                 formData.append("requesterCovidStatus",covidStatus)
+                 formData.append("noContactDelivery",noContactDeliver)
+                 formData.append("itemsListList",JSON.stringify(state.itemsList))
+                 formData.append("itemCategories",state.categories)
+                 formData.append("Remarks", deliveryRemarks)
+                 formData.append("dropLocationCoordinates",JSON.stringify(state.dropLocationCoordinates))
+                 formData.append("dropLocationAddress",JSON.stringify( {addressLine:"egfdetfd",city:"jhegd",pincode:"500047"}))
+                // eslint-disable-next-line no-undef
+                const res = await fetch(process.env.REACT_APP_URL+'/requests/newRequest/general',{
+                   method:'POST',
+                    headers: {
+                        authorization: "Bearer " + token,
+                      },
+                    body:formData
+                })
+                console.log(res);
                 setDialogData({ ...dialogData, msg: "Confirmed successfully" });
-                history.push('/my_requests')
-                window.location.reload()
+                
+
+
+             //   history.push('/my_requests')
+             //   window.location.reload()
 
             }
          
@@ -78,7 +110,7 @@ const ConfirmRequestGeneral = () => {
                     <button onClick={_handleCancel} className = {ConfirmReqCSS.cancelRequestBtn} >Cancel Request
                     <i className="fas fa-times" style = {{"marginLeft" : "1em"}}></i>
                     </button>
-                    <button className = {ConfirmReqCSS.confirmRequestBtn} onClick={_handleConfirm}>Confirm Request
+                    <button className = {ConfirmReqCSS.confirmRequestBtn} onClick={_handleConfirm}>Place Request
                     <i className="fas fa-arrow-right" style = {{"marginLeft" : "1em"}}></i>
                     </button>
                 </div>

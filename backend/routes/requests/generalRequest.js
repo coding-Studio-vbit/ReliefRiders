@@ -88,14 +88,14 @@ router.post('/newRequest/general',upload.any('images'),(req,res)=>{
             requestNumber : Date.now() + Math.floor(Math.random()*100),
             requesterCovidStatus : req.body.requesterCovidStatus,
             noContactDelivery : req.body.noContactDelivery, // Added no contact delivery
-            requestStatus : req.body.requestStatus,
+            requestStatus : "PENDING",
             requestType : 'GENERAL',
             itemsListImages : paths,
             itemsListList : JSON.parse(req.body.itemsListList),
             itemCategories : req.body.itemCategories,
             Remarks: req.body.Remarks,
-			dropLocationCoordinates: {coordinates : req.body.dropLocationCoordinates},
-            dropLocationAddress: req.body.dropLocationAddress
+			dropLocationCoordinates: {coordinates : JSON.parse(req.body.dropLocationCoordinates)},
+            dropLocationAddress: JSON.parse(req.body.dropLocationAddress)
         }); 
         //console.log("YAY!")
         return newRequest.save()    
