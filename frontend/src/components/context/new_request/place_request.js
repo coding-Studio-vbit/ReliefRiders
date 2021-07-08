@@ -10,7 +10,7 @@ export const placeRequest = async (formData,token,type)=>{
         const file = new File([blob],"image",{type:'image/jpg'})
         formData.append('images',file)
     }
-    const res = await fetch(process.env.REACT_APP_URL+`/requests/newRequest/${type==='p&d'?"pd":"general"}`,{
+    const res = await fetch(process.env.REACT_APP_URL+`/requests/${type==='p&d'?"pd":"general"}/new`,{
         method:'POST',
          headers: {
              authorization: "Bearer " + token,
