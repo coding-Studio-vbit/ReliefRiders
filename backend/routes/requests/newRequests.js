@@ -41,14 +41,16 @@ const storage = multer.diskStorage({
 var upload = multer({ storage: storage })
 
 
-router.post('/newRequest/pd', upload.any('images'), (req, res) => {
+router.post('/new', upload.any('images'), (req, res) => {
     let currentReqTime = Date.now();
+	let requesterID;
     console.log(currentReqTime);
     requester.findOne({ phoneNumber: req.user.phoneNumber })
         .then(doc => {
             if (doc != null) {
                 //Fetch last request time here
             }
+			requesterID = doc._id;
             return 16273927;
         })
         .then(value => {
@@ -67,7 +69,7 @@ router.post('/newRequest/pd', upload.any('images'), (req, res) => {
         .then(paths => {
             console.log(req.body);
             let newRequest = new requestModel({
-                requesterID: requesterId,
+                requesterID: requesterID,
                 requestNumber: Date.now() + Math.floor(Math.random() * 100),
                 requesterCovidStatus: req.body.requesterCovidStatus,
                 noContactDelivery: req.body.noContactDelivery, // Added no contact delivery

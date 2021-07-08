@@ -51,7 +51,7 @@ const storage = multer.diskStorage({
 var upload = multer({ storage: storage })
 
 
-router.post('/newRequest/general',upload.any('images'),(req,res)=>{
+router.post('/new',upload.any('images'),(req,res)=>{
     let currentReqTime = Date.now();
     console.log(currentReqTime);
 	let requesterId;
