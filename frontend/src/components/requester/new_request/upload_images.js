@@ -6,6 +6,7 @@ import Navbar from "../../global_ui/nav";
 import { useHistory } from "react-router-dom";
 import { useContext } from "react";
 import { NewRequestContext } from "../../context/new_request/newRequestProvider";
+import imageCompression from 'browser-image-compression';
 
 const uploadImages = () => {
   const [err, setErr] = useState({
@@ -23,16 +24,24 @@ const uploadImages = () => {
   const history = useHistory();
 
   const onInputChange = async (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-    if (!file) return;
-    if (file.type.slice(0, 5) !== "image") {
+    const rawImageFile = e.target.files[0];
+    if (!rawImageFile) return;
+    if (rawImageFile.type.slice(0, 5) !== "image") {
       setErr({ ...err, input: "Please select an image file" });
     } else {
+      const options = {
+        maxSizeMB: 0.15,
+        useWebWorker: true
+      }
+      const file = await imageCompression(rawImageFile, options);
+      console.log(rawImageFile);
       const src = URL.createObjectURL(file);
       setImgSrcs((images) => [...images, src]);
       document.getElementById("file").value = null;
     }
+    
+    
+    
   };
 
   const onSubmit = (e) => {
