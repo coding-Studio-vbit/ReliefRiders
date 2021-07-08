@@ -79,10 +79,10 @@ router.post('/new', upload.any('images'), (req, res) => {
                 itemsListList: JSON.parse(req.body.itemsListList),
                 itemCategories: req.body.itemCategories,
                 remarks: req.body.remarks,
-                dropLocationCoordinates: { coordinates: req.body.dropLocationCoordinates },
-                dropLocationAddress: req.body.dropLocationAddress,
-                pickupLocationCoordinates: { coordinates: req.body.pickupLocationCoordinates },
-                pickupLocationAddress: req.body.pickupLocationAddress,
+                dropLocationCoordinates: { coordinates: JSON.parse(req.body.dropLocationCoordinates) },
+                dropLocationAddress: JSON.parse(req.body.dropLocationAddress),
+                pickupLocationCoordinates: { coordinates: JSON.parse(req.body.pickupLocationCoordinates) },
+                pickupLocationAddress: JSON.parse(req.body.pickupLocationAddress),
 
             });
             return newRequest.save()
