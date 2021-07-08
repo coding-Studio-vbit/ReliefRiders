@@ -21,21 +21,6 @@ const ConfirmRequestGeneral = () => {
             <Navbar back={'address'} backStyle={{ color: 'white' }} title="New Requests" titleStyle={{ color: 'white' }} style={{ backgroundColor: '#79CBC5', marginBottom: "25px" }} />
             <div>
                 <p className = {ConfirmReqCSS.paymentLabel}>Select Payment Preference:</p> 
-                {/* <div className = {ConfirmReqCSS.paymentDiv} onChange = {(e)=>{
-                    if (e.target.checked){
-                        setPaymentPrefer(paymentPrefer => [...paymentPrefer,e.target.value])
-                    }
-                    else{
-                        setPaymentPrefer(paymentPrefer.filter(item => item!== e.target.value))
-                    }
-                }}>
-                    <input className = {ConfirmReqCSS.paymentCheckbox} type="checkbox" name="payment" value="CASH" />
-                    <label  className = {ConfirmReqCSS.checkboxLabel}>Cash</label>
-                    <input  className = {ConfirmReqCSS.paymentCheckbox} type="checkbox" name="payment" value="PAYTM"/>
-                    <label  className = {ConfirmReqCSS.checkboxLabel}>Paytm</label>
-                    <input className = {ConfirmReqCSS.paymentCheckbox} type="checkbox" name="payment" value="GPAY"/>
-                    <label className = {ConfirmReqCSS.checkboxLabel}>G-Pay</label>
-                </div> */}
             <div className = {ConfirmReqCSS.up_list} 
             onChange = {(e)=>{
                 if (e.target.checked){

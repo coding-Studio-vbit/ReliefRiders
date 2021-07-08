@@ -30,14 +30,9 @@
 }
 
 .up_list{
-   
-  /* margin: 13px 13px; */
   margin-top:1.5em ;
   padding: 0;
-  /* overflow: hidden;
-  text-align: center; */
   display: flex;
-  /* align-items:center; */
   justify-content: space-around;
   width:min(95%,400px);
   
@@ -119,7 +114,6 @@ user-select: none;
 
 .noContactDelCheckbox {
   transform: scale(2);
-  /* margin-left: 5em; */
   cursor: pointer;
   filter: hue-rotate(242deg);
 }
@@ -134,19 +128,7 @@ user-select: none;
   
 }
 
-/* 
-.delRemarksText{
-  height: 10em;
-  width: 27em;
-  margin:1em 1em 0em 0em;
-  resize: none;
-  padding: 0.5em;
-} */
-
 .covidStat{
-  /* font-size: 1.2em;
-  font-weight: bold;
-  margin: 1em 0em 0em 0em; */
   display: grid;
   justify-content: center;
   
@@ -175,9 +157,6 @@ user-select: none;
 .btns{
   display: flex;
   justify-content: space-evenly;
-  /* width: min(95%,400px); */
-  /* align-content: flex-end; */
-  /* align-items: baseline; */
   flex-wrap: wrap;
 }
 
@@ -194,7 +173,6 @@ user-select: none;
   border: none;
   font-weight: bold;
   transition-duration: 0.4s;
-  /* width: 11.5em; */
   height: 2.55em;
 }
 
