@@ -32,7 +32,7 @@ const PinAddress = () => {
   const [location, setlocation] = useSessionStorageState("address", {
     address: "",
     city: "",
-    pincode: "",
+    area: "",
   });
 
   const [errors, setErrors] = useState(() =>
@@ -40,13 +40,13 @@ const PinAddress = () => {
       ? {
           address: null,
           city: null,
-          pincode: null,
+          area: null,
           showErrors: false,
         }
       : {
           address: "Empty",
           city: "Empty",
-          pincode: "Empty",
+          area: "Empty",
           showErrors: false,
         }
   );
@@ -56,7 +56,7 @@ const PinAddress = () => {
 
     if (
       errors.city === null &&
-      errors.pincode === null &&
+      errors.area === null &&
       errors.address === null
     ) {
       //http request to be performed
@@ -68,7 +68,7 @@ const PinAddress = () => {
           setlocation({
             address: "",
             city: "",
-            pincode: "",
+            area: "",
           });
         }
         setPickup(false);
@@ -132,24 +132,24 @@ const PinAddress = () => {
     });
   };
 
-  const _handlePincode = (e) => {
-    const pincode = e.target.value;
+  const _handlearea = (e) => {
+    const area = e.target.value;
 
-    if (pincode.length === 0) {
+    if (area.length === 0) {
       setErrors({
         ...errors,
 
-        pincode: "Pincode must contain 6 digits",
+        area: "Area must not be empty",
       });
     } else {
       setErrors({
         ...errors,
-        pincode: null,
+        area: null,
       });
     }
     setlocation({
       ...location,
-      pincode: e.target.value,
+      area: area,
     });
   };
  console.log(uploadItemsList);
@@ -208,9 +208,9 @@ const PinAddress = () => {
 
             <div className="childField">
               <InputField
-                value={location.pincode}
-                error={errors.showErrors ? errors.pincode : ""}
-                onChange={(e) => _handlePincode(e)}
+                value={location.area}
+                error={errors.showErrors ? errors.area : ""}
+                onChange={(e) => _handlearea(e)}
                 type="text"
                 placeholder="Area"
               />
