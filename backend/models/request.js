@@ -12,9 +12,14 @@ const schema = new mongoose.Schema({
 	
 	requestNumber: {type: Number, required: [true, 'request number is required.']},
 	
-	requesterID: mongoose.Schema.Types.ObjectId,
+	requesterID:{
+		type: mongoose.Schema.Types.ObjectId,
+		required: true,
+		ref: 'requesters'
+	},
 	riderID:{
 		type: mongoose.Schema.Types.ObjectId,
+		ref:'riders',
 		default: null
 	},
 	
