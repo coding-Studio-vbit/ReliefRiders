@@ -2,11 +2,14 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import ItemListTypeCSS from "./ItemListType.module.css";
 import Navbar from "../../global_ui/nav";
+import { useContext } from "react/cjs/react.development";
+import { NewRequestContext } from "../../context/new_request/newRequestProvider";
 
 function ListType() {
   const history = useHistory();
-
+  const {dispatch} = useContext(NewRequestContext)
   const routehandler = (route) => {
+    dispatch({type:"LEFT_OFF_ROUTE",payload:route})
     history.push(route);
   };
 

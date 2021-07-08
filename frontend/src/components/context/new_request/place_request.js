@@ -22,6 +22,7 @@ export const placeRequest = async (formData,token,type)=>{
      if(data.status === 'success'){
          sessionStorage.clear()
          localStorage.removeItem('new_request')
+         localStorage.removeItem('draft')
          return 1;
      }else{
          return data.message

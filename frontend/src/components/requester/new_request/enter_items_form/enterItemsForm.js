@@ -117,6 +117,7 @@ function EnterItemsForm() {
         }
         dispatch({
           type: "ENTER_ITEMS",
+          leftOffRoute:'address',
           categories: list,
           itemsList: inputList,
         });

@@ -9,11 +9,22 @@ import ConfirmRequestGeneral from '../../requester/confirm_request/generalReques
 import ConfirmRequestPD from '../../requester/confirm_request/pdRequestConfirm';
 import Map from '../../requester/new_request/maps/map';
 import RequestType from '../../requester/new_request/NewRequestType';
-import { NewRequestProvider } from "../../context/new_request/newRequestProvider";
+import { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
 const NewRequestRoutes = () => {
+    const history = useHistory()
+    useEffect(()=>{
+        const draft = localStorage.getItem('draft')
+      
+        if(draft){
+            history.push(draft)
+        }else{
+            history.replace('/new_request')
+        }
+    },[])
     return (
-        <NewRequestProvider> 
+         
         <Switch>
             
             <Route path="/new_request/list_type" >
@@ -41,7 +52,6 @@ const NewRequestRoutes = () => {
             <RequestType />
             </Route>
         </Switch>
-        </NewRequestProvider>
 
      );
 }

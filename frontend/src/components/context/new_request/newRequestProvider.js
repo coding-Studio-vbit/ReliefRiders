@@ -1,17 +1,21 @@
 import { useEffect } from "react";
 import { useReducer } from "react";
 import { React, createContext } from "react";
+import { useLocation } from "react-router-dom";
 
 const newRequestReducer = (state, action) => {
   switch (action.type) {
     case "REQUEST_TYPE":
-      return { ...state, requestType: action.payload };
+      return { ...state, requestType: action.payload ,leftOffRoute:action.leftOffRoute};
     case "ADD_CATEGORIES_IMAGES":
-      return { ...state, uploadItemsList: true, categories: action.payload };
+      return { ...state, uploadItemsList: true, categories: action.payload,leftOffRoute:action.leftOffRoute };
+    case "LEFT_OFF_ROUTE":
+      return {...state,leftOffRoute:action.payload}
     case "ENTER_ITEMS":
       return {
         ...state,
         uploadItemsList: false,
+        leftOffRoute:action.leftOffRoute,
         categories: action.categories,
         itemsList: action.itemsList,
       };
@@ -23,9 +27,8 @@ const newRequestReducer = (state, action) => {
     case "ADD_PICKUP_ADDRESS":
       return { ...state, pickupLocation: action.payload };
     case "ADD_DROP_ADDRESS":
-      return { ...state, dropLocation: action.payload };
-    case "ADDRESS_TYPE":
-      return { ...state, locationType: action.payload };
+      return { ...state, dropLocation: action.payload,leftOffRoute:action.leftOffRoute };
+    
   }
 };
 const initState = {
@@ -35,6 +38,7 @@ const initState = {
   itemsList: [],
   pickupLocation: {},
   dropLocation: {},
+  leftOffRoute:'new_request',
   dropLocationCoordinates: [],
   pickupLocationCoordinates: [],
 };
@@ -47,9 +51,15 @@ export const NewRequestProvider = (prop) => {
     if (data) return JSON.parse(data);
     else return initState;
   });
+  const location = useLocation()
+  useEffect(()=>{
+    
+    localStorage.setItem('draft',location.pathname)
+  },[location.pathname])
   useEffect(() => {
+    
     localStorage.setItem("new_request", JSON.stringify(state));
-  }, [state]);
+  }, [state,location.pathname]);
   return (
     <NewRequestContext.Provider
       value={{

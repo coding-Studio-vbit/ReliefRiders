@@ -4,6 +4,7 @@ import RequesterHomeScreen from "./RequesterHomeScreen";
 import { BrowserRouter } from "react-router-dom";
 import MyRequestsRoutes from "../../requester/my_requests/my_requests_routes";
 import NewRequestRoutes from "../../requester/new_request/new_request_routes";
+import { NewRequestProvider } from "../../context/new_request/newRequestProvider";
 
 const RequesterHomeRoutes = () => {
   return (
@@ -15,7 +16,9 @@ const RequesterHomeRoutes = () => {
         <Route path="/my_profile">MyProfileHere</Route>
 
         <Route path="/new_request">
+        <NewRequestProvider>
           <NewRequestRoutes />
+          </NewRequestProvider>
         </Route>
 
         <Route path="/">

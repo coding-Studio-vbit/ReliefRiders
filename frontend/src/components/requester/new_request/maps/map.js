@@ -70,7 +70,7 @@ function Map() {
   const chooseAddress = () => {
     console.log(coordinates);
     if(requestType === 'general'){
-      dispatch({type:"ADD_DROP_LOCATION_COORDINATES",payload:[coordinates.lat,coordinates.lng]})
+      dispatch({type:"ADD_DROP_LOCATION_COORDINATES",payload:[coordinates.lat,coordinates.lng],leftOffRoute:'confirm_general'})
       history.push('confirm_general')
     }else{
       if(isPickUp){
@@ -78,7 +78,7 @@ function Map() {
 
         history.push('address',{isPickUp:false})
       }else{
-        dispatch({type:"ADD_DROP_LOCATION_COORDINATES",payload:[coordinates.lat,coordinates.lng]})
+        dispatch({type:"ADD_DROP_LOCATION_COORDINATES",payload:[coordinates.lat,coordinates.lng],leftOffRoute:'confirm_pd'})
 
         history.push('confirm_pd')
       }

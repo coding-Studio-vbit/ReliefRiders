@@ -27,7 +27,7 @@ function RequestType() {
         <Logo />
         <button
           onClick={() => {
-            dispatch({ type: "REQUEST_TYPE", payload: "general" });
+            dispatch({ type: "REQUEST_TYPE", payload: "general",leftOffRoute:"list_type" });
             routehandler("list_type");
           }}
           className={rtstyles.rbtn2}
@@ -41,9 +41,10 @@ function RequestType() {
         </button>
         <button
           onClick={() => {
-            dispatch({ type: "REQUEST_TYPE", payload: "p&d" });
+            const route = 'list_type'
+            dispatch({ type: "REQUEST_TYPE", payload: "p&d",leftOffRoute:route});
 
-            routehandler("list_type");
+            routehandler(route);
           }}
           className={rtstyles.rbtn2}
         >

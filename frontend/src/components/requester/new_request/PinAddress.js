@@ -20,7 +20,7 @@ const PinAddress = () => {
       setPickup(state.isPickUp);
     }
   }, []);
-  
+
   const [pickup, setPickup] = useSessionStorageState("addressType", true);
 
   const routehandler = (route) => {
@@ -73,7 +73,12 @@ const PinAddress = () => {
         }
         setPickup(false);
       } else {
-        dispatch({ type: "ADD_DROP_ADDRESS", payload: location });
+        dispatch({
+          type: "ADD_DROP_ADDRESS",
+          payload: location,
+          leftOffRoute:
+            requestType === "general" ? "confirm_general" : "confirm_pd",
+        });
         if (requestType === "general") {
           history.push("confirm_general");
         } else history.push("confirm_pd");
@@ -111,7 +116,6 @@ const PinAddress = () => {
     });
   };
 
-  
   const _handleCity = (e) => {
     const city = e.target.value;
     if (city === "") {
@@ -152,7 +156,7 @@ const PinAddress = () => {
       area: area,
     });
   };
- console.log(uploadItemsList);
+  console.log(uploadItemsList);
   return (
     <div className={styles.chooseAddressPage}>
       <Navbar
@@ -229,17 +233,15 @@ const PinAddress = () => {
         </p>
 
         <div style={{ marginBottom: 1.3 + "em" }}>
-          
-            <button
-              type="button"
-              onClick={() => routehandler("map_location")}
-              value="Choose Location"
-              className={styles.locationBtn}
-            >
-              <i className="fas fa-search-location" id="locationIcon"></i>
-              Choose Location
-            </button>
-          
+          <button
+            type="button"
+            onClick={() => routehandler("map_location")}
+            value="Choose Location"
+            className={styles.locationBtn}
+          >
+            <i className="fas fa-search-location" id="locationIcon"></i>
+            Choose Location
+          </button>
         </div>
 
         <button
