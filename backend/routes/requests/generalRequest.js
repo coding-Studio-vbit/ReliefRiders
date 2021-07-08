@@ -52,8 +52,6 @@ var upload = multer({ storage: storage })
 
 
 router.post('/newRequest/general',upload.any('images'),(req,res)=>{
-    let currentReqTime = Date.now();
-    console.log(currentReqTime);
 	let requesterId;
     requester.findOne({phoneNumber : req.user.phoneNumber})
     .then(doc => {
@@ -82,7 +80,7 @@ router.post('/newRequest/general',upload.any('images'),(req,res)=>{
         return paths 
     })
     .then(paths =>{
-        console.log(req.body);
+        
         let newRequest = new requestModel({
 			requesterID: requesterId,
             requestNumber : Date.now() + Math.floor(Math.random()*100),
@@ -93,7 +91,7 @@ router.post('/newRequest/general',upload.any('images'),(req,res)=>{
             itemsListImages : paths,
             itemsListList : JSON.parse(req.body.itemsListList),
             itemCategories : req.body.itemCategories,
-            Remarks: req.body.Remarks,
+            remarks: req.body.remarks,
 			dropLocationCoordinates: {coordinates : JSON.parse(req.body.dropLocationCoordinates)},
             dropLocationAddress: JSON.parse(req.body.dropLocationAddress)
         }); 
