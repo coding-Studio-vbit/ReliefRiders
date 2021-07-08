@@ -50,7 +50,7 @@ const schema = new mongoose.Schema({
 			uppercase:true,
 	}],
 	
-	Remarks: {type: String, maxLength: 240},
+	remarks: {type: String, maxLength: 240},
 	
 	billsImageList: [String], 
 
@@ -66,10 +66,9 @@ const schema = new mongoose.Schema({
 
 	//Pickup location address MUST be there if the request is P&D and pickup coordinates have not been specified.
 	pickupLocationAddress:{
-		addressLine: { type: String, maxLength: 240},
+		address: { type: String, maxLength: 240},
 		area: String,
 		city: String,
-		pincode:{type:String, minLength: 6, maxLength:6},
 	},
 
 	dropLocationCoordinates:{
@@ -79,10 +78,9 @@ const schema = new mongoose.Schema({
 
 	//drop location address MUST be there if the drop coordinates have not been specified.
 	dropLocationAddress:{
-		addressLine: { type: String, maxLength: 240},
+		address: { type: String, maxLength: 240},
 		area: String,
 		city: String,
-		pincode:{type:String, minLength: 6, maxLength:6},
 	}
 })
 
