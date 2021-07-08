@@ -143,7 +143,7 @@ const Address = () => {
 
   return (
     <div className={styles.addressContainer}>
-      {type === "P&D" && <span>Pickup Location</span>}
+     
       {type === "GENERAL" ? (
         <div className={styles.address}>
           <span>Address</span>
@@ -166,7 +166,7 @@ const Address = () => {
         </div>
       ) : (
         <>
-          (
+          
           <>
             <span>Pickup Location</span>
             <div className={styles.address}>
@@ -189,7 +189,7 @@ const Address = () => {
               )}
             </div>
           </>
-          ) (
+           
           <>
             <span>Drop Location</span>
             <div className={styles.address}>
@@ -212,7 +212,7 @@ const Address = () => {
               )}
             </div>
           </>
-          )
+          
         </>
       )}
     </div>
