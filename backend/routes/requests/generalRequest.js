@@ -51,13 +51,9 @@ const storage = multer.diskStorage({
 var upload = multer({ storage: storage })
 
 
-<<<<<<< HEAD
-router.post('/newRequest/general',upload.any('images'),(req,res)=>{
-=======
 router.post('/new',upload.any('images'),(req,res)=>{
     let currentReqTime = Date.now();
     console.log(currentReqTime);
->>>>>>> 3a5c1af5eb217fd841f497479727de946660eb0f
 	let requesterId;
     requester.findOne({phoneNumber : req.user.phoneNumber})
     .then(doc => {
