@@ -1,3 +1,10 @@
+.container{
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+
 .navbar {
   overflow: hidden;
   background-color:#79CBC5;
@@ -37,7 +44,7 @@
 .dropdown {
   float: right;
   overflow: hidden;
-  right: 1rem;
+  /* margin-right: 2px; */
 }
 
 .navbar .dropdown .dropbtn {
@@ -53,14 +60,14 @@
   display: none;
   position: absolute;
   background-color: #f9f9f9;
-  min-width: 160px;
+  min-width: 120px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
+  border-radius: 10%;
 }
 .dropdownContent p {
   float: none;
   color: black;
-  padding: 12px 16px;
   text-decoration: none;
   display: block;
   text-align: left;
@@ -79,10 +86,12 @@
     margin-left: auto;
     margin-right: auto;
     justify-items: center;
+    
 }
 
 .chooseRequestItem
 {
+    margin-top : 30px;
     max-height: 150px;
     margin-bottom: 10px;
     margin-left: auto;
@@ -90,15 +99,41 @@
     row-gap: 3px;
     font-size: clamp(0.7rem, 1vw, 1.2rem); 
     display: grid;
-    width: min(90%, 500px);
+    width:min(90%, 400px);
+    
     grid-template-columns: 30% 30% 15% 25%;
+    /* grid-template-rows: 25% 20% 20% 25%; */
     grid-template-rows: auto;
     grid-template-areas: 
-        "date requestType . requestStatus"
-        "category1 category2 category3 viewButton";
-    border-radius: 4px;
-    box-shadow: 0 0 5px #242323 ;
+        "area area . requestType "
+        "droparea droparea . covidStatus "
+        "requesterName requesterName . ."
+        "category1 category2 category3 .";
+    border-radius: 7px;
+    box-shadow: 0 0 7px #242323 ;
     padding: 5px;
+}
+.covidStatus{
+  grid-area: covidStatus;
+  font-weight: bold;
+  background-color: rgb(224, 70, 70);
+
+    border: 2px solid rgb(224, 70, 70);
+    border-radius: 20px;
+    color:white;
+    text-align: center;
+    margin: auto;
+    margin-top:2px;
+    padding: 3px;
+}
+.droparea{
+  grid-area: droparea;
+  font-weight: bold;
+  
+}
+.area{
+  grid-area: area;
+  font-weight: bold;
 }
 .requestType
 {   
@@ -143,5 +178,8 @@
     border: 2px solid rgb(7, 75, 144);
     background-color: blue;
     padding: 0px 3px 0px 3px;
-
+}
+.requesterName{
+  grid-area:requesterName;
+  /* font-weight: bold; */
 }
