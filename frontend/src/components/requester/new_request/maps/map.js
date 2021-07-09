@@ -36,34 +36,8 @@ function Map() {
     setCoordinates({ lat: latlng.lat(), lng: latlng.lng() });
   };
   const search = useRef({});
-  useEffect(() => {
-    if (pickupLocationCoordinates.length !== 0) {
-      if (isPickUp === 'true') {
-        setCoordinates({
-          lat: pickupLocationCoordinates[0],
-          lng: pickupLocationCoordinates[1],
-        });
-        setCenterMaps({
-          lat: pickupLocationCoordinates[0],
-          lng: pickupLocationCoordinates[1],
-        });
-      }
-    } else if(dropLocationCoordinates.length !== 0){
-      console.log(isPickUp);
-      if(isPickUp === 'false'){
-        console.log("mhgfgh");
-        setCenterMaps({
-          lat: dropLocationCoordinates[0],
-          lng: dropLocationCoordinates[1],
-        });
-        setCoordinates({
-          lat: dropLocationCoordinates[0],
-          lng: dropLocationCoordinates[1],
-        });
-        
-      }
-
-    } else if (navigator.geolocation) {
+  const setCurrentLocation = ()=>{
+    if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         setCenterMaps({
           lat: position.coords.latitude,
@@ -80,6 +54,38 @@ function Map() {
         }
       });
     }
+  }
+
+  useEffect(() => {
+    if (pickupLocationCoordinates.length !== 0) {
+      if (isPickUp === 'true') {
+        setCoordinates({
+          lat: pickupLocationCoordinates[0],
+          lng: pickupLocationCoordinates[1],
+        });
+        setCenterMaps({
+          lat: pickupLocationCoordinates[0],
+          lng: pickupLocationCoordinates[1],
+        });
+      }else {
+        setCurrentLocation()
+      }
+    } else if(dropLocationCoordinates.length !== 0){
+      console.log(isPickUp);
+      if(isPickUp === 'false'){
+        console.log("mhgfgh");
+        setCenterMaps({
+          lat: dropLocationCoordinates[0],
+          lng: dropLocationCoordinates[1],
+        });
+        setCoordinates({
+          lat: dropLocationCoordinates[0],
+          lng: dropLocationCoordinates[1],
+        });
+        
+      }else setCurrentLocation()
+
+    } else setCurrentLocation()
     setLoading(false);
   }, []);
 
