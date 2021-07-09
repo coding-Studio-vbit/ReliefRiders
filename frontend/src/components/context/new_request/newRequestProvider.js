@@ -6,28 +6,25 @@ import { useLocation } from "react-router-dom";
 const newRequestReducer = (state, action) => {
   switch (action.type) {
     case "REQUEST_TYPE":
-      return { ...state, requestType: action.payload ,leftOffRoute:action.leftOffRoute};
+      return { ...state, requestType: action.payload };
     case "ADD_CATEGORIES_IMAGES":
-      return { ...state, uploadItemsList: true, categories: action.payload,leftOffRoute:action.leftOffRoute };
-    case "LEFT_OFF_ROUTE":
-      return {...state,leftOffRoute:action.payload}
+      return { ...state, uploadItemsList: true, categories: action.payload, };
     case "ENTER_ITEMS":
       return {
         ...state,
         uploadItemsList: false,
-        leftOffRoute:action.leftOffRoute,
         categories: action.categories,
         itemsList: action.itemsList,
       };
     case "ADD_PICKUP_LOCATION_COORDINATES":
-      return { ...state, pickupLocationCoordinates: action.payload };
+      return { ...state,pickupLocation:{}, pickupLocationCoordinates: action.payload };
 
     case "ADD_DROP_LOCATION_COORDINATES":
-      return { ...state, dropLocationCoordinates: action.payload };
+      return { ...state,dropLocation:{}, dropLocationCoordinates: action.payload };
     case "ADD_PICKUP_ADDRESS":
-      return { ...state, pickupLocation: action.payload };
+      return { ...state,pickupLocationCoordinates:[], pickupLocation: action.payload };
     case "ADD_DROP_ADDRESS":
-      return { ...state, dropLocation: action.payload,leftOffRoute:action.leftOffRoute };
+      return { ...state,dropLocationCoordinates:[], dropLocation: action.payload};
     
   }
 };
@@ -38,7 +35,6 @@ const initState = {
   itemsList: [],
   pickupLocation: {},
   dropLocation: {},
-  leftOffRoute:'new_request',
   dropLocationCoordinates: [],
   pickupLocationCoordinates: [],
 };
@@ -59,7 +55,7 @@ export const NewRequestProvider = (prop) => {
   useEffect(() => {
     
     localStorage.setItem("new_request", JSON.stringify(state));
-  }, [state,location.pathname]);
+  }, [state]);
   return (
     <NewRequestContext.Provider
       value={{
