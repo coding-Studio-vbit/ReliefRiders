@@ -57,7 +57,7 @@ const uploadImages = () => {
         for (const cat in categories) {
           if (categories[cat]) list.push(cat);
         }
-        dispatch({ type: "ADD_CATEGORIES_IMAGES", payload: list,leftOffRoute:'address' });
+        dispatch({ type: "ADD_CATEGORIES_IMAGES", payload: list });
         history.push("address");
       } else {
         setErr({

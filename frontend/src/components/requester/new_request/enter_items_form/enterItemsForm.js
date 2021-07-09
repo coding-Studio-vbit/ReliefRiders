@@ -1,8 +1,8 @@
 //React
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useEffect } from "react/cjs/react.development";
 import { useContext } from "react/cjs/react.development";
-import { useSessionStorageState } from "../../../../utils/useLocalStorageState";
 import { NewRequestContext } from "../../../context/new_request/newRequestProvider";
 
 //CSS
@@ -12,19 +12,32 @@ import restyles from "./requestItem.module.css";
 
 function EnterItemsForm() {
   const history = useHistory();
-  const { dispatch } = useContext(NewRequestContext);
+  const { dispatch,state:{itemsList,categories:cat} } = useContext(NewRequestContext);
 
   const routehandler = (route) => {
     history.push(route);
   };
+  useEffect(()=>{
 
-  const [categories, setcategories] = useSessionStorageState("tags", {
+    if(cat.length !== 0){
+      setcategories((categories)=>{
+        let cats = {}
+        for(const c in cat)
+          cats[cat[c]] = true
+        console.log(cats);
+        return {...categories,...cats}
+      })
+    }
+
+  },[])
+
+  const [categories, setcategories] = useState({
     MEDICINES: false,
     GROCERIES: false,
     MISC: false,
   });
   
-  const [inputList, setInputList] = useSessionStorageState("items", []);
+  const [inputList, setInputList] = useState( itemsList);
   const [err, setErr] = useState({
     first: "",
     second: "",
@@ -117,7 +130,6 @@ function EnterItemsForm() {
         }
         dispatch({
           type: "ENTER_ITEMS",
-          leftOffRoute:'address',
           categories: list,
           itemsList: inputList,
         });

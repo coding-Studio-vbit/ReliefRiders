@@ -12,8 +12,14 @@ function RequestType() {
   const routehandler = (route) => {
     history.push("new_request/" + route);
   };
+
+  
+  
   return (
     <div style={{display:'grid'}}>
+
+      
+
       <div className={'row'}>
         <Navbar
           back="/"
@@ -27,7 +33,7 @@ function RequestType() {
         <Logo />
         <button
           onClick={() => {
-            dispatch({ type: "REQUEST_TYPE", payload: "general",leftOffRoute:"list_type" });
+            dispatch({ type: "REQUEST_TYPE", payload: "general" });
             routehandler("list_type");
           }}
           className={rtstyles.rbtn2}
@@ -42,7 +48,7 @@ function RequestType() {
         <button
           onClick={() => {
             const route = 'list_type'
-            dispatch({ type: "REQUEST_TYPE", payload: "p&d",leftOffRoute:route});
+            dispatch({ type: "REQUEST_TYPE", payload: "p&d"});
 
             routehandler(route);
           }}

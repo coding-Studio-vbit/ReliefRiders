@@ -73,7 +73,16 @@ const ConfirmRequestPD = () =>{
         }}
       />
 
-            <Navbar back={'address'} backStyle={{ color: 'white' }} title="New Requests" titleStyle={{ color: 'white' }} style={{ backgroundColor: '#79CBC5', marginBottom: "25px" }} />
+            <Navbar back={'address'} 
+            onBackClick={()=>{
+              if(state.dropLocationCoordinates.length !== 0){
+                history.replace('map_location/false')
+              }else{
+                history.replace('address')
+              }
+              
+            }}
+            backStyle={{ color: 'white' }} title="New Requests" titleStyle={{ color: 'white' }} style={{ backgroundColor: '#79CBC5', marginBottom: "25px" }} />
                 <div className = {ConfirmReqCSS.generalRequestDiv}>
                     <div  className ={ConfirmReqCSS.noContactDelDiv}>
                         <label>NO CONTACT DELIVERY</label>

@@ -40,6 +40,14 @@ const ConfirmRequestGeneral = () => {
     <div className={ConfirmReqCSS.confirmRequestDiv}>
       <Navbar
         back={"address"}
+        onBackClick={()=>{
+          if(state.dropLocationCoordinates.length !== 0){
+            history.replace('map_location/false')
+          }else{
+            history.replace('address')
+          }
+          
+        }}
         backStyle={{ color: "white" }}
         title="New Requests"
         titleStyle={{ color: "white" }}
@@ -52,6 +60,9 @@ const ConfirmRequestGeneral = () => {
         routeRedirect='/my_requests'
         onOK={async () => {
           if (cancel) {
+            localStorage.removeItem('draft')
+            localStorage.removeItem('new_request')
+            sessionStorage.clear()
             history.push("/");
             window.location.reload();
           } else {
