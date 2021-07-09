@@ -12,10 +12,10 @@ export default function Navigationbar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
+            <Nav.Link href="#ah">Admin Home</Nav.Link>
             <Nav.Link href="#home">New Request</Nav.Link>
             <Nav.Link href="#link">Assign Request</Nav.Link>
             <Nav.Link href="#ca">Create Admin</Nav.Link>
-            <Nav.Link href="#ah">Admin Home</Nav.Link>
           </Nav>
           <Nav inline>
             <Nav.Link href="#home">Logout</Nav.Link>
