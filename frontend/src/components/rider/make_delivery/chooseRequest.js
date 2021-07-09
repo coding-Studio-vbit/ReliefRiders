@@ -7,6 +7,7 @@ import axios from "axios";
 import ChooseRequestItem from "./chooseRequestItem";
 import { useHistory } from "react-router-dom";
 
+
 const ChooseRequest = () => {
   const history = useHistory();
   const [requests, setRequests] = useState({});
@@ -22,7 +23,8 @@ const ChooseRequest = () => {
         authorization: "Bearer " + token,
       },
     };
-    axios.get("http://localhost:8000/rider/make_delivery", options).then(
+    //add endpoint 
+    axios.get("http://localhost:8000/rider/endpoint", options).then(
       (response) => {
         setRequests(response.data.message);
         console.log(response.data);
@@ -46,18 +48,36 @@ const ChooseRequest = () => {
   requests.sort(sortByDate);
   console.log(requests.sort(sortByDate));
 
-  function sortByLocation(riderCurrentLocation,roughLocationCoordinates) {
+  function sortByUrgency(a,b){
+    return a.priority - b.priority;
+}
+requests.sort(sortByUrgency);
+console.log(requests.sort(sortByUrgency));
+function sortByLocation(a,b){
+  
+}
    
-  }
+  
   function riderCurrentLocation() 
   {
-    {
-      navigator.geolocation.getCurrentPosition(function(position) {
-        console.log("Latitude is :", position.coords.latitude);
-        console.log("Longitude is :", position.coords.longitude);
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        setCenterMaps({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
+        setCoordinates({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
+      });
+      navigator.permissions.query({ name: "geolocation" }).then((res) => {
+        if (res.state === "denied") {
+          alert("Please allow location permission")
+        }
       });
     }
-    return [position.coords.latitude, position.coords.longitude]
+    return [position.coords.longitude, position.coords.latitude]
   }
 
   return isLoaded ? (
@@ -107,30 +127,30 @@ const ChooseRequest = () => {
 
 export default ChooseRequest;
 
-// let requests = [{
-//   date: "7/7/2001",
-//   requestNumber: "12345",
-//   requesterID: "777777",
-//   requestStatus: "PENDING",
-//   requestType: "General",
+let requests = [{
+  date: "7/7/2001",
+  requestNumber: "12345",
+  requesterID: "777777",
+  requestStatus: "PENDING",
+  requestType: "General",
 
-//   itemCategories: ["MEDICINES", "MISC"],
+  itemCategories: ["MEDICINES", "MISC"],
 
-//   dropLocationAddress: {
-//     addressLine: "6736BH",
-//     area: "SR Nagar",
-//     city: "Hyderabad",
-//   }},{
-//     date: "7/9/2031",
-//     requestNumber: "12345",
-//     requesterID: "777777",
-//     requestStatus: "PENDING",
-//     requestType: "General",
+  dropLocationAddress: {
+    addressLine: "6736BH",
+    area: "SR Nagar",
+    city: "Hyderabad",
+  }},{
+    date: "7/9/2031",
+    requestNumber: "12345",
+    requesterID: "777777",
+    requestStatus: "PENDING",
+    requestType: "General",
 
-//     itemCategories: ["MEDICINES", "MISC"],
+    itemCategories: ["MEDICINES", "MISC"],
 
-//     dropLocationAddress: {
-//       addressLine: "6736BH",
-//       area: "SR Nagar",
-//       city: "Hyderabad",
-//     }}]
+    dropLocationAddress: {
+      addressLine: "6736BH",
+      area: "SR Nagar",
+      city: "Hyderabad",
+    }}]
