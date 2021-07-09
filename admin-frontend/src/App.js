@@ -1,5 +1,4 @@
 import { Switch, BrowserRouter as Router } from "react-router-dom";
-import Navigationbar from "./Components/GlobalComponents/NavigationBar";
 import Routes from "./Routes";
 
 function App() {
