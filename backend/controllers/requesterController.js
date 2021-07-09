@@ -11,8 +11,11 @@ async function getRequesterProfile(phoneNumber){
 			if(doc.defaultAddress == undefined)
 			{
 				console.log("hi")
-				doc.defaultAddress = null;
-				console.log(doc);
+				doc.defaultAddress = {
+					address: null,
+					city: null,
+					area: null
+				};
 			}
 			resolve(sendResponse(doc));
 		})
