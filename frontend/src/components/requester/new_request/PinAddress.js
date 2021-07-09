@@ -17,19 +17,17 @@ const PinAddress = () => {
   } = history;
 
   useEffect(() => {
-    console.log(state);
     if (state) {
-      
-      if(state.isPickUp){
-        
-        setlocation(pickupLocation)
-      }else{
-        setlocation(dropLocation)
+      if (state.isPickUp) {
+        setlocation(pickupLocation);
+      } else {
+        setlocation(dropLocation);
       }
-      
+
       setPickup(state.isPickUp);
-    }else if(requestType === 'p&d') setlocation(pickupLocation)
-    else setlocation(dropLocation)
+    }
+    // }else if(requestType === 'p&d') setlocation(pickupLocation)
+    // else if(dropLocation) setlocation(dropLocation)
   }, []);
 
   const [pickup, setPickup] = useSessionStorageState("addressType", true);
@@ -37,7 +35,7 @@ const PinAddress = () => {
   const routehandler = (route) => {
     const p = pickup;
     setPickup(false);
-    history.push(route+'/'+p);
+    history.push(route + "/" + p);
   };
 
   const [location, setlocation] = useState({
@@ -47,16 +45,20 @@ const PinAddress = () => {
   });
 
   const [errors, setErrors] = useState({
-    address: null,
-    city: null,
-    area: null,
+    address: "Enter address",
+    city: "Enter city",
+    area: "Enter area",
     showErrors: false,
   });
 
   function submit(event) {
     event.preventDefault();
-
-    if (location.city !== "" && location.area !== "" && location.address !== "") {
+    console.log(location);
+    if (
+      location.city !== "" &&
+      location.area !== "" &&
+      location.address !== ""
+    ) {
       //http request to be performed
       if (pickup && requestType === "p&d") {
         dispatch({ type: "ADD_PICKUP_ADDRESS", payload: location });
@@ -74,7 +76,6 @@ const PinAddress = () => {
         dispatch({
           type: "ADD_DROP_ADDRESS",
           payload: location,
-          
         });
         if (requestType === "general") {
           history.push("confirm_general");
@@ -82,9 +83,7 @@ const PinAddress = () => {
       }
     } else
       setErrors({
-        address: "Enter address",
-        city: "Enter city",
-        area: "Enter area",
+        ...errors,
         showErrors: true,
       });
   }
