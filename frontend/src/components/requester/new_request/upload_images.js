@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import styles from "./Upload_images.module.css";
-import { useSessionStorageState } from "../../../utils/useLocalStorageState";
+import {  useSessionStorageState } from "../../../utils/useLocalStorageState";
 import Navbar from "../../global_ui/nav";
 import { useHistory } from "react-router-dom";
 import { useContext } from "react";
@@ -30,13 +30,16 @@ const uploadImages = () => {
       setErr({ ...err, input: "Please select an image file" });
     } else {
       const options = {
-        maxSizeMB: 0.15,
+        maxSizeMB: 0.1,
         useWebWorker: true
       }
       const file = await imageCompression(rawImageFile, options);
-      console.log(rawImageFile);
-      const src = URL.createObjectURL(file);
-      setImgSrcs((images) => [...images, src]);
+      let reader = new FileReader()
+      reader.onloadend = function(){
+        setImgSrcs((images) => [...images, reader.result]);
+
+      }
+      reader.readAsDataURL(file)
       document.getElementById("file").value = null;
     }
     
