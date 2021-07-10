@@ -20,11 +20,9 @@ const EditRequesterProfile = () => {
     fullName :"",
     phoneNumber:"",
     yearOfBirth:"",
-    defaultAddress: {
-      addressLine:"",
-      city:"",
-      area:""
-    },
+    address:"",
+    city:"",
+    pincode:"",
   });
 
   const [isLoaded, setisLoaded] = useState(false);
@@ -34,7 +32,7 @@ const EditRequesterProfile = () => {
   const [yearOfBirthError, setyearOfBirthError] = useState(null);
   const [addressError, setaddressError] = useState(null);
   const [cityError, setcityError] = useState(null);
-  const [areaError, setareaError] = useState(null);
+  const [pincodeError, setpincodeError] = useState(null);
 
 
   useEffect(
@@ -46,18 +44,15 @@ const EditRequesterProfile = () => {
         }
         axios.get('http://localhost:8000/requester/profile',options)
         .then(response => {
-          console.log(response);
           if(response.data.status==="success"){
             console.log(response);
             setData({
               fullName:response.data.result.name,
               phoneNumber:response.data.result.phoneNumber,
-              defaultAddress: {
-                addressLine:response.data.result.defaultAddress.addressLine,
-                city: response.data.result.defaultAddress.city,
-                area:response.data.result.defaultAddress.area
-              },
-              yearOfBirth:parseInt(response.data.result.yearOfBirth),
+              address:response.data.result.address,
+              city:response.data.result.city,
+              pincode:response.data.result.pincode,
+              yearOfBirth:response.data.result.yearOfBirth,
               profileURL:response.data.result.profileURL
           });
           setRequestError(null);
@@ -72,6 +67,12 @@ const EditRequesterProfile = () => {
             setisLoaded(true);
         })
     }, [])
+
+    async function showSnackBar() {
+      setTimeout(() => {
+        setisProfileUpdated(false)
+      }, 2000);    
+    }
   
     function updateProfile() {
       setisLoaded(false)
@@ -87,6 +88,8 @@ const EditRequesterProfile = () => {
                   console.log(response);
                   setRequestError(null);
                   setisProfileUpdated(true);
+                  showSnackBar();
+                  history.replace("/my_profile")
                 }
                 else{
                   throw Error(response.data.message)
@@ -102,12 +105,12 @@ const EditRequesterProfile = () => {
     function validateAll() {
         const d=data;
         if(
-          validateCity({target:{value:d.defaultAddress.city}})& 
+          validateCity({target:{value:d.city}})& 
           validateName({target:{value:d.fullName}})&
-          validateArea({target:{value:d.defaultAddress.area}})&
+          validatePincode({target:{value:d.pincode}})&
           validateYear({target:{value:d.yearOfBirth}})&
           validatePhNumber({target:{value:d.phoneNumber}})&
-          validateAddress({target:{value:d.defaultAddress.addressLine}})
+          validateAddress({target:{value:d.address}})
         ){
           return true
         }
@@ -129,14 +132,9 @@ const EditRequesterProfile = () => {
       const regE = /^[6-9]\d{9}$/;
       let flag=false;
 
-      if (phoneNumber.toString().length > 10) {
+      if (phoneNumber.length > 10) {
         setphoneNumberError(
           "Mobile Number exceeds 10 digits"
-          );
-      } 
-      else if (phoneNumber.toString().length < 10) {
-        setphoneNumberError(
-          "Mobile Number must contain 10 digits"
           );
       } 
       else if (!regE.test(phoneNumber)) {
@@ -206,10 +204,7 @@ const EditRequesterProfile = () => {
       }      
       setData({
           ...data,
-          defaultAddress:{
-            ...data.defaultAddress,
-            addressLine:e.target.value
-          }           
+          address: e.target.value
       })
       return flag;
     };
@@ -230,42 +225,40 @@ const EditRequesterProfile = () => {
         flag=true
       }     
       setData({
-        ...data,
-        defaultAddress:{
-          ...data.defaultAddress,
-          city:e.target.value
-        }           
-    })
+          ...data,
+          city: city
+      })
       return flag;
     };
 
-    const validateArea = (e) => {
-      const area = e.target.value;
+    const validatePincode = (e) => {
+      const pincode = e.target.value;
       let flag=false;
 
 
-       if (area === "") {
-          setareaError(
+       if (pincode === "") {
+          setpincodeError(
            "Pincode cannot be empty"
           );
         }
-        
-        else if(area.length>25){
-          setareaError(
-            "Area cannot exceed 25 characters"
+        else if(pincode.length>6){
+            setpincodeError(
+                "Invalid Pincode!!"
+            );
+        }
+        else if(pincode.length<6){
+          setpincodeError(
+            "Invalid Pincode!"
           );
         } 
         else {
-          setareaError(null);
+          setpincodeError(null);
           flag=true
         } 
         setData({
-          ...data,
-          defaultAddress:{
-            ...data.defaultAddress,
-            area:e.target.value
-          }           
-      })
+            ...data,
+            pincode: e.target.value,
+        });
         return flag;
     };
   
@@ -284,14 +277,14 @@ const EditRequesterProfile = () => {
           "Invalid Year!"
         );
       } 
-      else if (year.toString().length == 0) {
+      else if (year.length == 0) {
         setyearOfBirthError(
          "Enter Year!"
         );
       } 
-      else if (year.toString().length != 4) {
+      else if (year.length != 4) {
         setyearOfBirthError(  
-           "Invalid yYear"
+           "Invalid Year"
         );
       } 
       else {
@@ -314,19 +307,25 @@ const EditRequesterProfile = () => {
         isShowing={requestError} 
         onOK={() => {
             setRequestError(false)
-            history.replace("/my_profile")
+            //history.push("/home/requester") 
         }} 
         msg={requestError} />
         :       
         <div className={styles.requesterProfileContainer}>
-             <Dialog
-            title="Profile"
-            isShowing={isProfileUpdated} 
-            onOK={() => {
-                setisProfileUpdated(false)
-                history.replace("/my_profile") 
-            }} 
-            msg={"Profile Updated Successfully"} /> 
+             {
+               isProfileUpdated &&
+               <nav style={{
+                 height:'30px',
+                 background:'grey',
+                 display:'flex',
+                 justifyContent:'center',
+                 alignItems:'center',
+                 width:'100%',
+                 padding:'0px',
+                 marginBottom:'-10px'
+                 }}>Profile Updated Successfully</nav>
+
+             }
 
             <Navbar back={"/my_profile"} backStyle={{ color: 'white' }} title="My Account" titleStyle={{ color: 'white' }} style={{ backgroundColor: '#79CBC5', marginBottom: "10px" }} />
                         
@@ -364,7 +363,7 @@ const EditRequesterProfile = () => {
                 <div className={styles.address}>
                     <div className={styles.completeAddress}>
                         <TextArea                
-                        value={data.defaultAddress.addressLine}
+                        value={data.address}
                         placeholder="Address"
                         rows="3"
                         onChange={validateAddress}
@@ -372,25 +371,25 @@ const EditRequesterProfile = () => {
                         />
                     </div>
 
-                    <div className={styles.area}>
-                        <InputField 
-                        value={data.defaultAddress.area}
-                        type="text"
-                        placeholder="Area"
-                        error={ areaError}
-                        onChange={validateArea}
-                        />
-                    </div>
-
                     <div className={styles.city}>
                         <InputField
-                          value={data.defaultAddress.city}
+                          value={data.city}
                           type="text"
                           placeholder="City"
                           error={cityError}
                           onChange={validateCity}
                           />                        
-                    </div>                      
+                    </div>
+
+                    <div className={styles.pincode}>
+                        <InputField 
+                        value={data.pincode}
+                        type="number"
+                        placeholder="Pincode"
+                        error={ pincodeError}
+                        onChange={validatePincode}
+                        />
+                    </div>  
 
                 </div>       
             </form>

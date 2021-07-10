@@ -32,12 +32,12 @@
   margin-bottom: 1rem;
   grid-template-areas:
     "completeAddress  completeAddress"
-    "pincode city";
+    "city pincode";
 }
   .city {
     grid-area: city;
   }
-  .area {
+  .pincode {
     grid-area: pincode;
   }
   .completeAddress {
