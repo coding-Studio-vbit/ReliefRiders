@@ -1,0 +1,51 @@
+.requesterProfileContainer {
+    display: grid;
+    flex-direction: column;
+    grid-gap: 10px;
+    justify-items: center;  
+    margin-bottom: 10px;
+}
+  
+.profileImage {
+  border: 1px solid black;
+  background-color: pink;
+  margin: 5px;
+  margin-bottom:9px;
+  align-self: center;
+  justify-self: center;
+  border-radius: 50%;
+  width: 170px;
+  height: 170px;
+}
+
+.editProfileForm{
+  display: grid;
+  grid-gap: 10px;
+  width: min(80%, 400px);
+}
+  
+.address {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  height: fit-content;
+  margin-bottom: 1rem;
+  grid-template-areas:
+    "completeAddress  completeAddress"
+    "city pincode";
+}
+  .city {
+    grid-area: city;
+  }
+  .pincode {
+    grid-area: pincode;
+  }
+  .completeAddress {
+    grid-area: completeAddress;   
+  }
+
+  .InputField {
+    margin: 5px;
+    padding: 5px;
+  }
+  

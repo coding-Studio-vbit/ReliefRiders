@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require('validator');
+const OTPSchema = require("./otpSchema");
+
 const user = new mongoose.Schema({
 
   phoneNumber: {
@@ -35,7 +37,8 @@ const user = new mongoose.Schema({
   currentRequest: {
       type: Number,
       default : null
-  }
+  },
+  OTP: OTPSchema
 });
 
 

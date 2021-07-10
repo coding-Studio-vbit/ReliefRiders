@@ -52,7 +52,7 @@
 
 .noContactDelCheckbox {
   transform: scale(2);
-  margin-left: 5em;
+  margin-left: 2em;
   cursor: pointer;
   filter: hue-rotate(242deg);
 }
@@ -60,12 +60,11 @@
 .delRemarksDiv{
   font-size: 1.2em;
   font-weight: bold;
-  padding: 1em 11em 0em 0em;
+  
 }
 .delRemarksText{
-  height: 10em;
-  width: 27em;
-  margin:1em 1em 0em 0em;
+  
+  width: min(25rem,90%);
   resize: none;
   padding: 0.5em;
 }
@@ -90,6 +89,7 @@
   place-self: center;
   padding: 0.6em;
   cursor: pointer;
+  width: 20ch;
   align-self: center;
   background: #01ce1b;
   color: white;
@@ -112,6 +112,7 @@
   place-self: center;
   padding: 0.6em;
   cursor: pointer;
+  width: 20ch;
   align-self: center;
   background: #f62222;
   color: white;

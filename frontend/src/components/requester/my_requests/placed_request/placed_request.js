@@ -47,7 +47,7 @@ const PlacedRequest = () => {
               setDialogData({ ...dialogData, msg: "Cancelled successfully" });
             else
               setDialogData({ ...dialogData, msg: "Confirmed successfully" });
-            history.replace('my_requests')
+            history.replace("my_requests");
           }
         }}
       />
@@ -80,7 +80,7 @@ const PlacedRequest = () => {
         ) : (
           <>
             <ItemsRequestedList
-            styles={styles}
+              styles={styles}
               list={request.itemsListList}
               category={request.itemCategories}
             />
@@ -129,7 +129,6 @@ const BottomButton = ({ setDialogData, setCancel }) => {
   );
 };
 
-
 const Address = () => {
   const {
     location: {
@@ -144,37 +143,62 @@ const Address = () => {
 
   return (
     <div className={styles.addressContainer}>
-      {type === "P&D" && <span>Pickup Location</span>}
-      <div className={styles.address}>
-        <span>Address</span>
-        {pickup !== null ? (
+     
+      {type === "GENERAL" ? (
+        <div className={styles.address}>
+          <span>Address</span>
+          {drop ? (
+            <>
+              <span>{drop.address}</span>
+              <span>
+                {drop.city} {drop.area}
+              </span>
+            </>
+          ) : (
+            <a
+              rel="noreferrer"
+              href={`https://www.google.com/maps/search/?api=1&query=${dCoordinates[0]},${dCoordinates[1]}`}
+              target="_blank"
+            >
+              Open in google maps
+            </a>
+          )}
+        </div>
+      ) : (
+        <>
+          
           <>
-            <span>{pickup.addressLine}</span>
-            <span>
-              {pickup.city} {pickup.pincode}
-            </span>
+            <span>Pickup Location</span>
+            <div className={styles.address}>
+              <span>Address</span>
+              {pickup ? (
+                <>
+                  <span>{pickup.address}</span>
+                  <span>
+                    {pickup.city} {pickup.area}
+                  </span>
+                </>
+              ) : (
+                <a
+                  rel="noreferrer"
+                  href={`https://www.google.com/maps/search/?api=1&query=${pCoordinates[0]},${pCoordinates[1]}`}
+                  target="_blank"
+                >
+                  Open in google maps
+                </a>
+              )}
+            </div>
           </>
-        ) : (
-          <a
-            rel="noreferrer"
-            href={`https://www.google.com/maps/search/?api=1&query=${pCoordinates[0]},${pCoordinates[1]}`}
-            target="_blank"
-          >
-            Open in google maps
-          </a>
-        )}
-      </div>
-      {drop !== null ||
-        (dCoordinates && (
+           
           <>
             <span>Drop Location</span>
             <div className={styles.address}>
               <span>Address</span>
-              {drop !== null ? (
+              {drop ? (
                 <>
-                  <span>{drop.addressLine}</span>
+                  <span>{drop.address}</span>
                   <span>
-                    {drop.city} {drop.pincode}
+                    {drop.city} {drop.area}
                   </span>
                 </>
               ) : (
@@ -188,7 +212,9 @@ const Address = () => {
               )}
             </div>
           </>
-        ))}
+          
+        </>
+      )}
     </div>
   );
 };

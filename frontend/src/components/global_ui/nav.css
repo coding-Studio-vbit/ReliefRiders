@@ -1,21 +1,27 @@
 .nav-bar {
   width: 100%;
-  padding: 0.7em;
+  padding: 0.6em;
   display: flex;
   align-items: center;
-  position: relative;
+  background: var(--primary);
   justify-content: center;
   height: fit-content;
+  margin-bottom: 0.75rem;
   text-align: center;
+  
   letter-spacing: 2px;
-  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  font-size: clamp(0.8rem, 4.5vw, 1.2rem);
 }
 .nav-bar h3 {
   margin: 0px;
+  color: white;
 }
 .nav-bar i {
   padding: 0.5em;
+  color: white;
   position: absolute;
   left: 1rem;
+  font-size: clamp(0.8rem, 4.5vw, 1.2rem);
+
   margin: 0px;
 }
