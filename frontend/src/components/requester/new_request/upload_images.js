@@ -7,6 +7,7 @@ import { useHistory } from "react-router-dom";
 import { useContext } from "react";
 import { NewRequestContext } from "../../context/new_request/newRequestProvider";
 import imageCompression from 'browser-image-compression';
+import { useRef } from "react";
 
 const uploadImages = () => {
   const [err, setErr] = useState({
@@ -15,7 +16,7 @@ const uploadImages = () => {
   });
   const [imgSrcs, setImgSrcs] = useSessionStorageState("uploaded_images", []);
   const { dispatch } = useContext(NewRequestContext);
-
+  const imgCount = useRef(imgSrcs.length)
   const [categories, setcategories] = useSessionStorageState("tags", {
     MEDICINES: false,
     GROCERIES: false,
@@ -24,6 +25,12 @@ const uploadImages = () => {
   const history = useHistory();
 
   const onInputChange = async (e) => {
+    
+   if(imgCount.current >= 3){
+     console.log("igug");
+     setErr({...err,input:'You can not upload more than 3 images!'})
+      return 
+    }
     const rawImageFile = e.target.files[0];
     if (!rawImageFile) return;
     if (rawImageFile.type.slice(0, 5) !== "image") {
@@ -40,7 +47,8 @@ const uploadImages = () => {
 
       }
       reader.readAsDataURL(file)
-      document.getElementById("file").value = null;
+      document.getElementById("file").value = null
+      imgCount.current++
     }
     
     
@@ -85,7 +93,10 @@ const uploadImages = () => {
   const ButtonEffect = (index) => {
     const list = [...imgSrcs];
     list.splice(index, 1);
+    imgCount.current--
     setImgSrcs(list);
+    
+
   };
 
   return (
