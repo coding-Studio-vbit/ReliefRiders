@@ -1,25 +1,26 @@
-/* eslint-disable no-unused-vars */
 import ConfirmReqCSS from "./confirmRequest.module.css";
 import React, { useState } from "react";
 import Navbar from "../../global_ui/nav";
-import { Redirect, useHistory } from "react-router-dom";
 import { ConfirmDialog } from "../../global_ui/dialog/dialog";
 import { useContext } from "react/cjs/react.development";
 import { AuthContext } from "../../context/auth/authProvider";
 import { NewRequestContext } from "../../context/new_request/newRequestProvider";
 import { placeRequest } from "../../context/new_request/place_request";
+import { useHistory } from "react-router-dom";
+import { useRef } from "react";
+import { useSessionStorageState } from "../../../utils/useLocalStorageState";
 
 const ConfirmRequestGeneral = () => {
-  const [paymentPrefer, setPaymentPrefer] = useState("");
-  const [noContactDeliver, setNoContactDeliver] = useState(false);
-  const [deliveryRemarks, setDeliverRemarks] = useState("");
-  const [covidStatus, setCovidStatus] = useState(false);
+  const [paymentPrefer, setPaymentPrefer] = useSessionStorageState("payement","");
+  const [noContactDeliver, setNoContactDeliver] = useSessionStorageState("nocontact",false);
+  const [deliveryRemarks, setDeliverRemarks] = useSessionStorageState("remarks","");
+  const [covidStatus, setCovidStatus] = useSessionStorageState("covidStatus",false);
   const history = useHistory();
   const { token } = useContext(AuthContext);
   const { state } = useContext(NewRequestContext);
   const [dialogData, setDialogData] = useState({ show: false, msg: "" });
   const [cancel, setCancel] = useState(false);
-  
+  const routeRedirect = useRef('/my_requests')
   const _handleConfirm = () => {
     setDialogData({
       show: true,
@@ -48,16 +49,13 @@ const ConfirmRequestGeneral = () => {
           }
           
         }}
-        backStyle={{ color: "white" }}
-        title="New Requests"
-        titleStyle={{ color: "white" }}
-        style={{ backgroundColor: "#79CBC5", marginBottom: "25px" }}
+        title="Place Request"
       />
       <ConfirmDialog
         isShowing={dialogData.show}
         msg={dialogData.msg}
         setDialogData={setDialogData}
-        routeRedirect='/my_requests'
+        routeRedirect={routeRedirect.current}
         onOK={async () => {
           if (cancel) {
             localStorage.removeItem('draft')
@@ -80,6 +78,7 @@ const ConfirmRequestGeneral = () => {
               "dropLocationAddress",
               JSON.stringify(state.dropLocation)
             );
+            formData.append('paymentPreference',paymentPrefer)
             console.log(state.dropLocation);
             const res = await placeRequest(formData, token,state.requestType);
             if (res === 1) {
@@ -88,6 +87,8 @@ const ConfirmRequestGeneral = () => {
                 msg: "Request placed successfully",
               });
             } else {
+              routeRedirect.current = null
+
               setDialogData({ ...dialogData, msg: res });
             }
           }
@@ -136,13 +137,14 @@ const ConfirmRequestGeneral = () => {
           />
           <br />
         </div>
-        <div>
+        <div style={{padding:'0.8em'}}>
           <label className={ConfirmReqCSS.delRemarksDiv}>
             Delivery Remarks:
           </label>
           <br />
           <textarea
             type="text"
+            rows='6'
             className={ConfirmReqCSS.delRemarksText}
             onChange={(e) => setDeliverRemarks(e.target.value)}
           />

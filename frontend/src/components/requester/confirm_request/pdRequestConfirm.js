@@ -7,12 +7,16 @@ import { placeRequest } from '../../context/new_request/place_request';
 import { useContext } from 'react/cjs/react.development';
 import { NewRequestContext } from '../../context/new_request/newRequestProvider';
 import { AuthContext } from '../../context/auth/authProvider';
+import { useRef } from 'react';
+import { useSessionStorageState } from '../../../utils/useLocalStorageState';
 
 const ConfirmRequestPD = () =>{
-    const [noContactDeliver,setNoContactDeliver] = useState(false);
-    const [deliveryRemarks,setDeliverRemarks] = useState('');
-    const [covidStatus,setCovidStatus] = useState(false);
+    const [noContactDeliver,setNoContactDeliver] = useSessionStorageState("nocontact",false);
+    const [deliveryRemarks,setDeliverRemarks] = useSessionStorageState('remarks','');
+    const [covidStatus,setCovidStatus] = useSessionStorageState("covidStatus",false);
     const history =useHistory();
+  const routeRedirect = useRef('/my_requests')
+
     const _handleConfirm = () => {
 		setDialogData({
             show: true,
@@ -31,7 +35,7 @@ const ConfirmRequestPD = () =>{
         isShowing={dialogData.show}
         msg={dialogData.msg}
         setDialogData={setDialogData}
-        routeRedirect='/my_requests'
+        routeRedirect={routeRedirect.current}
         onOK={async () => {
           if (cancel) {
             history.push("/");
@@ -67,6 +71,8 @@ const ConfirmRequestPD = () =>{
                 msg: "Request placed successfully",
               });
             } else {
+              routeRedirect.current = null
+
               setDialogData({ ...dialogData, msg: res });
             }
           }
@@ -91,7 +97,7 @@ const ConfirmRequestPD = () =>{
                     </div>
                 <div >
                     <label className = {ConfirmReqCSS.delRemarksDiv}>Delivery Remarks:</label><br />
-                    <textarea type = "text" className = {ConfirmReqCSS.delRemarksText}
+                    <textarea rows='6' type = "text" className = {ConfirmReqCSS.delRemarksText}
                     onChange = {(e)=>setDeliverRemarks(e.target.value)} /><br />
                 </div>
                 <div className = {ConfirmReqCSS.covidStat}>
@@ -107,7 +113,7 @@ const ConfirmRequestPD = () =>{
                     }} className = {ConfirmReqCSS.cancelRequestBtn} >Cancel Request
                     <i className="fas fa-times" style = {{"marginLeft" : "1em"}}></i>
                     </button>
-                    <button className = {ConfirmReqCSS.confirmRequestBtn} onClick={_handleConfirm}>Confirm Request
+                    <button className = {ConfirmReqCSS.confirmRequestBtn} onClick={_handleConfirm}>Place Request
                     <i className="fas fa-arrow-right" style = {{"marginLeft" : "1em"}}></i>
                     </button>
                 </div>
