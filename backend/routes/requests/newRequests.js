@@ -99,7 +99,7 @@ router.post('/new', upload.any('images'), (req, res) => {
      .then(paths => {
          console.log(req.body);
          let newRequest = new requestModel({
-            requesterID: requesterID,
+            requesterID: req.body.requesterID,
             requestNumber: Date.now() + Math.floor(Math.random() * 100),
             requesterCovidStatus: req.body.requesterCovidStatus,
             noContactDelivery: req.body.noContactDelivery, // Added no contact delivery
@@ -113,7 +113,7 @@ router.post('/new', upload.any('images'), (req, res) => {
             dropLocationAddress: JSON.parse(req.body.dropLocationAddress),
             pickupLocationCoordinates: { coordinates: JSON.parse(req.body.pickupLocationCoordinates) },
             pickupLocationAddress: JSON.parse(req.body.pickupLocationAddress),
-			roughLocationCoordinates: {coordinates: req.body.roughCoordinates}
+			roughLocationCoordinates: {coordinates: JSON.parse(req.body.roughCoordinates)}
          });
          return newRequest.save()
      })
