@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { AuthContext } from "../../context/auth/authProvider";
 import { logout } from "../../context/auth/authOperations";
 
-import "../requester/style.css";
+import "../Requester/style.css";
 import { useHistory } from "react-router-dom";
 import Logo from "../../global_ui/logo";
 import Navbar from "../../global_ui/nav";
