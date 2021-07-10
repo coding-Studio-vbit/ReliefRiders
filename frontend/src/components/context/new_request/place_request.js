@@ -1,6 +1,8 @@
 export const placeRequest = async (formData,token,type)=>{
 
-    const imgsParsed = sessionStorage.getItem('uploaded_images')
+    try {
+        
+        const imgsParsed = sessionStorage.getItem('uploaded_images')
     const imgs = JSON.parse(imgsParsed)
     console.log(formData);
     for(const src in imgs){
@@ -27,5 +29,11 @@ export const placeRequest = async (formData,token,type)=>{
      }else{
          return data.message
      }
+
+    } catch (error) {
+
+        return "Unable to access the server right now! Please try after some time"
+        
+    }
     
 }
