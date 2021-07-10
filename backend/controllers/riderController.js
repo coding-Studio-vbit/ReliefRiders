@@ -1,4 +1,5 @@
 const riders = require("../models/riders");
+const requests = require("../models/request")
 const {sendResponse, sendError} = require("./common");
 
 async function getRiderProfile(phoneNumber){
@@ -171,8 +172,13 @@ async function cancelDelivery(phoneNumber)
 async function getRequestDetails(requestID)
 {
 	return new Promise((resolve, reject)=>{
-		request.findOne({requestID: requestID})
-		.then((doc)=>{
+		requests.findOne({requestNumber: requestID})
+		.populate('requesterID')
+		.then((temp)=>{
+			let doc = temp.toObject();
+			const requesterPhone = temp.requesterID.phoneNumber;
+			doc.requesterID = undefined;
+			doc.requesterPhoneNumber = requesterPhone;
 			if(!doc)
 				resolve(sendError("No such request found!"));
 			else

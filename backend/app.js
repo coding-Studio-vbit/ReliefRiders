@@ -25,7 +25,7 @@ mongoose.connection.once('open',function(){
 const authRouter = require("./routes/authentication/authRouter");
 const requesterRouter = require("./routes/requester/requesterRouter");
 const riderRouter = require("./routes/rider/riderRouter");
-const requestsRouter = require("./routes/requests/generalRequest");
+const requestsRouter = require("./routes/requests/requestsRouter");
 
 app.get("/", (req, res)=>{
 	res.send("Hey I am alive!");

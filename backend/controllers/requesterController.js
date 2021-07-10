@@ -6,9 +6,17 @@ async function getRequesterProfile(phoneNumber){
 	return new Promise((resolve, reject)=>{
 		
 		requesters.findOne({phoneNumber: phoneNumber}, { phoneNumber: 1, name: 1, defaultAddress: 1, yearOfBirth: 1 })
-		.then((doc)=>{
+		.then((temp)=>{
+			const doc = temp.toObject();
 			if(doc.defaultAddress == undefined)
-				doc.defaultAddress = null;
+			{
+				console.log("hi")
+				doc.defaultAddress = {
+					address: null,
+					city: null,
+					area: null
+				};
+			}
 			resolve(sendResponse(doc));
 		})
 		.catch(error=>{
