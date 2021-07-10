@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useEffect } from "react/cjs/react.development";
 import { useContext } from "react/cjs/react.development";
+import { useSessionStorageState } from "../../../../utils/useLocalStorageState";
 import { NewRequestContext } from "../../../context/new_request/newRequestProvider";
 
 //CSS
@@ -12,36 +13,36 @@ import restyles from "./requestItem.module.css";
 
 function EnterItemsForm() {
   const history = useHistory();
-  const { dispatch,state:{itemsList,categories:cat} } = useContext(NewRequestContext);
+  const {
+    dispatch,
+    state: { itemsList, categories: cat },
+  } = useContext(NewRequestContext);
 
   const routehandler = (route) => {
     history.push(route);
   };
-  useEffect(()=>{
-
-    if(cat.length !== 0){
-      setcategories((categories)=>{
-        let cats = {}
-        for(const c in cat)
-          cats[cat[c]] = true
+  useEffect(() => {
+    if (cat.length !== 0) {
+      setcategories((categories) => {
+        let cats = {};
+        for (const c in cat) cats[cat[c]] = true;
         console.log(cats);
-        return {...categories,...cats}
-      })
+        return { ...categories, ...cats };
+      });
     }
+  }, []);
 
-  },[])
-
-  const [categories, setcategories] = useState({
+  const [categories, setcategories] = useSessionStorageState("cat",{
     MEDICINES: false,
     GROCERIES: false,
     MISC: false,
   });
-  
-  const [inputList, setInputList] = useState( itemsList);
+
+  const [inputList, setInputList] = useSessionStorageState('enter_items',itemsList);
   const [err, setErr] = useState({
     first: "",
     second: "",
-    check:''
+    check: "",
   });
   const [itemName, setitemName] = useState("");
   const [itemQty, setitemQty] = useState("");
@@ -122,7 +123,6 @@ function EnterItemsForm() {
         check: "Please enter atleast one item",
       });
     } else {
-      
       if (categories.MEDICINES || categories.MISC || categories.GROCERIES) {
         let list = [];
         for (const cat in categories) {
@@ -145,158 +145,150 @@ function EnterItemsForm() {
 
   return (
     <div>
-      {/* Navbar */}
+      <Navbar back="list_type" title="Enter Items" />
+      <div style={{ paddingLeft: "1rem", paddingRight: "1rem" }}>
+        <p
+          style={{
+            marginTop: "2rem",
+            fontSize: "1.2rem",
+            textAlign: "center",
+            fontWeight: "bold",
+          }}
+        >
+          Please enter the items you want to request
+        </p>
 
-      <Navbar
-        back="list_type"
-        backStyle={{ color: "white" }}
-        title="Enter Items"
-        titleStyle={{ color: "white" }}
-        style={{ backgroundColor: "#79CBC5", marginBottom: "10px" }}
-      />
+        <p style={{ textAlign: "center", color: "red" }}>{err.check}</p>
+        <div className={restyles.inputArea}>
+          <InputField
+            type="text"
+            placeholder="Item Name"
+            name="itemName"
+            value={itemName}
+            error={err.first}
+            onChange={(e) => handleInputChange(e)}
+          />
 
-      <div className={restyles.container}>
-        {/* Prompt Text */}
-        <div className={restyles.rmessage}>
-          <p style={{ fontWeight: "bold" }}>
-            Please choose the items you want to request
+          <InputField
+            type="text"
+            placeholder="Item quantity"
+            name="itemQty"
+            value={itemQty}
+            error={err.second}
+            onChange={(e) => handleInputChange(e)}
+          />
 
-          </p>
-        </div>
-        <p style={{textAlign:'center',color:'red'}} >{err.check}</p>
-        <div style={{ marginTop: "5%" }} className={restyles.rlistname}>
-          <div className={restyles.row}>
-            <div className={restyles.col}>
-              <p style={{ fontWeight: "bold" }}>item name</p>
-            </div>
-            <div className={restyles.col}>
-              <p style={{ fontWeight: "bold" }}>strips/qty</p>
-            </div>
-            <div className={restyles.col}>
-              <p style={{ fontWeight: "bold" }}>Add/Delete</p>
-            </div>
-          </div>
+          <button
+            style={{
+              marginRight: "2%",
+              backgroundColor: "green",
+              color: "white",
+              fontWeight: "bold",
+            }}
+            type="button"
+            className={restyles.btn}
+            onClick={(e) => handleAddClick(e)}
+            value="Add"
+          >
+            Add
+          </button>
 
-          <div className={restyles.container}>
-            <div className={restyles.row} style={{ marginTop: "2%" }}>
-              <div className={restyles.col1}>
-                <InputField
-                  type="text"
-                  placeholder="Item Name..."
-                  name="itemName"
-                  value={itemName}
-                  error={err.first}
-                  onChange={(e) => handleInputChange(e)}
-                />
-              </div>
-              <div className={restyles.col1}>
-                <InputField
-                  type="text"
-                  placeholder="Item qty..."
-                  name="itemQty"
-                  value={itemQty}
-                  error={err.second}
-                  onChange={(e) => handleInputChange(e)}
-                />
-              </div>
-              <div className={restyles.col1}>
-                {
-                  <button
-                    style={{
-                      marginRight: "2%",
-                      backgroundColor: "green",
-                      color: "white",
-                      fontWeight: "bold",
-                    }}
-                    type="button"
-                    className={restyles.btn}
-                    onClick={(e) => handleAddClick(e)}
-                    value="Add"
-                  >
-                    Add
-                  </button>
-                }
-              </div>
-            </div>
-          </div>
-
-          <div className={restyles.itemcontainer}>
-            {inputList.map((x, index) => {
-              return (
-                <div key={x.itemName}>
-                  <div className={`${restyles.row} ${restyles.card}`}>
-                    <div className={restyles.col1}>
-                      <span>{x.itemName}</span>
-                    </div>
-                    <div className={restyles.col1}>
-                      <span>{x.itemQty}</span>
-                    </div>
-                    <div className={restyles.col1}>
-                      <span>
-                        <i
-                          className="fa fa-pencil-square-o"
-                          aria-hidden="true"
-                          onClick={() => onEdititem(index)}
-                        ></i>{" "}
-                        &nbsp; &nbsp;
-                        <i
-                          className="fas fa-trash-alt"
-                          onClick={() => onDelete(index)}
-                        ></i>
-                      </span>
-                    </div>
+          {inputList.map((x, index) => {
+            return (
+              <div className={restyles.card} key={x.itemName}>
+                    <span>{x.itemName}  |  {x.quantity} </span>
+                 
+                  <div >
+                    <span>
+                      <i
+                        className="fas fa-pen"
+                        aria-hidden="true"
+                        onClick={() => onEdititem(index)}
+                      ></i>{" "}
+                      &nbsp; &nbsp;
+                      <i
+                        className="far fa-trash-alt"
+                        onClick={() => onDelete(index)}
+                      ></i>
+                    </span>
                   </div>
                 </div>
-              );
-            })}
+             
+            );
+          })}
+
+        </div>
+          
+       
+
+        <div className={restyles.checkBoxArea}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <input
+              checked={categories.MEDICINES}
+              onChange={_handleCheckBox}
+              name="MEDICINES"
+              type="checkbox"
+            />
+            <p>MEDICINES</p>
           </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <input
+              checked={categories.GROCERIES}
+              onChange={_handleCheckBox}
+              name="GROCERIES"
+              type="checkbox"
+            />
 
-          <div className={restyles.row} style={{ marginTop: "5%" }}>
-            <div className={restyles.col}>
-              <input checked={categories.MEDICINES} onChange={_handleCheckBox} name="MEDICINES" type="checkbox" />
-              <p>MEDICINES</p>
-            </div>
-            <div className={restyles.col}>
-              <input checked={categories.GROCERIES} onChange={_handleCheckBox} name="GROCERIES" type="checkbox" />
-
-              <p>GROCERIES</p>
-            </div>
-            <div className={restyles.col}>
-              <input checked={categories.MISC} onChange={_handleCheckBox} name="MISC" type="checkbox" />
-
-              <p>MISC</p>
-            </div>
+            <p>GROCERIES</p>
           </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <input
+              checked={categories.MISC}
+              onChange={_handleCheckBox}
+              name="MISC"
+              type="checkbox"
+            />
 
-          <div className={restyles.container}>
-            <div
-              className={restyles.row}
-              style={{ marginTop: "10%", marginBottom: "2%" }}
-            >
-              <div className={restyles.col} onClick={() => routehandler("/")}>
-                <button
-                  type="button"
-                  style={{ backgroundColor: "red", color: "white" }}
-                  className={restyles.btn}
-                >
-                  Cancel
-                </button>
-              </div>
-              <div
-                className={restyles.col}
-                
-              >
-                <button
-                  type="button"
-                  style={{ backgroundColor: "green", color: "white" }}
-                  className={restyles.btn}
-                  onClick={onProceed}
-                >
-                  Proceed
-                </button>
-              </div>
-            </div>
+            <p>MISC</p>
           </div>
+        </div>
+
+        <div className={restyles.buttonArea}>
+          <button
+            type="button"
+            onClick={() => routehandler("/")}
+            style={{ backgroundColor: "red", color: "white" }}
+            className={restyles.btn}
+          >
+            Cancel
+          </button>
+
+          <button
+            type="button"
+            style={{ backgroundColor: "green", color: "white" }}
+            className={restyles.btn}
+            onClick={onProceed}
+          >
+            Proceed
+          </button>
         </div>
       </div>
     </div>

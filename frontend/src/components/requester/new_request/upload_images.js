@@ -91,11 +91,8 @@ const uploadImages = () => {
   return (
     <>
       <Navbar
-        style={{ backgroundColor: "#79CBC5", marginBottom: "10px" }}
         back="list_type"
-        backStyle={{ color: "white" }}
         title="Upload Images"
-        titleStyle={{ color: "white" }}
       />
 
       <div className={styles.content_up}>
@@ -120,9 +117,7 @@ const uploadImages = () => {
           </div>
         </label>
 
-        {/* <div className={styles.up_img_preview}>         
-             <Display previewImages={preview}/>             
-             </div> */}
+      
 
         <div className={styles.up_img_preview}>
           {imgSrcs.map((image, index) => {
