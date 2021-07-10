@@ -124,8 +124,7 @@ user-select: none;
   margin : 1em;
   flex-direction: column;
   font-size: 1em;
-  font-weight: bold;
-  
+  font-weight: bold;  
 }
 
 .covidStat{
@@ -165,6 +164,7 @@ user-select: none;
   place-self: center;
   padding-bottom: 1em;
   cursor: pointer;
+  width: 20ch;
   align-self: center;
   background: #01ce1b;
   color: white;
@@ -188,6 +188,7 @@ user-select: none;
   place-self: center;
   padding-bottom: 1em;
   cursor: pointer;
+  width: 20ch;
   align-self: center;
   background: #f62222;
   color: white;

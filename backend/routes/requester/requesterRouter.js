@@ -23,7 +23,7 @@ router.get("/confirmRequest/:requestID", (req, res) => {
 		return res.json(sendError("Invalid Parameters"));
 	}
 
-	requesterController.confirmRequest(phone, requestID)
+	requesterController.confirmRequest(phone, req.params.requestID)
 	.then(response=>{
 		res.json(response);
 	})
@@ -39,7 +39,7 @@ router.get("/cancelRequest/:requestID", (req, res) => {
 		return res.json(sendError("Invalid Parameters"));
 	}
 	
-	requesterController.cancelRequest(phone, requestID)
+	requesterController.cancelRequest(phone, req.params.requestID)
 	.then(response=>{
 		res.json(response);
 	})

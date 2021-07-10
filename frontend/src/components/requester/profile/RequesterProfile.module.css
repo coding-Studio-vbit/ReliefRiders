@@ -1,0 +1,52 @@
+ .requesterProfileContainer{
+    display:grid;
+    grid-gap: 8px;    
+    justify-items: center;
+    margin-bottom: 10px;
+}
+
+.labelHeader{
+    font-weight: bold;
+    align-self: start;
+    position: relative;
+    color: darkslategray;  
+}
+
+.profileImage{
+    border: 1px solid black;
+    background-color: pink;
+    margin: 3px;
+    align-self: center;
+    justify-self: center;
+    border-radius: 50%;
+    width: 170px;
+    height: 170px;
+}
+
+.dataContainer {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    padding-left: 15px;    
+    height: 40px;
+    width: min(80%,35rem);
+    box-sizing:border-box;
+    border       : 2px solid #ddd;
+    font-size    : 16px;
+    border-radius: 6px;
+}
+
+.addressContainer {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    padding: 5px;
+    padding-left: 15px;    
+    height: auto;
+    width: min(80%,35rem);
+    box-sizing:border-box;
+    border       : 2px solid #ddd;
+    /* font-size    : 15px; */
+    font-size: clamp(0.6rem, 1vw, 1.2rem); 
+    border-radius: 6px;
+}
