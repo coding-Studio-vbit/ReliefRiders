@@ -17,10 +17,11 @@ const ConfirmRequestGeneral = () => {
   const [covidStatus, setCovidStatus] = useSessionStorageState("covidStatus", false);
   const history = useHistory();
   const { token } = useContext(AuthContext);
-  const  state  = useContext(NewRequestContext);
+  const { state } = useContext(NewRequestContext);
   const [dialogData, setDialogData] = useState({ show: false, msg: "" });
   const [cancel, setCancel] = useState(false);
   const routeRedirect = useRef('/my_requests')
+  // console.log(paymentPrefer)
   const _handleConfirm = () => {
     setDialogData({
       show: true,
@@ -34,7 +35,7 @@ const ConfirmRequestGeneral = () => {
       msg: "Are you sure you want to cancel placing a new request ?",
     });
   };
-  
+
   
   return (
     <div className={ConfirmReqCSS.confirmRequestDiv}>
@@ -166,7 +167,6 @@ const ConfirmRequestGeneral = () => {
           </div>
         </div>
       </div>
-    
   );
 };
 

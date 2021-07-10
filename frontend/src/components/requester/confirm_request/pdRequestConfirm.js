@@ -24,7 +24,7 @@ const ConfirmRequestPD = () => {
     });
   };
   const { token } = useContext(AuthContext)
-  const  state  = useContext(NewRequestContext)
+  const { state } = useContext(NewRequestContext);
   const [dialogData, setDialogData] = useState({ show: false, msg: "" });
   const [cancel, setCancel] = useState(false);
   console.log(deliveryRemarks)

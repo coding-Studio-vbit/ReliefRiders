@@ -13,7 +13,7 @@
     padding-right : 0.2em;
     color         : #5a5858;
     font-size     : 1em;
-    top           : 0.1em;
+    top           : 0.5em;
     pointer-events: none;
     transition    : top 0.2s ease,
         font-size 0.2s ease,
@@ -56,7 +56,7 @@
 .input:valid+.label,
 .input:focus+.label {
     font-size   : 0.7em;
-    top         : -18px;
+    top         : -8px;
     color       : black;
     border-color: black;
     background  : white;

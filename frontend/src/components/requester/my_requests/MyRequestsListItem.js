@@ -6,11 +6,11 @@ const MyRequestsListItem = (props) => {
 
     const routes = useHistory()
     return (
-        <div onClick={()=>{
-            routes.push("my_requests/"+props.data.requestNumber,{
-              request:props.data
-           })
-          }} className={styles.myRequestsListItem}>
+        <div onClick={() => {
+            routes.push("my_requests/" + props.data.requestNumber, {
+                request: props.data
+            })
+        }} className={styles.myRequestsListItem}>
             <span className={styles.date}> Date: {props.data.date} </span>
             <span className={styles.requestType}>{props.data.requestType}</span>
             {
@@ -21,7 +21,7 @@ const MyRequestsListItem = (props) => {
                     switch (category) {
                         case 'MEDICINES': return <span key={index} className={styles.medicines}>Medcines</span>;
                         case 'GROCERIES': return <span key={index} className={styles.groceries}>Groceries</span>;
-                        case 'MISC.': return <span key={index} className={styles.misc}>Misc.</span>;
+                        case 'MISC': return <span key={index} className={styles.misc}>Misc.</span>;
                     }
                 })
             }

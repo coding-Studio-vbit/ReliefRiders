@@ -39,7 +39,7 @@ async function loginRequestOTP(type, phone)
 					if(doc.OTP.resendsLeft <= 0)
 					{
 						const timeDiff = (Date.now() - doc.OTP.otpSetTime)/(60 * 1000);
-						if(timeDiff > OTP_PUNISHMENT_INTERVAL)
+						if(timeDiff > process.env.OTP_PUNISHMENT_INTERVAL)
 						{
 							return otpController.newOTP(doc);
 						}

@@ -118,12 +118,12 @@ filter: hue-rotate(242deg);
 }
 
 .delRemarksDiv{
-display: grid;
-justify-content: center;
-margin : 1em;
-flex-direction: column;
-font-size: 1em;
-font-weight: bold;  
+  display: grid;
+  justify-content: center;
+  margin : 1em;
+  flex-direction: column;
+  font-size: 1em;
+  font-weight: bold;  
 }
 
 .covidStat{

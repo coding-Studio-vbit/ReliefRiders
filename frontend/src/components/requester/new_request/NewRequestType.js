@@ -12,17 +12,21 @@ function RequestType() {
   const routehandler = (route) => {
     history.push("new_request/" + route);
   };
+  
   return (
-    <div style={{display:'grid'}}>
-      <div className={'row'}>
+    <>
+
+      
+
+     
         <Navbar
           back="/"
-          backStyle={{ color: "white", position:"absolute",left:"0" }}
           title="Choose Request Type"
-          titleStyle={{ color: "white" ,fontSize:"18px" }}
-          style={{ backgroundColor: "#79CBC5", marginBottom: "10px" , display:'flex', position:'relative'}}
+          style={{
+            
+          }}
         />
-      </div>
+    
       <div className={rtstyles.rcontainer}>
         <Logo />
         <button
@@ -30,32 +34,27 @@ function RequestType() {
             dispatch({ type: "REQUEST_TYPE", payload: "general" });
             routehandler("list_type");
           }}
-          className={rtstyles.rbtn2}
+         
         >
-          <span className={rtstyles.ri2}>
-            <span className={rtstyles.rbox}>
-              <i className="fas fa-plus"></i>
-            </span>
-          </span>
-          <span className={rtstyles.rbtn2Text}>General Request</span>
+         
+            
+           
+          General Request
         </button>
         <button
           onClick={() => {
-            dispatch({ type: "REQUEST_TYPE", payload: "p&d" });
+            const route = 'list_type'
+            dispatch({ type: "REQUEST_TYPE", payload: "p&d"});
 
-            routehandler("list_type");
+            routehandler(route);
           }}
-          className={rtstyles.rbtn2}
+        
         >
-          <span className={rtstyles.ricon2}>
-            <span className={rtstyles.ri3}>
-              <i className="fas fa-truck-pickup"></i>
-            </span>
-          </span>
-          <span className={rtstyles.rbtn2Text}>Pick Up / Drop</span>
+          
+          Pickup / Drop
         </button>
       </div>
-    </div>
+    </>
   );
 }
 
