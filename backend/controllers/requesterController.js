@@ -33,7 +33,7 @@ async function updateRequesterProfile(phoneNumber, newDetails) {
 				console.error(err);
 			}
 			else {
-				resolve(sendError("Requester Profile Update successful"));
+				resolve(sendResponse("Requester Profile Update successful"));
 			}
 		})
 	})
