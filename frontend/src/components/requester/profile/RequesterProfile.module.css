@@ -1,4 +1,4 @@
-.requesterProfileContainer{
+ .requesterProfileContainer{
     display:grid;
     grid-gap: 8px;    
     justify-items: center;
@@ -36,3 +36,17 @@
     border-radius: 6px;
 }
 
+.addressContainer {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    padding: 5px;
+    padding-left: 15px;    
+    height: auto;
+    width: min(80%,35rem);
+    box-sizing:border-box;
+    border       : 2px solid #ddd;
+    /* font-size    : 15px; */
+    font-size: clamp(0.6rem, 1vw, 1.2rem); 
+    border-radius: 6px;
+}

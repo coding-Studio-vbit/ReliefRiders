@@ -44,86 +44,84 @@ var upload = multer({ storage: storage })
 
 router.post('/new', upload.any('images'), (req, res) => {
 
-	const {pickupLocationCoordinates} = req.body;
-	const pickupLocationAddress = JSON.parse(req.body.pickupLocationAddress);
+    const pickupLocationCoordinates = JSON.parse(req.body.pickupLocationCoordinates);
+    const pickupLocationAddress = JSON.parse(req.body.pickupLocationAddress);
 
-	new Promise((resolve, reject)=>{
-		
-		if(!pickupLocationCoordinates || pickupLocationCoordinates.length == 0)
-		{
-			const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${pickupLocationAddress.area},%20${pickupLocationAddress.city}&key=${process.env.GMAPS_API_KEY}`;
+    new Promise((resolve, reject) => {
 
-			console.log(url);
-			axios.get(url)
-			.then(response=>{
-				const coordinates = response.data.results[0].geometry.location;
-				resolve([coordinates.lng, coordinates.lat]);
-			})
-			.catch(error=>{
-				reject(error);
-				console.log(error);
-			})
-		}
-		else
-		{
-			resolve(pickupLocationCoordinates);
-		}
-	})
-	.then(roughCoordinates=>{
-		req.body.roughCoordinates = roughCoordinates;
-		return requester.findOne({phoneNumber : req.user.phoneNumber});
-	})
-     .then(doc => {
-         if (doc != null) {
-             //Fetch last request time here
-	 		req.body.requesterID = doc._id;
-         }
-	 	else{
-	 		throw ({status: "failure", message: "No such rider found!"});
-	 	}
-         return 16273927;
-     })
-     .then(value => {
-         let paths = [];
+        if (!pickupLocationCoordinates || pickupLocationCoordinates.length == 0) {
+            const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${pickupLocationAddress.area},%20${pickupLocationAddress.city}&key=${process.env.GMAPS_API_KEY}`;
 
-         if (req.files) {
-             req.files.map(data => {
-                 var path = data.path;
-                 var path2 = "data/images";
-                 paths.push(path.slice(path.search(path2) + path2.length));
-             })
-         }
-         console.log(paths)
-         return paths
-     })
-     .then(paths => {
-         console.log(req.body);
-         let newRequest = new requestModel({
-            requesterID: req.body.requesterID,
-            requestNumber: Date.now() + Math.floor(Math.random() * 100),
-            requesterCovidStatus: req.body.requesterCovidStatus,
-            noContactDelivery: req.body.noContactDelivery, // Added no contact delivery
-            requestStatus: "PENDING",
-            requestType: 'P&D',
-            itemsListImages: paths,
-            itemsListList: JSON.parse(req.body.itemsListList),
-            itemCategories: req.body.itemCategories,
-            remarks: req.body.remarks,
-            dropLocationCoordinates: { coordinates: JSON.parse(req.body.dropLocationCoordinates) },
-            dropLocationAddress: JSON.parse(req.body.dropLocationAddress),
-            pickupLocationCoordinates: { coordinates: JSON.parse(req.body.pickupLocationCoordinates) },
-            pickupLocationAddress: JSON.parse(req.body.pickupLocationAddress),
-			roughLocationCoordinates: {coordinates: JSON.parse(req.body.roughCoordinates)}
-         });
-         return newRequest.save()
-     })
-     .then(result => {
-         return res.json({ status: "success", message: "Request successfully made" })
-     })
-     .catch(err => {
-         console.log(err);
-         return res.json()
-     })
+            console.log(url);
+            axios.get(url)
+                .then(response => {
+                    const coordinates = response.data.results[0].geometry.location;
+                    resolve([coordinates.lng, coordinates.lat]);
+                })
+                .catch(error => {
+                    reject(error);
+                    console.log(error);
+                })
+        }
+        else {
+            resolve(pickupLocationCoordinates);
+        }
+    })
+        .then(roughCoordinates => {
+            req.body.roughCoordinates = roughCoordinates;
+            return requester.findOne({ phoneNumber: req.user.phoneNumber });
+        })
+        .then(doc => {
+            if (doc != null) {
+                //Fetch last request time here
+                req.body.requesterID = doc._id;
+            }
+            else {
+                throw ({ status: "failure", message: "No such rider found!" });
+            }
+            return 16273927;
+        })
+        .then(value => {
+            let paths = [];
+
+            if (req.files) {
+                req.files.map(data => {
+                    var path = data.path;
+                    var path2 = "data/images";
+                    paths.push(path.slice(path.search(path2) + path2.length));
+                })
+            }
+            console.log(paths)
+            return paths
+        })
+        .then(paths => {
+            console.log(req.body);
+            let newRequest = new requestModel({
+                requesterID: req.body.requesterID,
+                requestNumber: Date.now() + Math.floor(Math.random() * 100),
+                requesterCovidStatus: req.body.requesterCovidStatus,
+                noContactDelivery: req.body.noContactDelivery, // Added no contact delivery
+                requestStatus: "PENDING",
+                requestType: 'P&D',
+                itemsListImages: paths,
+                itemsListList: JSON.parse(req.body.itemsListList),
+                itemCategories: JSON.parse(req.body.itemCategories),
+                remarks: req.body.remarks,
+                dropLocationCoordinates: { coordinates: JSON.parse(req.body.dropLocationCoordinates) },
+                dropLocationAddress: JSON.parse(req.body.dropLocationAddress),
+                pickupLocationCoordinates: { coordinates: JSON.parse(req.body.pickupLocationCoordinates) },
+                pickupLocationAddress: JSON.parse(req.body.pickupLocationAddress),
+                roughLocationCoordinates: { coordinates: req.body.roughCoordinates }
+            });
+            return newRequest.save()
+        })
+        .then(result => {
+            return res.json({ status: "success", message: "Request successfully made" })
+        })
+        .catch(err => {
+            console.log(err);
+            return res.json({ status: "failure", message: "An Error occured" });
+        })
 })
 // --------------------------
 module.exports = router;

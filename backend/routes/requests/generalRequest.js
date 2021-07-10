@@ -78,7 +78,6 @@ router.post('/new', upload.any('images'), (req, res) => {
     })
         .then(roughCoordinates => {
             req.body.roughCoordinates = roughCoordinates;
-            console.log("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZzz", roughCoordinates);
             return requester.findOne({ phoneNumber: req.user.phoneNumber });
         })
         .then(doc => {
@@ -120,7 +119,7 @@ router.post('/new', upload.any('images'), (req, res) => {
                 remarks: req.body.remarks,
                 dropLocationCoordinates: { coordinates: JSON.parse(req.body.dropLocationCoordinates) },
                 dropLocationAddress: JSON.parse(req.body.dropLocationAddress),
-                roughLocationCoordinates: { coordinates: req.body.roughCoordinates }
+                roughLocationCoordinates: { coordinates: (req.body.roughCoordinates) }
             });
             return newRequest.save()
         })
