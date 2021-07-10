@@ -9,7 +9,6 @@ async function getRequesterProfile(phoneNumber) {
 			.then((temp) => {
 				const doc = temp.toObject();
 				if (doc.defaultAddress == undefined) {
-					console.log("hi")
 					doc.defaultAddress = {
 						address: null,
 						city: null,
@@ -56,8 +55,8 @@ async function confirmRequest(phone, requestID) {
 					//Now check if the status is "Rider Confirmed or not."
 					if (doc.requestStatus != "RIDER CONFIRMED")
 						resolve(sendError("Cannot confirm this request, status is not RIDER CONFIRMED"));
-
-					doc.requestStatus = "DELIVERED";
+					else
+						doc.requestStatus = "DELIVERED";
 					return doc.save();
 				}
 			})
@@ -87,7 +86,8 @@ async function cancelRequest(phone, requestID) {
 					if (doc.requestStatus != "PENDING")
 						resolve(sendError("Cannot cancel this request, status is not PENDING"));
 
-					doc.requestStatus = "CANCELLED";
+					else
+						doc.requestStatus = "CANCELLED";
 					return doc.save();
 				}
 			})
