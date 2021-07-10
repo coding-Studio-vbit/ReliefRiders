@@ -192,7 +192,7 @@ function EnterItemsForm() {
           >
             Add
           </button>
-
+            
           {inputList.map((x, index) => {
             return (
               <div className={restyles.card} key={x.itemName}>
