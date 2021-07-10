@@ -11,10 +11,10 @@ import { useRef } from "react";
 import { useSessionStorageState } from "../../../utils/useLocalStorageState";
 
 const ConfirmRequestGeneral = () => {
-  const [paymentPrefer, setPaymentPrefer] = useSessionStorageState("payement","");
-  const [noContactDeliver, setNoContactDeliver] = useSessionStorageState("nocontact",false);
-  const [deliveryRemarks, setDeliverRemarks] = useSessionStorageState("remarks","");
-  const [covidStatus, setCovidStatus] = useSessionStorageState("covidStatus",false);
+  const [paymentPrefer, setPaymentPrefer] = useSessionStorageState("payement", "");
+  const [noContactDeliver, setNoContactDeliver] = useSessionStorageState("nocontact", false);
+  const [deliveryRemarks, setDeliverRemarks] = useSessionStorageState("remarks", "");
+  const [covidStatus, setCovidStatus] = useSessionStorageState("covidStatus", false);
   const history = useHistory();
   const { token } = useContext(AuthContext);
   const { state } = useContext(NewRequestContext);
@@ -35,19 +35,19 @@ const ConfirmRequestGeneral = () => {
     });
   };
 
-  
+
 
   return (
     <div className={ConfirmReqCSS.confirmRequestDiv}>
       <Navbar
         back={"address"}
-        onBackClick={()=>{
-          if(state.dropLocationCoordinates.length !== 0){
+        onBackClick={() => {
+          if (state.dropLocationCoordinates.length !== 0) {
             history.replace('map_location/false')
-          }else{
+          } else {
             history.replace('address')
           }
-          
+
         }}
         title="Place Request"
       />
@@ -68,7 +68,7 @@ const ConfirmRequestGeneral = () => {
             formData.append("requesterCovidStatus", covidStatus);
             formData.append("noContactDelivery", noContactDeliver);
             formData.append("itemsListList", JSON.stringify(state.itemsList));
-            formData.append("itemCategories", state.categories);
+            formData.append("itemCategories", JSON.stringify(state.categories));
             formData.append("remarks", deliveryRemarks);
             formData.append(
               "dropLocationCoordinates",
@@ -78,9 +78,9 @@ const ConfirmRequestGeneral = () => {
               "dropLocationAddress",
               JSON.stringify(state.dropLocation)
             );
-            formData.append('paymentPreference',paymentPrefer)
+            formData.append('paymentPreference', paymentPrefer)
             console.log(state.dropLocation);
-            const res = await placeRequest(formData, token,state.requestType);
+            const res = await placeRequest(formData, token, state.requestType);
             if (res === 1) {
               setDialogData({
                 ...dialogData,
@@ -137,7 +137,7 @@ const ConfirmRequestGeneral = () => {
           />
           <br />
         </div>
-        <div style={{padding:'0.8em'}}>
+        <div style={{ padding: '0.8em' }}>
           <label className={ConfirmReqCSS.delRemarksDiv}>
             Delivery Remarks:
           </label>

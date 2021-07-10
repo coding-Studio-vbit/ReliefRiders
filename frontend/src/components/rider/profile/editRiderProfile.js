@@ -42,9 +42,9 @@ const EditRiderProfile = () => {
             if(response.data.status==="success"){
               console.log(response);
               setData({
-                name:response.data.result.name,
-                phoneNumber:response.data.result.phoneNumber,
-                profileUrl:response.data.result.profileUrl
+                name:response.data.message.name,
+                phoneNumber:response.data.message.phoneNumber,
+                profileUrl:response.data.message.profileUrl
             })
             setRequestError(null);
             }
