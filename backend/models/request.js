@@ -12,9 +12,14 @@ const schema = new mongoose.Schema({
 	
 	requestNumber: {type: Number, required: [true, 'request number is required.']},
 	
-	requesterID: mongoose.Schema.Types.ObjectId,
+	requesterID:{
+		type: mongoose.Schema.Types.ObjectId,
+		required: true,
+		ref: 'requesters'
+	},
 	riderID:{
 		type: mongoose.Schema.Types.ObjectId,
+		ref:'riders',
 		default: null
 	},
 	
@@ -26,7 +31,7 @@ const schema = new mongoose.Schema({
 		type: String,
 		default: 'PENDING',
 		uppercase:true,
-		enum: ['PENDING', 'UNDER DELIVERY', 'DELIVERED', 'CANCELLED BY REQUESTER', 'RIDER CONFIRMED', 'CANCELLED BY RIDER']
+		enum: ['PENDING', 'UNDER DELIVERY', 'DELIVERED', 'CANCELLED', 'RIDER CONFIRMED']
 		},
 	
 	requestType:{
@@ -58,6 +63,10 @@ const schema = new mongoose.Schema({
 
 
 	// [ longitude, latitude ]
+	roughLocationCoordinates:{
+		type: {type: String, default: "Point"},
+		coordinates: [Number]
+	},
 
 	pickupLocationCoordinates:{
 		type: {type: String, default: "Point"},
