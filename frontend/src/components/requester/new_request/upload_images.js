@@ -15,7 +15,7 @@ const uploadImages = () => {
     check: null,
   });
   const [imgSrcs, setImgSrcs] = useSessionStorageState("uploaded_images", []);
-  const { dispatch } = useContext(NewRequestContext);
+  const { dispatch,state:{requestType} } = useContext(NewRequestContext);
   const imgCount = useRef(imgSrcs.length)
   const [categories, setcategories] = useSessionStorageState("tags", {
     MEDICINES: false,
@@ -69,7 +69,7 @@ const uploadImages = () => {
           if (categories[cat]) list.push(cat);
         }
         dispatch({ type: "ADD_CATEGORIES_IMAGES", payload: list });
-        history.push("address");
+        history.push(requestType==='general'?"address_drop":'address_pickup');
       } else {
         setErr({
           ...err,
@@ -156,21 +156,23 @@ const uploadImages = () => {
           <div>
             <label className={styles.up_check_label}>
               MEDICINES
-              <input type="checkbox" name="MEDICINES" onChange={OnCheckBox} />
+              <input checked={categories.MEDICINES} type="checkbox" name="MEDICINES" onChange={OnCheckBox} />
               <span className={`${styles.up_check} ${styles.check_1}`}></span>
             </label>
           </div>
           <div>
             <label className={styles.up_check_label}>
               GROCERIES
-              <input type="checkbox" name="GROCERIES" onChange={OnCheckBox} />
+              
+              <input checked={categories.GROCERIES}  type="checkbox" name="GROCERIES" onChange={OnCheckBox} />
               <span className={`${styles.up_check} ${styles.check_2}`}></span>
             </label>
           </div>
           <div>
             <label className={styles.up_check_label}>
               MISC.
-              <input type="checkbox" name="MISC" onChange={OnCheckBox} />
+              
+              <input checked={categories.MISC} type="checkbox" name="MISC" onChange={OnCheckBox} />
               <span className={`${styles.up_check} ${styles.check_3}`}></span>
             </label>
           </div>

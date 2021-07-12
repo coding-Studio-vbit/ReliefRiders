@@ -4,7 +4,7 @@ import ListType from "./ItemListType";
 
 import UploadImages from "../../requester/new_request/upload_images";
 import EnterItemsForm from "../new_request/enter_items_form/enterItemsForm";
-import ChooseAddress from "../../requester/new_request/PinAddress";
+import ChooseAddress from "./choose_address";
 import ConfirmRequestGeneral from "../../requester/confirm_request/generalRequestConfirm";
 import ConfirmRequestPD from "../../requester/confirm_request/pdRequestConfirm";
 import Map from "../../requester/new_request/maps/map";
@@ -19,7 +19,7 @@ const NewRequestRoutes = () => {
     const lastPath = localStorage.getItem('draft')
     if(draft === '/new_request')
       history.replace('/new_request')
-    else if(lastPath) history.replace(lastPath)
+    else if(lastPath) history.replace(lastPath,history.location.state)
   
   },[])
   return (
@@ -31,7 +31,7 @@ const NewRequestRoutes = () => {
           <ListType />
         </Route>
         <Route
-          path="/new_request/map_location/:isPickUp"
+          path="/new_request/map_location"
         >
           <Map />
         </Route>
@@ -41,8 +41,11 @@ const NewRequestRoutes = () => {
         <Route path="/new_request/enter_items">
           <EnterItemsForm />
         </Route>
-        <Route path="/new_request/address">
-          <ChooseAddress />
+        <Route key={"jdbwjdbwjdk"}  path="/new_request/address_pickup">
+          <ChooseAddress pickup={true} />
+        </Route>
+        <Route key={"qkwje,wjqhj"} path="/new_request/address_drop">
+          <ChooseAddress pickup={false} />
         </Route>
         <Route path="/new_request/confirm_general">
           <ConfirmRequestGeneral />

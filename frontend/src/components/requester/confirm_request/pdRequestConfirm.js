@@ -38,8 +38,11 @@ const ConfirmRequestPD = () => {
         routeRedirect={routeRedirect.current}
         onOK={async () => {
           if (cancel) {
+            localStorage.setItem('draft','/new_request')
+            localStorage.removeItem('new_request')
+            sessionStorage.clear()
             history.push("/");
-            window.location.reload();
+            
           } else {
             const formData = new FormData();
             formData.append("requesterCovidStatus", covidStatus);
@@ -81,13 +84,9 @@ const ConfirmRequestPD = () => {
 
       <Navbar back={'address'}
         onBackClick={() => {
-          if (state.dropLocationCoordinates.length !== 0) {
-            history.replace('map_location/false')
-          } else {
-            history.replace('address')
-          }
-
-        }}
+            history.replace('address_drop')
+          
+         }}
         backStyle={{ color: 'white' }} title="New Requests" titleStyle={{ color: 'white' }} style={{ backgroundColor: '#79CBC5', marginBottom: "25px" }} />
       <div className={ConfirmReqCSS.generalRequestDiv}>
         <div className={ConfirmReqCSS.noContactDelDiv}>

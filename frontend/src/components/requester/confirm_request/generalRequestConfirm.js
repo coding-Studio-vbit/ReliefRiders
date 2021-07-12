@@ -40,15 +40,8 @@ const ConfirmRequestGeneral = () => {
   return (
     <div className={ConfirmReqCSS.confirmRequestDiv}>
       <Navbar
-        back={"address"}
-        onBackClick={() => {
-          if (state.dropLocationCoordinates.length !== 0) {
-            history.replace('map_location/false')
-          } else {
-            history.replace('address')
-          }
-
-        }}
+        back={"address_drop"}
+        
         title="Place Request"
       />
       <ConfirmDialog
@@ -58,11 +51,12 @@ const ConfirmRequestGeneral = () => {
         routeRedirect={routeRedirect.current}
         onOK={async () => {
           if (cancel) {
-            localStorage.removeItem('draft')
+            localStorage.setItem('draft','/new_request')
+
             localStorage.removeItem('new_request')
             sessionStorage.clear()
-            history.push("/");
-            window.location.reload();
+            history.replace("/");
+            
           } else {
             const formData = new FormData();
             formData.append("requesterCovidStatus", covidStatus);
