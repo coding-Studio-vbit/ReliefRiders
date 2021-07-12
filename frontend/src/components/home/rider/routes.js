@@ -2,6 +2,8 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { BrowserRouter } from 'react-router-dom';
 import RiderHome from './RiderHome';
+import RiderProfileRoutes from "../../rider/profile/profileRouting";
+
 const RiderHomeRoutes = () => {
     return ( 
         <BrowserRouter basename="/home/rider">
@@ -19,7 +21,7 @@ const RiderHomeRoutes = () => {
                 MyProfileHere
             </Route>
             <Route path="/my_profile" >
-                MyProfileHere
+              <RiderProfileRoutes/>                
             </Route>
         </Switch>
         </BrowserRouter>

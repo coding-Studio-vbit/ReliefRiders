@@ -1,75 +1,24 @@
 .container{
     display: grid;
+    
+    padding: 1rem;
     justify-items: center;
+    align-items: center;
+    grid-template-rows: repeat(4,100px);
 }
-.navbar{
-    position: relative;
-    display: flex;
-    background-color:rgba(121, 203, 197);
-    justify-content: center;
-    box-shadow: 0px 0px 10px 0px darkgray;
-    padding: 5px 0px 10px 0px;
-    border: 0.5px solid darkgrey;
-}
-.navHead{
-    font-weight: bolder;
-    align-self: center;
-    color: white;
-    margin-top: 2px;
-}
-.backDiv{
-    position: absolute;
-    left: 0;
-    top:0;
-    align-self: center;
-}
-.btnBack{
-    background-color:rgba(121, 203, 197);
-    margin-top: 3px;
-    overflow: hidden;
-    cursor: pointer;
-}
-.headText{
-    color: black;
-    font-weight:800;
-    margin-top: 30px;
-    margin-left: 15px;
-    margin-right: 15px;
-    margin-bottom: 125px;
+
+
+.container span{
     text-align: center;
+    font-size: 1.2rem;
 }
-.btnUpload1{
-    height: max-content;
-    width: 175px;
-    background-color: #ff7978;
+.container button{
+    
+    width: 20ch;
+    font-size: clamp(1.2rem,3.5vw,1.5rem);
+    background-color: var(--secondary);
     border-radius: 20px;
-    margin-bottom: 40px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    overflow: hidden;
+    padding: 10px 20px;
     cursor: pointer;
-    box-shadow: 0px 0px 10px 0px darkgray;
-}
-.btnUpload2{
-    height: max-content;
-    width: 175px;
-    background-color: #ff7978;
-    border-radius: 20px;
-    margin-top: 40px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    overflow: hidden;
-    cursor: pointer;
-    box-shadow: 0px 0px 10px 0px darkgray;
-}
-.btnUploadText{
-    font-size: 20px;
-}
-.choice{
-    font-size: large;
-    font-weight:bolder ;
-    color: black;
-}
-i{
-    font-size: x-large;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.350);
 }

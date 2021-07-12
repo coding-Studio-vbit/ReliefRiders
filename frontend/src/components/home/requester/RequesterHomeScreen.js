@@ -16,7 +16,7 @@ function RequesterHomeScreen() {
 
   return (
     <div className="rider-home-container">
-      <Navbar title="HOME" />
+      <Navbar title="HOME" style={{background:'white'}} titleStyle={{color:'black'}} />
       <div className="riderhome">
         <Logo />
         <button onClick={() => routehandler("new_request")} className="rider-home-btn">
