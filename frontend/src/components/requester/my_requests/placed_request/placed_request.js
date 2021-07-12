@@ -21,7 +21,7 @@ const PlacedRequest = () => {
   const [dialogData, setDialogData] = useState({ show: false, msg: "" });
   const [cancel, setCancel] = useState(false);
   const statusStyle = {
-    color: request.requestStatus === "PENDING" ? "red" : "green",
+    color: (request.requestStatus === "PENDING" || request.requestStatus === 'CANCELLED')  ? "red" : "green",
     fontWeight: "bold",
     fontSize: 1.2 + "em",
   };
@@ -94,7 +94,7 @@ const PlacedRequest = () => {
         )}
 
         {request.requestStatus[0] != "D" && (
-          <BottomButton setCancel={setCancel} setDialogData={setDialogData} />
+          <BottomButton show={(request.requestStatus ==='PENDING' || request.requestStatus === 'UNDER DELIVERY')?true:false} setCancel={setCancel} setDialogData={setDialogData} />
         )}
       </div>
     </>
@@ -103,8 +103,8 @@ const PlacedRequest = () => {
 
 export default PlacedRequest;
 
-const BottomButton = ({ setDialogData, setCancel }) => {
-  return (
+const BottomButton = ({show, setDialogData, setCancel }) => {
+  return show?(
     <div className={styles.buttonsContainer}>
       <button
         onClick={() => {
@@ -128,7 +128,7 @@ const BottomButton = ({ setDialogData, setCancel }) => {
         Confirm Request
       </button>
     </div>
-  );
+  ):null;
 };
 
 const Address = () => {
@@ -142,14 +142,14 @@ const Address = () => {
   const drop = request.dropLocationAddress;
   const pCoordinates = request.pickupLocationCoordinates.coordinates;
   const dCoordinates = request.dropLocationCoordinates.coordinates;
-
+  
   return (
     <div className={styles.addressContainer}>
      
       {type === "GENERAL" ? (
         <div className={styles.address}>
           <span>Address</span>
-          {drop ? (
+          {drop.address ? (
             <>
               <span>{drop.address}</span>
               <span>
@@ -173,7 +173,7 @@ const Address = () => {
             <span>Pickup Location</span>
             <div className={styles.address}>
               <span>Address</span>
-              {pickup ? (
+              {pickup.address ? (
                 <>
                   <span>{pickup.address}</span>
                   <span>
