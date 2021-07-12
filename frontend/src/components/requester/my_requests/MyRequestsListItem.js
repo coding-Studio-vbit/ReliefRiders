@@ -14,6 +14,9 @@ const MyRequestsListItem = (props) => {
             <span className={styles.date}> Date: {props.data.date} </span>
             <span className={styles.requestType}>{props.data.requestType}</span>
             {
+                (props.data.requesterCovidStatus) ? (<span className={styles.covidStatus}>{props.data.requesterCovidStatus ? "COVID +" : "SAFE"}</span>) : (<span>-</span>)
+            }
+            {
                 (props.data.requestStatus == "DELIVERED" || props.data.requestStatus == "UNDER DELIVERY") ? (<span className={styles.ok}>{props.data.requestStatus}</span>) : (<span className={styles.notOk}>{props.data.requestStatus}</span>)
             }
             {
