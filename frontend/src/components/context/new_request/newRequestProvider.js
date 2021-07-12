@@ -17,10 +17,18 @@ const newRequestReducer = (state, action) => {
         itemsList: action.itemsList,
       };
     case "ADD_PICKUP_LOCATION_COORDINATES":
-      return { ...state,pickupLocation:{}, pickupLocationCoordinates: action.payload };
+      return { ...state,pickupLocation:{
+        address: "",
+        city: "",
+        area: "",
+      }, pickupLocationCoordinates: action.payload };
 
     case "ADD_DROP_LOCATION_COORDINATES":
-      return { ...state,dropLocation:{}, dropLocationCoordinates: action.payload };
+      return { ...state,dropLocation:{
+        address: "",
+        city: "",
+        area: "",
+      }, dropLocationCoordinates: action.payload };
     case "ADD_PICKUP_ADDRESS":
       return { ...state,pickupLocationCoordinates:[], pickupLocation: action.payload };
     case "ADD_DROP_ADDRESS":
@@ -33,8 +41,16 @@ const initState = {
   categories: [],
   uploadItemsList: false,
   itemsList: [],
-  pickupLocation: {},
-  dropLocation: {},
+  pickupLocation: {
+    address: "",
+    city: "",
+    area: "",
+  },
+  dropLocation: {
+    address: "",
+    city: "",
+    area: "",
+  },
   dropLocationCoordinates: [],
   pickupLocationCoordinates: [],
 };
