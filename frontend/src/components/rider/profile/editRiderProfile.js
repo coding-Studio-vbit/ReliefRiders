@@ -24,12 +24,6 @@ const EditRiderProfile = () => {
   const [fullNameError, setfullNameError] = useState(null);
   const [phoneNumberError, setphoneNumberError] = useState(null); 
 
-  async function showSnackBar(){
-    setTimeout(() => {
-      setisProfileUpdated(false)
-    }, 3000);    
-  }
-
   useEffect(
     async () => {
         const options = {
@@ -74,8 +68,6 @@ const EditRiderProfile = () => {
         console.log("Profile Updated");
         setRequestError(null);
         setisProfileUpdated(true);
-        showSnackBar();
-        history.replace("/my_profile")
       }
       else{
         setRequestError(response.data.message)
@@ -175,20 +167,15 @@ const validateName = (e) => {
             : 
         <div className={styles.riderProfileContainer}>
 
-            {
-               isProfileUpdated &&
-               <nav style={{
-                 height:'30px',
-                 background:'grey',
-                 display:'flex',
-                 justifyContent:'center',
-                 alignItems:'center',
-                 width:'100%',
-                 padding:'0px',
-                 marginBottom:'-13px'
-                 }}>Profile Updated Successfully</nav>
-
-             }
+            <Dialog
+            title="Profile"
+            isShowing={isProfileUpdated}
+            onOK={() => {
+              setisProfileUpdated(false)
+              console.log(isProfileUpdated,100)
+              history.replace("/my_profile")
+            }}
+            msg={"Profile Updated Successfully"} />
                         
             <Navbar 
             back={"/my_profile"} 

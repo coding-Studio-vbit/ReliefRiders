@@ -1,0 +1,131 @@
+.currentRequestPage{
+    display: grid;
+    flex-direction: column;
+    justify-items:center;
+    width: 100%;
+}
+
+.currentRequestContent{
+    padding: 20px 25px;
+    display: flex;
+    flex-direction: column;
+    justify-items: flex-start;
+}
+
+.currentRequestContent>*{
+    margin-bottom: 25px;
+}
+
+.request{
+    font-size: large;
+    font-weight: 600;
+    padding: 0px;
+    margin: 0px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+.name{
+    font-size: large;
+    font-weight: 600;
+}
+
+.mobile{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 15px;
+}
+
+.address{
+    padding: 10px;
+    border: 1px solid darkslategray;
+    border-radius: 6px; 
+    display: flex;
+    flex-direction: column;
+    gap: 0px;   
+}
+
+.addressPlaceHolder{
+    margin-top: -25px;
+    background-color: white;
+    width: fit-content;
+    font-size: large;
+    font-weight:bold;
+    margin-bottom: 0px;
+}
+
+.inputField{
+    margin: 5px;
+    padding: 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.fieldName{
+    margin: 0px;
+}
+
+.field{
+    margin: 0px;
+    border: 1px solid darkslategrey;
+    height: 30px;
+    padding-left: 10px;
+    padding-right: 5px;
+    min-width: 150px;
+    border-radius: 4px;
+    margin-left: 4px;
+}
+
+.message{
+    padding: 0px;
+    margin: 0px;
+}
+
+.remark{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.orderType{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 3px;
+}
+
+.itemsListList{
+    margin-top: 15px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 90%;
+}
+  
+td,th {
+    border: 1px solid #ddd;
+    padding: 7px;
+    text-align: left;
+}
+  
+  
+tr:hover {background-color: #ddd;}
+  
+th {
+    background-color: green;
+    color: white;
+}
+
+
+.noRequests{
+    display: grid;
+    flex-direction: column;
+    justify-items:center;
+    width: 100%;
+    /* //background-color: #eeeeee; */
+    height: 100vh;
+}
