@@ -70,7 +70,7 @@ p {
   grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
   justify-content: space-around;
   margin: 1rem;
-  width: min(100%, 350px);
+  width: min(100%, 400px);
 }
 .buttonsContainer button {
   color: black;
