@@ -20,7 +20,7 @@
     grid-template-columns: 30% 30% 15% 25%;
     grid-template-rows: auto;
     grid-template-areas: 
-        "date requestType . requestStatus"
+        "date requestType covidStatus requestStatus"
         "category1 category2 category3 viewButton";
     border-radius: 4px;
     box-shadow: 0 0 5px #242323 ;
@@ -43,7 +43,16 @@
     margin: auto;
     padding: 3px;
 }
-
+.covidStatus
+{
+    color: white;
+    margin: auto;
+    grid-area: covidStatus;
+    border-radius: 10px;
+    border: 2px solid rgb(184, 5, 5);
+    background-color: rgb(216, 0, 0);
+    padding: 0px 3px 0px 3px;
+}
 .medicines
 {
     color: white;
