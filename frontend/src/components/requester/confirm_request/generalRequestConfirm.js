@@ -11,9 +11,9 @@ import { useRef } from "react";
 import { useSessionStorageState } from "../../../utils/useLocalStorageState";
 
 const ConfirmRequestGeneral = () => {
-  const [paymentPrefer, setPaymentPrefer] = useSessionStorageState("payement", "");
+  const [paymentPrefer, setPaymentPrefer] = useState([]);
+  const [deliveryRemarks, setDeliveryRemarks] = useSessionStorageState('remarks', '');
   const [noContactDeliver, setNoContactDeliver] = useSessionStorageState("nocontact", false);
-  const [deliveryRemarks, setDeliverRemarks] = useSessionStorageState("remarks", "");
   const [covidStatus, setCovidStatus] = useSessionStorageState("covidStatus", false);
   const history = useHistory();
   const { token } = useContext(AuthContext);
@@ -21,6 +21,7 @@ const ConfirmRequestGeneral = () => {
   const [dialogData, setDialogData] = useState({ show: false, msg: "" });
   const [cancel, setCancel] = useState(false);
   const routeRedirect = useRef('/my_requests')
+  // console.log(paymentPrefer)
   const _handleConfirm = () => {
     setDialogData({
       show: true,
@@ -35,8 +36,7 @@ const ConfirmRequestGeneral = () => {
     });
   };
 
-
-
+  
   return (
     <div className={ConfirmReqCSS.confirmRequestDiv}>
       <Navbar
@@ -88,70 +88,61 @@ const ConfirmRequestGeneral = () => {
         }}
       />
       <div>
-        <p className={ConfirmReqCSS.paymentLabel}>Select Payment Preference:</p>
-        <div onChange={(e) => setPaymentPrefer(e.target.value)}>
-          <input
-            className={ConfirmReqCSS.radioBtn}
-            type="radio"
-            name="payment"
-            value="Cash"
-          />
-          <label className={ConfirmReqCSS.radioLabel}>Cash</label>
-          <input
-            className={ConfirmReqCSS.radioBtn}
-            type="radio"
-            name="payment"
-            value="Paytm"
-          />
-          <label className={ConfirmReqCSS.radioLabel}>Paytm</label>
-          <input
-            className={ConfirmReqCSS.radioBtn}
-            type="radio"
-            name="payment"
-            value="Gpay"
-          />
-          <label className={ConfirmReqCSS.radioLabel}>G-Pay</label>
-          <input
-            className={ConfirmReqCSS.radioBtn}
-            type="radio"
-            name="payment"
-            value="PhonePay"
-          />
-          <label className={ConfirmReqCSS.radioLabel}>PhonePay</label>
-        </div>
-      </div>
-      <div className={ConfirmReqCSS.generalRequestDiv}>
-        <div className={ConfirmReqCSS.noContactDelDiv}>
-          <label>NO CONTACT DELIVERY</label>
-          <input
-            className={ConfirmReqCSS.noContactDelCheckbox}
-            type="checkbox"
-            onChange={() => setNoContactDeliver(!noContactDeliver)}
-          />
-          <br />
-        </div>
-        <div style={{ padding: '0.8em' }}>
-          <label className={ConfirmReqCSS.delRemarksDiv}>
-            Delivery Remarks:
-          </label>
-          <br />
-          <textarea
-            type="text"
-            rows='6'
-            className={ConfirmReqCSS.delRemarksText}
-            onChange={(e) => setDeliverRemarks(e.target.value)}
-          />
-          <br />
-        </div>
-        <div className={ConfirmReqCSS.covidStat}>
-          <span>Are you COVID positive?</span>
-          <br />
-          <input
-            type="checkbox"
-            className={ConfirmReqCSS.covidStatCheckbox}
-            onChange={() => setCovidStatus(!covidStatus)}
-          ></input>
-          <br />
+             <p className = {ConfirmReqCSS.paymentLabel}>Select Payment Preference:</p> 
+            <div className = {ConfirmReqCSS.up_list} 
+            onChange = {(e)=>{
+                if (e.target.checked){
+                    setPaymentPrefer(paymentPrefer => [...paymentPrefer,e.target.value])
+                }
+                else{
+                    setPaymentPrefer(paymentPrefer.filter(item => item!== e.target.value))
+                }
+            }}>
+                <div>
+                    <label className={ConfirmReqCSS.up_check_label}>Cash
+                    <input type="checkbox" value = "CASH" />
+                    <span className={`${ConfirmReqCSS.up_check} ${ConfirmReqCSS.check_1}`}></span>
+                    </label>
+                </div>
+                <div>
+                    <label className={ConfirmReqCSS.up_check_label}>Paytm
+                    <input type="checkbox" value = "PAYTM" />
+                    <span className={`${ConfirmReqCSS.up_check} ${ConfirmReqCSS.check_1}`}></span>
+                    </label>
+                </div>
+                <div>
+                    <label className={ConfirmReqCSS.up_check_label}>G-pay
+                    <input type="checkbox" value = "GPAY" />
+                    <span className={`${ConfirmReqCSS.up_check} ${ConfirmReqCSS.check_1}`}></span>
+                    </label>
+                </div>
+            
+            
+            </div>    
+            </div>
+                <div className = {ConfirmReqCSS.generalRequestDiv}>
+                    <div  className ={ConfirmReqCSS.noContactDelDiv}>
+                        <label className = {ConfirmReqCSS.noContactTxt}>NO CONTACT DELIVERY</label>
+                        <input  className ={ConfirmReqCSS.noContactDelCheckbox} type = "checkbox"
+                        onChange = {()=>setNoContactDeliver(!noContactDeliver)}  /><br/>
+                    </div>
+                <div className = {ConfirmReqCSS.delRemarksDiv} >
+                    <label className = {ConfirmReqCSS.delTxt}>Delivery Remarks:</label>
+                    {/* <textarea type = "text" className = {ConfirmReqCSS.delRemarksText}
+                    onChange = {(e)=>setDeliveryRemarks(e.target.value)} /><br /> */}
+                    <textArea   placeholder = {'Please enter your instructions here'} 
+                    name = "deliveryRemarks" rows = {'7'} cols = {'50'} width = {'367px'} 
+                    onChange = {(e)=>setDeliveryRemarks(e.target.value)}    />
+                </div>
+                <div className = {ConfirmReqCSS.covidStat}>
+                    <span>Are you COVID positive?</span>
+                </div>
+                <div className = {ConfirmReqCSS.covidStatCheck}>
+                    <input type = 'checkbox' className = {ConfirmReqCSS.covidStatCheckbox}
+                    onChange = {()=>setCovidStatus(!covidStatus)}></input><br />
+                    </div>
+          
+          <div className = {ConfirmReqCSS.btns}>
           <button
             onClick={_handleCancel}
             className={ConfirmReqCSS.cancelRequestBtn}
@@ -166,9 +157,9 @@ const ConfirmRequestGeneral = () => {
             Place Request
             <i className="fas fa-arrow-right" style={{ marginLeft: "1em" }}></i>
           </button>
+          </div>
         </div>
       </div>
-    </div>
   );
 };
 
