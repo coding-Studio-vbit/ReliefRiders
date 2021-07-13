@@ -82,4 +82,23 @@ router.get("/myRequests", (req, res) => {
 	})
 });
 
+router.get("/myRequests/:id", (req, res) => {
+    requester.find({ phoneNumber: req.user.phoneNumber })
+        .then(doc => {
+            if (!doc)
+                throw { status: "failure", message: "Invalid user!" };
+            return request.findOne({ requesterID: doc._id, requestNumber: req.params.id });
+        })
+        .then(doc => {
+             if(!doc)
+                res.json({status:"failure", message:"No such request!"});
+            else
+                res.json({ status: "success", message: doc });
+        })
+        .catch(error => {
+            console.log(error);
+            return res.json(error);
+        })
+});
+
 module.exports = router;

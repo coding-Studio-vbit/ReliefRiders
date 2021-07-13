@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import { BrowserRouter } from 'react-router-dom';
 import RiderHome from './RiderHome';
 import RiderProfileRoutes from "../../rider/profile/profileRouting";
+import CurrentRequest from '../../rider/current_request/currentRequest';
 
 const RiderHomeRoutes = () => {
     return ( 
@@ -15,7 +16,7 @@ const RiderHomeRoutes = () => {
                 newDelivery
             </Route>
             <Route path="/current_request" >
-                NewRequestHere
+                <CurrentRequest/>
             </Route>
             <Route path="/my_deliveries" >
                 MyProfileHere

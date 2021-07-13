@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from './input.module.css'
 
-
 /**
  * 
  * @param {*} props textAlign,size,minLength,value,placeholder,name,type,onChange,error,maxLength are the supported props
@@ -18,10 +17,7 @@ const InputField = ({ukey,textAlign,size,minLength,value,placeholder,name,type,o
             <br />
             {error && <span className={styles.errorMsg} >{error}</span>}
             {error && <div style={{ height: 1 + 'rem' }} ></div>}
-
         </div>
-
-
      );
 }
  
