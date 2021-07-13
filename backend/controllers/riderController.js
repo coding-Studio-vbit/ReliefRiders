@@ -116,6 +116,8 @@ async function finishDelivery(phoneNumber,fileData)
 				else {
 					requestDoc = doc;
 					requestDoc.requestStatus = "CONFIRMED BY RIDER";
+					requestDoc.billsImageList = billsImagePaths;
+					requestDoc.rideImages = rideImagePaths;
 					riderDoc.currentStatus = "AVAILABLE";
 					riderDoc.currentRequest = null;
 					return requestDoc.save();
