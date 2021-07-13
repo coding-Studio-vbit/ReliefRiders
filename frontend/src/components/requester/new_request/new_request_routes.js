@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Switch, Route } from "react-router";
 import ListType from "./ItemListType";
-import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { CSSTransition } from "react-transition-group";
 
 import UploadImages from "../../requester/new_request/upload_images";
 import EnterItemsForm from "../new_request/enter_items_form/enterItemsForm";
@@ -16,6 +16,7 @@ import "../../global_ui/fade_transition.css";
 
 const NewRequestRoutes = () => {
   const history = useHistory();
+  const nodeRef = useRef(null)
   const location = useLocation();
   useEffect(() => {
     const draft = history.location.pathname;
@@ -25,14 +26,17 @@ const NewRequestRoutes = () => {
   }, []);
   return (
   
-      <TransitionGroup appear={true}>
         <CSSTransition
+          appear
+          nodeRef={nodeRef}
+          in
           key={location.key}
           timeout={250}
           
           classNames="fade"
         >
-          <Switch location={location}>
+          <div ref={nodeRef} >
+          <Switch ref={nodeRef} location={location}>
             <Route path="/new_request/list_type">
               <ListType />
             </Route>
@@ -61,8 +65,8 @@ const NewRequestRoutes = () => {
               <RequestType />
             </Route>
           </Switch>
+          </div>
         </CSSTransition>
-      </TransitionGroup>
    
   );
 };
