@@ -29,12 +29,13 @@ import "./dialog.css";
  */
 const Dialog = ({ isShowing, msg, title = "Alert", onOK = () => {} }) => {
   const [inProp, setInProp] = useState(true);
-
+  const nodeRef = useRef(null)
   return isShowing
     ? ReactDOM.createPortal(
         <div id="mw" className="modal-wrapper">
           <CSSTransition
             appear
+            nodeRef={nodeRef}
             unmountOnExit
             in={inProp}
             onExited={() => {
@@ -47,7 +48,7 @@ const Dialog = ({ isShowing, msg, title = "Alert", onOK = () => {} }) => {
             timeout={200}
             classNames="scale-transition"
           >
-            <div id="modal" className="modal">
+            <div ref={nodeRef} id="modal" className="modal">
               <h3>{title}</h3>
               <p>{msg}</p>
 
