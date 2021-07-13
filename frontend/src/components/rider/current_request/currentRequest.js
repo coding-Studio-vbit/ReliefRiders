@@ -16,22 +16,17 @@ function currentRequest () {
     const history=useHistory();
   
     const [reqObj, setReqObj] = useState({
-        requestNumber:"101010",
-        requesterName:"Jon snow",//requesterID
-        requesterPhoneNumber:"9550710377",//requesterID
+        requestNumber:"",
+        requesterName:"",
+        requesterPhoneNumber:"",
 
-        requesterCovidStatus:true,
-        requestStatus:"PENDING",//need to use 
-        requestType:"GENERAL",
+        requesterCovidStatus:null,
+        requestStatus:"", 
+        requestType:"",
 
-        itemsListList:[
-            {itemName:"Paracetamol",quantity:"1 Strip"},
-            {itemName:"Potato",quantity:"1kg"},
-            {itemName:"Noodles",quantity:"1 packet"},
-            {itemName:"Dosa",quantity:"2 plates"},
-        ],
-        itemCategories:['GROCERIES','MISC','MEDICINES'],//need to use
-        Remarks:'Vamos Barca Mes que un club',
+        itemsListList:[],
+        itemCategories:[],
+        Remarks:'',
            
         pickupLocationCoordinates:{
             type: {type: String, default: "Point"},
@@ -77,10 +72,9 @@ function currentRequest () {
             headers: {
                 'authorization': 'Bearer ' + token
             }
-        }
-      
+        }      
         // eslint-disable-next-line no-undef
-        axios.get(`${process.env.REACT_APP_URL}+"/"`,options)
+        axios.get(`http://localhost:8000/rider/requestDetails/${requestID}"`,options)
         .then(function (response) {
             // handle success
             if(response.data.status==="success"){
