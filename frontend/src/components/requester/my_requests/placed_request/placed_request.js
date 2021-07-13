@@ -34,6 +34,7 @@ const PlacedRequest = () => {
         isShowing={dialogData.show}
         msg={dialogData.msg}
         setDialogData={setDialogData}
+        onCancel={()=>setCancel(false)}
         routeRedirect="my_requests"
         onOK={async () => {
           const res = await cancelConfirmRequest(
@@ -43,7 +44,7 @@ const PlacedRequest = () => {
           );
           console.log(res);
           if (res !== 1) {
-            setDialogData({ show: true, msg: res });
+            setDialogData({ ...dialogData, msg: res });
           } else {
             if (cancel)
               setDialogData({ ...dialogData, msg: "Cancelled successfully" });

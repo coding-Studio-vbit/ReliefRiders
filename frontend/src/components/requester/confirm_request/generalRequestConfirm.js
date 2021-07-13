@@ -46,12 +46,12 @@ const ConfirmRequestGeneral = () => {
       <ConfirmDialog
         isShowing={dialogData.show}
         msg={dialogData.msg}
+        onCancel={()=>setCancel(false)}
         setDialogData={setDialogData}
         routeRedirect={routeRedirect.current}
         onOK={async () => {
           if (cancel) {
             localStorage.setItem('draft','/new_request')
-
             localStorage.removeItem('new_request')
             sessionStorage.clear()
             history.replace("/");

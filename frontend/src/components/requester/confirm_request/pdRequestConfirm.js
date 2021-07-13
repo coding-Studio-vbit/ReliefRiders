@@ -33,6 +33,7 @@ const ConfirmRequestPD = () => {
 
       <ConfirmDialog
         isShowing={dialogData.show}
+        onCancel={()=>setCancel(false)}
         msg={dialogData.msg}
         setDialogData={setDialogData}
         routeRedirect={routeRedirect.current}
