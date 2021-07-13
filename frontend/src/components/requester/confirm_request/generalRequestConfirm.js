@@ -41,7 +41,6 @@ const ConfirmRequestGeneral = () => {
     <div className={ConfirmReqCSS.confirmRequestDiv}>
       <Navbar
         back={"address_drop"}
-        
         title="Place Request"
       />
       <ConfirmDialog

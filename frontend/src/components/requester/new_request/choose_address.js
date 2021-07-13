@@ -6,7 +6,6 @@ import { useHistory } from "react-router-dom";
 import { NewRequestContext } from "../../context/new_request/newRequestProvider";
 
 const ChooseAddress = ({ pickup }) => {
-  console.log(pickup);
   const {
     dispatch,
     state: {
@@ -19,11 +18,9 @@ const ChooseAddress = ({ pickup }) => {
     },
   } = useContext(NewRequestContext);
   const history = useHistory();
-  console.log(dropLocationCoordinates);
- 
 
   const [location, setlocation] = useState(
-    pickup?pickupLocation:dropLocation
+    pickup ? pickupLocation : dropLocation
   );
 
   const [errors, setErrors] = useState({
@@ -34,15 +31,13 @@ const ChooseAddress = ({ pickup }) => {
   });
 
   const proceed = () => {
-    const loc = location;
-
     if (pickup) {
-      dispatch({ type: "ADD_PICKUP_ADDRESS", payload: loc });
+      dispatch({ type: "ADD_PICKUP_ADDRESS", payload: location });
       history.push("address_drop");
     } else {
       dispatch({
         type: "ADD_DROP_ADDRESS",
-        payload: loc,
+        payload: location,
       });
       if (requestType === "general") {
         history.push("confirm_general");
@@ -52,13 +47,11 @@ const ChooseAddress = ({ pickup }) => {
 
   function submit(event) {
     event.preventDefault();
-    console.log(location);
     if (
       location.city !== "" &&
       location.area !== "" &&
       location.address !== ""
     ) {
-      console.log(location);
       proceed();
     } else {
       if (
@@ -150,7 +143,7 @@ const ChooseAddress = ({ pickup }) => {
     </p>
   );
   return (
-    <div key={pickup+"khkghug"} className={styles.chooseAddressPage}>
+    <div className={styles.chooseAddressPage}>
       <Navbar
         back={"unnecessary"}
         onBackClick={() => {
@@ -228,9 +221,7 @@ const ChooseAddress = ({ pickup }) => {
           <button
             type="button"
             onClick={() => {
-              history.push("map_location", {
-                isPickUp: pickup,
-              });
+              history.push("map_location/"+pickup);
             }}
             value="Choose Location"
             className={styles.locationBtn}

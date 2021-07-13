@@ -6,7 +6,7 @@ import { StandaloneSearchBox } from "@react-google-maps/api";
 import { useRef, useState } from "react";
 import { LoadingScreen } from "../../../global_ui/spinner";
 import { useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useContext } from "react/cjs/react.development";
 import { NewRequestContext } from "../../../context/new_request/newRequestProvider";
 
@@ -18,8 +18,9 @@ function Map() {
   };
   const history = useHistory();
   console.log(history.location.state);
-  const {location: {state: {isPickUp:isPickUp}} } = history
+  const {pickup } = useParams()
   
+  const isPickUp = pickup==='true'?true:false
   const {
     dispatch,
     state: { requestType, pickupLocationCoordinates, dropLocationCoordinates },
@@ -34,7 +35,6 @@ function Map() {
   const search = useRef({});
   const setCurrentLocation = () => {
     if (navigator.geolocation) {
-      console.log("u");
       navigator.geolocation.getCurrentPosition((position) => {
         setCenterMaps({
           lat: position.coords.latitude,
@@ -116,15 +116,15 @@ function Map() {
 
       }
     }
-    history.goBack()
+    history.replace(`/new_request/address_${isPickUp?'pickup':'drop'}`)
 
   };
-  return loading ? (
+  return (<div> {loading ? (
     <LoadingScreen />
   ) : (
     <div style={{ display: `grid`, height: "100%" }}>
       <Navbar
-        back={isPickUp ? "address_pickup" : "address_drop"}
+        back={isPickUp ? "/new_request/address_pickup" : "/new_request/address_drop"}
         title="Choose Location"
       />
 
@@ -187,6 +187,8 @@ function Map() {
       >
         Choose Pinned Address
       </button>
+    </div>
+   ) }
     </div>
   );
 }

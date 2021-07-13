@@ -27,7 +27,7 @@ const ConfirmRequestPD = () => {
   const { state } = useContext(NewRequestContext)
   const [dialogData, setDialogData] = useState({ show: false, msg: "" });
   const [cancel, setCancel] = useState(false);
-  console.log(deliveryRemarks)
+  
   return (
     <div className={ConfirmReqCSS.confirmRequestDiv}>
 

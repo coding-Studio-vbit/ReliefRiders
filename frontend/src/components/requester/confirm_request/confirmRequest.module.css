@@ -47,11 +47,11 @@
 .noContactDelDiv {
   margin : 1em; 
   padding : 0.5em; 
-  font-size:1.2em;
+  font-size:clamp(1rem,3.5vw,1.2rem)
 } 
 
 .noContactDelCheckbox {
-  transform: scale(2);
+  transform: scale(1.7);
   margin-left: 2em;
   cursor: pointer;
   filter: hue-rotate(242deg);
@@ -63,10 +63,16 @@
   
 }
 .delRemarksText{
-  
+  font-size: 1rem;
   width: min(25rem,90%);
   resize: none;
+  outline:none;
+  border: 2px solid rgb(214, 211, 211);
+  border-radius: 8px;
   padding: 0.5em;
+}
+.delRemarksText:hover , .delRemarksText:focus{
+  border: 2px solid var(--primary);
 }
 
 .covidStat{
