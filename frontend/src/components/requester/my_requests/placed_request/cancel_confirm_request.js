@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 const cancelConfirmRequest = async (token, requestID,cancel=false) => {
     try {
         let url
@@ -22,7 +21,7 @@ const cancelConfirmRequest = async (token, requestID,cancel=false) => {
             return data.message;
         }
     } catch (error) {
-        return error;
+        return "Unable to access server, please try again later";
     }
 };
 export default cancelConfirmRequest;
