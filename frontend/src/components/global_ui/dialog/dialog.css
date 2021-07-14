@@ -18,7 +18,6 @@
   justify-self: center;
   margin: auto 0;
   width: min(85vw, 400px);
-  height: min(30vh,300px);
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.185), 0 10px 10px rgba(0, 0, 0, 0.225);
   gap: 1em;
   align-content: center;
