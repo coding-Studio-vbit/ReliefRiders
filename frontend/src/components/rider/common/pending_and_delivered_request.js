@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react'
-import styles from './currentRequest.module.css'
+import styles from './pending_and_delivered_request.module.css'
 import Navbar from '../../global_ui/nav'
 import Button from '../../global_ui/buttons/button'
 import axios from "axios"
