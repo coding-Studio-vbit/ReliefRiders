@@ -25,7 +25,7 @@ async function loginRequestOTP(type, phone)
 		.then(doc =>{
 			if(!doc)
 			{
-				resolve(sendError("No such phone number! Please register."));
+				throw (sendError("No such phone number! Please register."));
 			}
 			else
 			{
@@ -64,8 +64,17 @@ async function loginRequestOTP(type, phone)
 			resolve(sendResponse(`New OTP set`));
 		})
 		.catch(error=>{
-			console.log(error);
-			resolve(sendError("Internal Server Error"));
+			if(error.status == "failure")
+			{
+				//this is a server error
+				console.log(error);
+				resolve(sendError("Internal Server Error"));
+			}
+			else
+			{
+				//this is a user error
+				resolve(error);
+			}
 		})
 	});
 }

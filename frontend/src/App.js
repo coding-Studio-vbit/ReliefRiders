@@ -7,20 +7,23 @@ import {
   Route,
 } from "react-router-dom";
 import InitialHomeRouting from './components/home/initial_home/initialHomeRouting';
-import About from "./components/about/about"
-
+//import UploadImages from './components/global_ui/Imginput/ImgInput';
 function App() {
+
+
   return (
     <div className="App">
       <AuthProvider>
         <Router>
           <Switch>
-            <Route path="/about">
-              <About/>              
-            </Route>
-            <Route path="/temp">              
-              {/* TestYourScreensHere */}
-              Testing Screen
+            <Route path="/temp">
+              TestYourScreensHere
+              {/* <UploadImages 
+              imgHeader="Upload Images: "
+              imgText="Tap to add"
+              name="Bills"
+              setImages={setUrl}              
+                /> */}
             </Route>
             <Route path="/">
               <InitialHomeRouting />

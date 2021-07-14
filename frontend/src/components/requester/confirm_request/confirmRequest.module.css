@@ -125,6 +125,9 @@ filter: hue-rotate(242deg);
   font-size: 1em;
   font-weight: bold;  
 }
+.delRemarksText:hover , .delRemarksText:focus{
+  border: 2px solid var(--primary);
+}
 
 .covidStat{
 display: grid;
