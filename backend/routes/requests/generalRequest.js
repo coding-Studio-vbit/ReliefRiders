@@ -113,7 +113,7 @@ router.post('/new', upload.any('images'), (req, res) => {
                 noContactDelivery: req.body.noContactDelivery, // Added no contact delivery
                 requestStatus: "PENDING",
                 requestType: 'GENERAL',
-                paymentPreference : req.body.paymentPreference,
+                paymentPreference : JSON.parse(req.body.paymentPreference),
                 itemsListImages: paths,
                 itemsListList: JSON.parse(req.body.itemsListList),
                 itemCategories: JSON.parse(req.body.itemCategories),
