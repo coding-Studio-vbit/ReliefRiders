@@ -5,48 +5,49 @@ import Button from '../../global_ui/buttons/button'
 import axios from "axios"
 import {LoadingScreen} from "../../global_ui/spinner"
 import {Dialog} from "../../global_ui/dialog/dialog"
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 
 
 function currentRequest () {
     const [error, seterror] = useState(null);
     const [isLoading, setisLoading] = useState(false); 
     const token = localStorage.getItem('token')
-    const requestID=localStorage.getItem('currentRequestID');
     const history=useHistory();
-  
+    const location=useLocation();
+
     const [reqObj, setReqObj] = useState({
-        requestNumber:"",
-        requesterName:"",
-        requesterPhoneNumber:"",
+        requestNumber:"101010",
+        requesterName:"Jon snow",//requesterID
+        requesterPhoneNumber:"9550710377",//requesterID
 
-        requesterCovidStatus:null,
-        requestStatus:"", 
-        requestType:"",
+        requesterCovidStatus:true,
+        requestStatus:"PENDING",//need to use 
+        requestType:"GENERAL",
 
-        itemsListList:[],
-        itemCategories:[],
-        Remarks:'',
-           
+        itemsListList:[
+            {itemName:"Paracetamol",quantity:"1 Strip"},
+            {itemName:"Potato",quantity:"1kg"},
+            {itemName:"Noodles",quantity:"1 packet"},
+            {itemName:"Dosa",quantity:"2 plates"},
+        ],
+        itemCategories:['GROCERIES','MISC','MEDICINES'],//need to use
+        Remarks:'Vamos Barca Mes que un club',
+   
         pickupLocationCoordinates:{
-            type: {type: String, default: "Point"},
-            coordinates: [Number]
+            coordinates: [20,30]
         },    
         pickupLocationAddress:{
             addressLine: "A",
             area: "B",
             city: "C",
-            pincode:"D",
         },    
         dropLocationCoordinates:{
-            type: {type: String, default: "Point"},
-            coordinates: [Number]
+            coordinates: []
         },
         dropLocationAddress:{
             addressLine: "P",
             area: "Q",
-            city: "R",
-            pincode:"S",
+            city: "R"
         }
     });
 
@@ -67,14 +68,15 @@ function currentRequest () {
     }
 
     useEffect(() => {
-        setisLoading(true);       
+        setisLoading(true); 
+        console.log(10,location.state);      
         const options = {
             headers: {
                 'authorization': 'Bearer ' + token
             }
         }      
         // eslint-disable-next-line no-undef
-        axios.get(`http://localhost:8000/rider/requestDetails/${requestID}"`,options)
+        axios.get(`http://localhost:8000/rider/requestDetails/${location.state}"`,options)
         .then(function (response) {
             // handle success
             if(response.data.status==="success"){
@@ -99,24 +101,20 @@ function currentRequest () {
                 Remarks:'Vamos Barca Mes que un club',
            
                 pickupLocationCoordinates:{
-                    type: {type: String, default: "Point"},
-                    coordinates: [Number]
+                    coordinates: []
                 },    
                 pickupLocationAddress:{
                     addressLine: "A",
                     area: "B",
-                    city: "C",
-                    pincode:"D",
+                    city: "C"
                 },    
                 dropLocationCoordinates:{
-                    type: {type: String, default: "Point"},
-                    coordinates: [Number]
+                    coordinates: [10,20]
                 },
                 dropLocationAddress:{
                     addressLine: "P",
                     area: "Q",
-                    city: "R",
-                    pincode:"S",
+                    city: "R"
                 }
             });
             }
@@ -139,7 +137,7 @@ function currentRequest () {
 
 
     return (
-        requestID?(
+        location.state?(
         !isLoading?
         (
             !error?
@@ -184,94 +182,128 @@ function currentRequest () {
                     
                     </div>
 
+                    {/* GENERAL REQUEST */}
                     {
                         reqObj.requestType==="GENERAL"&&
                         <div>
-                            <div className={styles.address} style={{marginBottom:'5px'}}>
-                                <p className={styles.addressPlaceHolder}>Address</p>
-                                <h4 style={{fontWeight:'500',margin:'4px'}}>{reqObj.dropLocationAddress.addressLine}</h4>
+                            {
+                                (
+                                    reqObj.dropLocationAddress.addressLine &&
+                                    reqObj.dropLocationAddress.city &&
+                                    reqObj.dropLocationAddress.area
+                                )
+                                &&
+                                <div className={styles.address} style={{marginBottom:'5px'}}>
+                                    <p className={styles.addressPlaceHolder}>Address</p>
+                                    <h4 style={{fontWeight:'500',margin:'4px'}}>{reqObj.dropLocationAddress.addressLine}</h4>
 
-                                <div className={styles.inputField}>
-                                    <p className={styles.fieldName}>Area</p>
-                                    <p className={styles.field}>{reqObj.dropLocationAddress.area}</p>
+                                    <div className={styles.inputField}>
+                                        <p className={styles.fieldName}>Area</p>
+                                        <p className={styles.field}>{reqObj.dropLocationAddress.area}</p>
+                                    </div>
+
+                                    <div className={styles.inputField}>
+                                        <p className={styles.fieldName}>City</p>
+                                        <p className={styles.field}>{reqObj.dropLocationAddress.city}</p>
+                                    </div>
                                 </div>
-
-                                <div className={styles.inputField}>
-                                    <p className={styles.fieldName}>City</p>
-                                    <p className={styles.field}>{reqObj.dropLocationAddress.city}</p>
-                                </div>
-                            </div>
-
-                            <Button color="brown" bgColor="white" isBlock="true" isRounded="true"
-                            text="Open location through google maps"
-                            borderWidth="1px"
-                            borderColor="darkslategrey"
-                            icon="fas fa-map-marker-alt"
-                            iconPosition="right"
-                            onClick={()=>navigateToGoogleMaps()}
-                            />
+                            }                           
+                            {
+                                reqObj.dropLocationCoordinates.coordinates.length!=0 &&
+                                <Button color="brown" bgColor="white" isBlock="true" isRounded="true"
+                                text="Open location through google maps"
+                                borderWidth="1px"
+                                borderColor="darkslategrey"
+                                icon="fas fa-map-marker-alt"
+                                iconPosition="right"
+                                onClick={()=>navigateToGoogleMaps()}
+                                />
+                            }                            
                         </div>
-                        
                     }
 
+                    {/* P&D REQUEST */}
                     {
                         reqObj.requestType==="P&D"&&
                         <div>
+                            {/* {PICK UP LOCATION} */}
                             <p style={{marginBottom:'13px'}}>
                                 <i className="fas fa-map-marker-alt" style={{marginRight:'5px'}}></i>
                                 PickUp Location
                             </p>
-                            <div className={styles.address} style={{marginBottom:'5px'}}>
-                                <p className={styles.addressPlaceHolder}>Address</p>
-                                <h4 style={{fontWeight:'500',margin:'4px'}}>{reqObj.pickupLocationAddress.addressLine}</h4>
+                            {
+                                (
+                                    reqObj.pickupLocationAddress.addressLine &&
+                                    reqObj.pickupLocationAddress.city &&
+                                    reqObj.pickupLocationAddress.area
+                                )&&                                
+                                <div className={styles.address} style={{marginBottom:'5px'}}>
+                                    <p className={styles.addressPlaceHolder}>Address</p>
+                                    <h4 style={{fontWeight:'500',margin:'4px'}}>{reqObj.pickupLocationAddress.addressLine}</h4>
 
-                                <div className={styles.inputField}>
-                                    <p className={styles.fieldName}>Area</p>
-                                    <p className={styles.field}>{reqObj.pickupLocationAddress.area}</p>
+                                    <div className={styles.inputField}>
+                                        <p className={styles.fieldName}>Area</p>
+                                        <p className={styles.field}>{reqObj.pickupLocationAddress.area}</p>
+                                    </div>
+
+                                    <div className={styles.inputField}>
+                                        <p className={styles.fieldName}>City</p>
+                                        <p className={styles.field}>{reqObj.pickupLocationAddress.city}</p>
+                                    </div>
                                 </div>
+                                                               
+                            }
+                            {
+                                reqObj.pickupLocationCoordinates.coordinates.length!=0
+                                &&
+                                <Button color="brown" bgColor="white" isBlock="true" isRounded="true"
+                                text="Open location through google maps"
+                                borderWidth="1px"
+                                borderColor="darkslategrey"
+                                icon="fas fa-map-marker-alt"
+                                iconPosition="right"
+                                onClick={()=>navigateToGoogleMaps()}
+                                />
+                            }  
 
-                                <div className={styles.inputField}>
-                                    <p className={styles.fieldName}>City</p>
-                                    <p className={styles.field}>{reqObj.pickupLocationAddress.city}</p>
-                                </div>
-                            </div>
-
-                            <Button color="brown" bgColor="white" isBlock="true" isRounded="true"
-                            text="Open location through google maps"
-                            borderWidth="1px"
-                            borderColor="darkslategrey"
-                            icon="fas fa-map-marker-alt"
-                            iconPosition="right"
-                            onClick={()=>navigateToGoogleMaps()}
-                            />
-
-
+                            {/* DROP LOCATION */}
                             <p style={{marginBottom:'13px'}}>
                                 <i className="fas fa-map-marker-alt" style={{marginRight:'5px'}}></i>
                                 Drop Location
                             </p>
-                            <div className={styles.address} style={{marginBottom:'5px'}}>
-                                <p className={styles.addressPlaceHolder}>Address</p>
-                                <h4 style={{fontWeight:'500',margin:'4px'}}>{reqObj.dropLocationAddress.addressLine}</h4>
- 
-                                <div className={styles.inputField}>
-                                    <p className={styles.fieldName}>Area</p>
-                                    <p className={styles.field}>{reqObj.dropLocationAddress.area}</p>
-                                </div>
-                                <div className={styles.inputField}>
-                                    <p className={styles.fieldName}>City</p>
-                                    <p className={styles.field}>{reqObj.dropLocationAddress.city}</p>
-                                </div>
-                            </div>
+                            {
 
-                            <Button color="brown" bgColor="white" isBlock="true" isRounded="true"
-                            text="Open location through google maps"
-                            borderWidth="1px"
-                            borderColor="darkslategrey"
-                            icon="fas fa-map-marker-alt"
-                            iconPosition="right"
-                            onClick={()=>navigateToGoogleMaps()}
-                            />
+                                (
+                                    reqObj.dropLocationAddress.addressLine &&
+                                    reqObj.dropLocationAddress.city &&
+                                    reqObj.dropLocationAddress.area
+                                )&&                               
+                                <div className={styles.address} style={{marginBottom:'5px'}}>
+                                    <p className={styles.addressPlaceHolder}>Address</p>
+                                    <h4 style={{fontWeight:'500',margin:'4px'}}>{reqObj.dropLocationAddress.addressLine}</h4>
+    
+                                    <div className={styles.inputField}>
+                                        <p className={styles.fieldName}>Area</p>
+                                        <p className={styles.field}>{reqObj.dropLocationAddress.area}</p>
+                                    </div>
+                                    <div className={styles.inputField}>
+                                        <p className={styles.fieldName}>City</p>
+                                        <p className={styles.field}>{reqObj.dropLocationAddress.city}</p>
+                                    </div>
+                                </div>                                
+                            } 
+                            {
+                                reqObj.dropLocationCoordinates.coordinates.length!=0
+                                &&
+                                <Button color="brown" bgColor="white" isBlock="true" isRounded="true"
+                                text="Open location through google maps"
+                                borderWidth="1px"
+                                borderColor="darkslategrey"
+                                icon="fas fa-map-marker-alt"
+                                iconPosition="right"
+                                onClick={()=>navigateToGoogleMaps()}
+                                />
+                            }                    
                         </div>
                     }                    
 
@@ -320,11 +352,16 @@ function currentRequest () {
                             </table>                                       
                         </div>
 
-                        <div style={{marginTop:'50px',textAlign:'center'}}>
+                        {
+                            reqObj.requestStatus==="PENDING" &&
+                            <div style={{marginTop:'50px',textAlign:'center'}}>
                             <Button text="Make Delivery" isRounded="true" isBlock="true" isElevated="true"
                                 onClick={()=>makeDelivery()}
-                            />
-                        </div>
+                                />
+                            </div>
+                        }
+
+                        
                     </div>
                     
                 </div>           
@@ -343,7 +380,8 @@ function currentRequest () {
                 color:'#757575',
                 fontWeight:"lighter"
                 }}
-            >You have not taken up any requests currently</h3>
+            >Invalid RequestID</h3>
+            
             
             <Button 
             bgColor="green" 
