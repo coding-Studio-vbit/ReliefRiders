@@ -47,22 +47,3 @@
 .card i {
   cursor: pointer;
 }
-
-
-
-.itemcontainer {
-  margin-top:2rem;
-  
-  /* width:clamp(240px,80%,400px); */
-  
-  padding:0.2em;
-}
-
-.card{
-  margin: 0.5em;
- 
-  
-  background-color: rgba(128, 87, 87, 0.048);
-  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.137);
-  padding: 0.5em;
-}
