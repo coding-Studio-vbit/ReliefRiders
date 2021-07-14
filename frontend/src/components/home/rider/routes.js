@@ -2,6 +2,9 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { BrowserRouter } from 'react-router-dom';
 import RiderHome from './RiderHome';
+import RiderProfileRoutes from "../../rider/profile/profileRouting";
+import CurrentRequest from '../../rider/current_request/currentRequest';
+
 const RiderHomeRoutes = () => {
     return ( 
         <BrowserRouter basename="/home/rider">
@@ -13,13 +16,13 @@ const RiderHomeRoutes = () => {
                 newDelivery
             </Route>
             <Route path="/current_request" >
-                NewRequestHere
+                <CurrentRequest/>
             </Route>
             <Route path="/my_deliveries" >
                 MyProfileHere
             </Route>
             <Route path="/my_profile" >
-                MyProfileHere
+              <RiderProfileRoutes/>                
             </Route>
         </Switch>
         </BrowserRouter>

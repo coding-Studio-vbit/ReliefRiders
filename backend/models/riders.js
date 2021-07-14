@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require('validator');
+const OTPSchema = require("./otpSchema");
+
 const user = new mongoose.Schema({
 
   phoneNumber: {
@@ -33,11 +35,10 @@ const user = new mongoose.Schema({
     enum: ["P&D","GENERAL"]
   },
   currentRequest: {
-    requestID: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Number,
       default : null
-    }
-  }
+  },
+  OTP: OTPSchema
 });
 
 

@@ -1,57 +1,114 @@
-//Author: Poojitha
+//Author: Poojitha, Sai Kiran
 
 const express = require("express");
 const router = express.Router();
-const rider = require("../../models/riders");
+const riderController = require("../../controllers/riderController");
 const verifyToken = require("../common/tokenAuth");
+const {sendError, sendResponse} = require("../../controllers/common");
 
 const checkIsRider = (req, res, next) => {
-  if (req.user.userType == 'rider')
+  if (req.user.type == 'rider')
     next();
   else
-    res.json({ status: "failure", message: "You are not a rider." });
+  	res.json(sendResponse("You are not a rider"));
 }
 
 router.use(verifyToken);
 router.use(checkIsRider);
 
 router.get("/profile", function (req, res) {
-  rider.findOne({ phoneNumber: req.user.phoneNumber }, { phoneNumber: 1, name: 1, defaultAddress: 1 }, function (err, result) {
-    if (err) {
-      res.json({
-        status: "failure",
-        message: "Unable to retrieve data"
-      })
-      console.error(err);
-    }
-    else {
-      res.json({
-        status: "success",
-        message: "Rider's profile",
-        result: result
-      })
-    }
-  })
+	riderController.getRiderProfile(req.user.phoneNumber)
+	.then(response=>{
+		res.json(response);
+	})
+	.catch(error=>{
+		console.log(error);
+		res.json(sendError("Internal Server Error"));
+	})
 })
 
 
 router.put("/profile", function (req, res) {
-  rider.findOneAndUpdate({ phoneNumber: req.user.phoneNumber }, { $set: { name: req.body.name } }, { new: true }, function (err, doc) {
-    if (err) {
-      res.json({
-        status: "failure",
-        message: "Unable to retrieve data"
-      })
-      console.error(err);
-    }
-    else {
-      res.json({
-        status: "success",
-        message: "Rider's profile updated"
-      })
-    }
-  })
+	riderController.updateRiderProfile(req.user.phoneNumber, req.body.name)
+	.then(response=>{
+		res.json(response);
+	})
+	.catch(error=>{
+		console.log(error);
+		res.json(sendError("Internal Server Error"));
+	})
 })
 
+router.get("/makeDelivery/:requestID", (req, res)=>{
+	
+	if(!req.params.requestID)
+		res.json(sendError("No request ID mentioned"));
+	else
+	{
+		ridercontroller.makedelivery(req.user.phonenumber, req.params.requestid)
+		.then(response=>{
+			res.json(response);
+		})
+		.catch(error=>{
+			console.log(error);
+			res.json(senderror("internal server error"));
+		})
+	}
+})
+
+
+router.get("/finishDelivery", (req, res)=>{
+
+	riderController.finishDelivery(req.user.phoneNumber)
+	.then(response=>{
+		res.json(response);
+	})
+	.catch(error=>{
+		console.log(error);
+		res.json(senderror("internal server error"));
+	})
+})
+
+router.get("/cancelDelivery", (req, res)=>{
+	
+	riderController.cancelDelivery(req.user.phoneNumber)
+	.then(response=>{
+		res.json(response);
+	})
+	.catch(error=>{
+		console.log(error);
+		res.json(senderror("internal server error"));
+	})
+})
+
+router.get("/requestDetails/:requestID", ( req, res )=>{
+
+	if(!req.params.requestID)
+		res.json(sendError("No request ID mentioned"));
+	else
+	{
+		riderController.getRequestDetails(req.params.requestID)
+		.then(response=>{
+			res.json(response);
+		})
+		.catch(error=>{
+			console.log(error);
+			res.json(senderror("internal server error"));
+		})
+	}
+
+})
+
+router.get("/myDeliveries", (req, res)=>{
+	
+		riderController.getMyDeliveries(req.user.phoneNumber)
+		.then(response=>{
+			res.json(response);
+		})
+		.catch(error=>{
+			console.log(error);
+			res.json(senderror("internal server error"));
+		})
+})
 
 module.exports = router;

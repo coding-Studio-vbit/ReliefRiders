@@ -36,7 +36,7 @@ const InitialHomeRouting = () => {
                 isAuthenticated={isAuthenticated}
                 path="/home/requester"
             >
-                <RequesterHomeRoutes />
+                <RequesterHomeRoutes/>
             </ProtectedRoute>
 
             <ProtectedRoute

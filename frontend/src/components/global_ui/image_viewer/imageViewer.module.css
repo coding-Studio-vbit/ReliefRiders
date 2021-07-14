@@ -1,0 +1,50 @@
+.viewer {
+  background: rgba(0, 0, 0, 0.15);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: grid;
+  opacity: 0;
+  animation: fade forwards 300ms;
+
+  width: 100vw;
+  height: 100vh;
+}
+.modal {
+  display: grid;
+  place-content: center;
+  gap: 20px;
+  transform: scale(0.1);
+  animation: zoomin forwards 250ms;
+}
+.viewer img {
+  width: min(90%, 800px);
+
+  justify-self: center;
+}
+.viewer i {
+  font-size: 1.7rem;
+  justify-self: center;
+  cursor: pointer;
+  color: rgb(51, 51, 51);
+}
+.viewer i:hover{
+  transform: scale(1.1);
+}
+.actions{
+  justify-self: center;
+}
+.actions i:first-child{
+  margin-right: 32px;
+  
+}
+@keyframes zoomin {
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes fade {
+  to {
+    opacity: 1;
+  }
+}

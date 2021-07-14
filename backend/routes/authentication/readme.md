@@ -32,7 +32,8 @@ get OTP verified for registered riders/requesters.
 ```json
 	{
 		"phone":"<10 digit phone number>",
-		"OTP":"<6 digit OTP here>"
+		"OTP":"<6 digit OTP here>",
+		"type":"<userType here>"
 	}
 ```
 #### response:

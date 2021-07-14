@@ -1,221 +1,250 @@
-import React, { useContext, useState } from "react";
-import {Spinner} from "../../global_ui/spinner";
-import { AuthContext } from "../../context/auth/authProvider";
+import React, { useContext, useEffect, useState } from "react";
 import InputField from "../../global_ui/input";
-import Navbar from '../../global_ui/nav';
+import Navbar from "../../global_ui/nav";
 import styles from "./PinAddress.module.css";
 import { useHistory } from "react-router-dom";
-
+import { NewRequestContext } from "../../context/new_request/newRequestProvider";
+import { useSessionStorageState } from "../../../utils/useLocalStorageState";
 
 const PinAddress = () => {
-    const { loading} = useContext(AuthContext);
-    //const route = useHistory();
-    const history = useHistory();
+  const {
+    dispatch,
+    state: { requestType, uploadItemsList, pickupLocation, dropLocation },
+  } = useContext(NewRequestContext);
+  const history = useHistory();
+  const {
+    location: { state },
+  } = history;
 
-    const routehandler = (route) => {
-        history.push(route);
-    };
-    const [location, setlocation] = useState({
-      address: "",
-      city: "",
-      pincode: "",
-    });
-
-    //const { state: { type }, } = useLocation();
-    const [errors, setErrors] = useState({
-        address: null,
-        city: null,
-        pincode: null,
-      });
-      function submit(event) {
-        event.preventDefault();
-        if(errors.city===errors.pincode===errors.address===null){
-          //http request to be performed
-        }
-        setErrors({
-          ...errors,
-          showErrors: true,
-        });
-        
+  useEffect(() => {
+    if (state) {
+      if (state.isPickUp) {
+        setlocation(pickupLocation);
+      } else {
+        setlocation(dropLocation);
       }
-      const _handleAddress = (e) => {
-        const address = e.target.value;
-        const regE = /^[a-zA-Z0-9\s,'-]*$/;
-        if (address === "") {
-          setErrors({
-            ...errors,
-    
-            address: "Please enter your address",
-          });
-        } 
-        else if (!regE.test(address)) {
-            setErrors({
-              ...errors,
-              address: "Please enter a valid address(symbols allowed are : - / . ,)",
-            });
-        }
-        else {
-          setErrors({
-            ...errors,
-            address: "",
-          });
-        }
-        setlocation({
-          ...location,
-          address: e.target.value,
-        });
-      };
 
-      const _handleCity = (e) => {
-        const city = e.target.value;
-        if (city === "") {
-            setErrors({
-              ...errors,
-      
-              city: "Please enter the city",
-            });
-          } else {
-            setErrors({
-              ...errors,
-              city: "",
-            });
-          }
-          setlocation({
-            ...location,
-            city: e.target.value,
-          });
-      };
-      
+      setPickup(state.isPickUp);
+    }
+    // }else if(requestType === 'p&d') setlocation(pickupLocation)
+    // else if(dropLocation) setlocation(dropLocation)
+  }, []);
 
-      const _handlePincode = (e) => {
-        const pincode = e.target.value;
-        const regE = /^[0-9]*$/;
-        if (pincode.length < 6 || pincode.length > 6) {
-          setErrors({
-            ...errors,
-            showErrors: true,
-            pincode: "Pincode must contain 6 digits",
-          });
-        } else if (!regE.test(pincode)) {
-          setErrors({
-            ...errors,
-            pincode: "Please enter a valid pincode",
-          });
+  const [pickup, setPickup] = useSessionStorageState("addressType", true);
+
+  const routehandler = (route) => {
+    const p = pickup;
+    setPickup(false);
+    history.push(route + "/" + p);
+  };
+
+  const [location, setlocation] = useState({
+    address: "",
+    city: "",
+    area: "",
+  });
+
+  const [errors, setErrors] = useState({
+    address: "Enter address",
+    city: "Enter city",
+    area: "Enter area",
+    showErrors: false,
+  });
+
+  function submit(event) {
+    event.preventDefault();
+    console.log(location);
+    if (
+      location.city !== "" &&
+      location.area !== "" &&
+      location.address !== ""
+    ) {
+      //http request to be performed
+      if (pickup && requestType === "p&d") {
+        dispatch({ type: "ADD_PICKUP_ADDRESS", payload: location });
+        if (Object.keys(dropLocation).length !== 0) {
+          setlocation(dropLocation);
         } else {
-          setErrors({
-            ...errors,
-            pincode: null,
+          setlocation({
+            address: "",
+            city: "",
+            area: "",
           });
         }
-        setlocation({
-          ...location,
-          pincode: e.target.value,
+        setPickup(false);
+      } else {
+        dispatch({
+          type: "ADD_DROP_ADDRESS",
+          payload: location,
         });
-      };
-      // const _handleProceed = (e) =>{
-      //  if(type === "pickup")
-      //  {
-      //    console.log(type);
-      //  }  
-      // else if(type === "drop")
-      // {
-      //   console.log(type);
-      // }
-      // else 
-      // {
-      //   console.log(type);
-      // }
-      // };
-      // const _handleLocation = (e) =>{
+        if (requestType === "general") {
+          history.push("confirm_general");
+        } else history.push("confirm_pd");
+      }
+    } else
+      setErrors({
+        ...errors,
+        showErrors: true,
+      });
+  }
 
-      // };
-    
-return( 
-  <div className={styles.chooseAddressPage}>
-  <Navbar back='/' backStyle={{ color: 'white' }} title="Choose Location" titleStyle={{ color: 'white' }} style={{ backgroundColor: '#79CBC5', marginBottom: "10px" }} />
+  const _handleAddress = (e) => {
+    const address = e.target.value;
+    if (address === "") {
+      setErrors({
+        ...errors,
+        address: "Please enter your address",
+      });
+    } else {
+      setErrors({
+        ...errors,
+        address: "",
+      });
+    }
+    setlocation({
+      ...location,
+      address: e.target.value,
+    });
+  };
 
-  <div className={styles.headerText}>
-      Choose Pickup Location
-      {/* Choose {type} Location: */}
-  </div>
+  const _handleCity = (e) => {
+    const city = e.target.value;
+    if (city === "") {
+      setErrors({
+        ...errors,
 
-  <form className={styles.addressForm} onSubmit={submit}>
-      <div className={styles.addressContainer} >
+        city: "Please enter the city",
+      });
+    } else {
+      setErrors({
+        ...errors,
+        city: "",
+      });
+    }
+    setlocation({
+      ...location,
+      city: e.target.value,
+    });
+  };
+
+  const _handlearea = (e) => {
+    const area = e.target.value;
+
+    if (area.length === 0) {
+      setErrors({
+        ...errors,
+
+        area: "Area must not be empty",
+      });
+    } else {
+      setErrors({
+        ...errors,
+        area: "",
+      });
+    }
+    setlocation({
+      ...location,
+      area: area,
+    });
+  };
+  return (
+    <div className={styles.chooseAddressPage}>
+      <Navbar
+        back={uploadItemsList ? "add_image" : "enter_items"}
+        onBackClick={
+          !pickup
+            ? () => {
+                const data = pickupLocation;
+                console.log(data);
+                setlocation(data);
+                setPickup(true);
+              }
+            : null
+        }
+        backStyle={{ color: "white" }}
+        title="Choose Location"
+        titleStyle={{ color: "white" }}
+        style={{ backgroundColor: "#79CBC5", marginBottom: "10px" }}
+      />
+
+      <div className={styles.headerText}>
+        Choose {requestType === "general" ? "Drop" : pickup ? "Pickup" : "Drop"}{" "}
+        Location
+        {/* Choose {type} Location: */}
+      </div>
+
+      <form className={styles.addressForm}>
+        <div className={styles.addressContainer}>
           <div className={styles.textAreaContainer}>
-
-          <InputField        
-          fieldType="textarea"
-          textAreaClass="headField"
-          value={location.address}
-          type="text"
-          error={errors.address}
-          onChange={(e)=>_handleAddress(e)}
-          placeholder="Enter Address"
-          />
+            <InputField
+              fieldType="textarea"
+              textAreaClass="headField"
+              value={location.address}
+              type="text"
+              error={errors.showErrors ? errors.address : ""}
+              onChange={(e) => _handleAddress(e)}
+              placeholder="Enter Address"
+            />
           </div>
 
-          <div className={styles.cityPincode}> 
-              <div className={styles.childField}>
-                <InputField
-                    value={location.city}
-                    error={errors.city}
-                    onChange={(e)=>_handleCity(e)}
-                    type="text"
-                    placeholder="City"
-                  />    
-              </div> 
-
-              <div style={{ width:'20px'}}></div>
-
-              <div className="childField">
-              <InputField          
-                value={location.pincode}
-                error={errors.pincode}
-                onChange={(e)=>_handlePincode(e)}
-                type="number"
-                placeholder="Pincode"
+          <div className={styles.cityPincode}>
+            <div className={styles.childField}>
+              <InputField
+                value={location.city}
+                error={errors.showErrors ? errors.city : ""}
+                onChange={(e) => _handleCity(e)}
+                type="text"
+                placeholder="City"
               />
-                    
-              </div> 
-              
+            </div>
 
-              
-              
+            <div style={{ width: "20px" }}></div>
+
+            <div className="childField">
+              <InputField
+                value={location.area}
+                error={errors.showErrors ? errors.area : ""}
+                onChange={(e) => _handlearea(e)}
+                type="text"
+                placeholder="Area"
+              />
+            </div>
           </div>
+        </div>
 
-      </div>        
+        <p
+          style={{
+            margin: 1 + "em",
+            textAlign: "center",
+            fontSize: 1.2 + "em",
+          }}
+        >
+          OR
+        </p>
 
-      <p style={{margin:1+'em', textAlign: "center", fontSize: 1.2 + "em" }}>OR</p>
+        <div style={{ marginBottom: 1.3 + "em" }}>
+          <button
+            type="button"
+            onClick={() => routehandler("map_location")}
+            value="Choose Location"
+            className={styles.locationBtn}
+          >
+            <i className="fas fa-search-location" id="locationIcon"></i>
+            Choose Location
+          </button>
+        </div>
 
-      <div style={{marginBottom:1.3+'em'}}>
-      {
-          loading ? 
-          (<Spinner radius="2"/>) 
-          :(
-            <button
-              type="button"
-              onClick={() => routehandler("map_location")}
-              value="Choose Location"
-              className={styles.locationBtn}
-            > 
-            <i className="fas fa-search-location" id="locationIcon"></i>                  
-              Choose Location
-            </button>
-          )
-      }                
-      </div>          
-
-      <button className={styles.btnProceed}
-        type="submit"
-        onClick={() => routehandler("confirm_general")}
-        value="Proceed">
-        Proceed
-      </button>
-     
-  </form>
-</div>
-    
-);
+        <button
+          className={styles.btnProceed}
+          type="submit"
+          onClick={(e) => submit(e)}
+          value="Proceed"
+        >
+          Proceed
+        </button>
+      </form>
+    </div>
+  );
 };
 
 export default PinAddress;
