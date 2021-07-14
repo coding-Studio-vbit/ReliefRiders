@@ -7,10 +7,11 @@ import {
   Route,
 } from "react-router-dom";
 import InitialHomeRouting from './components/home/initial_home/initialHomeRouting';
-//import UploadImages from './components/requester/new_request/upload_images';
-//import UploadImages from './components/rider/current_request/currentRequest'
+//import UploadImages from './components/global_ui/Imginput/ImgInput';
 
 function App() {
+
+
   return (
     <div className="App">
       <AuthProvider>
@@ -18,7 +19,14 @@ function App() {
           <Switch>
             <Route path="/temp">
               TestYourScreensHere
-              
+
+              {/* <UploadImages 
+              imgHeader="Upload Images: "
+              imgText="Tap to add"
+              name="Bills"
+              setImages={setUrl}              
+                /> */}
+
             </Route>
             <Route path="/">
               <InitialHomeRouting />

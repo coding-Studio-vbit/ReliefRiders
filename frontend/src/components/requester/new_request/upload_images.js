@@ -15,7 +15,7 @@ const uploadImages = () => {
     check: null,
   });
   const [imgSrcs, setImgSrcs] = useSessionStorageState("uploaded_images", []);
-  const { dispatch } = useContext(NewRequestContext);
+  const { dispatch,state:{requestType} } = useContext(NewRequestContext);
   const imgCount = useRef(imgSrcs.length)
   const [categories, setcategories] = useSessionStorageState("tags", {
     MEDICINES: false,
@@ -69,7 +69,7 @@ const uploadImages = () => {
           if (categories[cat]) list.push(cat);
         }
         dispatch({ type: "ADD_CATEGORIES_IMAGES", payload: list });
-        history.push("address");
+        history.push(requestType==='general'?"address_drop":'address_pickup');
       } else {
         setErr({
           ...err,
@@ -152,7 +152,7 @@ const uploadImages = () => {
 
         <p className={styles.up_error_msg}>{err.check ? err.check : ""}</p>
 
-        
+       
 
         <div className={styles.checkup}>
           <div

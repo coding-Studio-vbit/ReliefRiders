@@ -103,14 +103,15 @@ const RegisterScreen = () => {
   };
 
   const _handleName = (e) => {
-    const name = e.target.value;
+    const name = e.target.value.trim();
+    console.log(name);
     if (name === "") {
       setErrors({
         ...errors,
 
         name: "Please enter your name",
       });
-    } else if (!/^[a-zA-Z]*$/.test(name)) {
+    }else if (!/^[^.*]([a-zA-Z.][ ]?)+$/.test(name)) {
       setErrors({
         ...errors,
 

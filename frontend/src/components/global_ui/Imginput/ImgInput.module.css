@@ -1,0 +1,44 @@
+.container{
+    
+    display : grid;
+    align-content: flex-start;
+    justify-items: center;
+    gap: 0.2em;
+    
+}
+
+
+.labels{
+    width:clamp(260px,80%,400px);
+}
+
+.form_group{
+    border: 2px dashed #92b0b3;
+    height:100px;
+     /* width:270px; */
+    border-radius: 5px;
+    /* text-align: center; */
+    display: flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction: column;
+    cursor: pointer;
+    padding:0.2em;
+}
+
+.form_group input[type="file"]{
+    display:none;
+}
+
+.form_group p{
+    font-size:14px;
+    color:#778899;
+}
+
+.up_msg{
+   
+    font-size:15px;
+    font-weight: bold;
+    margin-top:12px;
+   
+}

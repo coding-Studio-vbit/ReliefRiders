@@ -1,131 +1,212 @@
 .confirmRequestDiv {
-  text-align: center;
-  font-family: 'Poppins', sans-serif;
+  display: flex;
+  justify-items: center;
+  grid-gap: 0.2em;
+  gap: 0.2em;
+  flex-direction: column;
+  align-content: stretch;
+  justify-content: space-evenly;
+  align-items: center;
+  overflow-x: hidden;
+  
 }
 
-
+.paymentDiv{
+margin-top:1.5em ;
+  padding: 0;
+  display: -webkit-inline-box;
+  flex-direction: row;
+  align-content: stretch;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle;
+}
 
 .paymentLabel{
-  font-weight: bold;
-  font-size: 1.6em;
-  margin: 0.5em;
+font-weight: bold;
+font-size: 1.6em;
+margin: 0.5em;
 }
 
-.radioBtn,.radioLabel{
-  
-  display: inline-block;
-  vertical-align: middle;
-  margin: 5px;
-  cursor: pointer;
-  
+.up_list{
+margin-top:1.5em ;
+padding: 0;
+display: flex;
+justify-content: space-around;
+width:min(95%,400px);
+
 }
-.radioBtn + .radioLabel:before {
-  content: '';
-  background: #fff;
-  border: 2px solid #ffd6d6;
-  display: inline-block;
-  vertical-align: middle;
-  width: 20px;
-  height: 20px;
-  padding: 2px;
-  margin-right: 10px;
-  text-align: center;
+.up_check_label{
+display: block;
+position: relative;
+padding-left: 25px;
+margin-bottom: 5px;
+cursor: pointer;
+font-size: 14px;
+font-weight: bold;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
 }
-.radioBtn {
-  margin: 1em 0px 0px 1em;
-  transform: scale(2);
-  opacity: 0;
-  position: absolute;   
+.up_check_label input{
+position: absolute;
+opacity: 0;
+cursor: pointer;
+height: 0;
+width: 0;
 }
 
-.radioBtn:checked + .radioLabel:before {
-  content: "\f00c";
-  font-family: 'FontAwesome';
-  background-color: rgba(246,237,240,255)
+.up_check{
+position: absolute;
+top: -5px;
+left: -5px;
+height: 28px;
+width: 28px;
+display: block;
+border-radius: 3px;
+border: 2px solid #ffdbdb;
+
 }
 
+
+.up_check:after {
+content: "";
+position: absolute;
+display: none;
+}
+
+.up_check_label input:checked ~ .up_check:after {
+display: block;
+}
+
+.up_check_label .up_check:after {
+left: 9px;
+top: 5px;
+width: 5px;
+height: 10px;
+
+border: solid rgb(24, 24, 24);
+border-width: 0 3px 3px 0;
+-webkit-transform: rotate(45deg);
+-ms-transform: rotate(45deg);
+transform: rotate(45deg);
+}  
 .noContactDelDiv {
-  margin : 1em; 
-  padding : 0.5em; 
-  font-size:1.2em;
+/* margin : 1em; 
+padding : 0.5em; 
+font-size:1.2em; */
+display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2em;
+  padding : 0.5em;
+  margin : 0.5em; 
 } 
 
+.noContactTxt{
+margin-right: 1.9em;
+
+}
+
 .noContactDelCheckbox {
-  transform: scale(2);
-  margin-left: 2em;
-  cursor: pointer;
-  filter: hue-rotate(242deg);
+transform: scale(2);
+cursor: pointer;
+filter: hue-rotate(242deg);
 }
 
 .delRemarksDiv{
-  font-size: 1.2em;
-  font-weight: bold;
-  
+  display: grid;
+  justify-content: center;
+  margin : 1em;
+  flex-direction: column;
+  font-size: 1em;
+  font-weight: bold;  
 }
-.delRemarksText{
-  
-  width: min(25rem,90%);
-  resize: none;
-  padding: 0.5em;
+.delRemarksText:hover , .delRemarksText:focus{
+  border: 2px solid var(--primary);
 }
 
 .covidStat{
-  font-size: 1.2em;
-  font-weight: bold;
-  margin: 1em 0em 0em 0em;
+display: grid;
+justify-content: center;
+
+flex-direction: column;
+font-size: 1em;
+font-weight: bold;
+}
+.covidStatCheck{
+display: grid;
+justify-content: center;
+
+flex-direction: column;
+font-size: 1em;
+font-weight: bold;
 }
 
 .covidStatCheckbox{
-  transform: scale(2);
-  margin : 1.2em 0em 0em 0em;
-  cursor: pointer;
-  filter: hue-rotate(142deg) brightness(1.2) saturate(2);
-  
+transform: scale(2);
+margin : 1.2em 0em 0em 0em;
+cursor: pointer;
+filter: hue-rotate(142deg) brightness(1.2) saturate(2);
 
+
+}
+
+.btns{
+display: flex;
+justify-content: space-evenly;
+flex-wrap: wrap;
 }
 
 .confirmRequestBtn{
-  margin: 1.2em 1.2em 1.2em 1.2em;
-  place-self: center;
-  padding: 0.6em;
-  cursor: pointer;
-  width: 20ch;
-  align-self: center;
-  background: #01ce1b;
-  color: white;
-  font-size: 1em;
-  border-color: #4da455 ;
-  border: none;
-  font-weight: bold;
-  transition-duration: 0.4s;
+margin: 1.2em 1.2em 1.2em 1.2em;
+place-self: center;
+/* padding-bottom: 1em; */
+cursor: pointer;
+width: 20ch;
+align-self: center;
+background: #01ce1b;
+color: white;
+font-size: 1em;
+border-color: #4da455 ;
+border: none;
+font-weight: bold;
+transition-duration: 0.4s;
+height: 2.55em;
 }
 
 .confirmRequestBtn:hover{
-  background: rgb(0, 148, 0);
+background: rgb(0, 148, 0);
 }
 .fas fa-arrow-right{
-  padding: 0.5em;
+padding: 0.45em;
 }
 
 .cancelRequestBtn{
-  margin: 1.2em 1.2em 1.2em 1.2em;
-  place-self: center;
-  padding: 0.6em;
-  cursor: pointer;
-  width: 20ch;
-  align-self: center;
-  background: #f62222;
-  color: white;
-  font-size: 1em;
-  border-color: #4da455 ;
-  border: none;
-  font-weight: bold;
-  transition-duration: 0.4s;
+margin: 1.2em 1.2em 1.2em 1.2em;
+place-self: center;
+/* padding-bottom: 1em; */
+cursor: pointer;
+width: 20ch;
+align-self: center;
+background: #f62222;
+color: white;
+font-size: 1em;
+border-color: #4da455 ;
+border: none;
+font-weight: bold;
+transition-duration: 0.4s;
+/* width: 12.2em; */
+height: 2.55em;
 }
 
 .cancelRequestBtn:hover{
-  background: rgb(248, 0, 0);
+background: rgb(248, 0, 0);
 }
 .fas fa-arrow-right{
-  padding: 0.5em;
+padding: 0.5em;
 }
+

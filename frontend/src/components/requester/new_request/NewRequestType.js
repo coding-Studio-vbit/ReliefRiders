@@ -12,21 +12,11 @@ function RequestType() {
   const routehandler = (route) => {
     history.push("new_request/" + route);
   };
-  
+
   return (
-    <>
+    <div>
+      <Navbar back="/" title="Choose Request Type" style={{}} />
 
-      
-
-     
-        <Navbar
-          back="/"
-          title="Choose Request Type"
-          style={{
-            
-          }}
-        />
-    
       <div className={rtstyles.rcontainer}>
         <Logo />
         <button
@@ -34,27 +24,21 @@ function RequestType() {
             dispatch({ type: "REQUEST_TYPE", payload: "general" });
             routehandler("list_type");
           }}
-         
         >
-         
-            
-           
           General Request
         </button>
         <button
           onClick={() => {
-            const route = 'list_type'
-            dispatch({ type: "REQUEST_TYPE", payload: "p&d"});
+            const route = "list_type";
+            dispatch({ type: "REQUEST_TYPE", payload: "p&d" });
 
             routehandler(route);
           }}
-        
         >
-          
           Pickup / Drop
         </button>
       </div>
-    </>
+    </div>
   );
 }
 

@@ -59,7 +59,7 @@ router.get("/makeDelivery/:requestID", (req, res)=>{
 
 router.get("/finishDelivery", (req, res)=>{
 
-	riderController.finishDelivery(req.user.phoneNumber)
+	riderController.finishDelivery(req.user.phoneNumber,req.files)
 	.then(response=>{
 		res.json(response);
 	})

@@ -41,6 +41,13 @@ const schema = new mongoose.Schema({
 		enum: ['GENERAL', 'P&D']
 		},
 	
+	paymentPreference: [
+		{
+			type: String,
+			enum: ['CASH', 'PAYTM', 'GPAY'], 
+			uppercase:true,
+	}],
+	
 	itemsListImages: [String],
 	
 	itemsListList:[{
