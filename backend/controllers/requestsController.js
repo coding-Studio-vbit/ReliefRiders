@@ -60,7 +60,7 @@ async function generalRequest(formData,fileData,userData){
                         noContactDelivery: formData.noContactDelivery, 
                         requestStatus: "PENDING",
                         requestType: 'GENERAL',
-                        paymentPreference : formData.paymentPreference,
+                        paymentPreference : JSON.parse(formData.paymentPreference),
                         itemsListImages: paths,
                         itemsListList: JSON.parse(formData.itemsListList),
                         itemCategories: JSON.parse(formData.itemCategories),
