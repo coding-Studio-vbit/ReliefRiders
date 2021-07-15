@@ -5,7 +5,7 @@ const router = express.Router();
 const riderController = require("../../controllers/riderController");
 const verifyToken = require("../common/tokenAuth");
 const {sendError, sendResponse} = require("../../controllers/common");
-
+const imageController = require("../../controllers/imageController")
 const checkIsRider = (req, res, next) => {
   if (req.user.type == 'rider')
     next();
@@ -57,16 +57,18 @@ router.get("/makeDelivery/:requestID", (req, res)=>{
 })
 
 
-router.get("/finishDelivery", (req, res)=>{
+router.get("/finishDelivery",imageController.upload.fields(
+	[{name: 'billsImages', maxCount: 5}, {name: 'rideImages', maxCount: 5}]),
+	 (req, res)=>{
 
-	riderController.finishDelivery(req.user.phoneNumber,req.files)
-	.then(response=>{
-		res.json(response);
-	})
-	.catch(error=>{
-		console.log(error);
-		res.json(senderror("internal server error"));
-	})
+		riderController.finishDelivery(req.user.phoneNumber,req.files)
+		.then(response=>{
+			res.json(response);
+		})
+		.catch(error=>{
+			console.log(error);
+			res.json(senderror("internal server error"));
+		})
 })
 
 router.get("/cancelDelivery", (req, res)=>{

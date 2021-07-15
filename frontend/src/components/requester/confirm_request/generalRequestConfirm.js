@@ -71,7 +71,7 @@ const ConfirmRequestGeneral = () => {
               "dropLocationAddress",
               JSON.stringify(state.dropLocation)
             );
-            formData.append('paymentPreference', paymentPrefer)
+            formData.append('paymentPreference', JSON.stringify(paymentPrefer))
             console.log(state.dropLocation);
             const res = await placeRequest(formData, token, state.requestType);
             if (res === 1) {
