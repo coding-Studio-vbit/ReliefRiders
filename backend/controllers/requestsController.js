@@ -1,6 +1,7 @@
 const requests = require("../models/request");
 const requester = require("../models/requesters");
 const { sendResponse, sendError } = require('./common');
+const axios = require("axios");
 
 async function generalRequest(formData,fileData,userData){
         return new Promise((resolve,reject)=>{
@@ -64,7 +65,7 @@ async function generalRequest(formData,fileData,userData){
                         itemsListImages: paths,
                         itemsListList: JSON.parse(formData.itemsListList),
                         itemCategories: JSON.parse(formData.itemCategories),
-                        remarks: remarks,
+                        remarks: formData.remarks,
                         dropLocationCoordinates: { coordinates: JSON.parse(formData.dropLocationCoordinates) },
                         dropLocationAddress: JSON.parse(formData.dropLocationAddress),
                         roughLocationCoordinates: { coordinates: (formData.roughCoordinates) }
@@ -133,7 +134,7 @@ async function pdRequest(formData,fileData,userData){
         })
         .then(paths => {
             console.log(formData);
-            let newRequest = new requestModel({
+            let newRequest = new requests({
                 requesterID: formData.requesterID,
                 requestNumber: Date.now() + Math.floor(Math.random() * 100),
                 requesterCovidStatus: formData.requesterCovidStatus,
