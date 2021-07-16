@@ -53,7 +53,13 @@ function currentRequest () {
         //Make Calls Here        
     }
 
-    const navigateToGoogleMaps=()=>{
+    const navigateToGoogleMaps=(type)=>{
+        if(type==="pickUp"){
+            //
+        }
+        else if(type==="drop"){
+            //
+        }
         console.log("GoogleMaps");
         //Make Calls Here        
     }
@@ -65,7 +71,7 @@ function currentRequest () {
                 'authorization': 'Bearer ' + token
             }
         }
-        axios.post(`http://localhost:8000/rider/requestDetails/${location.state}`,options)
+        axios.post(`http://localhost:8000/riders/makeDelivery/${location.state}`,options)
         .then((response)=>{
             if(response.data.status=="success"){
                 setisLoading(false)
@@ -102,38 +108,33 @@ function currentRequest () {
             console.log(response);
             setisLoading(false)
             setReqObj({
-                requestNumber:"101010",
-                requesterName:"Jon snow",//requesterID
-                requesterPhoneNumber:"9550710377",//requesterID
+                requestNumber:response.data.message.requestNumber,
+                requesterName:response.data.message.requesterName,
+                requesterPhoneNumber:response.data.message.requesterPhoneNumber,
 
-                requesterCovidStatus:true,
-                requestStatus:"PENDING",//need to use 
-                requestType:"GENERAL",
+                requesterCovidStatus:response.data.message.requesterCovidStatus,
+                requestStatus:response.data.message.requestStatus,
+                requestType:response.data.message.requestType,
 
-                itemsListList:[
-                    {itemName:"Paracetamol",quantity:"1 Strip"},
-                    {itemName:"Potato",quantity:"1kg"},
-                    {itemName:"Noodles",quantity:"1 packet"},
-                    {itemName:"Dosa",quantity:"2 plates"},
-                ],
-                itemCategories:['GROCERIES','MISC','MEDICINES'],//need to use
-                Remarks:'Vamos Barca Mes que un club',
+                itemsListList:response.data.message.itemsListList,
+                itemCategories:response.data.message.itemCategories,
+                Remarks:response.data.message.remark,
            
                 pickupLocationCoordinates:{
-                    coordinates: []
+                    coordinates:response.data.message.pickupLocationCoordinates.coordinates
                 },    
                 pickupLocationAddress:{
-                    addressLine: "A",
-                    area: "B",
-                    city: "C"
+                    addressLine:response.data.message.pickupLocationAddress.addressLine,
+                    area:response.data.message.pickupLocationAddress.area,
+                    city: response.data.message.pickupLocationAddress.city
                 },    
                 dropLocationCoordinates:{
-                    coordinates: [10,20]
+                    coordinates: response.data.message.dropLocationCoordinates.coordinates
                 },
                 dropLocationAddress:{
-                    addressLine: "P",
-                    area: "Q",
-                    city: "R"
+                    addressLine:response.data.message.dropLocationAddress.addressLine,
+                    area:response.data.message.dropLocationAddress.area,
+                    city:response.data.message.dropLocationAddress.city
                 }
             });
             }
@@ -245,7 +246,7 @@ function currentRequest () {
                                 borderColor="darkslategrey"
                                 icon="fas fa-map-marker-alt"
                                 iconPosition="right"
-                                onClick={()=>navigateToGoogleMaps()}
+                                onClick={()=>navigateToGoogleMaps("drop")}
                                 />
                             }                            
                         </div>
@@ -291,7 +292,7 @@ function currentRequest () {
                                 borderColor="darkslategrey"
                                 icon="fas fa-map-marker-alt"
                                 iconPosition="right"
-                                onClick={()=>navigateToGoogleMaps()}
+                                onClick={()=>navigateToGoogleMaps("pickUp")}
                                 />
                             }  
 
@@ -330,7 +331,7 @@ function currentRequest () {
                                 borderColor="darkslategrey"
                                 icon="fas fa-map-marker-alt"
                                 iconPosition="right"
-                                onClick={()=>navigateToGoogleMaps()}
+                                onClick={()=>navigateToGoogleMaps("drop")}
                                 />
                             }                    
                         </div>
