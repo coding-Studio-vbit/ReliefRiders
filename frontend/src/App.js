@@ -7,7 +7,7 @@ import {
   Route,
 } from "react-router-dom";
 import InitialHomeRouting from './components/home/initial_home/initialHomeRouting';
-//import UploadImages from './components/global_ui/Imginput/ImgInput';
+import Test from './components/rider/common/viewRequest';
 
 function App() {
 
@@ -18,7 +18,7 @@ function App() {
         <Router>
           <Switch>
             <Route path="/temp">
-              TestYourScreensHere
+              <Test/>
 
               {/* <UploadImages 
               imgHeader="Upload Images: "

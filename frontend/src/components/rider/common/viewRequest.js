@@ -14,40 +14,36 @@ function currentRequest () {
     const token = localStorage.getItem('token')
     const history=useHistory();
     const location=useLocation();
+    const [isDeliveryConfirmed, setisDeliveryConfirmed] = useState(false);
 
     const [reqObj, setReqObj] = useState({
-        requestNumber:"101010",
-        requesterName:"Jon snow",//requesterID
-        requesterPhoneNumber:"9550710377",//requesterID
+        requestNumber:null,
+        requesterName:null,//requesterID
+        requesterPhoneNumber:null,//requesterID
 
-        requesterCovidStatus:true,
-        requestStatus:"PENDING",//need to use 
-        requestType:"GENERAL",
+        requesterCovidStatus:null,
+        requestStatus:null,//need to use 
+        requestType:null,
 
-        itemsListList:[
-            {itemName:"Paracetamol",quantity:"1 Strip"},
-            {itemName:"Potato",quantity:"1kg"},
-            {itemName:"Noodles",quantity:"1 packet"},
-            {itemName:"Dosa",quantity:"2 plates"},
-        ],
-        itemCategories:['GROCERIES','MISC','MEDICINES'],//need to use
-        Remarks:'Vamos Barca Mes que un club',
+        itemsListList:[],
+        itemCategories:[],//need to use
+        Remarks:null,
    
         pickupLocationCoordinates:{
-            coordinates: [20,30]
+            coordinates: []
         },    
         pickupLocationAddress:{
-            addressLine: "A",
-            area: "B",
-            city: "C",
+            addressLine: null,
+            area: null,
+            city: null,
         },    
         dropLocationCoordinates:{
             coordinates: []
         },
         dropLocationAddress:{
-            addressLine: "P",
-            area: "Q",
-            city: "R"
+            addressLine:null,
+            area:null,
+            city:null
         }
     });
 
@@ -63,6 +59,29 @@ function currentRequest () {
     }
 
     const makeDelivery=()=>{
+        setisLoading(true);
+        const options = {
+            headers: {
+                'authorization': 'Bearer ' + token
+            }
+        }
+        axios.post(`http://localhost:8000/rider/requestDetails/${location.state}`,options)
+        .then((response)=>{
+            if(response.data.status=="success"){
+                setisLoading(false)
+                setisDeliveryConfirmed(true);
+            }
+            else{
+                setisLoading(false)
+                seterror(response.data.message)                
+            }
+        })
+        .catch(function(err){
+            setisLoading(false)
+            seterror(err)
+            //show Dialog => Request Not Accepted            
+        })
+
         console.log("Make Delivery");
         //Make Calls Here        
     }
@@ -76,7 +95,7 @@ function currentRequest () {
             }
         }      
         // eslint-disable-next-line no-undef
-        axios.get(`http://localhost:8000/rider/requestDetails/${location.state}"`,options)
+        axios.get(`http://localhost:8000/rider/requestDetails/${location.state}`,options)
         .then(function (response) {
             // handle success
             if(response.data.status==="success"){
@@ -143,6 +162,16 @@ function currentRequest () {
             !error?
             <div className={styles.currentRequestPage}>
                 <Navbar back="true" title="Order Details" style={{background:'#79CBC5',color:'white'}}/>
+
+                <Dialog 
+                isShowing={isDeliveryConfirmed} 
+                title="Delivery Confirmed" 
+                msg={`Delivery Taken Up with requestID ${location.state}`} 
+                onOK={()=>{
+                    setisDeliveryConfirmed(false)
+                    history.push("/current_request");
+                }}
+                />
 
                 <div className={styles.currentRequestContent}>
 
@@ -366,7 +395,12 @@ function currentRequest () {
                     
                 </div>           
             </div>
-            :<Dialog isShowing={error} title="Error" msg={(error.message)} onOK={()=>seterror(null)} />
+            :<Dialog isShowing={error} title="Error" msg={(error.message)} 
+            onOK={()=>{
+                seterror(null)
+                history.goBack();
+                }
+            } />
 
           ):<LoadingScreen/>
         ):
