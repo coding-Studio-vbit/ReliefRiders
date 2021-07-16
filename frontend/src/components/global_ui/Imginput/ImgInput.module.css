@@ -4,19 +4,19 @@
     align-content: flex-start;
     justify-items: center;
     gap: 0.2em;
+    width: min(90%,400px);
     
 }
 
 
 .labels{
-    width:clamp(260px,80%,400px);
+    width:100%;
 }
 
 .form_group{
     border: 2px dashed #92b0b3;
     height:100px;
-     /* width:270px; */
-    border-radius: 5px;
+    border-radius: 8px;
     /* text-align: center; */
     display: flex;
     justify-content:center;
