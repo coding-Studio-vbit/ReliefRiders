@@ -56,11 +56,7 @@ const PlacedRequest = () => {
       />
       <Navbar
         back="my_requests"
-        style={{
-          color: "white",
-          background: "#79cbc5",
-          marginBottom: 0.75 + "em",
-        }}
+        
         title="Order Details"
       />
       <div className={styles.container}>
