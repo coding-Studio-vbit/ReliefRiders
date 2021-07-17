@@ -55,10 +55,16 @@ function currentRequest () {
 
     const navigateToGoogleMaps=(type)=>{
         if(type==="pickUp"){
-            //
+            window.open(
+            `https://www.google.com/maps/search/?api=1&query=${reqObj.pickupLocationCoordinates.coordinates[0]},${reqObj.pickupLocationCoordinates.coordinates[1]}`,
+            '_newtab'
+            )            
         }
         else if(type==="drop"){
-            //
+            window.open(
+            `https://www.google.com/maps/search/?api=1&query=${reqObj.dropLocationCoordinates.coordinates[0]},${reqObj.dropLocationCoordinates.coordinates[1]}`,
+            '_newtab'
+            )         
         }
         console.log("GoogleMaps");
         //Make Calls Here        
@@ -71,7 +77,7 @@ function currentRequest () {
                 'authorization': 'Bearer ' + token
             }
         }
-        axios.post(`http://localhost:8000/riders/makeDelivery/${location.state}`,options)
+        axios.post(`${process.env.REACT_APP_URL}/riders/makeDelivery/${location.state}`,options)
         .then((response)=>{
             if(response.data.status=="success"){
                 setisLoading(false)
@@ -101,7 +107,7 @@ function currentRequest () {
             }
         }      
         // eslint-disable-next-line no-undef
-        axios.get(`http://localhost:8000/rider/requestDetails/${location.state}`,options)
+        axios.get(`${process.env.REACT_APP_URL}/rider/requestDetails/${location.state}`,options)
         .then(function (response) {
             // handle success
             if(response.data.status==="success"){
