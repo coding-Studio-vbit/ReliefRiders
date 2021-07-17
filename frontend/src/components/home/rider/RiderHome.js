@@ -12,7 +12,7 @@ function RiderHome() {
   const { dispatch } = useContext(AuthContext);
 
   const routehandler = (route) => {
-    history.push( route );
+    history.push(route);
   };
 
 
