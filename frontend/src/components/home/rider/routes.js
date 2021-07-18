@@ -9,18 +9,23 @@ const RiderHomeRoutes = () => {
     return ( 
         <BrowserRouter basename="/home/rider">
         <Switch>
+
             <Route exact path="/">
                 <RiderHome/>
             </Route>
+
             <Route path="/new_delivery" >
-                newDelivery
+                Select Deliveries Here
             </Route>
+
             <Route path="/current_request" >
                 <CurrentRequest/>
             </Route>
+
             <Route path="/my_deliveries" >
-                MyProfileHere
+               My Deliveries
             </Route>
+
             <Route path="/my_profile" >
               <RiderProfileRoutes/>                
             </Route>
