@@ -20,9 +20,13 @@ const PreviewImages = ({setImages,title, images, imgWidth = "150px" }) => {
     setImageViewerData({ show: true, src: src });
   };
   return (
-    <div key={title}>
+    <div key={title} style={{padding:'0.5em'}}>
     {images.length>0 && <span>{title}</span>}
-    <div key={title} className={styles.imagesContainer}>
+    <div key={title}
+    style={{
+
+    }}
+    className={styles.imagesContainer}>
       <ImageViewer
         setViewerData={setImageViewerData}
         viewerData={imageViewerData}
@@ -32,16 +36,15 @@ const PreviewImages = ({setImages,title, images, imgWidth = "150px" }) => {
 
       {images.map((link,index) => (
         <div
-          
-         
+        
           className={styles.singleImage}
           key={link}
         >
           <i onClick={()=>deleteImage(index)} className="fas fa-times-circle" ></i>
-          <img  onClick={() => onImageClicked(link)} style={{
-           width: imgWidth?imgWidth:'clamp(160px, 50%, 200px)'
+          <img  style={{
+          width: imgWidth?imgWidth:'clamp(160px, 50%, 200px)'
 
-          }} src={link} alt="img" />
+         }} onClick={() => onImageClicked(link)}  src={link} alt="img" />
         </div>
       ))}
     </div>

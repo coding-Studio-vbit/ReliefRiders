@@ -15,7 +15,7 @@ function CheckList({ items ,category,dispatch}) {
 
   return (
     <>
-    <span>Items requested</span>
+    <span style={{paddingTop:'0.5em'}} >Items requested</span>
     <div className={styles.category}>
           {category.map((cat) => (
             <span
@@ -26,8 +26,8 @@ function CheckList({ items ,category,dispatch}) {
             </span>
           ))}
         </div>
-    <span>Please tick the items you purchased</span>
-    <ol className={styles.checklist_container} >
+    <span style={{textAlign:'center'}} >Please tick the items you purchased</span>
+    <ol  className={styles.checklist_container} >
 
       {items.map((req,index) => {
         return (
