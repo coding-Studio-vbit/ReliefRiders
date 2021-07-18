@@ -1,25 +1,28 @@
-export const fetchCurrentRequest = async (dispatch,token) => {
-  console.log(dispatch,token);
-  dispatch({type:'SETREQUEST',payload:request})
+/* eslint-disable no-unused-vars */
+export const fetchCurrentRequest = async (dispatch, token) => {
+  console.log("Dummy data");
+  console.error(
+    "Current request screen may contain bugs. They will be fixed when current req endpoint is done"
+  );
+
+  dispatch({ type: "SETREQUEST", payload: request });
   // try {
   //   const res = await fetch("")
   // } catch (error) {
-    
+
   // }
-  
 };
 
 const request = {
   requestNumber: "8628290",
   requesterID: "8628290",
   requestStatus: "PENDING",
-  requesterCovidStatus:true,
+  requesterCovidStatus: true,
   requestType: "P&D",
   name: "Mark Zucc",
   phoneNumber: "9999999999",
   itemsListImages: [
-    
-    // "https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+    //  "https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
   ],
   riderID: {
     name: "Someone",

@@ -20,10 +20,11 @@ const PreviewImages = ({setImages,title, images, imgWidth = "150px" }) => {
     setImageViewerData({ show: true, src: src });
   };
   return (
-    <div key={title} style={{padding:'0.5em'}}>
-    {images.length>0 && <span>{title}</span>}
+    <>
+    {images.length>0 && <span style={{padding:'0.5em'}} >{title}</span>}
     <div key={title}
     style={{
+    gridTemplateColumns: `repeat(auto-fit,minmax(${imgWidth},1fr))`
 
     }}
     className={styles.imagesContainer}>
@@ -48,7 +49,7 @@ const PreviewImages = ({setImages,title, images, imgWidth = "150px" }) => {
         </div>
       ))}
     </div>
-  </div>
+  </>
   );
 };
 export default PreviewImages;

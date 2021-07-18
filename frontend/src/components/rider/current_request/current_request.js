@@ -64,6 +64,7 @@ export const CurrentRequest = () => {
   }, [state.request]);
 
   useEffect(async () => {
+
     if(request){
       dispatch({type:'SETLOADING'})
     }else
@@ -95,8 +96,9 @@ export const CurrentRequest = () => {
             }
         }}
       />
-      <Navbar back="my_requests" title="Order Details" />
+      <Navbar back="/" title="Order Details" />
       <div className={styles.container}>
+
         <p>Request #{request.requestNumber}</p>
 
         <UserDetails
@@ -116,14 +118,16 @@ export const CurrentRequest = () => {
             items={request.itemsListList}
           />
         ) : (
-          <PreviewImages images={request.itemsListImages} />
+          
+          <PreviewImages title='Items Requested' images={request.itemsListImages} />
+          
         )}
 
         <ImgInput key={'wjhbdwiuybdwb;'} setImages={setBills} imgHeader="Bills" imgText="Tap to add bills" />
-        <PreviewImages setImages= {setBills} title='Selected Bills' imgWidth='100px' images={bills} />
+        <PreviewImages setImages= {setBills} title='Selected Bills' imgWidth='80px' images={bills} />
         
         <ImgInput key={'hbdhwbijh'} setImages={setImages} imgHeader="Upload Images" imgText="Tap to add images" />
-        <PreviewImages setImages= {setImages} title="Selected Images" images={images} imgWidth='100px' />
+        <PreviewImages setImages= {setImages} title="Selected Images" images={images} imgWidth='80px' />
 
         <BottomButtons setCancel={setCancel} setDialogData={setDialogData} />
       </div>

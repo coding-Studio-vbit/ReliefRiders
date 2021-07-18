@@ -13,13 +13,13 @@
 
 .imagesContainer {
     display: grid;
-    grid-auto-columns: min-content;
-    grid-auto-flow: column;
     justify-content: center;
-    align-items: center;
+    grid-template-rows: masonry;
+    justify-items: center;
     margin-top: 1em;
     width: min(90vw, var(--max-width));
-    gap: 1.5rem;
+    gap: min(2vw,1rem);
+
 }
 .singleImage {
     position: relative;
@@ -27,13 +27,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+   
     gap: 0.3em;
 }
 
 .singleImage img {
-    height: auto;
+    height: 80px;
     box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.137);
-
+    object-fit: cover;
     border-radius: 8px;
 }
 .singleImage i{
