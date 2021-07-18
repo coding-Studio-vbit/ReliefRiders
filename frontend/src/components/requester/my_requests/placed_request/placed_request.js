@@ -21,10 +21,12 @@ const PlacedRequest = () => {
   const [dialogData, setDialogData] = useState({ show: false, msg: "" });
   const [cancel, setCancel] = useState(false);
   const statusStyle = {
-    color: request.requestStatus === "PENDING" ? "red" : "green",
+    color: (request.requestStatus === "PENDING" || request.requestStatus === 'CANCELLED')  ? "red" : "green",
     fontWeight: "bold",
     fontSize: 1.2 + "em",
   };
+
+  
 
   return (
     <>
@@ -32,6 +34,7 @@ const PlacedRequest = () => {
         isShowing={dialogData.show}
         msg={dialogData.msg}
         setDialogData={setDialogData}
+        onCancel={()=>setCancel(false)}
         routeRedirect="my_requests"
         onOK={async () => {
           const res = await cancelConfirmRequest(
@@ -41,13 +44,13 @@ const PlacedRequest = () => {
           );
           console.log(res);
           if (res !== 1) {
-            setDialogData({ show: true, msg: res });
+            setDialogData({ ...dialogData, msg: res });
           } else {
             if (cancel)
               setDialogData({ ...dialogData, msg: "Cancelled successfully" });
             else
               setDialogData({ ...dialogData, msg: "Confirmed successfully" });
-            history.replace('my_requests')
+            history.replace("my_requests");
           }
         }}
       />
@@ -80,7 +83,7 @@ const PlacedRequest = () => {
         ) : (
           <>
             <ItemsRequestedList
-            styles={styles}
+              styles={styles}
               list={request.itemsListList}
               category={request.itemCategories}
             />
@@ -92,7 +95,7 @@ const PlacedRequest = () => {
         )}
 
         {request.requestStatus[0] != "D" && (
-          <BottomButton setCancel={setCancel} setDialogData={setDialogData} />
+          <BottomButton show={(request.requestStatus ==='PENDING' || request.requestStatus === 'UNDER DELIVERY')?true:false} setCancel={setCancel} setDialogData={setDialogData} />
         )}
       </div>
     </>
@@ -101,8 +104,8 @@ const PlacedRequest = () => {
 
 export default PlacedRequest;
 
-const BottomButton = ({ setDialogData, setCancel }) => {
-  return (
+const BottomButton = ({show, setDialogData, setCancel }) => {
+  return show?(
     <div className={styles.buttonsContainer}>
       <button
         onClick={() => {
@@ -126,9 +129,8 @@ const BottomButton = ({ setDialogData, setCancel }) => {
         Confirm Request
       </button>
     </div>
-  );
+  ):null;
 };
-
 
 const Address = () => {
   const {
@@ -141,40 +143,65 @@ const Address = () => {
   const drop = request.dropLocationAddress;
   const pCoordinates = request.pickupLocationCoordinates.coordinates;
   const dCoordinates = request.dropLocationCoordinates.coordinates;
-
+  
   return (
     <div className={styles.addressContainer}>
-      {type === "P&D" && <span>Pickup Location</span>}
-      <div className={styles.address}>
-        <span>Address</span>
-        {pickup !== null ? (
+     
+      {type === "GENERAL" ? (
+        <div className={styles.address}>
+          <span>Address</span>
+          {drop.address ? (
+            <>
+              <span>{drop.address}</span>
+              <span>
+                {drop.city} {drop.area}
+              </span>
+            </>
+          ) : (
+            <a
+              rel="noreferrer"
+              href={`https://www.google.com/maps/search/?api=1&query=${dCoordinates[0]},${dCoordinates[1]}`}
+              target="_blank"
+            >
+              Open in google maps
+            </a>
+          )}
+        </div>
+      ) : (
+        <>
+          
           <>
-            <span>{pickup.addressLine}</span>
-            <span>
-              {pickup.city} {pickup.pincode}
-            </span>
+            <span>Pickup Location</span>
+            <div className={styles.address}>
+              <span>Address</span>
+              {pickup.address ? (
+                <>
+                  <span>{pickup.address}</span>
+                  <span>
+                    {pickup.city} {pickup.area}
+                  </span>
+                </>
+              ) : (
+                <a
+                  rel="noreferrer"
+                  href={`https://www.google.com/maps/search/?api=1&query=${pCoordinates[0]},${pCoordinates[1]}`}
+                  target="_blank"
+                >
+                  Open in google maps
+                </a>
+              )}
+            </div>
           </>
-        ) : (
-          <a
-            rel="noreferrer"
-            href={`https://www.google.com/maps/search/?api=1&query=${pCoordinates[0]},${pCoordinates[1]}`}
-            target="_blank"
-          >
-            Open in google maps
-          </a>
-        )}
-      </div>
-      {drop !== null ||
-        (dCoordinates && (
+           
           <>
             <span>Drop Location</span>
             <div className={styles.address}>
               <span>Address</span>
-              {drop !== null ? (
+              {drop ? (
                 <>
-                  <span>{drop.addressLine}</span>
+                  <span>{drop.address}</span>
                   <span>
-                    {drop.city} {drop.pincode}
+                    {drop.city} {drop.area}
                   </span>
                 </>
               ) : (
@@ -188,7 +215,9 @@ const Address = () => {
               )}
             </div>
           </>
-        ))}
+          
+        </>
+      )}
     </div>
   );
 };

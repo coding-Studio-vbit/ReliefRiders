@@ -31,7 +31,7 @@ const schema = new mongoose.Schema({
 		type: String,
 		default: 'PENDING',
 		uppercase:true,
-		enum: ['PENDING', 'UNDER DELIVERY', 'DELIVERED', 'CANCELLED BY REQUESTER', 'RIDER CONFIRMED', 'CANCELLED BY RIDER']
+		enum: ['PENDING', 'UNDER DELIVERY', 'DELIVERED', 'CANCELLED', 'RIDER CONFIRMED']
 		},
 	
 	requestType:{
@@ -40,6 +40,13 @@ const schema = new mongoose.Schema({
 		uppercase:true,
 		enum: ['GENERAL', 'P&D']
 		},
+	
+	paymentPreference: [
+		{
+			type: String,
+			enum: ['CASH', 'PAYTM', 'GPAY'], 
+			uppercase:true,
+	}],
 	
 	itemsListImages: [String],
 	

@@ -23,7 +23,7 @@ router.get("/confirmRequest/:requestID", (req, res) => {
 		return res.json(sendError("Invalid Parameters"));
 	}
 
-	requesterController.confirmRequest(phone, requestID)
+	requesterController.confirmRequest(phone, req.params.requestID)
 	.then(response=>{
 		res.json(response);
 	})
@@ -39,7 +39,7 @@ router.get("/cancelRequest/:requestID", (req, res) => {
 		return res.json(sendError("Invalid Parameters"));
 	}
 	
-	requesterController.cancelRequest(phone, requestID)
+	requesterController.cancelRequest(phone, req.params.requestID)
 	.then(response=>{
 		res.json(response);
 	})
@@ -80,6 +80,25 @@ router.get("/myRequests", (req, res) => {
 		console.log(error);
 		res.json(sendError("Internal Server Error"));
 	})
+});
+
+router.get("/myRequests/:id", (req, res) => {
+    requester.find({ phoneNumber: req.user.phoneNumber })
+        .then(doc => {
+            if (!doc)
+                throw { status: "failure", message: "Invalid user!" };
+            return request.findOne({ requesterID: doc._id, requestNumber: req.params.id });
+        })
+        .then(doc => {
+             if(!doc)
+                res.json({status:"failure", message:"No such request!"});
+            else
+                res.json({ status: "success", message: doc });
+        })
+        .catch(error => {
+            console.log(error);
+            return res.json(error);
+        })
 });
 
 module.exports = router;

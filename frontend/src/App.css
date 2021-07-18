@@ -1,4 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+:root{
+  --primary: #79CBC5;
+  --secondary:#ff7978;
+}
+
 body {
   font-family: "Poppins", sans-serif;
   margin: 0px;
@@ -17,7 +23,6 @@ button {
   padding: 0.3em 0.7em;
   border-color: green;
   border: none;
-
   transition: color 0.2s ease;
 }
 button:hover , button:focus{

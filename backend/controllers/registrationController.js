@@ -18,13 +18,13 @@ async function registrationRequestOTP(phone, type){
 			return resolve({ status: "failure", message: "Invalid user type!" });
 
 		
-		let userDoc;
+		let userDoc = undefined;
 
 		userModel.findOne({phoneNumber: phone})
 		.then(doc =>{
 			if(doc)
 			{
-				resolve(sendError("User Already Exists"));
+				throw sendError("User Already Exists");
 			}
 			else
 				return registrations.findOne({phoneNumber: phone});
@@ -52,12 +52,22 @@ async function registrationRequestOTP(phone, type){
 			return userDoc.save();
 		})
 		.then(()=>{
-			sms.sendOTP(phone, userDoc.OTP.currentOTP);
-			resolve(sendResponse(`Registration OTP set for ${phone}`));
+			if(userDoc)
+			{
+				sms.sendOTP(phone, userDoc.OTP.currentOTP);
+				resolve(sendResponse(`Registration OTP set for ${phone}`));
+			}
 		})
 		.catch(error=>{
-			console.log(error);
-			reject(sendError("Internal Server Error"));
+			if(error.status != "failure")
+			{
+				console.log(error);
+				reject(sendError("Internal Server Error"));
+			}
+			else
+			{
+				resolve(error);
+			}
 		})
 	})
 }

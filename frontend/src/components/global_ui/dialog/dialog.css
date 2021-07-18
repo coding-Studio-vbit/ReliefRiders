@@ -9,19 +9,15 @@
   opacity: 0;
   width: 100vw;
   height: 100vh;
-  animation: fade forwards 300ms;
+  animation: fade forwards 200ms;
 }
-.modal-wrapper-b {
-  opacity: 1;
-  animation: fadeOut forwards 300ms;
-}
+
 .modal {
   display: grid;
   grid-template-columns: 1fr 1fr;
   justify-self: center;
   margin: auto 0;
-
-  width: min(90vw, 400px);
+  width: min(85vw, 400px);
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.185), 0 10px 10px rgba(0, 0, 0, 0.225);
   gap: 1em;
   align-content: center;
@@ -30,27 +26,11 @@
   padding: 1em;
   border-radius: 8px;
   background: white;
-  transform: scale(0.1);
-  animation: zoomin forwards 250ms;
-}
-.modal-b {
-  transform: scale(1);
-  animation: zoomout forwards 250ms;
+  
 }
 
-@keyframes zoomin {
-  to {
-    transform: scale(1);
-  }
-}
-@keyframes zoomout {
-  25% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(0);
-  }
-}
+
+
 
 @keyframes fadeOut {
   to {
@@ -97,4 +77,27 @@
 .spinnerModal{
   grid-column: 1/-1;
   text-align: center;
+}
+.scale-transition-appear {
+  transform: scale(0.1);
+
+}
+.scale-transition-appear-active {
+  transform: scale(1);
+  transition: transform 200ms;
+}
+.scale-transition-enter {
+  transform: scale(0.1);
+}
+.scale-transition-enter-active {
+  transform: scale(1);
+  transition: transform 200ms;
+}
+.scale-transition-exit {
+  transform: scale(1);
+
+}
+.scale-transition-exit-active {
+  transform: scale(0);
+  transition: transform 150ms;
 }

@@ -16,13 +16,14 @@
     border-radius: 50%;
     width: 200px;
     height: 200px;
+    background-size: cover;
 }
 
 .filler {
   flex: 1;
 }
 
-form {
+.editRiderProfileForm {
   height: max(80vh);
   display: flex;
   grid-gap: 23px;

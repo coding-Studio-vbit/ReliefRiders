@@ -5,7 +5,7 @@
     justify-items: center;   
 }
 
-label{
+.labelHead{
     font-weight: bold;
     align-self: start;
     position: relative;
@@ -23,10 +23,10 @@ label{
     border-radius: 50%;
     width: 200px;
     height: 200px;
+    background-size: cover;
 }
 
-
-span {
+.phoneNumber,.name{
     display: flex;
     align-items: center;
     align-content: center;
@@ -42,6 +42,5 @@ span {
 .edit{
     font-size: large;
     padding: auto 20px;
-    align-self: center;
-        
+    align-self: center;        
 }
