@@ -8,7 +8,7 @@ import {Dialog} from "../../global_ui/dialog/dialog"
 import { useHistory, useLocation } from 'react-router-dom'
 
 
-function currentRequest () {
+function ViewRequest () {
     const [error, seterror] = useState(null);
     const [isLoading, setisLoading] = useState(false); 
     const token = localStorage.getItem('token')
@@ -66,8 +66,7 @@ function currentRequest () {
             '_newtab'
             )         
         }
-        console.log("GoogleMaps");
-        //Make Calls Here        
+           
     }
 
     const makeDelivery=()=>{
@@ -106,7 +105,6 @@ function currentRequest () {
                 'authorization': 'Bearer ' + token
             }
         }      
-        // eslint-disable-next-line no-undef
         axios.get(`${process.env.REACT_APP_URL}/rider/requestDetails/${location.state}`,options)
         .then(function (response) {
             // handle success
@@ -444,4 +442,4 @@ function currentRequest () {
     )
 }
 
-export default currentRequest
+export default ViewRequest
