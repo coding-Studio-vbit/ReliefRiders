@@ -105,7 +105,7 @@
     /* grid-template-rows: 25% 20% 20% 25%; */
     grid-template-rows: auto;
     grid-template-areas: 
-        "area area . requestType "
+        "pickupArea pickupArea . requestType "
         "droparea droparea . covidStatus "
         "requesterName requesterName . ."
         "category1 category2 category3 .";
@@ -126,14 +126,19 @@
     margin-top:2px;
     padding: 3px;
 }
-.droparea{
+.area{
   grid-area: droparea;
   font-weight: bold;
+  letter-spacing:0.7px;
+  height : fit-content;
+
   
 }
-.area{
-  grid-area: area;
+.pickupArea{
+  grid-area: pickupArea;
   font-weight: bold;
+  letter-spacing:0.7px;
+  height : fit-content;
 }
 .requestType
 {   
@@ -181,5 +186,5 @@
 }
 .requesterName{
   grid-area:requesterName;
-  /* font-weight: bold; */
+  letter-spacing:0.5px;
 }
