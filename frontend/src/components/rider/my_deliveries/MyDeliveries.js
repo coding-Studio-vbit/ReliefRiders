@@ -65,10 +65,7 @@ const MyDeliveries = () => {
       />
       <Navbar
         back='/'
-        backStyle={{ color: "white" }}
         title="My Deliveries"
-        titleStyle={{ color: "white" }}
-        style={{ backgroundColor: "#79CBC5", marginBottom: "10px" }}
       />
       {
         allRequests.length === 0 ? (
