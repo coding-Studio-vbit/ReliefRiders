@@ -180,14 +180,20 @@ async function getRequestDetails(requestID) {
 		requests.findOne({ requestNumber: requestID })
 			.populate('requesterID')
 			.then((temp) => {
-				let doc = temp.toObject();
-				const requesterPhone = temp.requesterID.phoneNumber;
-				doc.requesterID = undefined;
-				doc.requesterPhoneNumber = requesterPhone;
-				if (!doc)
+				if (!temp) {
 					resolve(sendError("No such request found!"));
-				else
-					resolve(sendResponse(doc));
+				}
+				else {
+					let doc = temp.toObject();
+					const requesterPhone = temp.requesterID.phoneNumber;
+					doc.requesterID = undefined;
+					doc.requesterPhoneNumber = requesterPhone;
+					if (!doc)
+						resolve(sendError("No such request found!"));
+					else
+						resolve(sendResponse(doc));
+				}
+
 			})
 			.catch(error => {
 				console.log(error);
