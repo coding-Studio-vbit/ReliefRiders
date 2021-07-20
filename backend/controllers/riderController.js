@@ -80,22 +80,21 @@ async function makeDelivery(phoneNumber, requestID) {
 }
 
 
-async function finishDelivery(phoneNumber,fileData)
-{
-	return new Promise((resolve, reject)=>{
+async function finishDelivery(phoneNumber, fileData) {
+	return new Promise((resolve, reject) => {
 		let billsImagePaths = [];
 		let rideImagePaths = [];
-        if(fileData){
-			for ( var key in fileData){
-				fileData[key].map(data=>{
+		if (fileData) {
+			for (var key in fileData) {
+				fileData[key].map(data => {
 					var path = data.path;
 					var path2 = "data/images";
-					if (value.fieldname === 'billsImages'){
-                    	billsImagePaths.push(path.slice(path.search(path2) + path2.length));
-                	}
-          else{
-                rideImagePaths.push(path.slice(path.search(path2) + path2.length));
-          }
+					if (value.fieldname === 'billsImages') {
+						billsImagePaths.push(path.slice(path.search(path2) + path2.length));
+					}
+					else {
+						rideImagePaths.push(path.slice(path.search(path2) + path2.length));
+					}
 				})
 			}
 		}
@@ -107,7 +106,7 @@ async function finishDelivery(phoneNumber,fileData)
 					resolve(sendError("Rider is not BUSY, cannot finish delivery!"));
 				else {
 					riderDoc = doc;
-					return request.findOne({ requestID: riderDoc.currentRequest });
+					return requests.findOne({ requestID: riderDoc.currentRequest });
 				}
 			})
 			.then((doc) => {
@@ -149,7 +148,7 @@ async function cancelDelivery(phoneNumber) {
 					resolve(sendError("Rider is not BUSY, cannot cancel delivery"))
 				else {
 					riderDoc = doc;
-					return request.findOne({ requestID: riderDoc.currentRequest });
+					return requests.findOne({ requestID: riderDoc.currentRequest });
 				}
 			})
 			.then((doc) => {
@@ -202,10 +201,10 @@ async function getMyDeliveries(phoneNumber) {
 
 		riders.findOne({ phoneNumber: phoneNumber })
 			.then((riderDoc) => {
-				return request.find({ requestStatus: "DELIVERED", riderID: riderDoc._id })
+				return requests.find({ requestStatus: "DELIVERED", riderID: riderDoc._id })
 			})
 			.then(docs => {
-				resolve(sendResponse(docs.data.rows));
+				resolve(sendResponse(docs));
 			})
 			.catch(error => {
 				console.log(error);
