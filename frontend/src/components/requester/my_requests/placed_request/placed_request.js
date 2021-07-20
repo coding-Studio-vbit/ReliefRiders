@@ -185,7 +185,7 @@ const Address = () => {
             <span>Drop Location</span>
             <div className={styles.address}>
               <span>Address</span>
-              {drop ? (
+              {drop.address ? (
                 <>
                   <span>{drop.address}</span>
                   <span>
