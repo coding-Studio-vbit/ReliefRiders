@@ -7,6 +7,7 @@ const MyDeliveriesListItem = (props) => {
     const routes = useHistory()
     return (
         <div onClick={() => {
+            console.log("props:", props.data);
             routes.push("my_deliveries/" + props.data.requestNumber, {
                 request: props.data
             })

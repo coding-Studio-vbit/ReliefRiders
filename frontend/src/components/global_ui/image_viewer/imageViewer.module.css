@@ -2,6 +2,7 @@
   background: rgba(0, 0, 0, 0.15);
   position: fixed;
   top: 0;
+  z-index: 10;
   left: 0;
   display: grid;
   opacity: 0;

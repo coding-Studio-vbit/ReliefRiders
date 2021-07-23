@@ -8,8 +8,7 @@
     height: 100%;
     display: grid;
     justify-content: center;
-    justify-items: center;
-    
+    justify-items: center;    
 }
 
 .quoted-text{
@@ -19,26 +18,36 @@
     margin: 30px;
 }
 
+.founder{
+    height:400px;
+    margin-bottom: 40px;
+    /* background-color: #8360c3; */
+}
+
 .founderNote{
     display: flex;
     justify-content: space-around;
-    height: 250px;
+    flex-direction: row;
+    /* align-items: center; */
+    height: 300px;
     padding: 30px;
 
     background: #8360c3;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #2ebf91, #8360c3);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #2ebf91, #8360c3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
 }
 
 .founderContent{
     max-width: 350px;
-    font-size: 20px;
+    font-size: 16px;
+    align-self: center;
+    color: #e8f5e9;
+
 }
 
 .founderImg{
-    height: 300px;
-    width: 200px;
+    height: 330px;
+    width: 225px;
 }
 
 footer{
@@ -56,3 +65,28 @@ footer{
     justify-items: center;
 
 }
+
+@media screen and (max-width: 485px) {
+    .founder{
+        height: fit-content;
+        margin-top: 50px;
+        padding:0px;        
+    }
+    .founderNote{
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
+        height:450px;
+    }
+    .founderContent{
+        margin: 5px;       
+    }
+    .founderImg{
+        margin-top: -100px;
+        text-align: center;
+        height: 300px;
+        width: 250px;
+    }
+    
+  }
+  

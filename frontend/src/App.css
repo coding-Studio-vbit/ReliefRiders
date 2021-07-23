@@ -3,6 +3,8 @@
 :root{
   --primary: #79CBC5;
   --secondary:#ff7978;
+  --max-width:400px;
+  --almost-transparent:rgba(0, 0, 0, 0.200);
 }
 
 body {

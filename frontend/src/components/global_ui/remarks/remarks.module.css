@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@1,400&display=swap');
+.remarksContainer{
+    width: min(90%,400px);
+    min-height: 70px;
+    overflow:auto;
+    border-radius: 8px;
+    padding: 8px;
+    height: auto;
+    font-style: italic;
+    font-family: 'Lato', sans-serif;
+        border: 2px solid rgba(128, 128, 128, 0.281);
+
+}
+.remarksText{
+    text-align: center;
+}

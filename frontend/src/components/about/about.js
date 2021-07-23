@@ -1,4 +1,5 @@
 import React from 'react'
+import Logo from '../global_ui/logo'
 import './aboutStyles.css'
 
 function About() {
@@ -23,6 +24,10 @@ function About() {
                 </span>
             </nav> 
 
+            <div style={{margin:'15px auto'}}>
+                <Logo/>
+            </div>
+
             <p
             className="quoted-text">
             Lorem ipsum dolor sit amet consectetur ipsum!
@@ -31,7 +36,7 @@ function About() {
             <section 
             className="aboutContent"
             style={{
-                backgroundImage: "url('/assets/blurredlogo.png')" ,
+                backgroundImage: `url('/assets/blurredlogo.png')` ,
                 backgroundSize:'contain',
                 backgroundRepeat:'no-repeat',
                 backgroundPosition:'center',
@@ -54,7 +59,7 @@ function About() {
                 </p>
             </section>
 
-            <section style={{ height:'400px'}} >
+            <section className="founder" >
             <div className="founderNote">
                 <div className="founderContent">
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid nostrum repudiandae eum corrupti, nisi, earum recusandae rerum dolore minima suscipit saepe dolores, quas quisquam praesentium. Dolorum totam consequuntur illum nemo?

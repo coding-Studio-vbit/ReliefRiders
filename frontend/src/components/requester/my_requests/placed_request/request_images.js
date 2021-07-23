@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react/cjs/react.development";
+import React,{useState} from "react";
 import ImageViewer from "../../../global_ui/image_viewer/image_viewer";
 
 import styles from "./request_images.module.css";
