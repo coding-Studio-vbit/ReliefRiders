@@ -70,37 +70,41 @@ function Login() {
   };
 
   return (
-    <div className="login">
+    <form className="login">
       {/* Logo */}
 
       <Dialog  isShowing={isShowing} onOK={()=>{toggle(false)}} msg={error} />
       {/*Form and Content*/}
 
-      <div>
         <Logo />
         <h1> {isRequester ? "Requester" : "Rider"} Login</h1>
 
-        <InputField
-          type="text"
-          placeholder="Mobile"
-          error={errorMsg ? errorMsg : ""}
-          value={mobile}
-          maxLength="10"
-          onChange={(e) => setMobile(e.target.value)}
-        />
-      </div>
+        <div style={{width:'min(90%,var(--max-width))',justifySelf:'center'}} >
+          <InputField
+            type="text"
+            placeholder="Mobile"
+            error={errorMsg ? errorMsg : ""}
+            value={mobile}
+            maxLength="10"
+            onChange={(e) => setMobile(e.target.value)}
+            />
+        </div>
+      <div style={{
+        marginTop:'2.5rem'
+      }}>
       {loading ? (
         <Spinner radius="2" />
-      ) : (
-        <button
+        ) : (
+          <button
           type="submit"
           onClick={(e) => handleLogin(e)}
           value="Request OTP"
           className="btnStyle"
-        >
+          >
           Request OTP
         </button>
       )}
+      </div>
       <div className="reg-cont">
         <p className="routetext">Dont have an account?</p>
 
@@ -117,7 +121,7 @@ function Login() {
           </Link>
         </button>
       </div>
-    </div>
+    </form>
   );
 }
 
