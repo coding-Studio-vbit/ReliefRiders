@@ -79,10 +79,25 @@ async function makeDelivery(phoneNumber, requestID) {
 	})
 }
 
-async function finishDelivery(phoneNumber) {
-	return new Promise((resolve, reject) => {
 
-		let riderDoc;
+async function finishDelivery(phoneNumber, fileData) {
+	return new Promise((resolve, reject) => {
+		let billsImagePaths = [];
+		let rideImagePaths = [];
+		if (fileData) {
+			for (var key in fileData) {
+				fileData[key].map(data => {
+					var path = data.path;
+					var path2 = "data/images";
+					if (value.fieldname === 'billsImages') {
+						billsImagePaths.push(path.slice(path.search(path2) + path2.length));
+					}
+					else {
+						rideImagePaths.push(path.slice(path.search(path2) + path2.length));
+					}
+				})
+			}
+		}
 		riders.findOne({ phoneNumber: phoneNumber })
 			.then((doc) => {
 				if (!doc)
@@ -91,7 +106,7 @@ async function finishDelivery(phoneNumber) {
 					resolve(sendError("Rider is not BUSY, cannot finish delivery!"));
 				else {
 					riderDoc = doc;
-					return request.findOne({ requestID: riderDoc.currentRequest });
+					return requests.findOne({ requestID: riderDoc.currentRequest });
 				}
 			})
 			.then((doc) => {
@@ -100,6 +115,8 @@ async function finishDelivery(phoneNumber) {
 				else {
 					requestDoc = doc;
 					requestDoc.requestStatus = "CONFIRMED BY RIDER";
+					requestDoc.billsImageList = billsImagePaths;
+					requestDoc.rideImages = rideImagePaths;
 					riderDoc.currentStatus = "AVAILABLE";
 					riderDoc.currentRequest = null;
 					return requestDoc.save();
@@ -118,7 +135,6 @@ async function finishDelivery(phoneNumber) {
 	})
 }
 
-
 async function cancelDelivery(phoneNumber) {
 	return new Promise((resolve, reject) => {
 
@@ -132,7 +148,7 @@ async function cancelDelivery(phoneNumber) {
 					resolve(sendError("Rider is not BUSY, cannot cancel delivery"))
 				else {
 					riderDoc = doc;
-					return request.findOne({ requestID: riderDoc.currentRequest });
+					return requests.findOne({ requestID: riderDoc.currentRequest });
 				}
 			})
 			.then((doc) => {
@@ -164,14 +180,20 @@ async function getRequestDetails(requestID) {
 		requests.findOne({ requestNumber: requestID })
 			.populate('requesterID')
 			.then((temp) => {
-				let doc = temp.toObject();
-				const requesterPhone = temp.requesterID.phoneNumber;
-				doc.requesterID = undefined;
-				doc.requesterPhoneNumber = requesterPhone;
-				if (!doc)
+				if (!temp) {
 					resolve(sendError("No such request found!"));
-				else
-					resolve(sendResponse(doc));
+				}
+				else {
+					let doc = temp.toObject();
+					const requesterPhone = temp.requesterID.phoneNumber;
+					doc.requesterID = undefined;
+					doc.requesterPhoneNumber = requesterPhone;
+					if (!doc)
+						resolve(sendError("No such request found!"));
+					else
+						resolve(sendResponse(doc));
+				}
+
 			})
 			.catch(error => {
 				console.log(error);
@@ -185,10 +207,10 @@ async function getMyDeliveries(phoneNumber) {
 
 		riders.findOne({ phoneNumber: phoneNumber })
 			.then((riderDoc) => {
-				return request.find({ requestStatus: "DELIVERED", riderID: riderDoc._id })
+				return requests.find({ requestStatus: "DELIVERED", riderID: riderDoc._id })
 			})
 			.then(docs => {
-				resolve(sendResponse(docs.data.rows));
+				resolve(sendResponse(docs));
 			})
 			.catch(error => {
 				console.log(error);

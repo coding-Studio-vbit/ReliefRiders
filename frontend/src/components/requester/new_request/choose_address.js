@@ -1,48 +1,27 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import InputField from "../../global_ui/input";
 import Navbar from "../../global_ui/nav";
-import styles from "./PinAddress.module.css";
+import styles from "./choose_address.module.css";
 import { useHistory } from "react-router-dom";
 import { NewRequestContext } from "../../context/new_request/newRequestProvider";
-import { useSessionStorageState } from "../../../utils/useLocalStorageState";
 
-const PinAddress = () => {
+const ChooseAddress = ({ pickup }) => {
   const {
     dispatch,
-    state: { requestType, uploadItemsList, pickupLocation, dropLocation },
+    state: {
+      requestType,
+      uploadItemsList,
+      dropLocation,
+      pickupLocation,
+      dropLocationCoordinates,
+      pickupLocationCoordinates,
+    },
   } = useContext(NewRequestContext);
   const history = useHistory();
-  const {
-    location: { state },
-  } = history;
 
-  useEffect(() => {
-    if (state) {
-      if (state.isPickUp) {
-        setlocation(pickupLocation);
-      } else {
-        setlocation(dropLocation);
-      }
-
-      setPickup(state.isPickUp);
-    }
-    // }else if(requestType === 'p&d') setlocation(pickupLocation)
-    // else if(dropLocation) setlocation(dropLocation)
-  }, []);
-
-  const [pickup, setPickup] = useSessionStorageState("addressType", true);
-
-  const routehandler = (route) => {
-    const p = pickup;
-    setPickup(false);
-    history.push(route + "/" + p);
-  };
-
-  const [location, setlocation] = useState({
-    address: "",
-    city: "",
-    area: "",
-  });
+  const [location, setlocation] = useState(
+    pickup ? pickupLocation : dropLocation
+  );
 
   const [errors, setErrors] = useState({
     address: "Enter address",
@@ -51,41 +30,45 @@ const PinAddress = () => {
     showErrors: false,
   });
 
+  const proceed = () => {
+    if (pickup) {
+      dispatch({ type: "ADD_PICKUP_ADDRESS", payload: location });
+      history.push("address_drop");
+    } else {
+      dispatch({
+        type: "ADD_DROP_ADDRESS",
+        payload: location,
+      });
+      if (requestType === "general") {
+        history.push("confirm_general");
+      } else history.push("confirm_pd");
+    }
+  };
+
   function submit(event) {
     event.preventDefault();
-    console.log(location);
     if (
       location.city !== "" &&
       location.area !== "" &&
       location.address !== ""
     ) {
-      //http request to be performed
-      if (pickup && requestType === "p&d") {
-        dispatch({ type: "ADD_PICKUP_ADDRESS", payload: location });
-        if (Object.keys(dropLocation).length !== 0) {
-          setlocation(dropLocation);
+      proceed();
+    } else {
+      if (
+        (pickup && pickupLocationCoordinates.length !== 0) ||
+        (!pickup && dropLocationCoordinates.length !== 0)
+      ) {
+        if (pickup) {
+          history.push("address_drop");
         } else {
-          setlocation({
-            address: "",
-            city: "",
-            area: "",
-          });
+          if (requestType === "general") {
+            history.push("confirm_general");
+          } else history.push("confirm_pd");
         }
-        setPickup(false);
       } else {
-        dispatch({
-          type: "ADD_DROP_ADDRESS",
-          payload: location,
-        });
-        if (requestType === "general") {
-          history.push("confirm_general");
-        } else history.push("confirm_pd");
+        setErrors({ ...errors, showErrors: true });
       }
-    } else
-      setErrors({
-        ...errors,
-        showErrors: true,
-      });
+    }
   }
 
   const _handleAddress = (e) => {
@@ -147,24 +130,34 @@ const PinAddress = () => {
       area: area,
     });
   };
+  const selectedMapMsg = (
+    <p
+      style={{
+        textAlign: "center",
+        marginBottom: "4px",
+        color: "green",
+        fontWeight: "bold",
+      }}
+    >
+      Selected {pickup ? "PICKUP" : "DROP"} Location
+    </p>
+  );
   return (
     <div className={styles.chooseAddressPage}>
       <Navbar
-        back={uploadItemsList ? "add_image" : "enter_items"}
-        onBackClick={
-          !pickup
-            ? () => {
-                const data = pickupLocation;
-                console.log(data);
-                setlocation(data);
-                setPickup(true);
-              }
-            : null
-        }
-        backStyle={{ color: "white" }}
+        back={"unnecessary"}
+        onBackClick={() => {
+          if (pickup) {
+            if (uploadItemsList) history.replace("add_image");
+            else history.replace("enter_items");
+          } else {
+            if (requestType === "general") {
+              if (uploadItemsList) history.replace("add_image");
+              else history.replace("enter_items");
+            } else history.replace("address_pickup");
+          }
+        }}
         title="Choose Location"
-        titleStyle={{ color: "white" }}
-        style={{ backgroundColor: "#79CBC5", marginBottom: "10px" }}
       />
 
       <div className={styles.headerText}>
@@ -177,8 +170,8 @@ const PinAddress = () => {
         <div className={styles.addressContainer}>
           <div className={styles.textAreaContainer}>
             <InputField
-              fieldType="textarea"
-              textAreaClass="headField"
+              name="address"
+              ukey={"address" + pickup}
               value={location.address}
               type="text"
               error={errors.showErrors ? errors.address : ""}
@@ -223,9 +216,13 @@ const PinAddress = () => {
         </p>
 
         <div style={{ marginBottom: 1.3 + "em" }}>
+          {pickup && pickupLocationCoordinates.length !== 0 && selectedMapMsg}
+          {!pickup && dropLocationCoordinates.length !== 0 && selectedMapMsg}
           <button
             type="button"
-            onClick={() => routehandler("map_location")}
+            onClick={() => {
+              history.push("map_location/"+pickup);
+            }}
             value="Choose Location"
             className={styles.locationBtn}
           >
@@ -247,4 +244,4 @@ const PinAddress = () => {
   );
 };
 
-export default PinAddress;
+export default ChooseAddress;

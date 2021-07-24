@@ -15,7 +15,7 @@ const uploadImages = () => {
     check: null,
   });
   const [imgSrcs, setImgSrcs] = useSessionStorageState("uploaded_images", []);
-  const { dispatch } = useContext(NewRequestContext);
+  const { dispatch,state:{requestType} } = useContext(NewRequestContext);
   const imgCount = useRef(imgSrcs.length)
   const [categories, setcategories] = useSessionStorageState("tags", {
     MEDICINES: false,
@@ -69,7 +69,7 @@ const uploadImages = () => {
           if (categories[cat]) list.push(cat);
         }
         dispatch({ type: "ADD_CATEGORIES_IMAGES", payload: list });
-        history.push("address");
+        history.push(requestType==='general'?"address_drop":'address_pickup');
       } else {
         setErr({
           ...err,
@@ -152,27 +152,55 @@ const uploadImages = () => {
 
         <p className={styles.up_error_msg}>{err.check ? err.check : ""}</p>
 
-        <div className={styles.up_list}>
-          <div>
-            <label className={styles.up_check_label}>
-              MEDICINES
-              <input type="checkbox" name="MEDICINES" onChange={OnCheckBox} />
-              <span className={`${styles.up_check} ${styles.check_1}`}></span>
-            </label>
+       
+
+        <div className={styles.checkup}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <input
+              checked={categories.MEDICINES}
+              onChange={OnCheckBox}
+              name="MEDICINES"
+              type="checkbox"
+            />
+            <p>MEDICINES</p>
           </div>
-          <div>
-            <label className={styles.up_check_label}>
-              GROCERIES
-              <input type="checkbox" name="GROCERIES" onChange={OnCheckBox} />
-              <span className={`${styles.up_check} ${styles.check_2}`}></span>
-            </label>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <input
+              checked={categories.GROCERIES}
+              onChange={OnCheckBox}
+              name="GROCERIES"
+              type="checkbox"
+            />
+
+            <p>GROCERIES</p>
           </div>
-          <div>
-            <label className={styles.up_check_label}>
-              MISC.
-              <input type="checkbox" name="MISC" onChange={OnCheckBox} />
-              <span className={`${styles.up_check} ${styles.check_3}`}></span>
-            </label>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <input
+              checked={categories.MISC}
+              onChange={OnCheckBox}
+              name="MISC"
+              type="checkbox"
+            />
+
+            <p>MISC</p>
           </div>
         </div>
 

@@ -8,10 +8,8 @@ import { LoadingScreen } from "../../global_ui/spinner";
 import RequesterHomeRoutes from "../requester/routes";
 import RiderHomeRoutes from "../rider/routes";
 import InitialHome from "./initial_home";
-
 const InitialHomeRouting = () => {
     const { dispatch, isRequester, isAuthenticated } = useContext(AuthContext);
-
     useEffect(() => {
         const token = localStorage.getItem("token");
 
@@ -31,12 +29,12 @@ const InitialHomeRouting = () => {
     return isAuthenticated === null ? (
         <LoadingScreen />
     ) : (
-        <Switch>
+        <Switch  >
             <ProtectedRoute
                 isAuthenticated={isAuthenticated}
                 path="/home/requester"
             >
-                <RequesterHomeRoutes />
+                <RequesterHomeRoutes/>
             </ProtectedRoute>
 
             <ProtectedRoute

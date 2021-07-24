@@ -15,12 +15,10 @@ function EnterItemsForm() {
   const history = useHistory();
   const {
     dispatch,
-    state: { itemsList, categories: cat },
+    state: { requestType,itemsList, categories: cat },
   } = useContext(NewRequestContext);
 
-  const routehandler = (route) => {
-    history.push(route);
-  };
+  
   useEffect(() => {
     if (cat.length !== 0) {
       setcategories((categories) => {
@@ -133,7 +131,7 @@ function EnterItemsForm() {
           categories: list,
           itemsList: inputList,
         });
-        history.push("address");
+        history.push(requestType==='general'? "address_drop":'address_pickup');
       } else {
         setErr({
           ...err,
@@ -274,7 +272,7 @@ function EnterItemsForm() {
         <div className={restyles.buttonArea}>
           <button
             type="button"
-            onClick={() => routehandler("/")}
+            onClick={() => history.replace('/')}
             style={{ backgroundColor: "red", color: "white" }}
             className={restyles.btn}
           >

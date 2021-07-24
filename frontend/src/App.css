@@ -3,6 +3,8 @@
 :root{
   --primary: #79CBC5;
   --secondary:#ff7978;
+  --max-width:400px;
+  --almost-transparent:rgba(0, 0, 0, 0.200);
 }
 
 body {
@@ -23,10 +25,9 @@ button {
   padding: 0.3em 0.7em;
   border-color: green;
   border: none;
-
   transition: color 0.2s ease;
 }
 button:hover , button:focus{
   outline:none !important;
-  
 }
+

@@ -21,12 +21,14 @@ const PlacedRequest = () => {
   const [dialogData, setDialogData] = useState({ show: false, msg: "" });
   const [cancel, setCancel] = useState(false);
   const statusStyle = {
-    color: request.requestStatus === "PENDING" ? "red" : "green",
+    color:
+      request.requestStatus === "PENDING" ||
+      request.requestStatus === "CANCELLED"
+        ? "red"
+        : "green",
     fontWeight: "bold",
     fontSize: 1.2 + "em",
   };
-
-  
 
   return (
     <>
@@ -34,6 +36,7 @@ const PlacedRequest = () => {
         isShowing={dialogData.show}
         msg={dialogData.msg}
         setDialogData={setDialogData}
+        onCancel={() => setCancel(false)}
         routeRedirect="my_requests"
         onOK={async () => {
           const res = await cancelConfirmRequest(
@@ -43,7 +46,7 @@ const PlacedRequest = () => {
           );
           console.log(res);
           if (res !== 1) {
-            setDialogData({ show: true, msg: res });
+            setDialogData({ ...dialogData, msg: res });
           } else {
             if (cancel)
               setDialogData({ ...dialogData, msg: "Cancelled successfully" });
@@ -53,15 +56,7 @@ const PlacedRequest = () => {
           }
         }}
       />
-      <Navbar
-        back="my_requests"
-        style={{
-          color: "white",
-          background: "#79cbc5",
-          marginBottom: 0.75 + "em",
-        }}
-        title="Order Details"
-      />
+      <Navbar back="my_requests" title="Order Details" />
       <div className={styles.container}>
         <p>Request #{request.requestNumber}</p>
         <span>
@@ -93,43 +88,39 @@ const PlacedRequest = () => {
           </>
         )}
 
-        {request.requestStatus[0] != "D" && (
-          <BottomButton setCancel={setCancel} setDialogData={setDialogData} />
-        )}
+       
+          <div className={styles.buttonsContainer}>
+            
+              { request.requestStatus === "PENDING" &&  <button
+                onClick={() => {
+                  setCancel(true);
+                  setDialogData({
+                    show: true,
+                    msg: "Are you sure you want to cancel",
+                  });
+                }}
+              >
+                Cancel Request
+              </button>}
+            
+            { (request.requestStatus === "PENDING" || request.requestStatus === "UNDER DELIVERY") && <button
+              onClick={() => {
+                setDialogData({
+                  show: true,
+                  msg: "Are you sure you want to confirm delivery",
+                });
+              }}
+            >
+              Confirm Request
+            </button>}
+          </div>
+        
       </div>
     </>
   );
 };
 
 export default PlacedRequest;
-
-const BottomButton = ({ setDialogData, setCancel }) => {
-  return (
-    <div className={styles.buttonsContainer}>
-      <button
-        onClick={() => {
-          setCancel(true);
-          setDialogData({
-            show: true,
-            msg: "Are you sure you want to cancel",
-          });
-        }}
-      >
-        Cancel Request
-      </button>
-      <button
-        onClick={() => {
-          setDialogData({
-            show: true,
-            msg: "Are you sure you want to confirm delivery",
-          });
-        }}
-      >
-        Confirm Request
-      </button>
-    </div>
-  );
-};
 
 const Address = () => {
   const {
@@ -145,11 +136,10 @@ const Address = () => {
 
   return (
     <div className={styles.addressContainer}>
-     
       {type === "GENERAL" ? (
         <div className={styles.address}>
           <span>Address</span>
-          {drop ? (
+          {drop.address ? (
             <>
               <span>{drop.address}</span>
               <span>
@@ -168,12 +158,11 @@ const Address = () => {
         </div>
       ) : (
         <>
-          
           <>
             <span>Pickup Location</span>
             <div className={styles.address}>
               <span>Address</span>
-              {pickup ? (
+              {pickup.address ? (
                 <>
                   <span>{pickup.address}</span>
                   <span>
@@ -191,12 +180,12 @@ const Address = () => {
               )}
             </div>
           </>
-           
+
           <>
             <span>Drop Location</span>
             <div className={styles.address}>
               <span>Address</span>
-              {drop ? (
+              {drop.address ? (
                 <>
                   <span>{drop.address}</span>
                   <span>
@@ -214,7 +203,6 @@ const Address = () => {
               )}
             </div>
           </>
-          
         </>
       )}
     </div>

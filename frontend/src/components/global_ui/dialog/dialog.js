@@ -1,13 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { useRef } from "react";
 import ReactDOM from "react-dom";
 import { useHistory } from "react-router-dom";
-import { useState } from "react/cjs/react.development";
+import { CSSTransition } from "react-transition-group";
 import { Spinner } from "../spinner";
 import "./dialog.css";
 /**
  * 
- * @param {} confirmDialog : bool. Whether the modal is confirm dialog or not
  * @param {boolean} isShowing: bool. hide or show model using this prop
  * @param {string} msg :string. Message to show
  * @param {String} title: string title of the modal
@@ -28,61 +27,46 @@ import "./dialog.css";
  * Now to show the dialog call toggle(true) (Now dialog will be displayed 😀 )
 
  */
-const Dialog = ({
-  confirmDialog,
-  isShowing,
-  msg,
-  title = "Alert",
-  onOK = () => {},
-  onCancel = () => {},
-}) => {
-  const style = !confirmDialog
-    ? {
-        gridColumnStart: 1,
-        gridColumnEnd: -1,
-      }
-    : {};
-
+const Dialog = ({ isShowing, msg, title = "Alert", onOK = () => {} }) => {
+  const [inProp, setInProp] = useState(true);
+  const nodeRef = useRef(null)
   return isShowing
     ? ReactDOM.createPortal(
-        <React.Fragment>
-          <div id="mw" className="modal-wrapper">
-            <div id="modal" className="modal">
+        <div id="mw" className="modal-wrapper">
+          <CSSTransition
+            appear
+            nodeRef={nodeRef}
+            unmountOnExit
+            in={inProp}
+            onExited={() => {
+              if (!inProp) {
+                setInProp(true);
+                onOK();
+              }
+            }}
+            key={msg}
+            timeout={200}
+            classNames="scale-transition"
+          >
+            <div ref={nodeRef} id="modal" className="modal">
               <h3>{title}</h3>
               <p>{msg}</p>
 
-              {confirmDialog && (
-                <button
-                  className="modal-close-button"
-                  onClick={() => {
-                    document
-                      .getElementById("mw")
-                      .classList.add("modal-wrapper-b");
-
-                    document.getElementById("modal").classList.add("modal-b");
-                    setTimeout(() => onCancel(), 250);
-                  }}
-                >
-                  Cancel
-                </button>
-              )}
               <button
-                style={style}
+              style={{
+                gridColumnStart: 1,
+                gridColumnEnd: -1,
+              }}
                 className="modal-close-button"
                 onClick={() => {
-                  document
-                    .getElementById("mw")
-                    .classList.add("modal-wrapper-b");
-
-                  document.getElementById("modal").classList.add("modal-b");
-                  setTimeout(() => onOK(), 250);
+                  setInProp(false);
                 }}
               >
                 Okay!
               </button>
             </div>
-          </div>
-        </React.Fragment>,
+          </CSSTransition>
+        </div>,
         document.body
       )
     : null;
@@ -99,14 +83,17 @@ const Dialog = ({
 const ConfirmDialog = ({
   isShowing,
   msg,
+
   setDialogData,
   routeRedirect,
+  onCancel,
   title = "Alert",
   onOK = async () => {},
 }) => {
-  const history = useHistory()
+  const history = useHistory();
   const [loading, setLoading] = useState(false);
   const onOKCompleted = useRef(false);
+  const nodeRef = useRef(null)
   const [makeAlert, setMakeAlert] = useState(false);
   const style = makeAlert
     ? {
@@ -114,12 +101,35 @@ const ConfirmDialog = ({
         gridColumnEnd: -1,
       }
     : {};
+  const [inProp, setInProp] = useState(true);
 
   return isShowing
     ? ReactDOM.createPortal(
-        <React.Fragment>
-          <div id="mw" className="modal-wrapper">
-            <div id="modal" className="modal">
+        <div id="mw" className="modal-wrapper">
+          <CSSTransition
+            appear
+            nodeRef={nodeRef}
+            unmountOnExit
+            in={inProp}
+            onExited={() => {
+              if (!inProp) {
+                
+              
+                setInProp(true);
+                setDialogData({
+                  show: false,
+                  msg: "",
+                });
+                setMakeAlert(false);
+                if(onCancel) onCancel()
+                onOKCompleted.current = false;
+              }
+            }}
+            key={history.location.key}
+            timeout={200}
+            classNames="scale-transition"
+          >
+            <div ref={nodeRef} id="modal" className="modal">
               <h3>{title}</h3>
               {loading ? (
                 <span className="spinnerModal">
@@ -135,21 +145,7 @@ const ConfirmDialog = ({
                     <button
                       className="modal-close-button"
                       onClick={() => {
-                        document
-                          .getElementById("mw")
-                          .classList.add("modal-wrapper-b");
-                        document
-                          .getElementById("modal")
-                          .classList.add("modal-b");
-
-                        setTimeout(
-                          () =>
-                            setDialogData({
-                              show: false,
-                              msg: "",
-                            }),
-                          250
-                        );
+                        setInProp(false);
                       }}
                     >
                       Cancel
@@ -160,26 +156,10 @@ const ConfirmDialog = ({
                     className="modal-close-button"
                     onClick={async () => {
                       if (onOKCompleted.current) {
-                        document
-                          .getElementById("mw")
-                          .classList.add("modal-wrapper-b");
-                        document
-                          .getElementById("modal")
-                          .classList.add("modal-b");
-                       
-                        setTimeout(() => {
-                          if(routeRedirect) history.replace(routeRedirect)
-                          else{
-                            setDialogData({
-                              show: false,
-                              msg: "",
-                             
-                            });
-                            setMakeAlert(false);
-                            onOKCompleted.current = false;
-                          }
-                           
-                        }, 250);
+                        if (routeRedirect) history.replace(routeRedirect);
+                        else {
+                          setInProp(false);
+                        }
                       } else {
                         setLoading(true);
                         await onOK();
@@ -194,8 +174,8 @@ const ConfirmDialog = ({
                 </>
               )}
             </div>
-          </div>
-        </React.Fragment>,
+          </CSSTransition>
+        </div>,
         document.body
       )
     : null;

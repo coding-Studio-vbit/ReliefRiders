@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { AuthContext } from "../../context/auth/authProvider";
 import { logout } from "../../context/auth/authOperations";
 
-import "../requester/style.css";
+// import "../requester/style.css";
 import { useHistory } from "react-router-dom";
 import Logo from "../../global_ui/logo";
 import Navbar from "../../global_ui/nav";
@@ -12,7 +12,7 @@ function RiderHome() {
   const { dispatch } = useContext(AuthContext);
 
   const routehandler = (route) => {
-    history.push( route );
+    history.push(route);
   };
 
 

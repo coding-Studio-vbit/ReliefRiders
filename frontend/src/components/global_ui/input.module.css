@@ -51,9 +51,7 @@
 
 .errorField +.label{
     color: red;
-    --label-top:17%;
-
-    
+    --label-top:17%;    
 }
 .input:valid+.label,
 .input:focus+.label {
@@ -80,4 +78,46 @@
     -moz-appearance: none;
     appearance: none;
     margin: 0; 
+}
+
+textarea {
+    box-sizing:border-box;
+    border       : 2px solid #ddd;
+    font-size    : 1.1em;
+    border-radius: 4px;
+    width: 100%;
+    outline      : none;
+    transition   : border-color 0.3s ease,
+    border-color 0.2s ease
+    ;    
+    resize: none;
+    padding: 10px;    
+}
+textarea:focus{
+    border-color: black;
+
+}
+
+textarea+label{
+    top: 0;
+    left:1.2em;
+    text-align: center;
+    margin-top: 10px;
+    font-size:0.9em;
+    padding: 0px;
+    transition    : top 0.2s ease,
+        font-size 0.2s ease,
+        color 0.2s ease;   
+}
+
+textarea:valid+label,textarea:focus+label{
+    position:absolute;
+    top:-20px;
+    left: 0.7em;
+    padding: 0px 2px;
+    color: black;
+    height: 15px;
+    font-size   : 0.7em;
+
+    background-color: white;
 }
