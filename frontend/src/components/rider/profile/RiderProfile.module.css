@@ -13,19 +13,31 @@
     color: darkslategrey;
 }
 
-.profileImage{
+.profileImage {
     border: 1px solid black;
     background-color: pink;
-    margin: 5px;
-    margin-bottom:9px;
-    align-self: center;
+    margin: 3px;
+  
     justify-self: center;
     border-radius: 50%;
-    width: 200px;
-    height: 200px;
-    background-size: cover;
-}
-
+    width: min(50%, 150px);
+  }
+  .profileDummy {
+    position: relative;
+    width: min(35vw, 150px);
+    height: min(35vw, 150px);
+    background: var(--secondary);
+    border-radius: 50%;
+    margin: 0 0 8px 0;
+  }
+  .profileDummy::before {
+    content: "Profile";
+  
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 .phoneNumber,.name{
     display: flex;
     align-items: center;

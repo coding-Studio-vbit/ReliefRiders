@@ -187,9 +187,9 @@ const RegisterScreen = () => {
         msg={error}
       />
 
-      <div>
+      <div style={{height:'min-content'}} >
         <Logo />
-        <p
+        <h1
           style={{
             margin: 0.5 + "em",
             textAlign: "center",
@@ -197,8 +197,8 @@ const RegisterScreen = () => {
           }}
         >
           {isRequester ? "Requester" : "Rider"} Register
-        </p>
-
+        </h1>
+          <div className='inputContainer' >
         <InputField
           value={details.number}
           type="number"
@@ -224,6 +224,7 @@ const RegisterScreen = () => {
               placeholder="Year Of Birth"
             />
           )}
+        </div>
         </div>
       </div>
 
