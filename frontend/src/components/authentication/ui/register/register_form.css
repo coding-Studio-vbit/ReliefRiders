@@ -3,7 +3,7 @@
   height: 100vh;
   justify-items: center;
   padding: 1em;
-  
+  position: relative;
   grid-auto-rows: min-content;
   
 }

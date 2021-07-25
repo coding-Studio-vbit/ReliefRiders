@@ -1,5 +1,5 @@
 .login {
-  
+  position: relative;
   text-align: center;
   display: grid;
   padding: 1em;
@@ -27,4 +27,8 @@
   color: slategray;
   align-self: end;
   margin-bottom: 5px;
+}
+.almostFooter a{
+  font-weight: bold;
+  color:rgb(62, 101, 185)
 }
