@@ -28,10 +28,10 @@ function About() {
                 <Logo/>
             </div>
 
-            <p
+            <div
             className="quoted-text">
             Lorem ipsum dolor sit amet consectetur ipsum!
-            </p>                  
+            </div>                  
 
             <section 
             className="aboutContent"
@@ -76,12 +76,16 @@ function About() {
             </section>
 
             <footer >
-                <h2>Relief Riders</h2>
-                <p className="footer-container-1">
-                    <i className="fab fa-instagram"></i>
-                    <i className="fab fa-facebook"></i>
+                <h2 className="title">Relief Riders</h2>
+                <div className="icons">
+                    <i className="fab fa-instagram icon"></i>
+                    <i className="fab fa-facebook icon"></i>
+                    <i className="fab fa-twitter icon"></i>
+                </div>
 
-                </p>
+                <h4 className="finalText">
+                © lorem ipsum
+                </h4>
             </footer>
             
                                                         

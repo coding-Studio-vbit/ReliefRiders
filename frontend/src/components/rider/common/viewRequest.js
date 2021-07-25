@@ -3,68 +3,27 @@ import styles from './viewRequest.module.css'
 import Navbar from '../../global_ui/nav'
 import Button from '../../global_ui/buttons/button'
 import axios from "axios"
-import { LoadingScreen } from "../../global_ui/spinner"
 import { Dialog } from "../../global_ui/dialog/dialog"
-import { useHistory, useLocation } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
+import UserDetails from '../current_request/user_details'
+import Remarks from '../../global_ui/remarks/remarks'
+import Address from '../current_request/address'
 
 
 function ViewRequest() {
     const [error, seterror] = useState(null);
-    const [isLoading, setisLoading] = useState(false);
     const token = localStorage.getItem('token')
+    const [isLoading, setisLoading] = useState(false)
     const history = useHistory();
-    const location = useLocation();
     const [isDeliveryConfirmed, setisDeliveryConfirmed] = useState(false);
-    const [reqObj, setReqObj] = useState(location.state);
 
-    // const [reqObj, setReqObj] = useState({
-    //     requestNumber: null,
-    //     requesterName: null,//requesterID
-    //     requesterPhoneNumber: null,//requesterID
+    const [state, setstate] = useState({reqObj:request})
 
-    //     requesterCovidStatus: null,
-    //     requestStatus: null,//need to use 
-    //     requestType: null,
-
-    //     itemsListList: [],
-    //     itemCategories: [],//need to use
-    //     Remarks: null,
-
-    //     pickupLocationCoordinates: {
-    //         coordinates: []
+    // const {
+    //     location: {
+    //       state
     //     },
-    //     pickupLocationAddress: {
-    //         addressLine: null,
-    //         area: null,
-    //         city: null,
-    //     },
-    //     dropLocationCoordinates: {
-    //         coordinates: []
-    //     },
-    //     dropLocationAddress: {
-    //         addressLine: null,
-    //         area: null,
-    //         city: null
-    //     }
-    // });
-    const navigateToWhatsapp = () => {
-        console.log("Whatsapp");       
-    }
-    const navigateToGoogleMaps = (type) => {
-        if (type === "pickUp") {
-            window.open(
-                `https://www.google.com/maps/search/?api=1&query=${reqObj.pickupLocationCoordinates.coordinates[0]},${reqObj.pickupLocationCoordinates.coordinates[1]}`,
-                '_newtab'
-            )
-        }
-        else if (type === "drop") {
-            window.open(
-                `https://www.google.com/maps/search/?api=1&query=${reqObj.dropLocationCoordinates.coordinates[0]},${reqObj.dropLocationCoordinates.coordinates[1]}`,
-                '_newtab'
-            )
-        }
-
-    }
+    //   } = history;
 
     const makeDelivery = () => {
         setisLoading(true);
@@ -91,16 +50,19 @@ function ViewRequest() {
     }
 
     useEffect(() => {
-        if(location.state==null){
-            seterror(error);        
-        }
+        // console.log(10,history);
+        // if(location.state){
+        //                //        
+        // }
+        // else{
+        //     //
+        //     state=
+            
+        // }
     }, [])
 
     return (
-        location.state? 
-        (
-            !error?
-            <div className={styles.currentRequestPage}>
+            <>
                 <Navbar back="true" title="Order Details" style={{ background: '#79CBC5', color: 'white' }} />
 
                 <Dialog
@@ -117,191 +79,39 @@ function ViewRequest() {
 
                     <p className={styles.request}>
                         <span >RequestID
-                            <span style={{ fontWeight: 'lighter' }}> #{reqObj.requestNumber}</span>
+                            <span style={{ fontWeight: 'lighter' }}> #{state.reqObj.requestNumber}</span>
                         </span>
-                        <span style={{ fontWeight: "bolder" }} >{reqObj.requestStatus}</span>
                     </p>
 
-                    <p className={styles.name}>Name
-                        <span style={{ fontWeight: 'lighter' }}>{" " + reqObj.requesterName}</span>
-                    </p>
+                    <UserDetails 
+                    covid={state.reqObj.requesterCovidStatus} 
+                    name={state.reqObj.name} phone={state.reqObj.phoneNumber}/>                 
 
-                    <div className={styles.mobile}>
-                        <i className="fas fa-phone-alt"></i>
-                        {reqObj.requesterPhoneNumber}
+                    <Address request={state.reqObj}/>
 
-                        <Button
-                            text="Call"
-                            isRounded="true"
-                            isElevated="true"
-                            onClick={() => window.open(`tel:+${reqObj.mobile}`)} />
+                    <Remarks remarks={state.reqObj.Remarks}/>
 
-                        <Button
-                            color="black"
-                            bgColor="white"
-                            text="Whatsapp"
-                            borderColor="black"
-                            borderWidth="1px"
-                            isRounded="true"
-                            icon="fab fa-whatsapp"
-                            iconPosition="left"
-                            onClick={() => navigateToWhatsapp()}
-                        />
-                    </div>
+                   
 
-                    {/* GENERAL REQUEST */}
-                    {
-                        reqObj.requestType === "GENERAL" &&
-                        <div>
-                            {
-                                (
-                                    reqObj.dropLocationAddress.addressLine &&
-                                    reqObj.dropLocationAddress.city &&
-                                    reqObj.dropLocationAddress.area
-                                )
-                                &&
-                                <div className={styles.address} style={{ marginBottom: '5px' }}>
-                                    <p className={styles.addressPlaceHolder}>Address</p>
-                                    <h4 style={{ fontWeight: '500', margin: '4px' }}>{reqObj.dropLocationAddress.addressLine}</h4>
-
-                                    <div className={styles.inputField}>
-                                        <p className={styles.fieldName}>Area</p>
-                                        <p className={styles.field}>{reqObj.dropLocationAddress.area}</p>
-                                    </div>
-
-                                    <div className={styles.inputField}>
-                                        <p className={styles.fieldName}>City</p>
-                                        <p className={styles.field}>{reqObj.dropLocationAddress.city}</p>
-                                    </div>
-                                </div>
-                            }
-                            {
-                                reqObj.dropLocationCoordinates.coordinates.length != 0 &&
-                                <Button color="brown" bgColor="white" isBlock="true" isRounded="true"
-                                    text="Open location through google maps"
-                                    borderWidth="1px"
-                                    borderColor="darkslategrey"
-                                    icon="fas fa-map-marker-alt"
-                                    iconPosition="right"
-                                    onClick={() => navigateToGoogleMaps("drop")}
-                                />
-                            }
-                        </div>
-                    }
-
-                    {/* P&D REQUEST */}
-                    {
-                        reqObj.requestType === "P&D" &&
-                        <div>
-                            {/* {PICK UP LOCATION} */}
-                            <p style={{ marginBottom: '13px' }}>
-                                <i className="fas fa-map-marker-alt" style={{ marginRight: '5px' }}></i>
-                                PickUp Location
-                            </p>
-                            {
-                                (
-                                    reqObj.pickupLocationAddress.addressLine &&
-                                    reqObj.pickupLocationAddress.city &&
-                                    reqObj.pickupLocationAddress.area
-                                ) &&
-                                <div className={styles.address} style={{ marginBottom: '5px' }}>
-                                    <p className={styles.addressPlaceHolder}>Address</p>
-                                    <h4 style={{ fontWeight: '500', margin: '4px' }}>{reqObj.pickupLocationAddress.addressLine}</h4>
-
-                                    <div className={styles.inputField}>
-                                        <p className={styles.fieldName}>Area</p>
-                                        <p className={styles.field}>{reqObj.pickupLocationAddress.area}</p>
-                                    </div>
-
-                                    <div className={styles.inputField}>
-                                        <p className={styles.fieldName}>City</p>
-                                        <p className={styles.field}>{reqObj.pickupLocationAddress.city}</p>
-                                    </div>
-                                </div>
-
-                            }
-                            {
-                                reqObj.pickupLocationCoordinates.coordinates.length != 0
-                                &&
-                                <Button color="brown" bgColor="white" isBlock="true" isRounded="true"
-                                    text="Open location through google maps"
-                                    borderWidth="1px"
-                                    borderColor="darkslategrey"
-                                    icon="fas fa-map-marker-alt"
-                                    iconPosition="right"
-                                    onClick={() => navigateToGoogleMaps("pickUp")}
-                                />
-                            }
-
-                            {/* DROP LOCATION */}
-                            <p style={{ marginBottom: '13px' }}>
-                                <i className="fas fa-map-marker-alt" style={{ marginRight: '5px' }}></i>
-                                Drop Location
-                            </p>
-                            {
-
-                                (
-                                    reqObj.dropLocationAddress.addressLine &&
-                                    reqObj.dropLocationAddress.city &&
-                                    reqObj.dropLocationAddress.area
-                                ) &&
-                                <div className={styles.address} style={{ marginBottom: '5px' }}>
-                                    <p className={styles.addressPlaceHolder}>Address</p>
-                                    <h4 style={{ fontWeight: '500', margin: '4px' }}>{reqObj.dropLocationAddress.addressLine}</h4>
-
-                                    <div className={styles.inputField}>
-                                        <p className={styles.fieldName}>Area</p>
-                                        <p className={styles.field}>{reqObj.dropLocationAddress.area}</p>
-                                    </div>
-                                    <div className={styles.inputField}>
-                                        <p className={styles.fieldName}>City</p>
-                                        <p className={styles.field}>{reqObj.dropLocationAddress.city}</p>
-                                    </div>
-                                </div>
-                            }
-                            {
-                                reqObj.dropLocationCoordinates.coordinates.length != 0
-                                &&
-                                <Button color="brown" bgColor="white" isBlock="true" isRounded="true"
-                                    text="Open location through google maps"
-                                    borderWidth="1px"
-                                    borderColor="darkslategrey"
-                                    icon="fas fa-map-marker-alt"
-                                    iconPosition="right"
-                                    onClick={() => navigateToGoogleMaps("drop")}
-                                />
-                            }
-                        </div>
-                    }
-
-                    <p className={styles.message}>
-                        {
-                            reqObj.requesterCovidStatus ?
-                                <p style={{ color: 'red', margin: '0px' }}>Requester is Covid Positive</p> :
-                                <p style={{ color: "darkgreen", margin: '0px' }}>Requester is Healthy</p>
-                        }
-                    </p>
-
-                    <p className={styles.remark}>
-                        Remarks:
-                        {
-                            <p className={styles.field}>{reqObj.Remarks}</p>
-                        }
-                    </p>
-
-                    <div className={styles.order}>
+                        <p style={{textAlign:'center'}}>Requests</p>                                                
                         <div className={styles.orderType}>
-                            Requests
                             {
-                                reqObj.itemCategories.includes('GROCERIES') && <Button text="Groceries" isRounded="true" />
-                            }
-                            {
-                                reqObj.itemCategories.includes('MEDICINES') && <Button text="Medicines" bgColor="green" isRounded="true" />
-                            }
-                            {
-                                reqObj.itemCategories.includes('MISC') && <Button text="Misc" bgColor="green" isRounded="true" />
-                            }
+                                state.reqObj.itemCategories.map((type)=>{
+                                    return(
+                                        <Button 
+                                        fontSize="0.9rem"
+                                        text={type} 
+                                        key={type} bgColor="#ff7978" 
+                                        color="black"
+                                        isRounded="true"
+                                        borderRadius="16px"
+                                        
+                                        />
+                                    )
+                                })                               
+                            }                           
                         </div>
+
                         <div className={styles.itemsListList}>
                             <table>
                                 <tr>
@@ -309,7 +119,7 @@ function ViewRequest() {
                                     <th>Quantity</th>
                                 </tr>
                                 {
-                                    reqObj.itemsListList.map((object) => {
+                                    state.reqObj.itemsListList.map((object) => {
                                         return <tr key={object.itemName}>
                                             <td>{object.itemName}</td>
                                             <td>{object.quantity}</td>
@@ -318,50 +128,84 @@ function ViewRequest() {
                                 }
                             </table>
                         </div>
+                        <div>
                         {
-                            reqObj.requestStatus === "PENDING" &&
+                            state.reqObj.requestStatus === "PENDING" &&
                             <div style={{ marginTop: '50px', textAlign: 'center' }}>
                                 <Button text="Make Delivery" isRounded="true" isBlock="true" isElevated="true"
                                     onClick={() => makeDelivery()}
                                 />
                             </div>
-                        }
-                    </div>
+                        }  
+
+                        </div>
+                                      
+                    
                 </div>
-            </div>           
-            : 
-            <Dialog isShowing={error} title="Error" msg={(error.message)}
-                onOK={() => {
-                    seterror(null)
-                    history.goBack();
-                }
-            }/>
-
-        ):
-        <div className={styles.noRequests}>
-            <Navbar back="true" title="Order Details" style={{ background: '#79CBC5', color: 'white' }} />
-            <div style={{ textAlign: 'center' }}>            
-                <h3 style={{
-                    textAlign: 'center',
-                    padding: '10px',
-                    color: '#757575',
-                    fontWeight: "lighter"
-                }}
-                >Invalid RequestID</h3>
-
-                <Button
-                    bgColor="green"
-                    text="Take Up Requests"
-                    color="white"
-                    borderColor="black"
-                    borderWidth="1px"
-                    isRounded="true"
-                    fontSize="20px"
-                    onClick={() => { history.push("/new_delivery") }}
-                />
-            </div>
-        </div>
+            </>                             
     )
 }
 
 export default ViewRequest;
+
+
+
+
+const request = {
+    requestNumber: "8628290",
+    requesterID: "8628290",
+    requestStatus: "DELIVERED",
+    requesterCovidStatus: true,
+    requestType: "GENERAL",
+    name: "Mark Zucc",
+    phoneNumber: "9999999999",
+    itemsListImages: [
+      //  "https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+    ],
+    riderID: {
+      name: "Someone",
+    },
+    itemsListList: [
+      {
+        itemName: "Tomato",
+        quantity: "2kg",
+      },
+      {
+        itemName: "Zomato",
+        quantity: "2kg",
+      },
+    ],
+    itemCategories: ["MEDICINES", "MISC"],
+    remarks: "Please delivery ASAP here",
+    billsImageList: [
+      // "https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+    ],
+    rideImages: [
+      // "https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+    ],
+    pickupLocationAddress: {
+      addressLine: "Some place far away",
+      area: "",
+      city: "Unknown",
+      
+    },
+    dropLocationAddress: {
+        addressLine: "Some place far away",
+        area: "",
+        city: "Unknown",
+        
+      },
+    // {
+    //   addressLine: "Some place far away",
+    //   area: "",
+    //   city: "Unknown",
+    //   pincode: "XXXXXX",
+    // }
+    pickupLocationCoordinates: {
+      coordinates: [17.9, 78.6],
+    },
+    dropLocationCoordinates: {
+      coordinates: [17.9, 78.6],
+    },
+  };
+  
