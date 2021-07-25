@@ -1,17 +1,12 @@
 .login {
-  justify-items: center;
-  align-items: center;
+  position: relative;
   text-align: center;
-  justify-content: center;
   display: grid;
-  
- 
-  gap: min(15%,4rem);
-  padding: 1em 1em;
+  padding: 1em;
 }
 
+
 .btnStyle {
-  place-self: center;
   padding: 0.6em;
 }
 .btnStyle-register {
@@ -22,6 +17,7 @@
   color: white;
 }
 .reg-cont {
+  margin-top: 5rem;
   text-align: center;
 }
 .spinner {
@@ -31,4 +27,8 @@
   color: slategray;
   align-self: end;
   margin-bottom: 5px;
+}
+.almostFooter a{
+  font-weight: bold;
+  color:rgb(62, 101, 185)
 }

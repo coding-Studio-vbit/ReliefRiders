@@ -184,7 +184,8 @@ async function _handle(dispatch, res,verify=false,user=null) {
                 }
             )
             if(verify){
-                const token = data.msg
+                const token = data.message
+                console.log(token);
                 dispatch({
                     type:`AUTHENTICATED`,
                     payload:{token,user}

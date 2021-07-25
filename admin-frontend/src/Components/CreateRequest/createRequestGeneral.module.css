@@ -1,0 +1,92 @@
+.border {
+  border-radius: 25px;
+  border: 1px solid #000000;
+  padding: 20px;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 3%;
+  margin-bottom: 3%;
+  width: auto;
+}
+
+.header {
+  color: #ae1818;
+  text-align: center;
+  text-decoration-line: underline;
+  text-decoration-color: #ae1818;
+}
+
+.inputdata {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  padding-left: 15px;
+  height: 40px;
+  width: min(80%, 35rem);
+  box-sizing: border-box;
+  border: 2px solid #ddd;
+  font-size: clamp(0.6rem, 1vw, 1.2rem);
+  border-radius: 6px;
+}
+
+.address {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  padding: 5px;
+  padding-left: 15px;
+  height: auto;
+  width: min(80%, 35rem);
+  box-sizing: border-box;
+  border: 2px solid #ddd;
+  font-size: clamp(0.6rem, 1vw, 1.2rem);
+  border-radius: 6px;
+}
+
+.pay {
+  font-weight: bold;
+  font-size: 1em;
+  margin-right: 1.9em;
+}
+.options {
+  position: relative;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  margin-bottom: 5px;
+  cursor: pointer;
+  font-size: 0.8em;
+  font-weight: bold;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.noContact {
+  margin-right: 1.3em;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.noContactDCBox {
+  transform: scale(1.8);
+  cursor: pointer;
+  filter: hue-rotate(242deg);
+}
+
+.covidStatus {
+  flex-direction: column;
+  font-size: 1em;
+  margin-right: 1.3em;
+  font-weight: bold;
+}
+.covid {
+  transform: scale(1.8);
+  cursor: pointer;
+  filter: hue-rotate(142deg);
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}

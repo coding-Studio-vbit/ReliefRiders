@@ -1,0 +1,10 @@
+/auth/requestOTP -post
+/auth/verifyOTP -post
+/admin/deliveries -get
+/admin/request/search/:requestNumber -get
+/admin/rider/search/:riderNamePrefix -get
+/admin/assign/:riderID/:requestNumber -get
+/admin/create -post
+/admin/delete -delete
+/admin/request/newgeneral -post
+/admin/request/newpd -post
