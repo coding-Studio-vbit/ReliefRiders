@@ -28,20 +28,20 @@ const user = new mongoose.Schema({
   },
   currentStatus: {
     type: String,
-    enum: [ "AVAILABLE", "UNAVAILABLE", "BUSY" ]
+    enum: [ "AVAILABLE", "BUSY" ],
+	default: "AVAILABLE"
   },
   currentRequestType: {
     type: String,
     enum: ["P&D","GENERAL"]
   },
   currentRequest: {
-      type: Number,
+      type: mongoose.Schema.Types.ObjectId,
+	  ref: 'requests',
       default : null
   },
   OTP: OTPSchema
 });
 
-
 const riders = mongoose.model("riders", user);
-
 module.exports = riders;

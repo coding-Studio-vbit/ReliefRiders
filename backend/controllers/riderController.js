@@ -34,8 +34,7 @@ async function makeDelivery(phoneNumber, requestID) {
 	return new Promise((resolve, reject) => {
 
 		let riderDoc;
-
-		riders.firesultndOne({ phoneNumber: phoneNumber })
+		riders.findOne({ phoneNumber: phoneNumber })
 			.then(doc => {
 				if (!doc)
 					resolve(sendError("Rider not found"));
@@ -43,10 +42,10 @@ async function makeDelivery(phoneNumber, requestID) {
 					riderID = doc._id;
 					riderDoc = doc;
 					if (doc.currentStatus != "AVAILABLE")
-						resolve(sendError("Rider status is invalid, cannot assign this request to rider"));
+						resolve(sendError(`Rider status is ${doc.currentStatus}, cannot assign this request to rider`));
 
 					else
-						return requests.findOne({ requestID: requestID });
+						return requests.findOne({ requestNumber: requestID });
 				}
 			})
 			.then(doc => {
@@ -60,7 +59,7 @@ async function makeDelivery(phoneNumber, requestID) {
 					doc.requestStatus = "UNDER DELIVERY";
 					doc.riderID = riderID;
 					//update rider status
-					riderDoc.currentRequest = doc.requestID;
+					riderDoc.currentRequest = doc._id;
 					riderDoc.currentRequestType = doc.requestType;
 					riderDoc.currentStatus = "BUSY";
 					return doc.save();
@@ -148,7 +147,7 @@ async function cancelDelivery(phoneNumber) {
 					resolve(sendError("Rider is not BUSY, cannot cancel delivery"))
 				else {
 					riderDoc = doc;
-					return requests.findOne({ requestID: riderDoc.currentRequest });
+					return requests.findOne({ _id: riderDoc.currentRequest });
 				}
 			})
 			.then((doc) => {
@@ -219,6 +218,30 @@ async function getMyDeliveries(phoneNumber) {
 	})
 }
 
+async function getCurrentRequest(phoneNumber){
+	
+	return new Promise((resolve, reject)=>{
+		riders.findOne({phoneNumber: phoneNumber})
+		.populate('currentRequest')
+		.then(doc=>{
+			if(!doc)
+				resolve(sendError("No such rider found"));
+			else
+			{
+				console.log(doc.currentRequest);
+				if(!doc.currentRequest)
+					resolve(sendError("No current request"));
+				else
+					resolve(sendResponse(doc.currentRequest));
+			}
+		})
+		.catch(error=>{
+			console.log(error);
+			resolve(sendError("Internal Server Error"));
+		})
+	})
+}
+
 module.exports = {
 	getRiderProfile,
 	updateRiderProfile,
@@ -226,5 +249,6 @@ module.exports = {
 	finishDelivery,
 	cancelDelivery,
 	getRequestDetails,
-	getMyDeliveries
+	getMyDeliveries,
+	getCurrentRequest
 };

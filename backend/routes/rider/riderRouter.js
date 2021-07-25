@@ -45,13 +45,13 @@ router.get("/makeDelivery/:requestID", (req, res)=>{
 		res.json(sendError("No request ID mentioned"));
 	else
 	{
-		ridercontroller.makedelivery(req.user.phonenumber, req.params.requestid)
+		riderController.makeDelivery(req.user.phoneNumber, req.params.requestID)
 		.then(response=>{
 			res.json(response);
 		})
 		.catch(error=>{
 			console.log(error);
-			res.json(senderror("internal server error"));
+			res.json(sendError("internal server error"));
 		})
 	}
 })
@@ -65,7 +65,7 @@ router.get("/finishDelivery", (req, res)=>{
 	})
 	.catch(error=>{
 		console.log(error);
-		res.json(senderror("internal server error"));
+		res.json(sendError("internal server error"));
 	})
 })
 
@@ -77,7 +77,7 @@ router.get("/cancelDelivery", (req, res)=>{
 	})
 	.catch(error=>{
 		console.log(error);
-		res.json(senderror("internal server error"));
+		res.json(sendError("internal server error"));
 	})
 })
 
@@ -93,7 +93,7 @@ router.get("/requestDetails/:requestID", ( req, res )=>{
 		})
 		.catch(error=>{
 			console.log(error);
-			res.json(senderror("internal server error"));
+			res.json(sendError("internal server error"));
 		})
 	}
 
@@ -107,8 +107,19 @@ router.get("/myDeliveries", (req, res)=>{
 		})
 		.catch(error=>{
 			console.log(error);
-			res.json(senderror("internal server error"));
+			res.json(sendError("internal server error"));
 		})
+})
+
+router.get("/currentRequest", (req, res)=>{
+	riderController.getCurrentRequest(req.user.phoneNumber)
+	.then(response=>{
+		res.json(response);
+	})
+	.catch(error=>{
+		console.log(error);
+		res.json(sendError("Internal Server Error"));
+	})
 })
 
 module.exports = router;
