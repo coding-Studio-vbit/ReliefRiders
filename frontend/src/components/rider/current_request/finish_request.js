@@ -1,5 +1,13 @@
+
 export const finishRequest = async (token, cancel = false) => {
   try {
+    if(cancel){
+      const url = process.env.REACT_APP_URL + `/rider/cancelDelivery`;
+      return await cancelDelivery(url,token)
+    }
+    else{
+
+    
     const formData = new FormData()
     const imgsParsed = sessionStorage.getItem('i-images')
     const imgs = JSON.parse(imgsParsed)
@@ -20,12 +28,10 @@ export const finishRequest = async (token, cancel = false) => {
         formData.append('images',file)
     }
 
-    let url;
-    if (cancel) {
-      url = process.env.REACT_APP_URL + `/rider/cancelDelivery`;
-    } else {
-      url = process.env.REACT_APP_URL + `/rider/finishDelivery`;
-    }
+    
+    
+    const  url = process.env.REACT_APP_URL + `/rider/finishDelivery`;
+    
     const res = await fetch(url, {
       method: "POST",
       headers: {
@@ -41,8 +47,28 @@ export const finishRequest = async (token, cancel = false) => {
     } else {
       return data.message;
     }
+    }
   } catch (error) {
       console.log(error);
     return "Unable  to access server, Please try again later";
   }
 };
+
+const cancelDelivery = async (url,token)=>{
+  const res = await fetch(url, {
+    method: "GET",
+    headers: {
+      authorization: "Bearer " + token,
+    },
+    
+  });
+  const data = await res.json();
+  console.log(data);
+  if (data.status === "success") {
+    sessionStorage.clear();
+    return 1;
+  } else {
+    
+    return data.message;
+  }
+}
