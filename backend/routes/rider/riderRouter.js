@@ -40,7 +40,7 @@ router.put("/profile", function (req, res) {
 })
 
 router.get("/makeDelivery/:requestID", (req, res)=>{
-	
+
 	if(!req.params.requestID)
 		res.json(sendError("No request ID mentioned"));
 	else
@@ -70,7 +70,7 @@ router.get("/finishDelivery", (req, res)=>{
 })
 
 router.get("/cancelDelivery", (req, res)=>{
-	
+
 	riderController.cancelDelivery(req.user.phoneNumber)
 	.then(response=>{
 		res.json(response);
@@ -100,8 +100,23 @@ router.get("/requestDetails/:requestID", ( req, res )=>{
 })
 
 router.get("/myDeliveries", (req, res)=>{
-	
+
 		riderController.getMyDeliveries(req.user.phoneNumber)
+		.then(response=>{
+			res.json(response);
+		})
+		.catch(error=>{
+			console.log(error);
+			res.json(senderror("internal server error"));
+		})
+})
+
+router.get("/showFetchedRequests", (req, res)=>{
+    let longitude = req.body.longitude;
+    let latitude = req.body.latitude;
+    let maxDistance = req.body.maxDistance;
+
+		riderController.fetchRequests(req.user.phoneNumber)
 		.then(response=>{
 			res.json(response);
 		})
