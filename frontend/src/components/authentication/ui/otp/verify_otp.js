@@ -41,7 +41,6 @@ const VerifyOTP = () => {
           
 
           route.replace(`/home/${isRequester ? "requester" : "rider"}`);
-          window.location.reload();
         } else {
           toggle(true);
         }
@@ -87,7 +86,7 @@ const VerifyOTP = () => {
   };
 
   return (
-    <div className="otp-container">
+    <form className="otp-container">
       <Logo></Logo>
       <Dialog  isShowing={isShowing} onOK={()=>{toggle(false)}} msg={error} />
       <p style={{ textAlign: "center", marginBottom: 0.3 + "em" }}  >
@@ -106,22 +105,22 @@ const VerifyOTP = () => {
           Resend OTP
         </a>{" "}
       </p>
-      <div style={{ height: 5 + "rem" }}></div>
+      <div style={{ height: 3 + "rem" }}></div>
       {loading ? (
         <Spinner radius="2" />
       ) : (
-        <button onClick={submit} className="verify-btn">
+        <button type="submit" onClick={submit} className="verify-btn">
           Verify
         </button>
       )}
 
-      <p style={{ textAlign: "center", marginBottom: 0.3 + "em" }}>
+      <p style={{ textAlign: "center",marginTop:'2rem', marginBottom: 0.3 + "em" }}>
         Entered wrong details{" "}
         <button onClick={goBack} className="go-back-reg">
           Go back
         </button>{" "}
       </p>
-    </div>
+    </form>
   );
 };
 

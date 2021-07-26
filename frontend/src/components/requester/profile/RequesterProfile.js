@@ -1,112 +1,106 @@
-import React from 'react';
-import Navbar from '../../global_ui/nav';
-import styles from "./RequesterProfile.module.css"
-import axios from 'axios';
-import { useHistory } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import Button from '../../global_ui/buttons/button'
+import React from "react";
+import Navbar from "../../global_ui/nav";
+import styles from "./RequesterProfile.module.css";
+import axios from "axios";
+import { useHistory } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-import { LoadingScreen } from '../../global_ui/spinner';
-import { Dialog } from '../../global_ui/dialog/dialog';
+import { LoadingScreen } from "../../global_ui/spinner";
+import { Dialog } from "../../global_ui/dialog/dialog";
+import { useContext } from "react";
+import { AuthContext } from "../../context/auth/authProvider";
 
 const RequesterProfile = () => {
-    const history = useHistory();
-    const [data, setData] = useState({
-        name: '',
-        phoneNumber: '',
-        address: '',
-        yearOfBirth: '',
-        profileURL: ''
-    });
-    const [error, setError] = useState(null);
-    const token = localStorage.getItem('token')
-    const [isLoaded, setisLoaded] = useState(false);
+  const history = useHistory();
+  const [data, setData] = useState({
+    name: "",
+    phoneNumber: "",
+    address: "",
+    yearOfBirth: "",
+    profileURL: "",
+  });
+  const [error, setError] = useState(null);
+  const { token } = useContext(AuthContext);
+  const [isLoaded, setisLoaded] = useState(false);
 
-    useEffect(
-        async () => {
-            const options = {
-                headers: {
-                    'authorization': 'Bearer ' + token
-                }
-            }
-            axios.get('http://localhost:8000/requester/profile', options)
-                .then(response => {
-                    console.log(response);
-                    if (response.data.status === "success") {
-                        setData({
-                            name: response.data.message.name,
-                            phoneNumber: response.data.message.phoneNumber,
-                            address: response.data.message.defaultAddress.address + "," + response.data.message.defaultAddress.area + "," + response.data.message.defaultAddress.city,
-                            yearOfBirth: response.data.message.yearOfBirth,
-                            profileURL: response.data.message.profileURL
-                        });
-                        setError(null)
-                    }
-                    else {
-                        setError(response.data.message)
-                    }
-                    setisLoaded(true);
-                }, error => {
-                    console.log("An error occured", error);
-                    setError(error.toString());
-                    setisLoaded(true);
-                })
-        }, [])
+  useEffect(async () => {
+    const options = {
+      headers: {
+        authorization: "Bearer " + token,
+      },
+    };
+    axios.get(process.env.REACT_APP_URL + "/requester/profile", options).then(
+      (response) => {
+        console.log(response);
+        if (response.data.status === "success") {
+          setData({
+            ...response.data.message,
+          });
 
-    return (
-        isLoaded ?
-            (
-                error ?
-                    <Dialog
-                        isShowing={error}
-                        onOK={() => {
-                            setError(false)
-                            history.push("/my_profile")
-                        }}
-                        msg={"Unable to Load Profile"} />
-                    :
-                    <div className={styles.requesterProfileContainer}>
+          setError(null);
+        } else {
+          setError(response.data.message);
+        }
+        setisLoaded(true);
+      },
+      (error) => {
+        console.error("An error occured", error);
+        setError(error.toString());
+        setisLoaded(true);
+      }
+    );
+  }, []);
 
-                        <Navbar back={"/"} backStyle={{ color: 'white' }} title="My Account" titleStyle={{ color: 'white' }} style={{ backgroundColor: '#79CBC5', marginBottom: "10px" }} />
+  return isLoaded ? (
+    <div className={styles.requesterProfileContainer}>
+      <Dialog
+        isShowing={error}
+        onOK={() => {
+          history.push("/");
+        }}
+        msg={"Unable to Load Profile"}
+      />
+      <Navbar back="/" title="My Account" />
 
-                        <img src={data.profileURL} className={styles.profileImage} ></img>
+      {data.profileURL ? (
+        <img src={data.profileURL} className={styles.profileImage}></img>
+      ) : (
+        <div className={styles.profileDummy}></div>
+      )}
 
-                        <label className={styles.labelHeader}>Full Name</label>
-                        <span className={styles.dataContainer}>
-                            {data.name}
-                        </span>
+      <label>Full Name</label>
+      <span>{data.name}</span>
 
-                        <label className={styles.labelHeader}>Phone Number</label>
-                        <span className={styles.dataContainer}>
-                            {data.phoneNumber}
-                        </span>
+      <label>Phone Number</label>
+      <span>{data.phoneNumber}</span>
 
-                        <label className={styles.labelHeader}>Address</label>
-                        <span className={styles.addressContainer}>
-                            {data.address}
-                        </span>
+      <label>Address</label>
+      {data.defaultAddress.address ? (
+        <span>
+          {data.defaultAddress.address} , {data.defaultAddress.area},{" "}
+          {data.defaultAddress.city}.
+        </span>
+      ) : (
+        <span>No Address found</span>
+      )}
 
-                        <label className={styles.labelHeader}>Year Of Birth</label>
-                        <span className={styles.dataContainer}>
-                            {data.yearOfBirth}
-                        </span>
+      <label>Year Of Birth</label>
+      <span>{data.yearOfBirth}</span>
 
-                        <div></div>
-
-                        <Button
-                            bgColor="green"
-                            isRounded="true"
-                            text="EDIT"
-                            fontSize="17px"
-                            customClass={{ letterSpacing: '1px' }}
-                            onClick={() => history.push('/my_profile/edit_profile')}
-                        />
-
-                    </div>
-            )
-            :
-            <LoadingScreen />
-    )
+      <button
+        style={{
+          fontWeight: "bold",
+          marginTop: "24px",
+          padding:'0.5em 1.25em'
+        }}
+        onClick={() => history.push("/my_profile/edit_profile",{userData:data})}
+      >
+        EDIT
+      </button>
+    </div>
+  ) : (
+    <LoadingScreen />
+  );
 };
 
 export default RequesterProfile;

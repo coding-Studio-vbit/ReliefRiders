@@ -18,7 +18,7 @@ function RiderHome() {
 
   return (
     <div className="rider-home-container">
-      <Navbar title="HOME" />
+      <Navbar title="HOME" titleStyle={{color:'black'}} style={{background:'white'}} />
       <div className="riderhome">
         <Logo />
         <button  onClick={()=>routehandler("/new_delivery")} className="rider-home-btn">

@@ -6,6 +6,7 @@
     justify-items: center;
     gap: 0.5em;
 }
+
 .logo-container{
     margin-bottom: 1em;
 }
@@ -22,5 +23,6 @@
 
 .verify-btn{
     width: fit-content;
+    margin: 0 auto;
     padding: 0.5em 1em
 }
