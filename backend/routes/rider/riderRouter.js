@@ -69,16 +69,13 @@ router.get("/finishDelivery", (req, res)=>{
 	})
 })
 
-router.get("/cancelDelivery", (req, res)=>{
+router.get("/cancelDelivery", async (req, res)=>{
 	
-	riderController.cancelDelivery(req.user.phoneNumber)
-	.then(response=>{
-		res.json(response);
-	})
-	.catch(error=>{
-		console.log(error);
-		res.json(sendError("internal server error"));
-	})
+	const response = await riderController.cancelDelivery(req.user.phoneNumber)
+	//send data back
+	res.json(response);
+	
+	
 })
 
 router.get("/requestDetails/:requestID", ( req, res )=>{

@@ -80,6 +80,8 @@ async function makeDelivery(phoneNumber, requestID) {
 
 
 async function finishDelivery(phoneNumber, fileData) {
+
+
 	return new Promise((resolve, reject) => {
 		let billsImagePaths = [];
 		let rideImagePaths = [];
@@ -135,43 +137,23 @@ async function finishDelivery(phoneNumber, fileData) {
 }
 
 async function cancelDelivery(phoneNumber) {
-	return new Promise((resolve, reject) => {
+	try {
+		const rider = await riders.findOne({phoneNumber:phoneNumber})
+		const request = await requests.findOne({_id:rider.currentRequest})
+		if(!request){
+			return sendError('No such request found')
+		}
+		request.requestStatus = "PENDING"
+		rider.currentStatus = "AVAILABLE"
+		rider.currentRequest = null
+		await rider.save()
+		await request.save()
+		return sendResponse('Delivery cancelled successfully')
+	} catch (error) {
+		console.log(error);
+		return sendError('Internal Server Error')
+	}
 
-		let riderDoc;
-
-		riders.findOne({ phoneNumber: phoneNumber })
-			.then((doc) => {
-				if (!doc)
-					resolve(sendError("No such rider found"));
-				else if (doc.currentStatus != "BUSY")
-					resolve(sendError("Rider is not BUSY, cannot cancel delivery"))
-				else {
-					riderDoc = doc;
-					return requests.findOne({ _id: riderDoc.currentRequest });
-				}
-			})
-			.then((doc) => {
-				if (!doc)
-					resolve(sendError("Cannot find the request to be cancelled"));
-				else {
-					requestDoc = doc;
-					requestDoc.requestStatus = "PENDING";
-					riderDoc.currentStatus = "AVAILABLE";
-					riderDoc.currentRequest = null;
-					return requestDoc.save();
-				}
-			})
-			.then(() => {
-				return riderDoc.save();
-			})
-			.then(() => {
-				resolve(sendResponse("Cancel Delivery Successful"));
-			})
-			.catch(error => {
-				console.log(error);
-				return res.json(error);
-			})
-	})
 }
 
 async function getRequestDetails(requestID) {
@@ -230,7 +212,7 @@ async function getCurrentRequest(phoneNumber){
 			{
 				console.log(doc.currentRequest);
 				if(!doc.currentRequest)
-					resolve(sendError("No current request"));
+					resolve(sendError("No current request found"));
 				else
 					resolve(sendResponse(doc.currentRequest));
 			}
