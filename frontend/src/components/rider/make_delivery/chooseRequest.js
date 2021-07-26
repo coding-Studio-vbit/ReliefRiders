@@ -1,156 +1,256 @@
-import React from "react";
-import "./chooseRequest.css";
-import { LoadingScreen } from "../../global_ui/spinner";
-import { Dialog } from "../../global_ui/dialog/dialog";
-import { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
 import ChooseRequestItem from "./chooseRequestItem";
-import { useHistory } from "react-router-dom";
 
+import styles from "./ChooseRequest.module.css";
+// import axios from "axios";
+import { Dialog } from "../../global_ui/dialog/dialog";
+// import { useSessionStorageState } from "../../../utils/useLocalStorageState";
+
+import { LoadingScreen } from "../../global_ui/spinner";
+
+// import { useHistory } from "react-router-dom";
 
 const ChooseRequest = () => {
-  const history = useHistory();
-  const [arr, setarr] = useState(requests);
+  
+
+    const [value, setValue] = useState(1);
+  
+
+  
+  // const history = useHistory();
+  const [allRequests, setRequests] = useState(request);
   const [error, setError] = useState(null);
-
-  const [isLoaded, setisLoaded] = useState(false);
-
+  const[flag,setFlag]=useState(0);
+  //  const [coordinates, setCoordinates] = useState(null);
   const token = localStorage.getItem("token");
+  const [loading, setLoading] = useState(true);
 
-  useEffect(async () => {
-    const options = {
-      headers: {
-        authorization: "Bearer " + token,
-      },
-    };
-    //add endpoint 
-    axios.get("http://localhost:8000/rider/chooseRequest", options).then(
-      (response) => {
-        if (response.data.message.length===0){
-          setarr([requests])
-        }
-        else 
-        setarr(response.data.message);
-        console.log(response.data);
-        setisLoaded(true);
-        setError(null);
-      },
-      (error) => {
-       
-        console.log(error);
-        setError(error.toString());
-        setisLoaded(true);
-      }
-    );
-  }, []);
-console.log(arr);
   function sortedCustom(param) {
-    let a = requests;
-    // a.sort(param);
-    
-    if (param == "comparisonByDate") {
+    setFlag(flag+1);
+    let a = request;
+
+    if (param == "Date") {
       a.sort(comparisonByDate);
-      setarr([a]);
-      
-      console.log(arr);
-    } else if (param == "comparisonByPriority") {
+      setRequests(a);
+    } else if (param == "Priority") {
       a.sort(comparisonByPriority);
-      setarr([a]);
-     
-      console.log(arr);
-    // } else if (param == "comparisonByDistance") {
-    //   a.sort(comparisonByDistance());
-    //   setarr([a]);
-    // }
-  }}
+      setRequests(a);
+    }
+    //  else if(param=="Distance"){
+    //    a.sort(comparisonByDistance);
+    //    setRequests(a);
+    //  }
+    console.log(11, allRequests);
+  }
+  // function success(pos)
+  // {
+  //   var crd = pos.coords;
+  //   console.log([crd.latitude,crd.longitude]);
+  //   return [crd.latitude,crd.longitude];
+  // }
+  // navigator.geolocation.getCurrentPosition(success);
+
+  // function riderCurrentLocation()
+  //   {
+  //     if (navigator.geolocation) {
+  //       navigator.geolocation.getCurrentPosition((position) => {
+
+  //         setCoordinates({
+  //           lat: position.coords.latitude,
+  //           lng: position.coords.longitude,
+  //         });
+  //       });
+  //       navigator.permissions.query({ name: "geolocation" }).then((res) => {
+  //         if (res.state === "denied") {
+  //           alert("Please allow location permission")
+  //         }
+  //       });
+  //     }
+  //     return coordinates;
+  //   }
+  // function comparisonByDistance(posA) {
+  // var c = posA.roughLocationCoordinates;
+  // var d = riderCurrentLocation();
+  // }
+
+  //function for sorting by date
   function comparisonByDate(dateA, dateB) {
     var c = new Date(dateA.date);
     var d = new Date(dateB.date);
     return c - d;
   }
-
-  //  console.log(requests.sort(comparisonByDate));
-
+  //function for sorting by priority or urgency
   function comparisonByPriority(a, b) {
     return b.priority - a.priority;
   }
-
-  // console.log(requests.sort(comparisonByPriority));
-
-   
-  
-  // function riderCurrentLocation() 
-  // { 
-  //   if (navigator.geolocation) {
-  //     navigator.geolocation.getCurrentPosition((position) => {
-  //       setCenterMaps({
-  //         lat: position.coords.latitude,
-  //         lng: position.coords.longitude,
-  //       });
-  //       setCoordinates({
-  //         lat: position.coords.latitude,
-  //         lng: position.coords.longitude,
-  //       });
-  //     });
-  //     navigator.permissions.query({ name: "geolocation" }).then((res) => {
-  //       if (res.state === "denied") {
-  //         alert("Please allow location permission")
-  //       }
-  //     });
-  //   }
-  //   return [position.coords.longitude, position.coords.latitude]
+  // function calculateDistance(posA, posB) {
+  //   axios
+  //   .get(
+  //     "https://maps.googleapis.com/maps/api/distancematrix/json?origins=${origin_lat+","+origin_lng}&destinations=side_of_road:${dest_lat+","+dest_lng}&key=AIzaSyAgP6rjcTRM4-fVcxfGdgCGaaU6fW7f5xQ"
+  //   )
+  //   .then((response) => {
+  //     console.log(response.data);
+      
+  //     origin_lat = posA.lat;
+  //     origin_lng = posA.lng;
+  //     dest_lat = posB.lat;
+  //     dest_lng = posB.lng;
+  //   }, (error)=>{
+  //     console.log(error);
+  //   });
+  // }
+  // function something (){
+  //   posA= riderCurrentLocation();
+  //   posB = req.roughLocationCoordinates;
   // }
 
-  return isLoaded ? (
-    error ? (
+  useEffect(() => {
+    console.log(token);
+    // setRequests(request);
+    setLoading(null);
+   
+    console.log("Pranchal");
+   
+
+    // const options = {
+    //   headers: {
+    //     authorization: "Bearer " + token,
+    //   },
+    // };
+    /* eslint-disable no-undef */
+
+    // axios.get(`${process.env.REACT_APP_URL}/rider/makeDelivery`, options).then(
+    //   (response) => {
+    //     //Tempo
+    //     if (response.data.message.length === 0) {
+    //       setRequests([request]);
+    //     } else setRequests(response.data.message);
+
+    //     console.log(response.data);
+
+    //     setLoading(false);
+    //   },
+    //   (error) => {
+    //     setError(error.message);
+    //     setLoading(false);
+    //   }
+    // );
+  }, []);
+
+  //sample
+
+  return loading ? (
+    <LoadingScreen />
+  ) : (
+    <>
       <Dialog
         isShowing={error}
         onOK={() => {
-          history.push("/rider/make_delivery");
-          setError(false);
+          // history.goBack();
+          setError(null);
         }}
-        msg={"Cannot load data"}
+        msg={error}
       />
-    ) : (
-      <div>
-      <div className="navbar">
-        <div className="backbtn">
-          <i className="fas fa-chevron-left"></i>
-        </div>
-        <h3>Requests</h3>
-        <div className="dropdown">
-          <button className="dropbtn">
-            Order By
-            <i className="fa fa-caret-down"></i>
-          </button>
-          <div className="dropdownContent">
-            <button onClick={()=>sortedCustom("comparisonByDate")}>Date</button>
-            <p>Location</p>
-            <button onClick={()=>sortedCustom("comparisonByPriority")}>
-              Urgency
+      <div className={styles.container}>
+      
+        <div className={styles.navbar}>
+          <div className={styles.backbtn}>
+            <i className="fas fa-chevron-left"></i>
+          </div>
+          <h3 className={styles.title}>Requests</h3>
+          <div className={styles.dropdown}>
+            <button className={styles.dropbtn}>
+              Order By
+              <i className="fa fa-caret-down"></i>
             </button>
+            <div className={styles.dropdownContent}>
+              <button className={styles.buttons} onClick={() => sortedCustom("Date")}>Date</button>
+        
+              <button className={styles.buttons} onClick={() => sortedCustom("Distance")}>Location</button>
+             
+              <button className={styles.buttons} onClick={() => sortedCustom("Priority")}>Urgency</button>
+            </div>
           </div>
         </div>
-      </div>
-      {arr.length === 0 ? (
-        <h3 className="noRequests">There are no new requests.</h3>
-      ) : (
-        <div className="wholeList">
-          {arr.map((req) => {
-            return <ChooseRequestItem key={req.requestNumber} data={req} />;
-          })}
+        <div className={styles.rangeSlider}>
+        Distance: 
+            <input type="range" min="1" max="20" value={value} 
+             onChange={({ target: { value: radius } }) => {
+                    setValue(radius);
+                  }}></input>
         </div>
-      )}
-    </div>
-    )
-  ) : (
-    <LoadingScreen />
+          <div className={styles.bubble} id = "bubble">
+           Upto {value} Kilometres
+          </div>
+
+        {allRequests.length === 0 ? (
+          <h3 className={styles.noRequests}>There are no new Requests.</h3>
+        ) : (
+          <div className={styles.ChooseRequestItem}>
+            {allRequests.map((req) => {
+              return <ChooseRequestItem obj = {allRequests} key={req.requestNumber} data={req} />;
+            })}
+          </div>
+        )}
+       
+      </div>
+    </>
   );
 };
 
 export default ChooseRequest;
-//hard coded requests array  for testing 
-const requests = [
+
+// const request = {
+//   requestNumber: "8628290",
+//   requesterID: "8628290",
+//   requestStatus: "PENDING",
+//   requestType: "P&D",
+//   itemsListImages: [
+//     // "https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+//   ],
+//   riderID: {
+//     name: "Someone",
+//   },
+//   itemsListList: [
+//     {
+//       itemName: "Tomato",
+//       quantity: "2kg",
+//     },
+//     {
+//       itemName: "Tomato",
+//       quantity: "2kg",
+//     },
+//   ],
+//   itemCategories: ["MEDICINES", "MISC"],
+//   remarks: "Something here",
+//   billsImageList: [
+//     // "https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+//   ],
+//   rideImages: [
+//     // "https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+//   ],
+//   pickupLocationAddress: {
+//     addressLine: "Some place far away",
+//     area: "",
+//     city: "Unknown",
+//     pincode: "XXXXXX",
+//   },
+//   dropLocationAddress: null,
+//   // {
+//   //   addressLine: "Some place far away",
+//   //   area: "",
+//   //   city: "Unknown",
+//   //   pincode: "XXXXXX",
+//   // }
+//   pickupLocationCoordinates: {
+//     coordinates: [17.9, 78.6],
+//   },
+//   dropLocationCoordinates: {
+//     coordinates: [17.9, 78.6],
+//   },
+// };
+
+const request = [
   {
     date: "7/7/2022",
     requesterName: "name",
@@ -158,14 +258,32 @@ const requests = [
     requesterID: "777777",
     requestStatus: "PENDING",
     requestType: "P&D",
-    priority: "10",
+    priority: "15",
+    roughLocationCoordinates: [78.44764026931458, 17.44209721721792],
+    itemCategories:["MEDICINES"],
+    pickupArea: "Hyderabad",
+    area: "SR Nagar",
+    dropLocationAddress: {
+      addressLine: "6736BH",
+
+      city: "Hyderabad",
+    },
+  },
+  {
+    date: "7/7/2002",
+    requesterName: "name",
+    requestNumber: "945",
+    requesterID: "72377",
+    requestStatus: "PENDING",
+    requestType: "P&D",
+    priority: "12",
     roughLocationCoordinates: [78.44764026931458, 17.44209721721792],
     itemCategories: ["GROCERIES", "MISC"],
     pickupArea: "Hyderabad",
+    area: "SR Nagar",
     dropLocationAddress: {
-      dropArea: "SR Nagar",
       addressLine: "6736BH",
-   
+
       city: "Hyderabad",
     },
   },
@@ -180,29 +298,28 @@ const requests = [
     priority: "5",
     roughLocationCoordinates: [78.44764026931458, 17.44209721721792],
     itemCategories: ["GROCERIES", "MEDICINES", "MISC"],
+    area: "SR NAGAR",
     dropLocationAddress: {
-      dropArea: "SR NAGAR",
       addressLine: "6736BH",
-      
+
       city: "Hyderabad",
     },
   },
   {
     date: "7/9/2031",
     requesterName: "Vanita",
-    requestNumber: "12345",
-    requesterID: "777777",
+    requestNumber: "2345",
+    requesterID: "7777787",
     requestStatus: "PENDING",
     requestType: "General",
     roughLocationCoordinates: [78.44764026931458, 17.44209721721792],
     priority: "0",
-    itemCategories: ["MEDICINES", "MISC"],
+    itemCategories: [ "MISC"],
+    area: "SR Nagar",
     dropLocationAddress: {
-      dropArea: "SR Nagar",
       addressLine: "6736BH",
-      
+
       city: "Hyderabad",
     },
   },
 ];
-

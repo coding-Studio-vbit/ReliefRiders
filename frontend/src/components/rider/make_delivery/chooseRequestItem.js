@@ -1,43 +1,57 @@
 import React from "react";
-
-import "./chooseRequest.css";
+// import {useState, useEffect} from "react";
+import{useEffect} from "react";
+import styles from "./ChooseRequest.module.css";
 
 const ChooseRequestItem = (props) => {
+  // const [data,setData]=useState(props.data);
+  // componentWillReceiveProps=(props) => {
+  //   setData({ data: props.data });
+  // };
+useEffect(() => {
+  //  setData(props.data)
+},[props])
+
 
   return (
-    <div className="container">
-   <div className="chooseRequestItem">
+    
+    <div className={styles.container}
+    key={props}>
+   
+   <div className={styles.chooseRequestItem}>
      
     
-       {props.data.pickupArea && <span className="pickupArea">
+       {props.data.pickupArea && <span className={styles.pickupArea}>
        <i className="fas fa-map-marker-alt"></i>Pickup: {props.data.pickupArea}
      </span> }
-     <span className="area">
+     <span className={styles.area}>
        <i className="fas fa-map-marker-alt"></i>Drop: {props.data.area}
      </span>
-     <span className="requesterName">
+     <span className={styles.requesterName}>
        Requester: {props.data.requesterName}
      </span>
-     {props.data.covidStatus && <span className="covidStatus">COVID+</span>}
-     <span className="requestType">{props.data.requestType}</span>
+     <span>{props.data.date}</span>
+     <span>Priority: {props.data.priority}</span>
+     {props.data.covidStatus && <span className={styles.covidStatus}>COVID+</span>}
+     <span className={styles.requestType}>{props.data.requestType}</span>
      {props.data.itemCategories.map((category, index) => {
        switch (category) {
          case "MEDICINES":
            return (
-             <span key={index} className="medicines">
+             <span key={index} className={styles.medicines}>
                Medcines
              </span>
            );
            
          case "GROCERIES":
            return (
-             <span key={index} className="groceries">
+             <span key={index} className={styles.groceries}>
                Groceries
              </span>
            );
          case "MISC":
            return (
-             <span key={index} className="misc">
+             <span key={index} className={styles.misc}>
                Misc.
              </span>
            );
@@ -47,6 +61,7 @@ const ChooseRequestItem = (props) => {
        }
      })}
      </div>
+
      
     
     </div> 

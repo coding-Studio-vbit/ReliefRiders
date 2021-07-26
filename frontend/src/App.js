@@ -1,24 +1,25 @@
 import React from 'react';
 import './App.css'
-import { AuthProvider } from './components/context/auth/authProvider';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from "react-router-dom";
-import InitialHomeRouting from './components/home/initial_home/initialHomeRouting';
-import Test from './components/rider/common/viewRequest';
+// import { AuthProvider } from './components/context/auth/authProvider';
+// import {
+//   BrowserRouter as Router,
+//   Switch,
+//   Route,
+// } from "react-router-dom";
+// import InitialHomeRouting from './components/home/initial_home/initialHomeRouting';
+// import Test from './components/rider/common/viewRequest';
+import ChooseRequest from './components/rider/make_delivery/chooseRequest';
 
 function App() {
 
 
   return (
     <div className="App">
-      <AuthProvider>
+      {/* <AuthProvider>
         <Router>
           <Switch>
             <Route path="/temp">
-              <Test/>
+              <Test/> */}
 
               {/* <UploadImages 
               imgHeader="Upload Images: "
@@ -26,14 +27,14 @@ function App() {
               name="Bills"
               setImages={setUrl}              
                 /> */}
-
-            </Route>
+<ChooseRequest/>
+            {/* </Route>
             <Route path="/">
               <InitialHomeRouting />
             </Route>
           </Switch>
         </Router>
-      </AuthProvider>
+      </AuthProvider> */}
     </div>
   );
 }
