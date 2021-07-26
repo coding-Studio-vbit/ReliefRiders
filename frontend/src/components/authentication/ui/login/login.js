@@ -3,21 +3,21 @@ import "./loginStyles.css";
 import Logo from "../../../global_ui/logo";
 import InputField from "../../../global_ui/input";
 import { AuthContext } from "../../../context/auth/authProvider";
-import {Spinner} from "../../../global_ui/spinner";
+import { Spinner } from "../../../global_ui/spinner";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { requestOTPLogin } from "../../../context/auth/authOperations";
-import {Dialog} from "../../../global_ui/dialog/dialog";
+import { Dialog } from "../../../global_ui/dialog/dialog";
 import User from "../../../../models/user";
 function Login() {
   const [mobile, setMobile] = useState("");
   const [errorMsg, setError] = useState("");
   const { loading, dispatch, error } = useContext(AuthContext);
-  
+
   const route = useHistory();
   const { user } = useParams();
   let isRequester = user === "rider" ? false : true;
-  const [ isShowing, toggle ] = useState(false);
- 
+  const [isShowing, toggle] = useState(false);
+
   useEffect(() => {
     if (!isRequester) {
       dispatch({
@@ -50,13 +50,12 @@ function Login() {
       const user = new User("xxx", mobile);
 
       if (isRequester) {
-        res =  requestOTPLogin(dispatch, mobile, "requester");
+        res = requestOTPLogin(dispatch, mobile, "requester");
       } else {
-        res =  requestOTPLogin(dispatch, mobile, "rider");
+        res = requestOTPLogin(dispatch, mobile, "rider");
       }
       res.then((r) => {
         if (r == 1) {
-          
           route.push("/verify", {
             isRequester: isRequester,
             authType: "login",
@@ -70,16 +69,36 @@ function Login() {
   };
 
   return (
-    <div className="login">
+    <form className="login">
       {/* Logo */}
-
-      <Dialog  isShowing={isShowing} onOK={()=>{toggle(false)}} msg={error} />
+      <i
+        style={{
+          position: "absolute",
+          fontSize:'1.2rem',
+          color:'gray',
+          top:'3.5%',
+          left:'6%'
+        }}
+        onClick={() => {
+          route.replace('/')
+        }}
+        className="fas fa-chevron-left"
+      ></i>
+      <Dialog
+        isShowing={isShowing}
+        onOK={() => {
+          toggle(false);
+        }}
+        msg={error}
+      />
       {/*Form and Content*/}
 
-      <div>
-        <Logo />
-        <h1> {isRequester ? "Requester" : "Rider"} Login</h1>
+      <Logo />
+      <h1> {isRequester ? "Requester" : "Rider"} Login</h1>
 
+      <div
+        style={{ width: "min(90%,var(--max-width))", justifySelf: "center" }}
+      >
         <InputField
           type="text"
           placeholder="Mobile"
@@ -89,22 +108,27 @@ function Login() {
           onChange={(e) => setMobile(e.target.value)}
         />
       </div>
-      {loading ? (
-        <Spinner radius="2" />
-      ) : (
-        <button
-          type="submit"
-          onClick={(e) => handleLogin(e)}
-          value="Request OTP"
-          className="btnStyle"
-        >
-          Request OTP
-        </button>
-      )}
+      <div
+        style={{
+          marginTop: "2.5rem",
+        }}
+      >
+        {loading ? (
+          <Spinner radius="2" />
+        ) : (
+          <button
+            type="submit"
+            onClick={(e) => handleLogin(e)}
+            value="Request OTP"
+            className="btnStyle"
+          >
+            Request OTP
+          </button>
+        )}
+      </div>
       <div className="reg-cont">
         <p className="routetext">Dont have an account?</p>
 
-        <button className="btnStyle-register">
           <Link
             to={{
               pathname: isRequester ? "/register/requester" : "/register/rider",
@@ -113,11 +137,20 @@ function Login() {
               },
             }}
           >
+            <button type='button' className="btnStyle-register">
             Go to Registration
-          </Link>
         </button>
+          </Link>
       </div>
-    </div>
+
+      <div className="almostFooter"  style={{
+        
+        marginTop: "1rem" }}>
+        <Link to={isRequester?'/login/rider':'/login/requester'} >Not {isRequester? 'Requester? Go to Rider Login' : 'Rider? Go to Requester Login'}</Link>
+        <br />
+        <Link to='/about' >About Us</Link>
+      </div>
+    </form>
   );
 }
 

@@ -34,8 +34,7 @@ async function makeDelivery(phoneNumber, requestID) {
 	return new Promise((resolve, reject) => {
 
 		let riderDoc;
-
-		riders.firesultndOne({ phoneNumber: phoneNumber })
+		riders.findOne({ phoneNumber: phoneNumber })
 			.then(doc => {
 				if (!doc)
 					resolve(sendError("Rider not found"));
@@ -43,10 +42,10 @@ async function makeDelivery(phoneNumber, requestID) {
 					riderID = doc._id;
 					riderDoc = doc;
 					if (doc.currentStatus != "AVAILABLE")
-						resolve(sendError("Rider status is invalid, cannot assign this request to rider"));
+						resolve(sendError(`Rider status is ${doc.currentStatus}, cannot assign this request to rider`));
 
 					else
-						return requests.findOne({ requestID: requestID });
+						return requests.findOne({ requestNumber: requestID });
 				}
 			})
 			.then(doc => {
@@ -60,7 +59,7 @@ async function makeDelivery(phoneNumber, requestID) {
 					doc.requestStatus = "UNDER DELIVERY";
 					doc.riderID = riderID;
 					//update rider status
-					riderDoc.currentRequest = doc.requestID;
+					riderDoc.currentRequest = doc._id;
 					riderDoc.currentRequestType = doc.requestType;
 					riderDoc.currentStatus = "BUSY";
 					return doc.save();
@@ -80,22 +79,21 @@ async function makeDelivery(phoneNumber, requestID) {
 }
 
 
-async function finishDelivery(phoneNumber,fileData)
-{
-	return new Promise((resolve, reject)=>{
+async function finishDelivery(phoneNumber, fileData) {
+	return new Promise((resolve, reject) => {
 		let billsImagePaths = [];
 		let rideImagePaths = [];
-        if(fileData){
-			for ( var key in fileData){
-				fileData[key].map(data=>{
+		if (fileData) {
+			for (var key in fileData) {
+				fileData[key].map(data => {
 					var path = data.path;
 					var path2 = "data/images";
-					if (value.fieldname === 'billsImages'){
-                    	billsImagePaths.push(path.slice(path.search(path2) + path2.length));
-                	}
-          else{
-                rideImagePaths.push(path.slice(path.search(path2) + path2.length));
-          }
+					if (value.fieldname === 'billsImages') {
+						billsImagePaths.push(path.slice(path.search(path2) + path2.length));
+					}
+					else {
+						rideImagePaths.push(path.slice(path.search(path2) + path2.length));
+					}
 				})
 			}
 		}
@@ -107,7 +105,7 @@ async function finishDelivery(phoneNumber,fileData)
 					resolve(sendError("Rider is not BUSY, cannot finish delivery!"));
 				else {
 					riderDoc = doc;
-					return request.findOne({ requestID: riderDoc.currentRequest });
+					return requests.findOne({ requestID: riderDoc.currentRequest });
 				}
 			})
 			.then((doc) => {
@@ -149,7 +147,7 @@ async function cancelDelivery(phoneNumber) {
 					resolve(sendError("Rider is not BUSY, cannot cancel delivery"))
 				else {
 					riderDoc = doc;
-					return request.findOne({ requestID: riderDoc.currentRequest });
+					return requests.findOne({ _id: riderDoc.currentRequest });
 				}
 			})
 			.then((doc) => {
@@ -181,14 +179,20 @@ async function getRequestDetails(requestID) {
 		requests.findOne({ requestNumber: requestID })
 			.populate('requesterID')
 			.then((temp) => {
-				let doc = temp.toObject();
-				const requesterPhone = temp.requesterID.phoneNumber;
-				doc.requesterID = undefined;
-				doc.requesterPhoneNumber = requesterPhone;
-				if (!doc)
+				if (!temp) {
 					resolve(sendError("No such request found!"));
-				else
-					resolve(sendResponse(doc));
+				}
+				else {
+					let doc = temp.toObject();
+					const requesterPhone = temp.requesterID.phoneNumber;
+					doc.requesterID = undefined;
+					doc.requesterPhoneNumber = requesterPhone;
+					if (!doc)
+						resolve(sendError("No such request found!"));
+					else
+						resolve(sendResponse(doc));
+				}
+
 			})
 			.catch(error => {
 				console.log(error);
@@ -202,10 +206,10 @@ async function getMyDeliveries(phoneNumber) {
 
 		riders.findOne({ phoneNumber: phoneNumber })
 			.then((riderDoc) => {
-				return request.find({ requestStatus: "DELIVERED", riderID: riderDoc._id })
+				return requests.find({ requestStatus: "DELIVERED", riderID: riderDoc._id })
 			})
 			.then(docs => {
-				resolve(sendResponse(docs.data.rows));
+				resolve(sendResponse(docs));
 			})
 			.catch(error => {
 				console.log(error);
@@ -214,6 +218,7 @@ async function getMyDeliveries(phoneNumber) {
 	})
 }
 
+<<<<<<< HEAD
 async function fetchRequests(phoneNumber) {
 	return new Promise((resolve, reject) => {
 		requests.findOne({roughLocationCoordinates:{ $near: { $geometry:{ type: "Point",  coordinates: [17.4329787, 78.4069793] },
@@ -226,6 +231,29 @@ async function fetchRequests(phoneNumber) {
 				console.log(error);
 				resolve(sendError("Internal Server Error"));
 			})
+=======
+async function getCurrentRequest(phoneNumber){
+	
+	return new Promise((resolve, reject)=>{
+		riders.findOne({phoneNumber: phoneNumber})
+		.populate('currentRequest')
+		.then(doc=>{
+			if(!doc)
+				resolve(sendError("No such rider found"));
+			else
+			{
+				console.log(doc.currentRequest);
+				if(!doc.currentRequest)
+					resolve(sendError("No current request"));
+				else
+					resolve(sendResponse(doc.currentRequest));
+			}
+		})
+		.catch(error=>{
+			console.log(error);
+			resolve(sendError("Internal Server Error"));
+		})
+>>>>>>> 6a9d9109c5c104977b9ebf19327e0363d08cd841
 	})
 }
 
@@ -237,5 +265,9 @@ module.exports = {
 	cancelDelivery,
 	getRequestDetails,
 	getMyDeliveries,
+<<<<<<< HEAD
 	fetchRequests
+=======
+	getCurrentRequest
+>>>>>>> 6a9d9109c5c104977b9ebf19327e0363d08cd841
 };

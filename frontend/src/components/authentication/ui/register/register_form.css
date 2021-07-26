@@ -1,26 +1,36 @@
-
-.form{
-    display: grid;
-    height: 100vh;
-    justify-content: center;
-    justify-items: center;
-    align-items: center;
-    padding:1em;
+.form {
+  display: grid;
+  height: 100vh;
+  justify-items: center;
+  padding: 1em;
+  position: relative;
+  grid-auto-rows: min-content;
+  
+}
+.inputContainer{
+  display: grid;
+  
+  grid-auto-rows: min-content;
+  justify-self: center;
 }
 
-
-
-.otp-btn{
+.otp-btn {
   padding: 0.6em;
   font-weight: bold;
   width: fit-content;
   align-self: flex-start;
+}
+.sec-row {
+  margin-bottom: 100px;
+  margin-top: 1rem;
+  display: grid;
+  justify-self: center;
+  grid-auto-flow: column;
+  gap: 16px;
+  width: min(90%,var(--max-width));
+  
   
 }
-.sec-row{
-    margin-top: 1rem;
-    margin-bottom: min(10%,100px);
-    display: grid;
-    grid-auto-flow: column;
-    gap: 5%;
+.sec-row > div {
+  width: 100%;
 }

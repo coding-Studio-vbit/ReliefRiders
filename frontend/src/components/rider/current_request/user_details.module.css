@@ -1,0 +1,15 @@
+
+.covidDot{
+    opacity: 0;
+    animation: fade 8000ms infinite;
+}
+@keyframes fade {
+    50%{
+        opacity: 1;
+    }
+    100%{
+
+        opacity: 0;
+    }
+    
+}
