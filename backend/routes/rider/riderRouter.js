@@ -40,18 +40,18 @@ router.put("/profile", function (req, res) {
 })
 
 router.get("/makeDelivery/:requestID", (req, res)=>{
-	
+
 	if(!req.params.requestID)
 		res.json(sendError("No request ID mentioned"));
 	else
 	{
-		riderController.makeDelivery(req.user.phoneNumber, req.params.requestID)
+		ridercontroller.makedelivery(req.user.phonenumber, req.params.requestid)
 		.then(response=>{
 			res.json(response);
 		})
 		.catch(error=>{
 			console.log(error);
-			res.json(sendError("internal server error"));
+			res.json(senderror("internal server error"));
 		})
 	}
 })
@@ -65,17 +65,20 @@ router.get("/finishDelivery", (req, res)=>{
 	})
 	.catch(error=>{
 		console.log(error);
-		res.json(sendError("internal server error"));
+		res.json(senderror("internal server error"));
 	})
 })
 
-router.get("/cancelDelivery", async (req, res)=>{
-	
-	const response = await riderController.cancelDelivery(req.user.phoneNumber)
-	//send data back
-	res.json(response);
-	
-	
+
+router.get("/cancelDelivery", (req, res)=>{
+	riderController.cancelDelivery(req.user.phoneNumber)
+	.then(response=>{
+		res.json(response);
+	})
+	.catch(error=>{
+		console.log(error);
+		res.json(senderror("internal server error"));
+	})
 })
 
 router.get("/requestDetails/:requestID", ( req, res )=>{
@@ -90,33 +93,34 @@ router.get("/requestDetails/:requestID", ( req, res )=>{
 		})
 		.catch(error=>{
 			console.log(error);
-			res.json(sendError("internal server error"));
+			res.json(senderror("internal server error"));
 		})
 	}
 
 })
 
 router.get("/myDeliveries", (req, res)=>{
-	
+
 		riderController.getMyDeliveries(req.user.phoneNumber)
 		.then(response=>{
 			res.json(response);
 		})
 		.catch(error=>{
 			console.log(error);
-			res.json(sendError("internal server error"));
+			res.json(senderror("internal server error"));
 		})
 })
 
-router.get("/currentRequest", (req, res)=>{
-	riderController.getCurrentRequest(req.user.phoneNumber)
-	.then(response=>{
-		res.json(response);
-	})
-	.catch(error=>{
-		console.log(error);
-		res.json(sendError("Internal Server Error"));
-	})
+router.get("/showFetchedRequests", (req, res)=>{
+     const {longitude , latitude , maxDistance} = req.body;
+		riderController.fetchRequests(req.user.phoneNumber, longitude , latitude , maxDistance)
+		.then(response=>{
+			res.json(response);
+		})
+		.catch(error=>{
+			console.log(error);
+			res.json(senderror("internal server error"));
+		})
 })
 
 module.exports = router;
