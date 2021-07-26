@@ -50,13 +50,23 @@ async function confirmRequest(phone, requestID) {
 				}
 				else {
 					if (phone != doc.requesterID.phoneNumber)
-						resolve(sendError("You are unauthorized to aaccess this request"));
+						resolve(sendError("You are unauthorized to access this request"));
 					//request is made by this person only.
 					//Now check if the status is "Rider Confirmed or not."
 					if (doc.requestStatus != "RIDER CONFIRMED")
 						resolve(sendError("Cannot confirm this request, status is not RIDER CONFIRMED"));
-					else
+					else {
 						doc.requestStatus = "DELIVERED";
+						rider.findOne({ _id : doc.riderID})
+						 .then(result => {
+							 result.numberOfDeliveriesCompleted = result.numberOfDeliveriesCompleted + 1;
+							 result.save();
+						 })
+						 .catch(error => {
+			 				console.log(error);
+			 				resolve(sendError("Internal Server Error"));
+			 			})
+					}
 					return doc.save();
 				}
 			})

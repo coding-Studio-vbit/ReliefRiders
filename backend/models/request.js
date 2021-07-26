@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const schema = new mongoose.Schema({
-	
+
 	date:{
 		type: String,
 		default: ()=>{
@@ -9,9 +9,9 @@ const schema = new mongoose.Schema({
 			return (now.getDate() + '/' + (now.getMonth()+1) + '/' + now.getFullYear());
 		}
 	},
-	
+
 	requestNumber: {type: Number, required: [true, 'request number is required.']},
-	
+
 	requesterID:{
 		type: mongoose.Schema.Types.ObjectId,
 		required: true,
@@ -22,7 +22,7 @@ const schema = new mongoose.Schema({
 		ref:'riders',
 		default: null
 	},
-	
+
 	requesterCovidStatus: Boolean,
 
 	noContactDelivery: Boolean, // Added No Contact Delivery
@@ -33,38 +33,38 @@ const schema = new mongoose.Schema({
 		uppercase:true,
 		enum: ['PENDING', 'UNDER DELIVERY', 'DELIVERED', 'CANCELLED', 'RIDER CONFIRMED']
 		},
-	
+
 	requestType:{
 		required: [true, 'request type is required.'],
 		type: String,
 		uppercase:true,
 		enum: ['GENERAL', 'P&D']
 		},
-	
+
 	paymentPreference: [
 		{
 			type: String,
-			enum: ['CASH', 'PAYTM', 'GPAY'], 
+			enum: ['CASH', 'PAYTM', 'GPAY'],
 			uppercase:true,
 	}],
-	
+
 	itemsListImages: [String],
-	
+
 	itemsListList:[{
 		itemName: {type: String},
 		quantity: {type: String} //Yeah String only. Thank revanth. cuz units are different for things. The world is weird and the units are weirder.
 	}],
-	
+
 	itemCategories: [
 		{
 			type: String,
-			enum: ['GROCERIES', 'MEDICINES', 'MISC'], 
+			enum: ['GROCERIES', 'MEDICINES', 'MISC'],
 			uppercase:true,
 	}],
-	
+
 	remarks: {type: String, maxLength: 240},
-	
-	billsImageList: [String], 
+
+	billsImageList: [String],
 
 	rideImages: [String],
 
@@ -100,6 +100,8 @@ const schema = new mongoose.Schema({
 	}
 })
 
+schema.index({'roughLocationCoordinates': '2dsphere'});
+schema.index({'pickupLocationCoordinates': '2dsphere'});
 
 const requests = mongoose.model("requests", schema);
 module.exports= requests;
