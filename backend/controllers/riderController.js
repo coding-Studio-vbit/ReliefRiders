@@ -218,8 +218,25 @@ async function getMyDeliveries(phoneNumber) {
 	})
 }
 
+
+async function fetchRequests(phoneNumber,longitude,latitude,maxDistance) {
+	return new Promise((resolve, reject) => {
+		requests.find({roughLocationCoordinates:{ $near: { $geometry:{ type: "Point",  coordinates: [longitude, latitude] },
+				$maxDistance: maxDistance
+			}}, requestStatus : "PENDING"})
+			.then((doc) => {
+				resolve(sendResponse(doc));
+			//	console.log(doc.length)
+			})
+			.catch(error => {
+				console.log(error);
+				resolve(sendError("Internal Server Error"));
+			})
+		})
+	}
+
 async function getCurrentRequest(phoneNumber){
-	
+
 	return new Promise((resolve, reject)=>{
 		riders.findOne({phoneNumber: phoneNumber})
 		.populate('currentRequest')
@@ -239,6 +256,7 @@ async function getCurrentRequest(phoneNumber){
 			console.log(error);
 			resolve(sendError("Internal Server Error"));
 		})
+
 	})
 }
 
@@ -250,5 +268,6 @@ module.exports = {
 	cancelDelivery,
 	getRequestDetails,
 	getMyDeliveries,
-	getCurrentRequest
+	getCurrentRequest,
+	fetchRequests
 };

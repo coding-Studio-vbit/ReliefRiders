@@ -35,6 +35,10 @@ const user = new mongoose.Schema({
     type: String,
     enum: ["P&D","GENERAL"]
   },
+  numberOfDeliveriesCompleted: {
+    type: Number,
+    default : 0
+  },
   currentRequest: {
       type: mongoose.Schema.Types.ObjectId,
 	  ref: 'requests',
