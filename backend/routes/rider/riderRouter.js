@@ -123,4 +123,15 @@ router.get("/showFetchedRequests", (req, res)=>{
 		})
 })
 
+router.get("/currentRequest", (req, res)=>{
+	riderController.getCurrentRequest(req.user.phoneNumber)
+	.then(response=>{
+		res.json(response);
+	})
+	.catch(error=>{
+		console.log(error);
+		res.json(sendError("Internal Server Error"));
+	})
+})
+
 module.exports = router;
