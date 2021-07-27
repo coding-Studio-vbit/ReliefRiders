@@ -7,7 +7,7 @@ import './logo.css'
 const Logo = () => {
     return ( 
         <div className="logo-container" >
-        <img src={window.location.origin+`/assets/logo.png`}  alt="logo" />
+        <img src={window.location.origin+`/assets/logo.webp`}  alt="logo" />
         </div>
      );
 }

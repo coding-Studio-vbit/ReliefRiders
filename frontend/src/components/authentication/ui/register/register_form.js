@@ -11,7 +11,7 @@ import {
 } from "../../../context/auth/authOperations";
 import {Dialog} from "../../../global_ui/dialog/dialog";
 import Logo from "../../../global_ui/logo";
-import { useHistory, useParams } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 const RegisterScreen = () => {
   const { dispatch, loading, error } = useContext(AuthContext);
   const [details, setdetails] = useState({
@@ -178,6 +178,20 @@ const RegisterScreen = () => {
 
   return (
     <form className="form" onSubmit={submit}>
+      <i
+        style={{
+          position: "absolute",
+          fontSize:'1.2rem',
+          color:'gray',
+          top:'3.5%',
+          left:'6%'
+        }}
+        onClick={() => {
+          route.replace(`/login/${isRequester ? 'requester':'rider'}`)
+
+        }}
+        className="fas fa-chevron-left"
+      ></i>
       <Dialog
         
         isShowing={isShowing}
@@ -187,9 +201,9 @@ const RegisterScreen = () => {
         msg={error}
       />
 
-      <div>
+      <div style={{height:'min-content'}} >
         <Logo />
-        <p
+        <h1
           style={{
             margin: 0.5 + "em",
             textAlign: "center",
@@ -197,8 +211,8 @@ const RegisterScreen = () => {
           }}
         >
           {isRequester ? "Requester" : "Rider"} Register
-        </p>
-
+        </h1>
+          <div className='inputContainer' >
         <InputField
           value={details.number}
           type="number"
@@ -225,6 +239,7 @@ const RegisterScreen = () => {
             />
           )}
         </div>
+        </div>
       </div>
 
       {loading ? (
@@ -234,6 +249,16 @@ const RegisterScreen = () => {
           REQUEST OTP
         </button>
       )}
+
+<div className="almostFooter" style={{
+        display:'grid',
+        justifyItems:'center',
+        gap:'4px',
+        marginTop: "2rem" }}>
+        <Link to={isRequester?'/login/requester':'/login/rider'} >Already have an account? Login</Link>
+        <Link to={isRequester?'/register/rider':'/register/requester'} >Not {isRequester? 'Requester? Go to Rider Register' : 'Rider? Go to Requester Register'}</Link>
+        <Link to='/about' >About Us</Link>
+      </div>
     </form>
   );
 };

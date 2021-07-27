@@ -6,5 +6,5 @@
 .logo-container img{
     
     height: auto;
-    width: clamp(150px,50vw,250px);
+    width: min(50%,250px)
 }

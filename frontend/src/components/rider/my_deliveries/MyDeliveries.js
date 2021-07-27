@@ -115,7 +115,7 @@ const request = {
       quantity: "2kg",
     },
   ],
-  itemCategories: ["MEDICINES", "MISC"],
+  itemCategories: ["MEDICINES", "MISC."],
   remarks: "Something here",
   billsImageList: [
     // "https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
