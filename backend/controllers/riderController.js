@@ -1,4 +1,5 @@
 const riders = require("../models/riders");
+const requesters = require("../models/requesters")
 const requests = require("../models/request")
 const { sendResponse, sendError } = require("./common");
 
@@ -107,7 +108,7 @@ async function finishDelivery(phoneNumber, fileData) {
 					resolve(sendError("Rider is not BUSY, cannot finish delivery!"));
 				else {
 					riderDoc = doc;
-					return requests.findOne({ requestID: riderDoc.currentRequest });
+					return requests.findOne({ _id: riderDoc.currentRequest });
 				}
 			})
 			.then((doc) => {
@@ -138,9 +139,9 @@ async function finishDelivery(phoneNumber, fileData) {
 
 async function cancelDelivery(phoneNumber) {
 	try {
-		const rider = await riders.findOne({phoneNumber:phoneNumber})
-		const request = await requests.findOne({_id:rider.currentRequest})
-		if(!request){
+		const rider = await riders.findOne({ phoneNumber: phoneNumber })
+		const request = await requests.findOne({ _id: rider.currentRequest })
+		if (!request) {
 			return sendError('No such request found')
 		}
 		request.requestStatus = "PENDING"
@@ -201,43 +202,55 @@ async function getMyDeliveries(phoneNumber) {
 }
 
 
-async function fetchRequests(phoneNumber,longitude,latitude,maxDistance) {
+async function fetchRequests(phoneNumber, longitude, latitude, maxDistance) {
 	return new Promise((resolve, reject) => {
-		requests.find({roughLocationCoordinates:{ $near: { $geometry:{ type: "Point",  coordinates: [longitude, latitude] },
-				$maxDistance: maxDistance
-			}}, requestStatus : "PENDING"})
+		requests.find({
+			roughLocationCoordinates: {
+				$near: {
+					$geometry: { type: "Point", coordinates: [longitude, latitude] },
+					$maxDistance: maxDistance
+				}
+			}, requestStatus: "PENDING"
+		})
 			.then((doc) => {
 				resolve(sendResponse(doc));
-			//	console.log(doc.length)
+				//	console.log(doc.length)
 			})
 			.catch(error => {
 				console.log(error);
 				resolve(sendError("Internal Server Error"));
 			})
-		})
-	}
+	})
+}
 
-async function getCurrentRequest(phoneNumber){
+async function getCurrentRequest(phoneNumber) {
 
-	return new Promise((resolve, reject)=>{
-		riders.findOne({phoneNumber: phoneNumber})
-		.populate('currentRequest')
-		.then(doc=>{
-			if(!doc)
-				resolve(sendError("No such rider found"));
-			else
-			{
-				console.log(doc.currentRequest);
-				if(!doc.currentRequest)
-					resolve(sendError("No current request found"));
-				else
-					resolve(sendResponse(doc.currentRequest));
-			}
-		})
-		.catch(error=>{
-			console.log(error);
-			resolve(sendError("Internal Server Error"));
-		})
+	return new Promise(async (resolve, reject) => {
+		riders.findOne({ phoneNumber: phoneNumber })
+			.populate('currentRequest')
+			.then(async doc => {
+				if (!doc)
+					resolve(sendError("No such rider found"));
+				else {
+
+					const requester = await requesters.findOne({ _id: doc.currentRequest.requesterID })
+					console.log(requester)
+					console.log(doc.currentRequest);
+					if (!doc.currentRequest)
+						resolve(sendError("No current request found"));
+					else {
+						const res = doc.currentRequest.toObject();
+						res.name = requester.name;
+						res.phoneNumber = requester.phoneNumber;
+						console.log(res);
+						resolve(sendResponse(res));
+					}
+				}
+			})
+			.catch(error => {
+				console.log(error);
+				resolve(sendError("Internal Server Error"));
+			})
 
 	})
 }
