@@ -1,25 +1,26 @@
 export const fetchCurrentRequest = async (dispatch, token) => {
-  
+
   try {
     const res = await fetch(process.env.REACT_APP_URL + "/rider/currentRequest", {
-      method:"GET",
+      method: "GET",
       headers: {
         authorization: "Bearer " + token,
       },
     });
     const data = await res.json()
-    if(data.status === 'success'){
+    console.log(data)
+    if (data.status === 'success') {
       dispatch({ type: "SETREQUEST", payload: data.message });
-    }else{
+    } else {
       dispatch({ type: "SHOWMSG", payload: data.message });
-      
+
     }
   } catch (error) {
     dispatch({ type: "SHOWMSG", payload: "Unable to access server, Please try again " });
 
   }
 
-  
+
 };
 
 // eslint-disable-next-line no-unused-vars
