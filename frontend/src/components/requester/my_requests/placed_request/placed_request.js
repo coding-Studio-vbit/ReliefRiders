@@ -4,6 +4,7 @@ import { useContext } from "react/cjs/react.development";
 import { AuthContext } from "../../../context/auth/authProvider";
 import { ConfirmDialog } from "../../../global_ui/dialog/dialog";
 import Navbar from "../../../global_ui/nav";
+import Remarks from "../../../global_ui/remarks/remarks";
 import cancelConfirmRequest from "./cancel_confirm_request";
 import ItemsRequestedList from "./items_requested_list";
 import styles from "./placed_request.module.css";
@@ -68,6 +69,7 @@ const PlacedRequest = () => {
           <p>Order delivered by {request.riderID.name}</p>
         )}
         <Address />
+        <Remarks remarks={request.remarks} />
         {request.itemsListImages.length > 0 ? (
           <RequestImages
             bills={request.billsImageList}

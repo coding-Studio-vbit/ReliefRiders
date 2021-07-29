@@ -174,15 +174,15 @@ function Map() {
         style={{
           position: "fixed",
           top: "85vh",
-          left: 0,
-          fontWeight: "bold",
           color: "white",
           background: "var(--secondary)",
           padding: 0.8 + "em",
           right: 0,
+          left: 0,
           marginRight: "auto",
           marginLeft: "auto",
-          marginTop: "2vw",
+          width:'30ch',
+          
         }}
       >
         Choose Pinned Address

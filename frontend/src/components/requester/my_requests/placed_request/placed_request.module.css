@@ -58,8 +58,13 @@ p {
   gap: 0.5em;
 }
 .items {
-  display: flex;
   flex-direction: column;
+}
+.items > div{
+  
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
 }
 
 
