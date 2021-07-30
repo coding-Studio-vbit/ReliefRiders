@@ -1,40 +1,48 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { Fragment, useEffect, useState } from 'react';
 import {Spinner} from '../../global_ui/spinner';
+import { fetchLeaderBoard } from './fetchLeaderBoard';
 import './leaderboard.css'
 export const LeaderBoard = () => {
     const [data,setData] = useState([])
+    const [error,setError] = useState(null)
+    useEffect(async()=>{
+        const res = await fetchLeaderBoard()
+        if(res.status === 1 ){
+            setData(res.data)
+        }else{
+            setError(res.data)
+        }
+        // setData([
+        //     {
+        //         name:"Sai Kiran B",
+        //         deliveryCount:10
+        //     },
+        //     {
+        //         name:"Aaris Khan",
+        //         deliveryCount:9
+        //     },
+        //     {
+        //         name:"Prashanith",
+        //         deliveryCount:2
+        //     }
 
-    useEffect(()=>{
-        //fetch here
-        //will add when leaderboard endpoint is done
-        setData([
-            {
-                name:"Sai Kiran B",
-                deliveryCount:10
-            },
-            {
-                name:"Aaris Khan",
-                deliveryCount:9
-            },
-            {
-                name:"Prashanith",
-                deliveryCount:2
-            }
-
-        ])
+        // ])
     },[])
 
     if(data){
         return ( 
-           <Fragment>
+           <>
                 <span className='leaderboard-title'  >This Week's Top Riders</span>
-            <div className="leaderboard-container">
+            {
+                    error ? <p  >{error}</p>:
+                <div className="leaderboard-container">
                 {
-                    data.map((item,i)=><LeaderBoardUser key={i} position={++i} name={item.name} deliveryCount={item.deliveryCount} />)
+                    data.map((item,i)=><LeaderBoardUser key={i} position={++i} name={item.name} deliveryCount={item.numberOfDeliveriesCompleted} />)
                 }
             </div>
-           </Fragment>
+            }
+           </>
          );
     }else{
         return ( <Spinner radius="2"/> );
