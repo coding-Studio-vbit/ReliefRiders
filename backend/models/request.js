@@ -68,6 +68,11 @@ const schema = new mongoose.Schema({
 
 	rideImages: [String],
 
+	urgency: {
+    type: Number,
+    default : 0
+  },
+
 
 	// [ longitude, latitude ]
 	roughLocationCoordinates: {
