@@ -116,6 +116,17 @@ router.get("/showFetchedRequests", (req, res) => {
 		})
 })
 
+router.get("/showFetchedRequestsUrgency", (req, res) => {
+	riderController.fetchRequestsUrgency(req.user.phoneNumber)
+		.then(response => {
+			res.json(response);
+		})
+		.catch(error => {
+			console.log(error);
+			res.json(senderror("internal server error"));
+		})
+})
+
 router.get("/currentRequest", (req, res) => {
 	riderController.getCurrentRequest(req.user.phoneNumber)
 		.then(response => {

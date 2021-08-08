@@ -223,6 +223,20 @@ async function fetchRequests(phoneNumber, longitude, latitude, maxDistance) {
 	})
 }
 
+async function fetchRequestsUrgency(phoneNumber) {
+	return new Promise((resolve, reject) => {
+		requests.find({requestStatus: "PENDING"}, {}).sort({urgency:-1})
+			.then((doc) => {
+				resolve(sendResponse(doc));
+				//	console.log(doc.length)
+			})
+			.catch(error => {
+				console.log(error);
+				resolve(sendError("Internal Server Error"));
+			})
+	})
+}
+
 async function getCurrentRequest(phoneNumber) {
 
 	return new Promise(async (resolve, reject) => {
@@ -264,5 +278,6 @@ module.exports = {
 	getRequestDetails,
 	getMyDeliveries,
 	getCurrentRequest,
-	fetchRequests
+	fetchRequests,
+	fetchRequestsUrgency
 };

@@ -53,7 +53,7 @@ var upload = multer({ storage: storage })
 
 
 router.post('/new', upload.any('images'), (req, res) => {
-
+    let age;
     const dropLocationCoordinates = JSON.parse(req.body.dropLocationCoordinates);
     const dropLocationAddress = JSON.parse(req.body.dropLocationAddress);
     new Promise((resolve, reject) => {
@@ -86,6 +86,8 @@ router.post('/new', upload.any('images'), (req, res) => {
                 // console.log(lastRequestTime);
                 // return lastRequestTime;
                 req.body.requesterId = doc._id;
+                age = new Date().getFullYear() - doc.yearOfBirth;
+
             }
             return 16273927;
         })
@@ -105,7 +107,11 @@ router.post('/new', upload.any('images'), (req, res) => {
             return paths;
         })
         .then(paths => {
-
+           let urgency = 0
+           const itemCategories = JSON.parse(req.body.itemCategories)
+           for(const cat in itemCategories){if(cat === "MEDICINES") urgency = urgency+process.env.MEDICINES_URGENCY }
+           if(req.body.requesterCovidStatus){ urgency = urgency+process.env.COVID_URGENCY }
+           if(age >= 60){ urgency = urgency+process.env.AGED_URGENCY}
             let newRequest = new requestModel({
                 requesterID: req.body.requesterId,
                 requestNumber: Date.now() + Math.floor(Math.random() * 100),
@@ -118,12 +124,14 @@ router.post('/new', upload.any('images'), (req, res) => {
                 itemsListList: JSON.parse(req.body.itemsListList),
                 itemCategories: JSON.parse(req.body.itemCategories),
                 remarks: req.body.remarks,
+                urgency:urgency ,
                 dropLocationCoordinates: { coordinates: JSON.parse(req.body.dropLocationCoordinates) },
                 dropLocationAddress: JSON.parse(req.body.dropLocationAddress),
                 roughLocationCoordinates: { coordinates: (req.body.roughCoordinates) }
             });
             return newRequest.save()
         })
+
         .then(result => {
             return res.json({ status: "success", message: "Request successfully made" })
         })
