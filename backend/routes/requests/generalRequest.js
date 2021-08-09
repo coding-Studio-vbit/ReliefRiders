@@ -108,24 +108,17 @@ router.post('/new', upload.any('images'), (req, res) => {
         .then(paths => {
           let urgency = 0
           const itemCategories = JSON.parse(req.body.itemCategories)
-          console.log(itemCategories)
           for(let cat = 0 ; cat < itemCategories.length; cat++ ){
-            console.log(cat)
             if( itemCategories[cat] === "MEDICINES") {
               urgency = urgency+ parseInt(process.env.MEDICINES_URGENCY)
-              console.log('p')
             }
           }
-          console.log(req.body.requesterCovidStatus)
           if(req.body.requesterCovidStatus === "true")
           {
             urgency =  urgency+ parseInt(process.env.COVID_URGENCY)
-            console.log('o')
           }
-          console.log(age)
         if(age >= 60){
             urgency = urgency+ parseInt(process.env.AGED_URGENCY)
-            console.log('o')
           }
 			const theDropLocationCoordinates = JSON.parse(req.body.dropLocationCoordinates);
 			let tempObject = {
