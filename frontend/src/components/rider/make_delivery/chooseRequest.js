@@ -1,32 +1,23 @@
 import React, { useEffect, useState } from "react";
 import ChooseRequestItem from "./chooseRequestItem";
-
 import styles from "./ChooseRequest.module.css";
-// import axios from "axios";
+import axios from "axios";
 import { Dialog } from "../../global_ui/dialog/dialog";
-// import { useSessionStorageState } from "../../../utils/useLocalStorageState";
-
 import { LoadingScreen } from "../../global_ui/spinner";
-
 // import { useHistory } from "react-router-dom";
 
 const ChooseRequest = () => {
-  
-
-    const [value, setValue] = useState(1);
-  
-
-  
+  const [value, setValue] = useState(1);
   // const history = useHistory();
   const [allRequests, setRequests] = useState(request);
   const [error, setError] = useState(null);
-  const[flag,setFlag]=useState(0);
-  //  const [coordinates, setCoordinates] = useState(null);
+  const [flag, setFlag] = useState(0);
+  const [coordinates, setCoordinates] = useState({ lat: "", lng: "" });
   const token = localStorage.getItem("token");
   const [loading, setLoading] = useState(true);
-
+  //sorting requests based on 3 parameters.
   function sortedCustom(param) {
-    setFlag(flag+1);
+    setFlag(flag + 1);
     let a = request;
 
     if (param == "Date") {
@@ -35,109 +26,107 @@ const ChooseRequest = () => {
     } else if (param == "Priority") {
       a.sort(comparisonByPriority);
       setRequests(a);
+    } else if (param == "Distance") {
+      a.sort(comparisonByDistance);
+      setRequests(a);
     }
-    //  else if(param=="Distance"){
-    //    a.sort(comparisonByDistance);
-    //    setRequests(a);
-    //  }
-    console.log(11, allRequests);
   }
-  // function success(pos)
-  // {
-  //   var crd = pos.coords;
-  //   console.log([crd.latitude,crd.longitude]);
-  //   return [crd.latitude,crd.longitude];
-  // }
-  // navigator.geolocation.getCurrentPosition(success);
+  // console.log(value);
+  //finding current location of rider
+  const CurrentLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        console.log(position, 30);
+        setCoordinates({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
+      });
+      navigator.permissions.query({ name: "geolocation" }).then((res) => {
+        if (res.state === "denied") {
+          console.log("Location Permission denied");
+          alert("Please allow location permission");
+        }
+      });
+    }
+  };
+  //Comparison function for sorting by distance
+  function comparisonByDistance(a, b) {
+    return a.distance - b.distance;
+  }
 
-  // function riderCurrentLocation()
-  //   {
-  //     if (navigator.geolocation) {
-  //       navigator.geolocation.getCurrentPosition((position) => {
-
-  //         setCoordinates({
-  //           lat: position.coords.latitude,
-  //           lng: position.coords.longitude,
-  //         });
-  //       });
-  //       navigator.permissions.query({ name: "geolocation" }).then((res) => {
-  //         if (res.state === "denied") {
-  //           alert("Please allow location permission")
-  //         }
-  //       });
-  //     }
-  //     return coordinates;
-  //   }
-  // function comparisonByDistance(posA) {
-  // var c = posA.roughLocationCoordinates;
-  // var d = riderCurrentLocation();
-  // }
-
-  //function for sorting by date
+  //Comparison function for sorting by date
   function comparisonByDate(dateA, dateB) {
     var c = new Date(dateA.date);
     var d = new Date(dateB.date);
     return c - d;
   }
-  //function for sorting by priority or urgency
+  //Comparison function for sorting by priority or urgency
   function comparisonByPriority(a, b) {
     return b.priority - a.priority;
   }
-  // function calculateDistance(posA, posB) {
-  //   axios
-  //   .get(
-  //     "https://maps.googleapis.com/maps/api/distancematrix/json?origins=${origin_lat+","+origin_lng}&destinations=side_of_road:${dest_lat+","+dest_lng}&key=AIzaSyAgP6rjcTRM4-fVcxfGdgCGaaU6fW7f5xQ"
-  //   )
-  //   .then((response) => {
-  //     console.log(response.data);
-      
-  //     origin_lat = posA.lat;
-  //     origin_lng = posA.lng;
-  //     dest_lat = posB.lat;
-  //     dest_lng = posB.lng;
-  //   }, (error)=>{
-  //     console.log(error);
-  //   });
-  // }
-  // function something (){
-  //   posA= riderCurrentLocation();
-  //   posB = req.roughLocationCoordinates;
-  // }
+  //Calculating distance between rider's current location and roughLocationCoordinates using google maps api
+  function calculateDistance(request) {
+    let distance1;
+    let URL2 = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${coordinates.lat},${coordinates.lng}
+    &destinations=${request.roughLocationCoordinates[0]},${request.roughLocationCoordinates[1]}
+    &key=${process.env.REACT_APP_GMAP_API_KEY}`;
+
+    axios
+      .get(URL2)
+      .then((response) => {
+        //assigning distance property to all requests
+        distance1 = response.data.rows[0].elements[0].distance.value;
+        request.distance = distance1/1000;
+        return distance1;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+  //calling calculate distance function for each request
+  function assignDistance() {
+    let i;
+    for (i = 0; i < request.length; i++) {
+      calculateDistance(request[i]);
+    }
+  }
+  useEffect(() => {
+    assignDistance();
+    console.log(coordinates, 10);
+  }, [coordinates]);
 
   useEffect(() => {
     console.log(token);
-    // setRequests(request);
     setLoading(null);
-   
-    console.log("Pranchal");
-   
+    CurrentLocation();
+    const options = {
+      headers: {
+        authorization: "Bearer " + token,
+      },
+    };
+    // eslint-disable no-undef
 
-    // const options = {
-    //   headers: {
-    //     authorization: "Bearer " + token,
-    //   },
-    // };
-    /* eslint-disable no-undef */
+    axios.get(`${process.env.REACT_APP_URL}/rider/makeDelivery`, options).then(
+      (response) => {
+        if (response.data.message.length === 0) {
+          setRequests([request]);
+        } else setRequests(response.data.message);
+        let data = response.data;
+        for (let i = 0; i < data.length; i++) {
+          data.distance = 0;
+        }
+        setRequests(data);
+        console.log(response.data);
 
-    // axios.get(`${process.env.REACT_APP_URL}/rider/makeDelivery`, options).then(
-    //   (response) => {
-    //     //Tempo
-    //     if (response.data.message.length === 0) {
-    //       setRequests([request]);
-    //     } else setRequests(response.data.message);
-
-    //     console.log(response.data);
-
-    //     setLoading(false);
-    //   },
-    //   (error) => {
-    //     setError(error.message);
-    //     setLoading(false);
-    //   }
-    // );
+        setLoading(false);
+      },
+      (error) => {
+        setError(error.message);
+        setLoading(false);
+      }
+    );
   }, []);
-
-  //sample
 
   return loading ? (
     <LoadingScreen />
@@ -152,7 +141,6 @@ const ChooseRequest = () => {
         msg={error}
       />
       <div className={styles.container}>
-      
         <div className={styles.navbar}>
           <div className={styles.backbtn}>
             <i className="fas fa-chevron-left"></i>
@@ -164,35 +152,62 @@ const ChooseRequest = () => {
               <i className="fa fa-caret-down"></i>
             </button>
             <div className={styles.dropdownContent}>
-              <button className={styles.buttons} onClick={() => sortedCustom("Date")}>Date</button>
-        
-              <button className={styles.buttons} onClick={() => sortedCustom("Distance")}>Location</button>
-             
-              <button className={styles.buttons} onClick={() => sortedCustom("Priority")}>Urgency</button>
+              <button
+                className={styles.buttons}
+                onClick={() => sortedCustom("Date")}
+              >
+                Date
+              </button>
+
+              <button
+                className={styles.buttons}
+                onClick={() => sortedCustom("Distance")}
+              >
+                Location
+              </button>
+
+              <button
+                className={styles.buttons}
+                onClick={() => sortedCustom("Priority")}
+              >
+                Urgency
+              </button>
             </div>
           </div>
         </div>
         <div className={styles.rangeSlider}>
-        Distance: 
-            <input type="range" min="1" max="20" value={value} 
-             onChange={({ target: { value: radius } }) => {
-                    setValue(radius);
-                  }}></input>
+          Distance:
+          <input
+            className={styles.slider}
+            type="range"
+            min="1"
+            max="100"
+            value={value}
+            onChange={({ target: { value: radius } }) => {
+              setValue(radius);
+            }}
+          />
         </div>
-          <div className={styles.bubble} id = "bubble">
-           Upto {value} Kilometres
-          </div>
+        <div className={styles.bubble} id="bubble">
+          Upto {value} Kilometres
+        </div>
 
         {allRequests.length === 0 ? (
           <h3 className={styles.noRequests}>There are no new Requests.</h3>
         ) : (
           <div className={styles.ChooseRequestItem}>
             {allRequests.map((req) => {
-              return <ChooseRequestItem obj = {allRequests} key={req.requestNumber} data={req} />;
+              return (
+                <ChooseRequestItem
+                value = {value}
+        
+                  key={req.requestNumber}
+                  data={req}
+                />
+              );
             })}
           </div>
         )}
-       
       </div>
     </>
   );
@@ -200,126 +215,121 @@ const ChooseRequest = () => {
 
 export default ChooseRequest;
 
-// const request = {
-//   requestNumber: "8628290",
-//   requesterID: "8628290",
-//   requestStatus: "PENDING",
-//   requestType: "P&D",
-//   itemsListImages: [
-//     // "https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
-//   ],
-//   riderID: {
-//     name: "Someone",
-//   },
-//   itemsListList: [
-//     {
-//       itemName: "Tomato",
-//       quantity: "2kg",
-//     },
-//     {
-//       itemName: "Tomato",
-//       quantity: "2kg",
-//     },
-//   ],
-//   itemCategories: ["MEDICINES", "MISC"],
-//   remarks: "Something here",
-//   billsImageList: [
-//     // "https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
-//   ],
-//   rideImages: [
-//     // "https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
-//   ],
-//   pickupLocationAddress: {
-//     addressLine: "Some place far away",
-//     area: "",
-//     city: "Unknown",
-//     pincode: "XXXXXX",
-//   },
-//   dropLocationAddress: null,
-//   // {
-//   //   addressLine: "Some place far away",
-//   //   area: "",
-//   //   city: "Unknown",
-//   //   pincode: "XXXXXX",
-//   // }
-//   pickupLocationCoordinates: {
-//     coordinates: [17.9, 78.6],
-//   },
-//   dropLocationCoordinates: {
-//     coordinates: [17.9, 78.6],
-//   },
-// };
-
 const request = [
   {
+   
     date: "7/7/2022",
-    requesterName: "name",
     requestNumber: "12345",
     requesterID: "777777",
+    riderID: "5678",
+    noContactDelivery: "true",
     requestStatus: "PENDING",
     requestType: "P&D",
-    priority: "15",
-    roughLocationCoordinates: [78.44764026931458, 17.44209721721792],
-    itemCategories:["MEDICINES"],
-    pickupArea: "Hyderabad",
-    area: "SR Nagar",
-    dropLocationAddress: {
-      addressLine: "6736BH",
-
+    itemCategories: ["MEDICINES"],
+    remarks: "Use back gate",
+    billsImageList: ["some link"],
+    rideImages: ["some link"],
+    roughLocationCoordinates: [17.449009453401768, 78.39147383021886],
+    pickupLocationCoordinates: {
+      coordinates: [37.7680296, -122.4375126],
+    },
+    pickupLocationAddress: {
+      address: "12-4-126/7",
+      area: "SR Nagar",
       city: "Hyderabad",
     },
+    dropLocationCoordinates: {
+      coordinates: [37.7680296, -122.4375126],
+    },
+    dropLocationAddress: {
+      addressLine: "6736BH",
+      area: "SR Nagar",
+      city: "Hyderabad",
+    },
+    priority: "15",
+    requesterName: "nameclose",
   },
   {
+   
     date: "7/7/2002",
-    requesterName: "name",
     requestNumber: "945",
     requesterID: "72377",
+    riderID: "56789",
     requestStatus: "PENDING",
     requestType: "P&D",
-    priority: "12",
-    roughLocationCoordinates: [78.44764026931458, 17.44209721721792],
+    paymentPreference: "CASH",
+    itemsListImages: ["somelink"],
+    itemsListList: [{ itemName: "tomato", quantity: "2kg" }],
     itemCategories: ["GROCERIES", "MISC"],
-    pickupArea: "Hyderabad",
-    area: "SR Nagar",
-    dropLocationAddress: {
-      addressLine: "6736BH",
-
+    roughLocationCoordinates: [17.46415683066205, 78.38748270276933],
+    pickupLocationCoordinates: {
+      coordinates: [37.7680296, -122.4375126],
+    },
+    pickupLocationAddress: {
+      address: "12-4-126/7",
+      area: "SR Nagar",
       city: "Hyderabad",
     },
+    dropLocationCoordinates: {
+      coordinates: [37.7680296, -122.4375126],
+    },
+    dropLocationAddress: {
+      addressLine: "6736BH",
+      area: "B.Hills",
+      city: "Hyderabad",
+    },
+    requesterName: "name",
+    priority: "12",
   },
   {
+   
     date: "7/5/2021",
-    requesterName: "Pranchal",
-    covidStatus: "true",
     requestNumber: "1245",
     requesterID: "727777",
+    riderID: "156789",
+    requesterCovidStatus: "true",
     requestStatus: "PENDING",
     requestType: "General",
-    priority: "5",
-    roughLocationCoordinates: [78.44764026931458, 17.44209721721792],
     itemCategories: ["GROCERIES", "MEDICINES", "MISC"],
-    area: "SR NAGAR",
+    roughLocationCoordinates: [17.44410138800549, 78.36501180995198],
+    pickupLocationCoordinates: {
+      coordinates: [17.9, 78.6],
+    },
+    dropLocationCoordinates: {
+      coordinates: [17.9, 78.6],
+    },
     dropLocationAddress: {
       addressLine: "6736BH",
+      area: "SR NAGAR",
 
       city: "Hyderabad",
     },
+    priority: "20",
+    requesterName: "Pranchal",
   },
   {
+   
     date: "7/9/2031",
-    requesterName: "Vanita",
     requestNumber: "2345",
     requesterID: "7777787",
+    riderID: "1562789",
     requestStatus: "PENDING",
     requestType: "General",
-    roughLocationCoordinates: [78.44764026931458, 17.44209721721792],
-    priority: "0",
-    itemCategories: [ "MISC"],
-    area: "SR Nagar",
+    itemCategories: ["MISC"],
+    roughLocationCoordinates: [17.431572809383972, 78.3681875451749],
+    pickupLocationCoordinates: {
+      coordinates: [17.9, 78.6],
+    },
     dropLocationAddress: {
       addressLine: "6736BH",
+      area: "SR Nagar",
 
       city: "Hyderabad",
     },
+    dropLocationCoordinates: {
+      coordinates: [17.9, 78.6],
+    },
+    priority: "0",
+    requesterName: "Vanita",
   },
 ];

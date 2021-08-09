@@ -184,6 +184,11 @@ height: fit-content;
 .rangeSlider{
   position: relative;
   align-self: center;
+  /* height : 2px; */
+}
+.slider{
+  height : 6px;
+  /* color :rgb(8, 126, 22); */
 }
 .bubble{
   border : 2px solid black;
