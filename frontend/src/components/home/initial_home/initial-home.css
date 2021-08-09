@@ -1,16 +1,18 @@
-.ih-container{
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@600&display=swap');.ih-container{
    display: grid;
    /* background: chocolate; */
-   height: 100vh;
+  
    justify-items: center;
    
 }
-.contents-ih > span{
-    display: block;
-    text-align: center;
-    font-size: min(2em,3vh);
 
+.contents-ih {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
 }
+
+
 .loginasrider-btn {
     padding: min(4%,1em);
     width: 22ch;
@@ -35,4 +37,15 @@
     margin: 0px;
     padding-bottom: 0.4em;
 }
-
+.aboutUs{
+    width: 50ch;
+    font-size: 1.2rem;
+    background: rgba(224, 224, 224, 0.479);
+    text-align: center;
+    border-radius: 10px;
+    
+    padding: 16px;
+    font-family: 'Quicksand', sans-serif;
+    align-self: center;
+    margin-bottom: 16px;
+}

@@ -1,7 +1,7 @@
 .top-banner {
     display        : flex;
     padding        : 0.5em 1em;
-    margin-bottom  : 0.5em;
+    margin-bottom  : 1rem;
     width: 100%;
     height         : max-content;
     font-size: 0.9rem;

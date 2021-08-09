@@ -9,33 +9,22 @@ export const LeaderBoard = () => {
     useEffect(async()=>{
         const res = await fetchLeaderBoard()
         if(res.status === 1 ){
+            if(res.data.length === 0){
+                setError("No top riders this week")
+            }
             setData(res.data)
         }else{
             setError(res.data)
         }
-        // setData([
-        //     {
-        //         name:"Sai Kiran B",
-        //         deliveryCount:10
-        //     },
-        //     {
-        //         name:"Aaris Khan",
-        //         deliveryCount:9
-        //     },
-        //     {
-        //         name:"Prashanith",
-        //         deliveryCount:2
-        //     }
-
-        // ])
+        
     },[])
-
-    if(data){
+    
+     if(data){
         return ( 
            <>
                 <span className='leaderboard-title'  >This Week's Top Riders</span>
             {
-                    error ? <p  >{error}</p>:
+                    error ? <p style={{fontSize:'1rem'}}  >{error}</p>:
                 <div className="leaderboard-container">
                 {
                     data.map((item,i)=><LeaderBoardUser key={i} position={++i} name={item.name} deliveryCount={item.numberOfDeliveriesCompleted} />)
