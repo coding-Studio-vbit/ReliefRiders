@@ -46,7 +46,7 @@ async function makeDelivery(phoneNumber, requestID) {
 						resolve(sendError(`Rider status is ${doc.currentStatus}, cannot assign this request to rider`));
 
 					else
-						return requests.findOne({ requestNumber: requestID });
+						return requests.findOne({ requestNumber: requestID }).select(['-pickupLocationCoordinates', '-dropLocationCoordinates']);
 				}
 			})
 			.then(doc => {
@@ -108,7 +108,7 @@ async function finishDelivery(phoneNumber, fileData) {
 					resolve(sendError("Rider is not BUSY, cannot finish delivery!"));
 				else {
 					riderDoc = doc;
-					return requests.findOne({ _id: riderDoc.currentRequest });
+					return requests.findOne({ _id: riderDoc.currentRequest }).select(['-pickupLocationCoordinates', '-dropLocationCoordinates']);
 				}
 			})
 			.then((doc) => {
@@ -140,7 +140,7 @@ async function finishDelivery(phoneNumber, fileData) {
 async function cancelDelivery(phoneNumber) {
 	try {
 		const rider = await riders.findOne({ phoneNumber: phoneNumber })
-		const request = await requests.findOne({ _id: rider.currentRequest })
+		const request = await requests.findOne({ _id: rider.currentRequest }).select(['-pickupLocationCoordinates', '-dropLocationCoordinates'])
 		if (!request) {
 			return sendError('No such request found')
 		}
@@ -159,7 +159,7 @@ async function cancelDelivery(phoneNumber) {
 
 async function getRequestDetails(requestID) {
 	return new Promise((resolve, reject) => {
-		requests.findOne({ requestNumber: requestID })
+		requests.findOne({ requestNumber: requestID }).select(['-pickupLocationCoordinates', '-dropLocationCoordinates'])
 			.populate('requesterID')
 			.then((temp) => {
 				if (!temp) {
@@ -223,6 +223,20 @@ async function fetchRequests(phoneNumber, longitude, latitude, maxDistance) {
 	})
 }
 
+async function fetchRequestsUrgency(phoneNumber) {
+	return new Promise((resolve, reject) => {
+		requests.find({requestStatus: "PENDING"}, {}).sort({urgency:-1})
+			.then((doc) => {
+				resolve(sendResponse(doc));
+				//	console.log(doc.length)
+			})
+			.catch(error => {
+				console.log(error);
+				resolve(sendError("Internal Server Error"));
+			})
+	})
+}
+
 async function getCurrentRequest(phoneNumber) {
 
 	return new Promise(async (resolve, reject) => {
@@ -264,5 +278,6 @@ module.exports = {
 	getRequestDetails,
 	getMyDeliveries,
 	getCurrentRequest,
-	fetchRequests
+	fetchRequests,
+	fetchRequestsUrgency
 };
