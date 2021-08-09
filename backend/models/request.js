@@ -82,6 +82,7 @@ const schema = new mongoose.Schema({
 
 	pickupLocationCoordinates: {
 		type: { type: String, default: "Point" },
+		required:false,
 		coordinates:{type: Array}
 	},
 
