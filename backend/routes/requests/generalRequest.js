@@ -126,15 +126,17 @@ router.post('/new', upload.any('images'), (req, res) => {
                 remarks: req.body.remarks,
                 urgency:urgency ,
                 dropLocationAddress: JSON.parse(req.body.dropLocationAddress),
-				        dropLocationCoordinates: theDropLocationCoordinates,
+				        dropLocationCoordinates: {coordinates: theDropLocationCoordinates},
                 roughLocationCoordinates: { coordinates: (req.body.roughCoordinates) }
             };
             let newRequest = new requestModel(tempObject);
 			if(theDropLocationCoordinates.length == 0)
 			{
+				//console.log("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII")
 				newRequest.dropLocationCoordinates = undefined;
 			}
 			newRequest.pickupLocationCoordinates = undefined;
+			console.log(newRequest);
             return newRequest.save()
         })
         .then(result => {
