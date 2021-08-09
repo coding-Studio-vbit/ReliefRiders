@@ -107,12 +107,18 @@ router.post('/new', upload.any('images'), (req, res) => {
             return paths;
         })
         .then(paths => {
+
            let urgency = 0
            const itemCategories = JSON.parse(req.body.itemCategories)
            for(const cat in itemCategories){if(cat === "MEDICINES") urgency = urgency+process.env.MEDICINES_URGENCY }
            if(req.body.requesterCovidStatus){ urgency = urgency+process.env.COVID_URGENCY }
            if(age >= 60){ urgency = urgency+process.env.AGED_URGENCY}
             let newRequest = new requestModel({
+
+
+			const theDropLocationCoordinates = JSON.parse(req.body.dropLocationCoordinates);
+			let tempObject = {
+
                 requesterID: req.body.requesterId,
                 requestNumber: Date.now() + Math.floor(Math.random() * 100),
                 requesterCovidStatus: req.body.requesterCovidStatus,
@@ -127,8 +133,15 @@ router.post('/new', upload.any('images'), (req, res) => {
                 urgency:urgency ,
                 dropLocationCoordinates: { coordinates: JSON.parse(req.body.dropLocationCoordinates) },
                 dropLocationAddress: JSON.parse(req.body.dropLocationAddress),
+				dropLocationCoordinates: theDropLocationCoordinates,
                 roughLocationCoordinates: { coordinates: (req.body.roughCoordinates) }
-            });
+            };
+            let newRequest = new requestModel(tempObject);
+			if(theDropLocationCoordinates.length == 0)
+			{
+				newRequest.dropLocationCoordinates = undefined;
+			}
+			newRequest.pickupLocationCoordinates = undefined;
             return newRequest.save()
         })
 

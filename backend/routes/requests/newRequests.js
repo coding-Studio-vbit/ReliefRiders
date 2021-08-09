@@ -95,8 +95,10 @@ router.post('/new', upload.any('images'), (req, res) => {
             return paths
         })
         .then(paths => {
-            console.log(req.body);
-            let newRequest = new requestModel({
+
+			const theDropLocationCoordinates = JSON.parse(req.body.dropLocationCoordinates);
+			const thePickupLocationCoordinates = JSON.parse(req.body.pickupLocationCoordinates);
+			let tempObject = {
                 requesterID: req.body.requesterID,
                 requestNumber: Date.now() + Math.floor(Math.random() * 100),
                 requesterCovidStatus: req.body.requesterCovidStatus,
@@ -107,12 +109,22 @@ router.post('/new', upload.any('images'), (req, res) => {
                 itemsListList: JSON.parse(req.body.itemsListList),
                 itemCategories: JSON.parse(req.body.itemCategories),
                 remarks: req.body.remarks,
-                dropLocationCoordinates: { coordinates: JSON.parse(req.body.dropLocationCoordinates) },
                 dropLocationAddress: JSON.parse(req.body.dropLocationAddress),
-                pickupLocationCoordinates: { coordinates: JSON.parse(req.body.pickupLocationCoordinates) },
                 pickupLocationAddress: JSON.parse(req.body.pickupLocationAddress),
-                roughLocationCoordinates: { coordinates: req.body.roughCoordinates }
-            });
+                roughLocationCoordinates: { coordinates: req.body.roughCoordinates },
+				dropLocationCoordinates : {coordinates: theDropLocationCoordinates},
+				pickupLocationCoordinates : {coordinates: thePickupLocationCoordinates}
+            }
+
+            let newRequest = new requestModel(tempObject);
+			if(theDropLocationCoordinates.length == 0)
+			{
+				newRequest.dropLocationCoordinates = undefined;
+			}
+			if(thePickupLocationCoordinates.length == 0)
+			{
+				newRequest.pickupLocationCoordinates = undefined;
+			}
             return newRequest.save()
         })
         .then(result => {
