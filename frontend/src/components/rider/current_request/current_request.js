@@ -14,7 +14,7 @@ import PreviewImages from "./preview_images";
 import Remarks from "../../global_ui/remarks/remarks";
 import { useSessionStorageState } from "../../../utils/useLocalStorageState";
 import { finishRequest } from "./finish_request";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -30,7 +30,8 @@ const reducer = (state, action) => {
       console.log(items);
       return { ...state, items: [...items] };
     }
-    
+    case "SHOWMSG":
+      return { ...state ,loading:false, errorMsg:action.payload}
     case "SETREQUEST":
       return { ...state, request: action.payload, loading: false };
   }
@@ -70,7 +71,7 @@ export const CurrentRequest = () => {
     }else
     await fetchCurrentRequest(dispatch, token);
   }, []);
-
+  
   return state.loading ? (
     <LoadingScreen />
   ) : (
@@ -85,6 +86,7 @@ export const CurrentRequest = () => {
             
           
             const res = await finishRequest(token,cancel)
+            console.log(res);
             if (res !== 1) {
               setDialogData({ ...dialogData, msg: res });
             } else {
@@ -97,6 +99,20 @@ export const CurrentRequest = () => {
         }}
       />
       <Navbar back="/" title="Order Details" />
+      { state.errorMsg? <div
+       style={{
+        position:'fixed',
+        top:'50%',
+        textAlign:'center',
+        left:'50%',
+        transform:'translate(-50%,-50%)'
+      }}
+      >
+        <p
+        style={{fontSize:'1.2rem',marginBottom:'1rem'}}
+        >{state.errorMsg}</p>
+        <Link to='/new_delivery' >Want to make a delivery?</Link>
+      </div>:
       <div className={styles.container}>
 
         <p>Request #{request.requestNumber}</p>
@@ -131,6 +147,7 @@ export const CurrentRequest = () => {
 
         <BottomButtons setCancel={setCancel} setDialogData={setDialogData} />
       </div>
+}
     </>
   );
 };

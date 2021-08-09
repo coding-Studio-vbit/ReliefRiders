@@ -1,18 +1,29 @@
-/* eslint-disable no-unused-vars */
 export const fetchCurrentRequest = async (dispatch, token) => {
-  console.log("Dummy data");
-  console.error(
-    "Current request screen may contain bugs. They will be fixed when current req endpoint is done"
-  );
 
-  dispatch({ type: "SETREQUEST", payload: request });
-  // try {
-  //   const res = await fetch("")
-  // } catch (error) {
+  try {
+    const res = await fetch(process.env.REACT_APP_URL + "/rider/currentRequest", {
+      method: "GET",
+      headers: {
+        authorization: "Bearer " + token,
+      },
+    });
+    const data = await res.json()
+    console.log(data)
+    if (data.status === 'success') {
+      dispatch({ type: "SETREQUEST", payload: data.message });
+    } else {
+      dispatch({ type: "SHOWMSG", payload: data.message });
 
-  // }
+    }
+  } catch (error) {
+    dispatch({ type: "SHOWMSG", payload: "Unable to access server, Please try again " });
+
+  }
+
+
 };
 
+// eslint-disable-next-line no-unused-vars
 const request = {
   requestNumber: "8628290",
   requesterID: "8628290",

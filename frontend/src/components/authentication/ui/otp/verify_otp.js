@@ -87,18 +87,21 @@ const VerifyOTP = () => {
 
   return (
     <form className="otp-container">
-      <Logo></Logo>
+      <Logo/>
       <Dialog  isShowing={isShowing} onOK={()=>{toggle(false)}} msg={error} />
       <p style={{ textAlign: "center", marginBottom: 0.3 + "em" }}  >
         You will get an OTP via SMS
       </p>
-      <InputField
-        error={errorMsg.showError ? errorMsg.error : ""}
-        textAlign="center"
-        placeholder="Enter OTP"
-        type="number"
-        onChange={(e) => validateOTP(e.target.value)}
-      />
+      <div>
+        <InputField
+        
+          error={errorMsg.showError ? errorMsg.error : ""}
+          textAlign="center"
+          placeholder="Enter OTP"
+          type="number"
+          onChange={(e) => validateOTP(e.target.value)}
+        />
+      </div>
       <p style={{ textAlign: "center"}} >
         Still haven't received the OTP ?{" "}
         <a onClick={resendOTP} className="send-otp-btn">
