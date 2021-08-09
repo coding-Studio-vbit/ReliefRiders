@@ -97,7 +97,7 @@ function Map() {
     if (requestType === "general") {
       dispatch({
         type: "ADD_DROP_LOCATION_COORDINATES",
-        payload: [coordinates.lat, coordinates.lng],
+        payload: [coordinates.lng, coordinates.lat],
       });
       
     } else {
@@ -105,13 +105,13 @@ function Map() {
       if (isPickUp) {
         dispatch({
           type: "ADD_PICKUP_LOCATION_COORDINATES",
-          payload: [coordinates.lat, coordinates.lng],
+          payload: [coordinates.lng, coordinates.lat],
         });
 
       } else {
         dispatch({
           type: "ADD_DROP_LOCATION_COORDINATES",
-          payload: [coordinates.lat, coordinates.lng],
+          payload: [coordinates.lng, coordinates.lat],
         });
 
       }
