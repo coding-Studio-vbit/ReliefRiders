@@ -7,14 +7,14 @@ import { LoadingScreen } from "../../global_ui/spinner";
 // import { useHistory } from "react-router-dom";
 
 const ChooseRequest = () => {
-  const [value, setValue] = useState(1);
+  const [sliderValue, setSliderValue] = useState(1);
   // const history = useHistory();
-  const [allRequests, setRequests] = useState(request);
+  const [allRequests, setRequests] = useState([request]);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [flag, setFlag] = useState(0);
   const [coordinates, setCoordinates] = useState({ lat: "", lng: "" });
   const token = localStorage.getItem("token");
-  const [loading, setLoading] = useState(true);
   //sorting requests based on 3 parameters.
   function sortedCustom(param) {
     setFlag(flag + 1);
@@ -31,7 +31,6 @@ const ChooseRequest = () => {
       setRequests(a);
     }
   }
-  // console.log(value);
   //finding current location of rider
   const CurrentLocation = () => {
     if (navigator.geolocation) {
@@ -111,13 +110,15 @@ const ChooseRequest = () => {
       (response) => {
         if (response.data.message.length === 0) {
           setRequests([request]);
-        } else setRequests(response.data.message);
-        let data = response.data;
+          console.log(allRequests);
+        } else setRequests([response.data.message]);
+        let data = response.data.message;
         for (let i = 0; i < data.length; i++) {
           data.distance = 0;
         }
-        setRequests(data);
-        console.log(response.data);
+       
+        setRequests([data]);
+       
 
         setLoading(false);
       },
@@ -182,14 +183,14 @@ const ChooseRequest = () => {
             type="range"
             min="1"
             max="100"
-            value={value}
+            value={sliderValue}
             onChange={({ target: { value: radius } }) => {
-              setValue(radius);
+              setSliderValue(radius);
             }}
           />
         </div>
         <div className={styles.bubble} id="bubble">
-          Upto {value} Kilometres
+          Upto {sliderValue} Kilometres
         </div>
 
         {allRequests.length === 0 ? (
@@ -199,8 +200,8 @@ const ChooseRequest = () => {
             {allRequests.map((req) => {
               return (
                 <ChooseRequestItem
-                value = {value}
-        
+                sliderValue = {sliderValue}
+        obj = {allRequests}
                   key={req.requestNumber}
                   data={req}
                 />
@@ -247,7 +248,7 @@ const request = [
       city: "Hyderabad",
     },
     priority: "15",
-    requesterName: "nameclose",
+    requesterName: "Pranchal Agarwal",
   },
   {
    
@@ -278,7 +279,7 @@ const request = [
       area: "B.Hills",
       city: "Hyderabad",
     },
-    requesterName: "name",
+    requesterName: "Some Name",
     priority: "12",
   },
   {
@@ -330,6 +331,6 @@ const request = [
       coordinates: [17.9, 78.6],
     },
     priority: "0",
-    requesterName: "Vanita",
+    requesterName: "name",
   },
 ];

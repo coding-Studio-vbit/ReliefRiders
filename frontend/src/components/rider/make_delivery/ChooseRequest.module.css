@@ -93,7 +93,7 @@ height: fit-content;
     row-gap: 3px;
     font-size: clamp(0.7rem, 1vw, 1.2rem); 
     display: grid;
-    width:min(90%, 400px);
+    width:min(90%, 500px);
     
     grid-template-columns: 30% 30% 15% 25%;
     grid-template-rows: auto;
@@ -102,8 +102,8 @@ height: fit-content;
         "droparea droparea . covidStatus "
         "requesterName requesterName . ."
         "category1 category2 category3 .";
-    border-radius: 7px;
-    box-shadow: 0 0 7px #242323 ;
+    border-radius: 4px;
+    box-shadow: 0 0 5px #242323 ;
     padding: 5px;
 }
 .covidStatus{
@@ -151,8 +151,8 @@ height: fit-content;
     margin: auto;
     grid-area: category1;
     border-radius: 10px;
-    border: 2px solid rgb(177, 32, 32);
-    background-color: rgb(226, 97, 97);
+    border: 2px solid rgb(184, 5, 5);
+    background-color: rgb(216, 0, 0);
     padding: 0px 3px 0px 3px;
 
 }
@@ -163,7 +163,7 @@ height: fit-content;
     grid-area: category2;
     border-radius: 10px;
     border: 2px solid rgb(8, 126, 22);
-    background-color: rgb(63, 145, 63);
+    background-color: rgb(3, 209, 3);
     padding: 0px 3px 0px 3px;
 
 }

@@ -4,11 +4,10 @@ import styles from "./ChooseRequest.module.css";
 
 const ChooseRequestItem = (props) => {
   const [data, setData] = useState(props.data);
-  const [value2, setValue2] = useState(props.value);
-  console.log(value2);
+  
   let flag = 0;
   useEffect(() => {
-    setValue2(props.value);
+  
 
     setData(props.data);
     if (data) {
@@ -19,7 +18,7 @@ const ChooseRequestItem = (props) => {
     }
   }, [props]);
 function compare (){
-  return  parseFloat(data.distance) <= parseFloat(props.value) 
+  return  parseFloat(data.distance) <= parseFloat(props.sliderValue) 
 }
   return (
   
@@ -27,7 +26,7 @@ function compare (){
     <div className={styles.container} key={props}>
    
       <div className={styles.chooseRequestItem}>
-        {data.date} {/*for testing */}
+       
         {data.pickupLocationAddress && props.data.pickupLocationAddress.area && (
           <span className={styles.pickupArea}>
             <i className="fas fa-map-marker-alt"></i>Pickup:{" "}
@@ -38,11 +37,11 @@ function compare (){
           <i className="fas fa-map-marker-alt"></i>Drop:{" "}
           {data.dropLocationAddress.area}
         </span>
-        {data.distance} {/*for testing */}
+      
         <span className={styles.requesterName}>
           Requester: {props.data.requesterName}
         </span>
-        <span>Priority: {props.data.priority}</span> {/*for testing */}
+       
         {props.data.requesterCovidStatus && (
           <span className={styles.covidStatus}>COVID+</span>
         )}
