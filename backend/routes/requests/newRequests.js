@@ -43,7 +43,7 @@ var upload = multer({ storage: storage })
 
 
 router.post('/new', upload.any('images'), (req, res) => {
-
+    let age;
     const pickupLocationCoordinates = JSON.parse(req.body.pickupLocationCoordinates);
     const pickupLocationAddress = JSON.parse(req.body.pickupLocationAddress);
 
@@ -75,6 +75,7 @@ router.post('/new', upload.any('images'), (req, res) => {
             if (doc != null) {
                 //Fetch last request time here
                 req.body.requesterID = doc._id;
+                age = new Date().getFullYear() - doc.yearOfBirth;
             }
             else {
                 throw ({ status: "failure", message: "No such rider found!" });
@@ -95,7 +96,20 @@ router.post('/new', upload.any('images'), (req, res) => {
             return paths
         })
         .then(paths => {
-
+          let urgency = 0
+          const itemCategories = JSON.parse(req.body.itemCategories)
+          for(let cat = 0 ; cat < itemCategories.length; cat++ ){
+            if( itemCategories[cat] === "MEDICINES") {
+              urgency = urgency+ parseInt(process.env.MEDICINES_URGENCY)
+            }
+          }
+          if(req.body.requesterCovidStatus === "true")
+          {
+            urgency =  urgency+ parseInt(process.env.COVID_URGENCY)
+          }
+        if(age >= 60){
+            urgency = urgency+ parseInt(process.env.AGED_URGENCY)
+          }
 			const theDropLocationCoordinates = JSON.parse(req.body.dropLocationCoordinates);
 			const thePickupLocationCoordinates = JSON.parse(req.body.pickupLocationCoordinates);
 			let tempObject = {
@@ -109,6 +123,7 @@ router.post('/new', upload.any('images'), (req, res) => {
                 itemsListList: JSON.parse(req.body.itemsListList),
                 itemCategories: JSON.parse(req.body.itemCategories),
                 remarks: req.body.remarks,
+                urgency:urgency ,
                 dropLocationAddress: JSON.parse(req.body.dropLocationAddress),
                 pickupLocationAddress: JSON.parse(req.body.pickupLocationAddress),
                 roughLocationCoordinates: { coordinates: req.body.roughCoordinates },

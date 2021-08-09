@@ -53,7 +53,7 @@ var upload = multer({ storage: storage })
 
 
 router.post('/new', upload.any('images'), (req, res) => {
-
+    let age;
     const dropLocationCoordinates = JSON.parse(req.body.dropLocationCoordinates);
     const dropLocationAddress = JSON.parse(req.body.dropLocationAddress);
     new Promise((resolve, reject) => {
@@ -86,6 +86,7 @@ router.post('/new', upload.any('images'), (req, res) => {
                 // console.log(lastRequestTime);
                 // return lastRequestTime;
                 req.body.requesterId = doc._id;
+                 age = new Date().getFullYear() - doc.yearOfBirth;
             }
             return 16273927;
         })
@@ -105,7 +106,20 @@ router.post('/new', upload.any('images'), (req, res) => {
             return paths;
         })
         .then(paths => {
-
+          let urgency = 0
+          const itemCategories = JSON.parse(req.body.itemCategories)
+          for(let cat = 0 ; cat < itemCategories.length; cat++ ){
+            if( itemCategories[cat] === "MEDICINES") {
+              urgency = urgency+ parseInt(process.env.MEDICINES_URGENCY)
+            }
+          }
+          if(req.body.requesterCovidStatus === "true")
+          {
+            urgency =  urgency+ parseInt(process.env.COVID_URGENCY)
+          }
+        if(age >= 60){
+            urgency = urgency+ parseInt(process.env.AGED_URGENCY)
+          }
 			const theDropLocationCoordinates = JSON.parse(req.body.dropLocationCoordinates);
 			let tempObject = {
                 requesterID: req.body.requesterId,
@@ -119,14 +133,15 @@ router.post('/new', upload.any('images'), (req, res) => {
                 itemsListList: JSON.parse(req.body.itemsListList),
                 itemCategories: JSON.parse(req.body.itemCategories),
                 remarks: req.body.remarks,
+                urgency:urgency ,
                 dropLocationAddress: JSON.parse(req.body.dropLocationAddress),
-				dropLocationCoordinates: {coordinates: theDropLocationCoordinates},
+				        dropLocationCoordinates: {coordinates: theDropLocationCoordinates},
                 roughLocationCoordinates: { coordinates: (req.body.roughCoordinates) }
             };
             let newRequest = new requestModel(tempObject);
 			if(theDropLocationCoordinates.length == 0)
 			{
-				console.log("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII")
+				//console.log("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII")
 				newRequest.dropLocationCoordinates = undefined;
 			}
 			newRequest.pickupLocationCoordinates = undefined;
