@@ -4,6 +4,7 @@ import { useContext } from "react/cjs/react.development";
 import { AuthContext } from "../../../context/auth/authProvider";
 import { ConfirmDialog } from "../../../global_ui/dialog/dialog";
 import Navbar from "../../../global_ui/nav";
+import Remarks from "../../../global_ui/remarks/remarks";
 import cancelConfirmRequest from "./cancel_confirm_request";
 import ItemsRequestedList from "./items_requested_list";
 import styles from "./placed_request.module.css";
@@ -12,7 +13,6 @@ import RequestImages from "./request_images";
 const PlacedRequest = () => {
   const history = useHistory();
   const { token } = useContext(AuthContext);
-  console.log(token);
   const {
     location: {
       state: { request },
@@ -68,6 +68,7 @@ const PlacedRequest = () => {
           <p>Order delivered by {request.riderID.name}</p>
         )}
         <Address />
+        <Remarks remarks={request.remarks} />
         {request.itemsListImages.length > 0 ? (
           <RequestImages
             bills={request.billsImageList}
@@ -88,7 +89,6 @@ const PlacedRequest = () => {
           </>
         )}
 
-       
           <div className={styles.buttonsContainer}>
             
               { request.requestStatus === "PENDING" &&  <button
@@ -103,7 +103,7 @@ const PlacedRequest = () => {
                 Cancel Request
               </button>}
             
-            { (request.requestStatus === "PENDING" || request.requestStatus === "UNDER DELIVERY") && <button
+            { (request.requestStatus === "CONFIRMED BY RIDER") && <button
               onClick={() => {
                 setDialogData({
                   show: true,

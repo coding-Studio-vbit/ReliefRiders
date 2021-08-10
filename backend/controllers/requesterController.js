@@ -42,7 +42,7 @@ async function updateRequesterProfile(phoneNumber, newDetails) {
 async function confirmRequest(phone, requestID) {
 	return new Promise((resolve, reject) => {
 
-		request.findOne({ requestNumber: requestID })
+		request.findOne({ requestNumber: requestID }).select(['-pickupLocationCoordinates', '-dropLocationCoordinates'])
 			.populate('requesterID')
 			.then(doc => {
 				if (doc == null) {
@@ -82,7 +82,7 @@ async function confirmRequest(phone, requestID) {
 async function cancelRequest(phone, requestID) {
 	return new Promise((resolve, reject) => {
 
-		request.findOne({ requestNumber: requestID })
+		request.findOne({ requestNumber: requestID }).select(['-pickupLocationCoordinates', '-dropLocationCoordinates'])
 			.populate('requesterID')
 			.then(doc => {
 				if (doc == null) {

@@ -97,7 +97,7 @@ function Map() {
     if (requestType === "general") {
       dispatch({
         type: "ADD_DROP_LOCATION_COORDINATES",
-        payload: [coordinates.lat, coordinates.lng],
+        payload: [coordinates.lng, coordinates.lat],
       });
       
     } else {
@@ -105,13 +105,13 @@ function Map() {
       if (isPickUp) {
         dispatch({
           type: "ADD_PICKUP_LOCATION_COORDINATES",
-          payload: [coordinates.lat, coordinates.lng],
+          payload: [coordinates.lng, coordinates.lat],
         });
 
       } else {
         dispatch({
           type: "ADD_DROP_LOCATION_COORDINATES",
-          payload: [coordinates.lat, coordinates.lng],
+          payload: [coordinates.lng, coordinates.lat],
         });
 
       }
@@ -174,15 +174,15 @@ function Map() {
         style={{
           position: "fixed",
           top: "85vh",
-          left: 0,
-          fontWeight: "bold",
           color: "white",
           background: "var(--secondary)",
           padding: 0.8 + "em",
           right: 0,
+          left: 0,
           marginRight: "auto",
           marginLeft: "auto",
-          marginTop: "2vw",
+          width:'30ch',
+          
         }}
       >
         Choose Pinned Address
