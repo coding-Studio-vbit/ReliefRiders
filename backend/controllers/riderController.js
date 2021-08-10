@@ -223,20 +223,6 @@ async function fetchRequests(phoneNumber, longitude, latitude, maxDistance) {
 	})
 }
 
-async function fetchRequestsUrgency(phoneNumber) {
-	return new Promise((resolve, reject) => {
-		requests.find({requestStatus: "PENDING"}, {}).sort({urgency:-1})
-			.then((doc) => {
-				resolve(sendResponse(doc));
-				//	console.log(doc.length)
-			})
-			.catch(error => {
-				console.log(error);
-				resolve(sendError("Internal Server Error"));
-			})
-	})
-}
-
 async function getCurrentRequest(phoneNumber) {
 
 	return new Promise(async (resolve, reject) => {
@@ -245,11 +231,8 @@ async function getCurrentRequest(phoneNumber) {
 			.then(async doc => {
 				if (!doc)
 					resolve(sendError("No such rider found"));
-				else if(doc.currentRequest == null)
-				{
-					resolve(sendError("No current request"));
-				}
 				else {
+
 					const requester = await requesters.findOne({ _id: doc.currentRequest.requesterID })
 					console.log(requester)
 					console.log(doc.currentRequest);
@@ -281,6 +264,5 @@ module.exports = {
 	getRequestDetails,
 	getMyDeliveries,
 	getCurrentRequest,
-	fetchRequests,
-	fetchRequestsUrgency
+	fetchRequests
 };
