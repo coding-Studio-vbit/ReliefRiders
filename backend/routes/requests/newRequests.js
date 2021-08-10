@@ -43,7 +43,7 @@ var upload = multer({ storage: storage })
 
 
 router.post('/new', upload.any('images'), (req, res) => {
-
+    let age;
     const pickupLocationCoordinates = JSON.parse(req.body.pickupLocationCoordinates);
     const pickupLocationAddress = JSON.parse(req.body.pickupLocationAddress);
 
@@ -75,6 +75,7 @@ router.post('/new', upload.any('images'), (req, res) => {
             if (doc != null) {
                 //Fetch last request time here
                 req.body.requesterID = doc._id;
+                age = new Date().getFullYear() - doc.yearOfBirth;
             }
             else {
                 throw ({ status: "failure", message: "No such rider found!" });
@@ -95,8 +96,23 @@ router.post('/new', upload.any('images'), (req, res) => {
             return paths
         })
         .then(paths => {
-            console.log(req.body);
-            let newRequest = new requestModel({
+          let urgency = 0
+          const itemCategories = JSON.parse(req.body.itemCategories)
+          for(let cat = 0 ; cat < itemCategories.length; cat++ ){
+            if( itemCategories[cat] === "MEDICINES") {
+              urgency = urgency+ parseInt(process.env.MEDICINES_URGENCY)
+            }
+          }
+          if(req.body.requesterCovidStatus === "true")
+          {
+            urgency =  urgency+ parseInt(process.env.COVID_URGENCY)
+          }
+        if(age >= 60){
+            urgency = urgency+ parseInt(process.env.AGED_URGENCY)
+          }
+			const theDropLocationCoordinates = JSON.parse(req.body.dropLocationCoordinates);
+			const thePickupLocationCoordinates = JSON.parse(req.body.pickupLocationCoordinates);
+			let tempObject = {
                 requesterID: req.body.requesterID,
                 requestNumber: Date.now() + Math.floor(Math.random() * 100),
                 requesterCovidStatus: req.body.requesterCovidStatus,
@@ -107,12 +123,23 @@ router.post('/new', upload.any('images'), (req, res) => {
                 itemsListList: JSON.parse(req.body.itemsListList),
                 itemCategories: JSON.parse(req.body.itemCategories),
                 remarks: req.body.remarks,
-                dropLocationCoordinates: { coordinates: JSON.parse(req.body.dropLocationCoordinates) },
+                urgency:urgency ,
                 dropLocationAddress: JSON.parse(req.body.dropLocationAddress),
-                pickupLocationCoordinates: { coordinates: JSON.parse(req.body.pickupLocationCoordinates) },
                 pickupLocationAddress: JSON.parse(req.body.pickupLocationAddress),
-                roughLocationCoordinates: { coordinates: req.body.roughCoordinates }
-            });
+                roughLocationCoordinates: { coordinates: req.body.roughCoordinates },
+				dropLocationCoordinates : {coordinates: theDropLocationCoordinates},
+				pickupLocationCoordinates : {coordinates: thePickupLocationCoordinates}
+            }
+
+            let newRequest = new requestModel(tempObject);
+			if(theDropLocationCoordinates.length == 0)
+			{
+				newRequest.dropLocationCoordinates = undefined;
+			}
+			if(thePickupLocationCoordinates.length == 0)
+			{
+				newRequest.pickupLocationCoordinates = undefined;
+			}
             return newRequest.save()
         })
         .then(result => {

@@ -1,6 +1,5 @@
 .form {
   display: grid;
-  height: 100vh;
   justify-items: center;
   padding: 1em;
   position: relative;
@@ -9,9 +8,9 @@
 }
 .inputContainer{
   display: grid;
-  
   grid-auto-rows: min-content;
-  justify-self: center;
+  justify-items: center;
+  justify-content: center;
 }
 
 .otp-btn {
@@ -21,16 +20,17 @@
   align-self: flex-start;
 }
 .sec-row {
-  margin-bottom: 100px;
+  margin-bottom: 75px;
   margin-top: 1rem;
   display: grid;
   justify-self: center;
   grid-auto-flow: column;
   gap: 16px;
-  width: min(90%,var(--max-width));
   
   
 }
-.sec-row > div {
-  width: 100%;
+
+.almostFooter a{
+  font-size: clamp(0.8rem,1.9vw,1rem);
+  text-align: center;
 }

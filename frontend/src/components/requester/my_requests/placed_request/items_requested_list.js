@@ -16,9 +16,17 @@ const ItemsRequestedList = ({ list, category,styles }) => {
         </div>
         <div className={styles.items}>
           {list.map((item) => (
-            <span key={item.itemName}>
-              {item.itemName} - {item.quantity}
+            <div key={item.itemName}>
+            <span style={{
+                     
+                      textOverflow:'ellipsis',
+                      overflow:'hidden',
+                      whiteSpace:'nowrap'
+                    }} >
+              {item.itemName} 
             </span>
+            <span>{item.quantity}</span>
+            </div>
           ))}
         </div>
       </div>

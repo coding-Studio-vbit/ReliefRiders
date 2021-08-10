@@ -1,4 +1,5 @@
 const riders = require("../models/riders");
+const requesters = require("../models/requesters")
 const requests = require("../models/request")
 const { sendResponse, sendError } = require("./common");
 
@@ -45,7 +46,7 @@ async function makeDelivery(phoneNumber, requestID) {
 						resolve(sendError(`Rider status is ${doc.currentStatus}, cannot assign this request to rider`));
 
 					else
-						return requests.findOne({ requestNumber: requestID });
+						return requests.findOne({ requestNumber: requestID }).select(['-pickupLocationCoordinates', '-dropLocationCoordinates']);
 				}
 			})
 			.then(doc => {
@@ -80,6 +81,8 @@ async function makeDelivery(phoneNumber, requestID) {
 
 
 async function finishDelivery(phoneNumber, fileData) {
+
+
 	return new Promise((resolve, reject) => {
 		let billsImagePaths = [];
 		let rideImagePaths = [];
@@ -105,7 +108,7 @@ async function finishDelivery(phoneNumber, fileData) {
 					resolve(sendError("Rider is not BUSY, cannot finish delivery!"));
 				else {
 					riderDoc = doc;
-					return requests.findOne({ requestID: riderDoc.currentRequest });
+					return requests.findOne({ _id: riderDoc.currentRequest }).select(['-pickupLocationCoordinates', '-dropLocationCoordinates']);
 				}
 			})
 			.then((doc) => {
@@ -135,48 +138,28 @@ async function finishDelivery(phoneNumber, fileData) {
 }
 
 async function cancelDelivery(phoneNumber) {
-	return new Promise((resolve, reject) => {
+	try {
+		const rider = await riders.findOne({ phoneNumber: phoneNumber })
+		const request = await requests.findOne({ _id: rider.currentRequest }).select(['-pickupLocationCoordinates', '-dropLocationCoordinates'])
+		if (!request) {
+			return sendError('No such request found')
+		}
+		request.requestStatus = "PENDING"
+		rider.currentStatus = "AVAILABLE"
+		rider.currentRequest = null
+		await rider.save()
+		await request.save()
+		return sendResponse('Delivery cancelled successfully')
+	} catch (error) {
+		console.log(error);
+		return sendError('Internal Server Error')
+	}
 
-		let riderDoc;
-
-		riders.findOne({ phoneNumber: phoneNumber })
-			.then((doc) => {
-				if (!doc)
-					resolve(sendError("No such rider found"));
-				else if (doc.currentStatus != "BUSY")
-					resolve(sendError("Rider is not BUSY, cannot cancel delivery"))
-				else {
-					riderDoc = doc;
-					return requests.findOne({ _id: riderDoc.currentRequest });
-				}
-			})
-			.then((doc) => {
-				if (!doc)
-					resolve(sendError("Cannot find the request to be cancelled"));
-				else {
-					requestDoc = doc;
-					requestDoc.requestStatus = "PENDING";
-					riderDoc.currentStatus = "AVAILABLE";
-					riderDoc.currentRequest = null;
-					return requestDoc.save();
-				}
-			})
-			.then(() => {
-				return riderDoc.save();
-			})
-			.then(() => {
-				resolve(sendResponse("Cancel Delivery Successful"));
-			})
-			.catch(error => {
-				console.log(error);
-				return res.json(error);
-			})
-	})
 }
 
 async function getRequestDetails(requestID) {
 	return new Promise((resolve, reject) => {
-		requests.findOne({ requestNumber: requestID })
+		requests.findOne({ requestNumber: requestID }).select(['-pickupLocationCoordinates', '-dropLocationCoordinates'])
 			.populate('requesterID')
 			.then((temp) => {
 				if (!temp) {
@@ -219,43 +202,69 @@ async function getMyDeliveries(phoneNumber) {
 }
 
 
-async function fetchRequests(phoneNumber,longitude,latitude,maxDistance) {
+async function fetchRequests(phoneNumber, longitude, latitude, maxDistance) {
 	return new Promise((resolve, reject) => {
-		requests.find({roughLocationCoordinates:{ $near: { $geometry:{ type: "Point",  coordinates: [longitude, latitude] },
-				$maxDistance: maxDistance
-			}}, requestStatus : "PENDING"})
+		requests.find({
+			roughLocationCoordinates: {
+				$near: {
+					$geometry: { type: "Point", coordinates: [longitude, latitude] },
+					$maxDistance: maxDistance
+				}
+			}, requestStatus: "PENDING"
+		})
 			.then((doc) => {
 				resolve(sendResponse(doc));
-			//	console.log(doc.length)
+				//	console.log(doc.length)
 			})
 			.catch(error => {
 				console.log(error);
 				resolve(sendError("Internal Server Error"));
 			})
-		})
-	}
+	})
+}
 
-async function getCurrentRequest(phoneNumber){
+async function fetchRequestsUrgency(phoneNumber) {
+	return new Promise((resolve, reject) => {
+		requests.find({requestStatus: "PENDING"}, {}).sort({urgency:-1})
+			.then((doc) => {
+				resolve(sendResponse(doc));
+				//	console.log(doc.length)
+			})
+			.catch(error => {
+				console.log(error);
+				resolve(sendError("Internal Server Error"));
+			})
+	})
+}
 
-	return new Promise((resolve, reject)=>{
-		riders.findOne({phoneNumber: phoneNumber})
-		.populate('currentRequest')
-		.then(doc=>{
-			if(!doc)
-				resolve(sendError("No such rider found"));
-			else
-			{
-				console.log(doc.currentRequest);
-				if(!doc.currentRequest)
-					resolve(sendError("No current request"));
-				else
-					resolve(sendResponse(doc.currentRequest));
-			}
-		})
-		.catch(error=>{
-			console.log(error);
-			resolve(sendError("Internal Server Error"));
-		})
+async function getCurrentRequest(phoneNumber) {
+
+	return new Promise(async (resolve, reject) => {
+		riders.findOne({ phoneNumber: phoneNumber })
+			.populate('currentRequest')
+			.then(async doc => {
+				if (!doc)
+					resolve(sendError("No such rider found"));
+				else {
+
+					const requester = await requesters.findOne({ _id: doc.currentRequest.requesterID })
+					console.log(requester)
+					console.log(doc.currentRequest);
+					if (!doc.currentRequest)
+						resolve(sendError("No current request found"));
+					else {
+						const res = doc.currentRequest.toObject();
+						res.name = requester.name;
+						res.phoneNumber = requester.phoneNumber;
+						console.log(res);
+						resolve(sendResponse(res));
+					}
+				}
+			})
+			.catch(error => {
+				console.log(error);
+				resolve(sendError("Internal Server Error"));
+			})
 
 	})
 }
@@ -269,5 +278,6 @@ module.exports = {
 	getRequestDetails,
 	getMyDeliveries,
 	getCurrentRequest,
-	fetchRequests
+	fetchRequests,
+	fetchRequestsUrgency
 };

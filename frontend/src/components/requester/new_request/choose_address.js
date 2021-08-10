@@ -143,7 +143,7 @@ const ChooseAddress = ({ pickup }) => {
     </p>
   );
   return (
-    <div className={styles.chooseAddressPage}>
+    <div className={styles.container}>
       <Navbar
         back={"unnecessary"}
         onBackClick={() => {
@@ -159,69 +159,55 @@ const ChooseAddress = ({ pickup }) => {
         }}
         title="Choose Location"
       />
+      <form className={styles.form}>
+        <h2 className={styles.headerText}>
+          Choose{" "}
+          {requestType === "general" ? "Drop" : pickup ? "Pickup" : "Drop"}{" "}
+          Location
+        </h2>
 
-      <div className={styles.headerText}>
-        Choose {requestType === "general" ? "Drop" : pickup ? "Pickup" : "Drop"}{" "}
-        Location
-        {/* Choose {type} Location: */}
-      </div>
-
-      <form className={styles.addressForm}>
-        <div className={styles.addressContainer}>
-          <div className={styles.textAreaContainer}>
-            <InputField
-              name="address"
-              ukey={"address" + pickup}
-              value={location.address}
-              type="text"
-              error={errors.showErrors ? errors.address : ""}
-              onChange={(e) => _handleAddress(e)}
-              placeholder="Enter Address"
-            />
-          </div>
-
-          <div className={styles.cityPincode}>
-            <div className={styles.childField}>
-              <InputField
-                value={location.city}
-                error={errors.showErrors ? errors.city : ""}
-                onChange={(e) => _handleCity(e)}
-                type="text"
-                placeholder="City"
-              />
-            </div>
-
-            <div style={{ width: "20px" }}></div>
-
-            <div className="childField">
-              <InputField
-                value={location.area}
-                error={errors.showErrors ? errors.area : ""}
-                onChange={(e) => _handlearea(e)}
-                type="text"
-                placeholder="Area"
-              />
-            </div>
-          </div>
+        <div className={styles.inputs}>
+          <InputField
+            name="address"
+            ukey={"address" + pickup}
+            value={location.address}
+            type="text"
+            error={errors.showErrors ? errors.address : ""}
+            onChange={(e) => _handleAddress(e)}
+            placeholder="Enter Address"
+          />
+          <InputField
+            value={location.city}
+            error={errors.showErrors ? errors.city : ""}
+            onChange={(e) => _handleCity(e)}
+            type="text"
+            placeholder="City"
+          />
+          <InputField
+            value={location.area}
+            error={errors.showErrors ? errors.area : ""}
+            onChange={(e) => _handlearea(e)}
+            type="text"
+            placeholder="Area"
+          />
         </div>
 
         <p
           style={{
-            margin: 1 + "em",
+            marginBottom: `50px`,
             textAlign: "center",
             fontSize: 1.2 + "em",
           }}
         >
           OR
         </p>
-
-        <div style={{ marginBottom: 1.3 + "em" }}>
+        <div style={{ marginBottom: 3 + "em" }}>
           {pickup && pickupLocationCoordinates.length !== 0 && selectedMapMsg}
           {!pickup && dropLocationCoordinates.length !== 0 && selectedMapMsg}
           <button
             type="button"
             onClick={() => {
-              history.push("map_location/"+pickup);
+              history.push("map_location/" + pickup);
             }}
             value="Choose Location"
             className={styles.locationBtn}
@@ -230,7 +216,6 @@ const ChooseAddress = ({ pickup }) => {
             Choose Location
           </button>
         </div>
-
         <button
           className={styles.btnProceed}
           type="submit"

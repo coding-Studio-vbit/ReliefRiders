@@ -1,9 +1,8 @@
 .inputField {
     position : relative;
     font-size: 1rem;
-    margin: 0px auto;
     height: fit-content;
-    width: min(90%,var(--max-width));
+    width: 100%;
     --label-top:calc(23%);
 }
 .label {

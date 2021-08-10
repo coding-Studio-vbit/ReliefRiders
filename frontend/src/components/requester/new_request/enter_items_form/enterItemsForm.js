@@ -144,7 +144,7 @@ function EnterItemsForm() {
   return (
     <div>
       <Navbar back="list_type" title="Enter Items" />
-      <div style={{ paddingLeft: "1rem", paddingRight: "1rem" }}>
+      <div >
         <p
           style={{
             marginTop: "2rem",
@@ -194,7 +194,11 @@ function EnterItemsForm() {
           {inputList.map((x, index) => {
             return (
               <div className={restyles.card} key={x.itemName}>
-                    <span>{x.itemName}  |  {x.quantity} </span>
+                    <span style={{
+                      textOverflow:'ellipsis',
+                      overflow:'hidden',
+                      whiteSpace:'nowrap'
+                    }} >{x.itemName}  |  {x.quantity} </span>
                  
                   <div >
                     <span>
