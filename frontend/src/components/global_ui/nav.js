@@ -19,7 +19,7 @@ const Navbar = ({
   titleStyle,
   back,
   title = "UNSET",
-  backStyle = {},
+  //backStyle = {},
   onBackClick = null,
 }) => {
   const route = useHistory();
@@ -27,7 +27,7 @@ const Navbar = ({
     <nav className="nav-bar" style={style}>
       {back && (
         <i
-          style={backStyle}
+          style={{cursor:"pointer"}}
           onClick={() => {
             if (onBackClick !== null) {
               onBackClick();

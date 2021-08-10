@@ -10,7 +10,7 @@ import About from "./components/about/about";
 function App() {
   return (
     <div className="App">
-      {/* <AuthProvider>
+      <AuthProvider>
         <Router>
           <Switch>
             <Route path="/about">
@@ -24,7 +24,7 @@ function App() {
             </Route>
           </Switch>
         </Router>
-      </AuthProvider> */}
+      </AuthProvider>
     </div>
   );
 }
