@@ -120,6 +120,10 @@ router.post('/new', upload.any('images'), (req, res) => {
         if(age >= 60){
             urgency = urgency+ parseInt(process.env.AGED_URGENCY)
           }
+		  
+			
+			console.log("Urgency is: ", urgency);
+
 			const theDropLocationCoordinates = JSON.parse(req.body.dropLocationCoordinates);
 			let tempObject = {
                 requesterID: req.body.requesterId,
