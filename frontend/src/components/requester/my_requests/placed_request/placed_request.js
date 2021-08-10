@@ -13,7 +13,6 @@ import RequestImages from "./request_images";
 const PlacedRequest = () => {
   const history = useHistory();
   const { token } = useContext(AuthContext);
-  console.log(token);
   const {
     location: {
       state: { request },
@@ -90,7 +89,6 @@ const PlacedRequest = () => {
           </>
         )}
 
-       
           <div className={styles.buttonsContainer}>
             
               { request.requestStatus === "PENDING" &&  <button
@@ -105,7 +103,7 @@ const PlacedRequest = () => {
                 Cancel Request
               </button>}
             
-            { (request.requestStatus === "PENDING" || request.requestStatus === "UNDER DELIVERY") && <button
+            { (request.requestStatus === "CONFIRMED BY RIDER") && <button
               onClick={() => {
                 setDialogData({
                   show: true,
