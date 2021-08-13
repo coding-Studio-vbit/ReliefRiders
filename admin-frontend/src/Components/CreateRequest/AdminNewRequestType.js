@@ -1,5 +1,5 @@
 import React from 'react';
-import adminrtstyles from "./RequestType.module.css"
+import adminrtstyles from "./AdminRequestType.module.css"
 import Navbar from '../GlobalComponents/NavigationBar'
 
 function RequestType(){
