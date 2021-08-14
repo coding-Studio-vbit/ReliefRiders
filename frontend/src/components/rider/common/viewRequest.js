@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import styles from './viewRequest.module.css'
 import Navbar from '../../global_ui/nav'
 import Button from '../../global_ui/buttons/button'
@@ -17,13 +17,13 @@ function ViewRequest() {
     const history = useHistory();
     const [isDeliveryConfirmed, setisDeliveryConfirmed] = useState(false);
 
-    const [state, setstate] = useState({reqObj:request})
+    // const [state, setstate] = useState({reqObj:request})
 
-    // const {
-    //     location: {
-    //       state
-    //     },
-    //   } = history;
+    const {
+        location: {
+          state
+        },
+      } = history;
 
     const makeDelivery = () => {
         setisLoading(true);
@@ -48,18 +48,6 @@ function ViewRequest() {
             seterror(err)           
         })             
     }
-
-    useEffect(() => {
-        // console.log(10,history);
-        // if(location.state){
-        //                //        
-        // }
-        // else{
-        //     //
-        //     state=
-            
-        // }
-    }, [])
 
     return (
             <>
@@ -89,9 +77,7 @@ function ViewRequest() {
 
                     <Address request={state.reqObj}/>
 
-                    <Remarks remarks={state.reqObj.Remarks}/>
-
-                   
+                    <Remarks remarks={state.reqObj.Remarks}/>                  
 
                         <p style={{textAlign:'center'}}>Requests</p>                                                
                         <div className={styles.orderType}>

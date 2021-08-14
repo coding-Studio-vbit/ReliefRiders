@@ -85,6 +85,7 @@ height: fit-content;
 
 .chooseRequestItem
 {
+    
     margin-top : 30px;
     max-height: 150px;
     margin-bottom: 10px;
@@ -104,7 +105,7 @@ height: fit-content;
         "category1 category2 category3 .";
     border-radius: 4px;
     box-shadow: 0 0 5px #242323 ;
-    padding: 5px;
+    padding: 10px 5px 10px 13px;
 }
 .covidStatus{
   grid-area: covidStatus;
