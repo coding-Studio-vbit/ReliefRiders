@@ -233,6 +233,8 @@ async function getCurrentRequest(phoneNumber) {
 					resolve(sendError("No such rider found"));
 				else {
 
+					if(doc.currentRequest == null)
+						return resolve(sendError("No such rider found!"));
 					const requester = await requesters.findOne({ _id: doc.currentRequest.requesterID })
 					console.log(requester)
 					console.log(doc.currentRequest);
