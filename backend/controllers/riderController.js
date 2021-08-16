@@ -189,7 +189,7 @@ async function getMyDeliveries(phoneNumber) {
 
 		riders.findOne({ phoneNumber: phoneNumber })
 			.then((riderDoc) => {
-				return requests.find({ requestStatus: "DELIVERED", riderID: riderDoc._id })
+				return requests.find({ requestStatus: "DELIVERED", riderID: riderDoc._id }).select(['-pickupLocationCoordinates', '-dropLocationCoordinates'])
 			})
 			.then(docs => {
 				resolve(sendResponse(docs));
