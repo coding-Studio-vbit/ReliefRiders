@@ -211,7 +211,7 @@ async function fetchRequests(phoneNumber, longitude, latitude, maxDistance) {
 					$maxDistance: maxDistance
 				}
 			}, requestStatus: "PENDING"
-		})
+		}).select(['-pickupLocationCoordinates', '-dropLocationCoordinates'])
 			.then((doc) => {
 				resolve(sendResponse(doc));
 				//	console.log(doc.length)
