@@ -7,6 +7,7 @@ import { logout } from "../../context/auth/authOperations";
 import { useHistory } from "react-router-dom";
 import Logo from "../../global_ui/logo";
 import Navbar from "../../global_ui/nav";
+
 function RiderHome() {
   const history = useHistory();
   const { dispatch } = useContext(AuthContext);
@@ -14,9 +15,6 @@ function RiderHome() {
   const routehandler = (route) => {
     history.push(route);
   };
-
-
-
 
   return (
     <div className="rider-home-container">
