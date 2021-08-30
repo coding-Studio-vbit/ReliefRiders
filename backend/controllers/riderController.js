@@ -189,7 +189,7 @@ async function getMyDeliveries(phoneNumber) {
 
 		riders.findOne({ phoneNumber: phoneNumber })
 			.then((riderDoc) => {
-				return requests.find({ requestStatus: "DELIVERED", riderID: riderDoc._id })
+				return requests.find({ requestStatus: "DELIVERED", riderID: riderDoc._id }).select(['-pickupLocationCoordinates', '-dropLocationCoordinates'])
 			})
 			.then(docs => {
 				resolve(sendResponse(docs));
@@ -211,7 +211,7 @@ async function fetchRequests(phoneNumber, longitude, latitude, maxDistance) {
 					$maxDistance: maxDistance
 				}
 			}, requestStatus: "PENDING"
-		})
+		}).select(['-pickupLocationCoordinates', '-dropLocationCoordinates'])
 			.then((doc) => {
 				resolve(sendResponse(doc));
 				//	console.log(doc.length)
@@ -233,6 +233,8 @@ async function getCurrentRequest(phoneNumber) {
 					resolve(sendError("No such rider found"));
 				else {
 
+					if(doc.currentRequest == null)
+						return resolve(sendError("No current request found"));
 					const requester = await requesters.findOne({ _id: doc.currentRequest.requesterID })
 					console.log(requester)
 					console.log(doc.currentRequest);
