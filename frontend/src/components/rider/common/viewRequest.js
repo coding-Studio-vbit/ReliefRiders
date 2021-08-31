@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './viewRequest.module.css'
 import Navbar from '../../global_ui/nav'
 import Button from '../../global_ui/buttons/button'
@@ -8,22 +8,29 @@ import { useHistory } from 'react-router-dom'
 import UserDetails from '../current_request/user_details'
 import Remarks from '../../global_ui/remarks/remarks'
 import Address from '../current_request/address'
-
+import { LoadingScreen } from '../../global_ui/spinner'
+import Carousel from '../../global_ui/carousel/carousel'
 
 function ViewRequest() {
-    const [error, seterror] = useState(null);
     const token = localStorage.getItem('token')
-    const [isLoading, setisLoading] = useState(false)
     const history = useHistory();
-    const [isDeliveryConfirmed, setisDeliveryConfirmed] = useState(false);
+    const [state, setstate] = useState({reqObj:request})
+    // const {
+    //     location: {
+    //       state
+    //     },
+    //   } = history;
 
-    // const [state, setstate] = useState({reqObj:request})
 
-    const {
-        location: {
-          state
-        },
-      } = history;
+    const [error, seterror] = useState(null);
+    
+    const [isLoading, setisLoading] = useState(false);
+    
+    const [isDeliveryConfirmed, setisDeliveryConfirmed] = useState(false);   
+   
+    useEffect(()=>{
+        console.log(setstate);
+    })
 
     const makeDelivery = () => {
         setisLoading(true);
@@ -49,9 +56,20 @@ function ViewRequest() {
         })             
     }
 
-    return (
+    return (     
+            isLoading?
+            <LoadingScreen/>:
             <>
                 <Navbar back="true" title="Order Details" style={{ background: '#79CBC5', color: 'white' }} />
+                
+                <Dialog
+                    isShowing={error}
+                    title="Error"
+                    msg={"Unable to takeup delivery! Unknown Error"}
+                    onOK={() => {
+                        seterror(false)                       
+                    }}
+                />
 
                 <Dialog
                     isShowing={isDeliveryConfirmed}
@@ -62,7 +80,7 @@ function ViewRequest() {
                         history.push("/current_request");
                     }}
                 />
-
+                   
                 <div className={styles.currentRequestContent}>
 
                     <p className={styles.request}>
@@ -79,74 +97,87 @@ function ViewRequest() {
 
                     <Remarks remarks={state.reqObj.Remarks}/>                  
 
-                        <p style={{textAlign:'center'}}>Requests</p>                                                
-                        <div className={styles.orderType}>
-                            {
-                                state.reqObj.itemCategories.map((type)=>{
-                                    return(
-                                        <Button 
-                                        fontSize="0.9rem"
-                                        text={type} 
-                                        key={type} bgColor="#ff7978" 
-                                        color="black"
-                                        isRounded="true"
-                                        borderRadius="16px"
-                                        
-                                        />
-                                    )
-                                })                               
-                            }                           
-                        </div>
+                    <p style={{textAlign:'center'}}>Requests</p>   
 
-                        <div className={styles.itemsListList}>
-                            <table>
-                                <tr>
-                                    <th>Item</th>
-                                    <th>Quantity</th>
-                                </tr>
-                                {
-                                    state.reqObj.itemsListList.map((object) => {
-                                        return <tr key={object.itemName}>
-                                            <td>{object.itemName}</td>
-                                            <td>{object.quantity}</td>
-                                        </tr>
-                                    })
-                                }
-                            </table>
-                        </div>
-                        <div>
+                    <div className={styles.orderType}>
                         {
-                            state.reqObj.requestStatus === "PENDING" &&
-                            <div style={{ marginTop: '50px', textAlign: 'center' }}>
-                                <Button text="Make Delivery" isRounded="true" isBlock="true" isElevated="true"
-                                    onClick={() => makeDelivery()}
-                                />
-                            </div>
-                        }  
+                            state.reqObj.itemCategories.map((type)=>{
+                                return(
+                                    <Button 
+                                    fontSize="0.9rem"
+                                    text={type} 
+                                    key={type} bgColor="#ff7978" 
+                                    color="black"
+                                    isRounded="true"
+                                    borderRadius="16px"
+                                    
+                                    />
+                                )
+                            })                               
+                        }                           
+                    </div>
 
+                    <div className={styles.itemsListList}>
+                        <table>
+                            <tr>
+                                <th>Item</th>
+                                <th>Quantity</th>
+                            </tr>
+                            {
+                                state.reqObj.itemsListList.map((object) => {
+                                    return <tr key={object.itemName}>
+                                        <td>{object.itemName}</td>
+                                        <td>{object.quantity}</td>
+                                    </tr>
+                                })
+                            }
+                        </table>
+                    </div>
+
+                    { 
+                        state.reqObj.itemsListImages.length!=0 &&
+                        <Carousel list={state.reqObj.itemsListImages} title="Items"/>
+                    }
+
+                    <div>
+                    </div>                  
+                    { 
+                        state.reqObj.billsImageList.length!=0 &&
+                        <Carousel list={state.reqObj.billsImageList} title="Bills"/>
+                    }
+                    <div>
+                    {
+                        state.reqObj.requestStatus === "PENDING" &&
+                        <div style={{ marginTop: '50px', textAlign: 'center' }}>
+                            <Button text="Make Delivery" isRounded="true" isBlock="true" isElevated="true"
+                                onClick={() => makeDelivery()}
+                            />
                         </div>
-                                      
+                    } 
+                    </div>                                     
                     
                 </div>
-            </>                             
+                   
+                
+            </>                                      
     )
 }
 
 export default ViewRequest;
 
 
-
-
 const request = {
     requestNumber: "8628290",
     requesterID: "8628290",
-    requestStatus: "DELIVERED",
+    requestStatus: "PENDING",
     requesterCovidStatus: true,
     requestType: "GENERAL",
     name: "Mark Zucc",
     phoneNumber: "9999999999",
     itemsListImages: [
-      //  "https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+        'https://images.pexels.com/photos/1388030/pexels-photo-1388030.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
+        'https://images.pexels.com/photos/2225601/pexels-photo-2225601.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
+        'https://images.pexels.com/photos/2430953/pexels-photo-2430953.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
     ],
     riderID: {
       name: "Someone",
@@ -164,7 +195,9 @@ const request = {
     itemCategories: ["MEDICINES", "MISC"],
     remarks: "Please delivery ASAP here",
     billsImageList: [
-      // "https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+        'https://images.pexels.com/photos/1388030/pexels-photo-1388030.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
+        'https://images.pexels.com/photos/2225601/pexels-photo-2225601.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
+        'https://images.pexels.com/photos/2430953/pexels-photo-2430953.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
     ],
     rideImages: [
       // "https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
