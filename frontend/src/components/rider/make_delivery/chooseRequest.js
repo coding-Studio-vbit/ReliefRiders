@@ -166,11 +166,14 @@ const ChooseRequest = () => {
           <div className={styles.dropdown}>
 
             <button className={styles.dropbtn}>
-              Order By
-              <i className="fa fa-caret-down"></i>
+              
+              <i className="fa fa-caret-down" style={{paddingLeft:'2px'}}></i>
             </button>
 
             <div className={styles.dropdownContent}>
+            <p className={styles.btnhead} onClick={()=>null}>
+              Order By
+            </p>
               <button
                 className={styles.buttons}
                 onClick={() => sortedCustom("Date")}>
@@ -195,7 +198,7 @@ const ChooseRequest = () => {
         </div>
 
         <div className={styles.rangeSlider}>
-          Distance:
+          Distance
           <input
             className={styles.slider}
             type="range"
@@ -280,6 +283,7 @@ const request = [
     requestNumber: "945",
     requesterID: "72377",
     riderID: "56789",
+    requesterCovidStatus:"true",
     requestStatus: "PENDING",
     requestType: "P&D",
     paymentPreference: "CASH",
