@@ -193,14 +193,13 @@
     padding: 3px 7px 3px 7px;
 
 }
-.misc
-{
-    color: white;
-    margin: auto;   
-    background-color: blue;
-    border-radius: 7px;
-    border: none;
-    padding: 3px 7px 3px 7px;
+.misc{
+  color: white;
+  margin: auto;   
+  background-color: blue;
+  border-radius: 7px;
+  border: none;
+  padding: 3px 7px 3px 7px;
 }
 
 .requesterName{

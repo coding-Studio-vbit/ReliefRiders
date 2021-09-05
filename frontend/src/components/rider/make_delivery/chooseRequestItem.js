@@ -23,6 +23,8 @@ const ChooseRequestItem = (props) => {
   return (  
      compare() && (  
         <div className={styles.chooseRequestItem}> 
+        
+        {props.data.distance}
           <div className={styles.requesterName}>
             {props.data.requesterName}
           </div>       
