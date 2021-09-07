@@ -31,10 +31,10 @@ const ChooseRequestItem = (props) => {
           
           <div className={styles.location}>          
             {
-              data.pickupLocationAddress && props.data.pickupLocationAddress.area && (
+              data.pickupLocationAddress &&  (
                 <div className={styles.pickupArea}>
                   <i className="fas fa-map-marker-alt" style={{paddingRight:'5px'}}></i>Pickup :{" "}
-                  {props.data.pickupLocationAddress.area}
+                  {data.pickupLocationAddress.area}
                 </div>
               )
             }

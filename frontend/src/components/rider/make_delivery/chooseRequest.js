@@ -72,16 +72,19 @@ const ChooseRequest = () => {
 
   //Calculating distance between rider's current location and roughLocationCoordinates using google maps api
   function calculateDistance(i) {
-    let distance;    
+    let distance;   
+
     let URL = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${coordinates.lat},${coordinates.lng}&destinations=${allRequests[i].roughLocationCoordinates[0]},${allRequests[i].roughLocationCoordinates[1]}&key=${process.env.REACT_APP_GMAP_API_KEY}`;
-    console.log('====================================');
-    console.log(URL);
-    console.log('====================================');
-    axios.get(URL)
+    var config = {
+      method: 'get',
+      url:URL,
+      headers: {        
+        'Access-Control-Allow-Origin' : '*',
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+      }
+    };
+    axios(config)
       .then((response) => {
-        console.log('====================================');
-        console.log(response,"abcd");
-        console.log('====================================');
         distance = response.data.rows[0].elements[0].distance.value;
 
         let temp=allRequests
@@ -96,18 +99,14 @@ const ChooseRequest = () => {
 
   //calling calculate distance function for each request
   function assignDistance() {   
-    console.log('====================================');
-    console.log(allRequests.length);
-    console.log('===================================='); 
-    for (var i = 0; i < allRequests.length; i++) {
+    const temp=allRequests.length
+    for (var i = 0; i < temp; i++) {
       calculateDistance(i);
     }
   }
 
   useEffect(() => {
     setLoading(true);
-    currentLocation();
-    assignDistance()
     const options = {
       headers: {
         authorization: "Bearer " + token,
@@ -144,7 +143,10 @@ const ChooseRequest = () => {
       for (let i = 0; i < request.length; i++) {
         request[i].distance = 20-i;
       }
-      setRequests(request) 
+      setRequests(request)     
+        currentLocation();      
+        assignDistance();        
+      
     })    
   }, []);
 
