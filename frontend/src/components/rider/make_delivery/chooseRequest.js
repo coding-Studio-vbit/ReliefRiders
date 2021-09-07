@@ -4,6 +4,7 @@ import styles from "./ChooseRequest.module.css";
 import axios from "axios";
 import { Dialog } from "../../global_ui/dialog/dialog";
 import { LoadingScreen } from "../../global_ui/spinner";
+// import { useHistory } from "react-router";
 
 const ChooseRequest = () => {
   const [sliderValue, setSliderValue] = useState(1);
@@ -13,6 +14,7 @@ const ChooseRequest = () => {
   const [flag, setFlag] = useState(0);
   const [coordinates, setCoordinates] = useState({ lat:0, lng:0 });
   const token = localStorage.getItem("token");
+  // const history=useHistory()
     
   //sorting requests based on 3 parameters.
   function sortedCustom(param) {
@@ -26,7 +28,9 @@ const ChooseRequest = () => {
       a.sort(comparisonByPriority);
       setRequests(a);
     } else if (param == "Distance") {
+      if(currentLocation()){
       a.sort(comparisonByDistance);
+      }
       setRequests(a);
     }
   }
@@ -67,42 +71,43 @@ const ChooseRequest = () => {
   }
 
   //Calculating distance between rider's current location and roughLocationCoordinates using google maps api
-  function calculateDistance(request,i) {
-    console.log("Calculating");
-    let distance1;
-    let URL = 
-    `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${coordinates.lat},${coordinates.lng}&destinations=${request.roughLocationCoordinates[0]},${request.roughLocationCoordinates[1]}&key=${process.env.REACT_APP_GMAP_API_KEY}`;
-    
+  function calculateDistance(i) {
+    let distance;    
+    let URL = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${coordinates.lat},${coordinates.lng}&destinations=${allRequests[i].roughLocationCoordinates[0]},${allRequests[i].roughLocationCoordinates[1]}&key=${process.env.REACT_APP_GMAP_API_KEY}`;
+    console.log('====================================');
+    console.log(URL);
+    console.log('====================================');
     axios.get(URL)
       .then((response) => {
-        distance1 = response.data.rows[0].elements[0].distance.value;
-        allRequests[i].distance = distance1/1000;
         console.log('====================================');
-        console.log(response,11);
+        console.log(response,"abcd");
         console.log('====================================');
+        distance = response.data.rows[0].elements[0].distance.value;
+
+        let temp=allRequests
+        temp[i].distance=distance/1000
+
+        setRequests(temp)
       })
       .catch((error) => {
-        console.log(error,1010);
+        console.log(error);
       });
   }
 
   //calling calculate distance function for each request
-  function assignDistance() {
-    let i;
+  function assignDistance() {   
     console.log('====================================');
-    console.log(allRequests.length,12,allRequests);
-    console.log('====================================');
-    for (i = 0; i < allRequests.length; i++) {
-      calculateDistance(allRequests[i],i);
+    console.log(allRequests.length);
+    console.log('===================================='); 
+    for (var i = 0; i < allRequests.length; i++) {
+      calculateDistance(i);
     }
   }
-  // useEffect(() => {
-  //   assignDistance();
-  // }, [coordinates]);
 
   useEffect(() => {
     setLoading(true);
     currentLocation();
+    assignDistance()
     const options = {
       headers: {
         authorization: "Bearer " + token,
@@ -133,21 +138,14 @@ const ChooseRequest = () => {
         setLoading(false);
       }
     )
-    .finally(()=>setLoading(false))
-
-
-    // only for testing with  dummy data
-    let data = request;
-    for (let i = 0; i < data.length; i++) {
-      data[i].distance = 20-i;
-    }   
-    setRequests(data); 
-    if(currentLocation()){
-      console.log("Enquiring");
-      assignDistance();  
-      console.log("Enquired");
-    }
-    setLoading(false);
+    .finally(
+      ()=>{
+      setLoading(false)
+      for (let i = 0; i < request.length; i++) {
+        request[i].distance = 20-i;
+      }
+      setRequests(request) 
+    })    
   }, []);
 
   return loading ? (
@@ -157,7 +155,7 @@ const ChooseRequest = () => {
       <Dialog
         isShowing={error}
         onOK={() => {
-         // history.goBack();
+          // history.goBack();
           setError(null);
         }}
         msg={error}
@@ -232,12 +230,12 @@ const ChooseRequest = () => {
           (
             <div className={styles.ChooseRequestItem}>
               {
-                allRequests.map((req) => {
+                allRequests.map((req,i) => {
                   return (
                     <ChooseRequestItem
                       sliderValue = {sliderValue}
                       obj = {allRequests}
-                      key={req.requestNumber}
+                      key={i}
                       data={req}
                     />
                   );
