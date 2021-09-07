@@ -68,9 +68,7 @@ const ChooseRequest = () => {
 
   //Calculating distance between rider's current location and roughLocationCoordinates using google maps api
   function calculateDistance(request,i) {
-    console.log('====================================');
     console.log("Calculating");
-    console.log('====================================');
     let distance1;
     let URL = 
     `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${coordinates.lat},${coordinates.lng}&destinations=${request.roughLocationCoordinates[0]},${request.roughLocationCoordinates[1]}&key=${process.env.REACT_APP_GMAP_API_KEY}`;
@@ -122,7 +120,7 @@ const ChooseRequest = () => {
           for (let i = 0; i < data.length; i++) {
             data[i].distance = 0;
           } 
-          setRequests(data); 
+          setRequests(data);
           if(currentLocation()){
             assignDistance();  
           } 
@@ -141,7 +139,7 @@ const ChooseRequest = () => {
     // only for testing with  dummy data
     let data = request;
     for (let i = 0; i < data.length; i++) {
-      data[i].distance = 20;
+      data[i].distance = 20-i;
     }   
     setRequests(data); 
     if(currentLocation()){
