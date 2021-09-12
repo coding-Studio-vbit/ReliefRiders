@@ -6,22 +6,28 @@ export default function Home() {
           <div style={styles.admimSections}>
             <div style={styles.title}>Deliveries</div>
             <div style={styles.contentText}>
-              <div style={{ fontWeight: "bold" }}>Date:</div>
+              <div style={{ fontWeight: "bold" }}>Date:&nbsp;&nbsp;</div>
               <div>placeholder</div>
             </div>
             <div style={styles.contentText}>
-              <div style={{ fontWeight: "bold" }}>Rider Name:</div>
+              <div style={{ fontWeight: "bold" }}>Rider Name:&nbsp;&nbsp;</div>
               <div>placeholder</div>
             </div>
             <div style={styles.contentText}>
-              <div style={{ fontWeight: "bold" }}>Request Status:</div>
+              <div style={{ fontWeight: "bold" }}>
+                Request Status:&nbsp;&nbsp;
+              </div>
               <div>placeholder</div>
             </div>
             <div style={styles.contentText}>
-              <div style={{ fontWeight: "bold" }}>Mode of transport:</div>
+              <div style={{ fontWeight: "bold" }}>
+                Mode of transport:&nbsp;&nbsp;
+              </div>
               <div>placeholder</div>
             </div>
             <div style={styles.contentText}>
+              <br />
+              <br />
               <div style={styles.button}>Apply Filter</div>
             </div>
           </div>
@@ -30,8 +36,10 @@ export default function Home() {
           <div style={styles.admimSections}>
             <div style={styles.title}>Search Requests</div>
             <div style={styles.contentText}>
-              <div style={{ fontWeight: "bold" }}>Enter Order # </div>
-              <div>placeholder</div>
+              <div style={{ fontWeight: "bold" }}>
+                Enter Order #&nbsp;&nbsp;
+              </div>
+              <div>placeholder</div>&nbsp;&nbsp;
               <div style={styles.button}>Fetch order</div>
             </div>
           </div>
@@ -46,6 +54,7 @@ const styles = {
     color: "#AE1818",
     marginTop: 5,
     fontWeight: "bold",
+    fontSize: "1.25rem",
   },
   admimSections: {
     border: "0.05rem solid black",
