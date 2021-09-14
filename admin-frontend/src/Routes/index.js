@@ -1,16 +1,16 @@
-import { Route } from "react-router-dom";
-import Login from "../Components/Auth/Login";
+import { Route,BrowserRouter as Router,Switch } from "react-router-dom";
 import NavigationBar from "../Components/GlobalComponents/NavigationBar";
-import AssignRequest from "../Components/AssignRequest";
-import OTP from "../Components/Auth/OTP";
+import NewRequest from "../Components/CreateRequest/NewRequest";
+
 const Routes = () => {
   return (
     <div>
       <NavigationBar />
-      <Route path="/temp" component={Login} />
-      <Route path="/assignrequest" component={AssignRequest} />
-      <Route path="/Login" component={Login} />
-      <Route path="/OTP" component={OTP} />
+      <Router>
+        <Switch>
+          <Route exact path="/newrequest" component={NewRequest}/>
+        </Switch>
+      </Router>
     </div>
   );
 };

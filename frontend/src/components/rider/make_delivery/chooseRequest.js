@@ -6,6 +6,7 @@ import { Dialog } from "../../global_ui/dialog/dialog";
 import { LoadingScreen } from "../../global_ui/spinner";
 // import { useHistory } from "react-router";
 
+
 const ChooseRequest = () => {
   const [sliderValue, setSliderValue] = useState(1);
   const [allRequests, setRequests] = useState([]);
@@ -78,7 +79,8 @@ const ChooseRequest = () => {
     var config = {
       method: 'get',
       url:URL,
-      headers: {        
+      headers: {
+        'key':process.env.REACT_APP_GMAP_API_KEY,        
         'Access-Control-Allow-Origin' : '*',
         'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
       }
