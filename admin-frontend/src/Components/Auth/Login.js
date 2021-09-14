@@ -8,7 +8,7 @@ export default function Login() {
   };
   return (
     <div className="d-flex justify-content-center">
-      <div className="d-flex justify-content-center flex-column align-items-center px-5 py-5 mt-5">
+      <div className="d-flex justify-content-center flex-column align-items-center py-5 mt-5">
         <img src={Logo} alt="logo" width="200" />
         <div className="fw-bold mt-3 fs-3">Admin Login</div>
         <input
