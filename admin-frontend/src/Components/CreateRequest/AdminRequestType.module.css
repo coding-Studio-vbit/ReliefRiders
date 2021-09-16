@@ -1,0 +1,23 @@
+.rcontainer{
+    display: grid;
+    justify-items:center;
+    grid-auto-rows: min-content;
+    gap: 1rem;
+}
+.rcontainer button{
+    width: min(20ch,90%);
+    font-weight: 800;
+    background:var(--secondary);
+    padding: 1em;
+    font-size: clamp(1.3rem,3vw,1.4rem);
+    border-radius: 15px;
+    background-color: lightcoral;
+}
+.rcontainer span{
+    display: inline-flex;
+    justify-content: center;
+    font-size: larger;
+    font-weight: bolder;
+    margin-top: 75px;
+    margin-bottom: 50px;
+}
