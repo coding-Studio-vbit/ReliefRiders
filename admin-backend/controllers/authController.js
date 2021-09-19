@@ -8,8 +8,11 @@ async function requestOTP(phoneNumber)
 		let userDoc, phone;
 		admins.find({phoneNumber: phoneNumber})
 		.then(doc=>{
-			if(!doc)
-				throw(sendError("No such admin found!"));
+				console.log(doc.length);
+
+			if(doc.length === 0){
+				reject(sendError("No such admin found!"));
+			}
 			else
 			{
 				userDoc = doc;
@@ -45,10 +48,10 @@ async function requestOTP(phoneNumber)
 		.catch(error=>{
 			if(error.status == "failure")
 			{
-				res.json(error);
+				return sendError(error);
 			}
 			else
-				res.json(sendError(error));
+				return sendError(error);
 		})
 	})
 }
@@ -56,7 +59,7 @@ async function requestOTP(phoneNumber)
 async function verifyOTP(phoneNumber, otpSent)
 {
 	return new Promise((resolve, reject)=>{
-			
+
 		let userDoc;
 		admins.findOne({phoneNumber: phoneNumber})
 		.then((doc)=>{

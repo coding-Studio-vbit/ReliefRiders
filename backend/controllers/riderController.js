@@ -6,7 +6,8 @@ const { sendResponse, sendError } = require("./common");
 async function getRiderProfile(phoneNumber) {
 	return new Promise((resolve, reject) => {
 
-		riders.findOne({ phoneNumber: phoneNumber }, { phoneNumber: 1, name: 1, defaultAddress: 1 })
+		riders.findOne({ phoneNumber: phone
+			Number }, { phoneNumber: 1, name: 1, defaultAddress: 1 })
 			.then((doc) => {
 				resolve(sendResponse(doc));
 			})
