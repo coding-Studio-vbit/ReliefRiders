@@ -1,0 +1,41 @@
+const admins = require("../models/admin");
+const riders = require("../models/riders");
+const requests = require("../models/request")
+const { sendError, sendResponse } = require("./common");
+
+async function riderByName(name) {
+    try {
+
+        const riderAvailable = await riders.find({ name: { $regex: name }, currentStatus: "AVAILABLE" }, { name: 1 }).exec()
+        return sendResponse(riderAvailable)
+
+    } catch (error) {
+        console.log(error)
+        return sendError('Internal Server Error')
+    }
+}
+
+async function assignRider(phoneNumber, requestNumber) {
+    try {
+
+        const rider = await riders.findOne({ phoneNumber: phoneNumber })
+        const request = await requests.findOne({ requestNumber: requestNumber })
+        rider.currentStatus = "BUSY"
+        rider.currentRequest = request._id
+        rider.currentRequestType = request.requestType
+        request.requestStatus = "UNDER DELIVERY"
+        request.riderID = rider._id
+        await rider.save();
+        await request.save();
+        return sendResponse(`Request assigned to ${rider.name} successfully`)
+
+    } catch (error) {
+        console.log(error)
+        return sendError('Internal Server Error')
+    }
+}
+
+module.exports = {
+    riderByName,
+    assignRider
+}

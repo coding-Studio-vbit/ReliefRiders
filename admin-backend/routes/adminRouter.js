@@ -6,7 +6,6 @@ const { sendError, sendResponse } = require("../controllers/common");
 
 
 router.post("/requestOTP", (req, res) => {
-    console.log(req.body.phoneNumber)
     authController.requestOTP(req.body.phoneNumber)
         .then(response => {
             res.json(response);
