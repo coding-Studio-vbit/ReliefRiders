@@ -1,4 +1,6 @@
 const admins = require("../models/admin");
+const otpController = require("./otpController.js");
+const sms = require("./sms.js");
 const { sendError, sendResponse } = require("../controllers/common");
 
 async function createAdmin(phoneNumber, name) {
