@@ -35,7 +35,7 @@ async function assignRider(phoneNumber, requestNumber) {
     }
 }
 
-async function getDeliveriesByRequestStatus() {
+async function getDeliveries() {
     try {
 
         const getDeliveries = await requests.find().exec()
@@ -47,10 +47,22 @@ async function getDeliveriesByRequestStatus() {
     }
 }
 
+async function getDeliveriesByRequestStatus() {
+    try {
+
+        const getDeliveries = await requests.find({ requestStatus: requestStatus }).exec()
+        return sendResponse(getDeliveries)
+
+    } catch (error) {
+        console.log(error)
+        return sendError('Internal Server Error')
+    }
+}
+
 async function searchByRequestNumber(requestNumber) {
     try {
 
-        const deliveriesByNumber = await requests.findOne({ requestNumber: requestNumber})
+        const deliveriesByNumber = await requests.findOne({ requestNumber: requestNumber })
         return sendResponse(deliveriesByNumber)
 
     } catch (error) {
@@ -63,10 +75,10 @@ async function searchByRequestNumber(requestNumber) {
 async function searchDeliveryByRiderName(name) {
     try {
 
-        const deliveriesByName = await riders.find({name: { $regex: name }}).exec()
+        const deliveriesByName = await riders.find({ name: { $regex: name } }).exec()
         return sendResponse(deliveriesByName)
 
-    } catch (error) {    
+    } catch (error) {
         console.log(error)
         return sendError('Internal Server Error')
     }
@@ -75,6 +87,7 @@ async function searchDeliveryByRiderName(name) {
 module.exports = {
     riderByName,
     assignRider,
+    getDeliveries,
     searchByRequestNumber,
     searchDeliveryByRiderName,
     getDeliveriesByRequestStatus
