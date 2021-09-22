@@ -1,26 +1,32 @@
 import { Navbar, Nav } from "react-bootstrap";
 
+import logo from '../../Images/logo.png'
+
 export default function Navigationbar() {
   return (
     <div>
       <Navbar
-        bg="*"
+        bg="dark"
+        className="px-3"
         variant="dark"
         expand="lg"
-        style={{ backgroundColor: "#22c3c3", fontWeight: "bold" }}
+        style={{fontWeight: "400"}}
       >
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto">
-            <Nav.Link href="/">Admin Home</Nav.Link>
-            <Nav.Link href="#home">New Request</Nav.Link>
-            <Nav.Link href="/assignrequest">Assign Request</Nav.Link>
-            <Nav.Link href="#ca">Create Admin</Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
+
+        <Navbar.Brand varaint="light">
+        <img src={logo} alt="" height="25" style={{paddingRight:'10px'}}/>
+        Relief Riders
+        </Navbar.Brand>
+        <Navbar.Toggle className="right-0"/>
+
         <Navbar.Collapse className="justify-content-end">
           <Nav>
-            <Nav.Link href="#ca">Logout</Nav.Link>
+            <Nav.Link href="/home">Home</Nav.Link>
+            <Nav.Link href="/createrequest">New Request</Nav.Link>
+            <Nav.Link href="/assignrequest">Assign Request</Nav.Link>
+            <Nav.Link href="/createAdmin">Create Admin</Nav.Link>
+            <Nav.Link href="/">SIGN OUT</Nav.Link>
+
           </Nav>
         </Navbar.Collapse>
       </Navbar>

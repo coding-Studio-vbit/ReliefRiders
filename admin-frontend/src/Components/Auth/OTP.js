@@ -27,7 +27,7 @@ export default function OTP() {
   const handleLogin=()=>{
     if(validateOTP()){
       //HTTP Request
-      history.push('/')
+      history.push('/home')
     }
   }
 

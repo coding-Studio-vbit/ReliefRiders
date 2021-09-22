@@ -2,7 +2,7 @@ import React from 'react';
 import GS from "./CreateAdmin.css";
 import {Button, Form, Container, Row, Col} from 'react-bootstrap';
 
-const Signup = () => {
+const CreateAdmin = () => {
  return (
  <>
  <div>
@@ -81,4 +81,4 @@ const Signup = () => {
     );
 }
 
-export default Signup
+export default CreateAdmin;
