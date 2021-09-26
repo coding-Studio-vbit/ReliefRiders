@@ -12,7 +12,6 @@ export default function Navigationbar() {
         expand="lg"
         style={{fontWeight: "400"}}
       >
-
         <Navbar.Brand varaint="light">
         <img src={logo} alt="" height="25" style={{paddingRight:'10px'}}/>
         Relief Riders
@@ -26,7 +25,6 @@ export default function Navigationbar() {
             <Nav.Link href="/assignrequest">Assign Request</Nav.Link>
             <Nav.Link href="/createAdmin">Create Admin</Nav.Link>
             <Nav.Link href="/">SIGN OUT</Nav.Link>
-
           </Nav>
         </Navbar.Collapse>
       </Navbar>
