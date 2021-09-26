@@ -7,6 +7,7 @@ import {
     Route
   } from "react-router-dom";
 import CreateRequestGeneral from '../createRequestGeneral';
+import PndRequest from '../pndrequest'
 
 function NewRequest() { 
     return (
@@ -19,7 +20,7 @@ function NewRequest() {
                     <CreateRequestGeneral/>
                 </Route>
                 <Route path="/createrequest/p&d">
-                    <CreateRequestGeneral/>
+                    <PndRequest/>
                 </Route>
             </Switch>        
         </Router>         
