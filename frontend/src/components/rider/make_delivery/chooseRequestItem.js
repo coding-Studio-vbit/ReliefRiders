@@ -21,37 +21,45 @@ const ChooseRequestItem = (props) => {
   }
 
   return (  
-     compare() &&  (
-      <div className={styles.container} key={props}>
-    
-        <div className={styles.chooseRequestItem}>        
-          {
-            data.pickupLocationAddress && props.data.pickupLocationAddress.area && (
-              <span className={styles.pickupArea}>
-                <i className="fas fa-map-marker-alt"></i>Pickup:{" "}
-                {props.data.pickupLocationAddress.area}
-              </span>
-            )
-          }
-          <span className={styles.area}>
-            <i className="fas fa-map-marker-alt"></i>Drop:{" "}
-            {data.dropLocationAddress.area}
-          </span>
+     compare() && (  
+        <div className={styles.chooseRequestItem}> 
         
-          <span className={styles.requesterName}>
-            Requester: {props.data.requesterName}
-          </span>
+        {props.data.distance}
+          <div className={styles.requesterName}>
+            {props.data.requesterName}
+          </div>       
+          
+          <div className={styles.location}>          
+            {
+              data.pickupLocationAddress &&  (
+                <div className={styles.pickupArea}>
+                  <i className="fas fa-map-marker-alt" style={{paddingRight:'5px'}}></i>Pickup :{" "}
+                  {data.pickupLocationAddress.area}
+                </div>
+              )
+            }
+            <div className={styles.area}>
+              <i className="fas fa-map-marker-alt" style={{paddingRight:'5px'}}></i>Drop :{" "}
+              {data.dropLocationAddress.area}
+            </div>
+          </div>
         
-          {props.data.requesterCovidStatus && (
-            <span className={styles.covidStatus}>COVID+</span>
-          )}
-          <span className={styles.requestType}>{props.data.requestType}</span>
+          
+          <div className={styles.status}>
+            {props.data.requesterCovidStatus && (
+              <div className={styles.covidStatus}>COVID+</div>
+            )}
+
+            <div className={styles.requestType}>{props.data.requestType}</div>
+          </div>
+        
+          <div className={styles.category}>
           {props.data.itemCategories.map((category, index) => {
             switch (category) {
               case "MEDICINES":
                 return (
                   <span key={index} className={styles.medicines}>
-                    Medcines
+                    Medicines
                   </span>
                 );
 
@@ -71,10 +79,10 @@ const ChooseRequestItem = (props) => {
               default:
                 return null;
             }
-          })}
-        </div>
-        
-      </div>
+          })
+          }
+          </div>
+        </div>       
     )    
   );
 };

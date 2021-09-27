@@ -1,0 +1,26 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    margin: 0px;
+}
+
+.carouselImage{    
+    max-width: 300px;
+    border-radius: 3px;
+}
+
+.carouselImage::before{
+    -webkit-transition: opacity 1s ease-in-out;
+    -moz-transition: opacity 1s ease-in-out;
+    -o-transition: opacity 1s ease-in-out;
+    transition: opacity 1s ease-in-out;
+}
+
+.move{
+    height: 30px;   
+    padding:10px 20px;
+}

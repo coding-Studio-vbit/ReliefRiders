@@ -4,44 +4,37 @@
   overflow-x: hidden;
 }
 
-
-.navbar {
+.navbar{
   overflow: hidden;
   background-color:#79CBC5;
   font-family: Arial;
   width: 100%;
-  padding: 0.5em;
+  padding: 2px;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: fit-content;
-  font-size: clamp(1.2rem, 2vw, 1.5rem);
-  
-
+  height: min-content;
+  font-size: clamp(1.0rem, 1.3vw, 1.3rem); 
 }
+
 .navbar .title{
   color : white;
   letter-spacing:0.5px;
 }
+
 .navbar .backbtn {
   color:white;
   padding: 5px;
   position: absolute;
   left: 1rem;
-  margin: 0px;
-  
-  
+  margin: 0px; 
 }
-
 
 .dropdown {
- 
   overflow: hidden;
-  
 }
 
-.navbar .dropdown .dropbtn {
- 
+.navbar .dropdown .dropbtn { 
   font-size: 18px;
   border: none;
   outline: none;
@@ -49,33 +42,48 @@
   background-color: inherit;
   margin: 0px;
 }
+
+.btnhead{
+  text-align: left;
+  padding: 6px 12px;
+  color: black;
+  font-weight: lighter;
+  font-size: 16px;
+  width: 120px;
+}
+
 .dropdownContent {
+  width: 120px;
   display: none;
   position: absolute;
   background-color: #f9f9f9;
-  
+  padding: 0px;
   box-shadow: 0px 0px 2px 2px rgba(0,0,0,0.1);
   z-index: 1;
   border-radius: 5%;
 }
+
 .dropdownContent .buttons {
-  float: none;
   color: black;
+  width: 120px;
   text-decoration: none;
-height: fit-content;
   display: block;
   text-align: left;
-
+  padding: 8px 20px;
+  padding-left: 12px;
   background-color:white;
 }
 
+.dropdownContent .buttons:hover {
+  color: white;
+  background-color: teal;
+}
 
 .dropdown:hover .dropdownContent {
   display: block;
 }
 
 .wholeList {
-
     text-align: center;
     margin-left: auto;
     margin-right: auto;
@@ -83,120 +91,152 @@ height: fit-content;
     
 }
 
-.chooseRequestItem
-{
-    
+.chooseRequestItem{
+    min-height:120px;    
     margin-top : 30px;
-    max-height: 150px;
     margin-bottom: 10px;
     margin-left: auto;
     margin-right: auto;
-    row-gap: 3px;
+    row-gap: 6px;
     font-size: clamp(0.7rem, 1vw, 1.2rem); 
     display: grid;
     width:min(90%, 500px);
-    
-    grid-template-columns: 30% 30% 15% 25%;
+    grid-template-columns: auto auto;
     grid-template-rows: auto;
     grid-template-areas: 
-        "pickupArea pickupArea . requestType "
-        "droparea droparea . covidStatus "
-        "requesterName requesterName . ."
-        "category1 category2 category3 .";
-    border-radius: 4px;
-    box-shadow: 0 0 5px #242323 ;
-    padding: 10px 5px 10px 13px;
+        "requesterName status"
+        "location  . "        
+        "category .";
+    border-radius: 7px;
+    padding: 20px;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
 }
-.covidStatus{
-  grid-area: covidStatus;
-  font-weight: bold;
-  background-color: rgb(224, 70, 70);
 
-    border: 2px solid rgb(224, 70, 70);
-    border-radius: 20px;
+.status{
+  grid-area: status;
+  display: flex;
+  flex-direction: row;  
+  justify-self: flex-end;
+}
+
+.status >div{
+  margin-left: 5px;
+}
+
+.location{
+  grid-area: location;
+  display: flex; 
+  flex-direction: column;  
+}
+
+.category{
+  display: flex;
+  grid-area: category;
+  flex-direction: row; 
+  justify-self: flex-start;
+  justify-content: space-between;
+}
+
+.category > span{
+  margin-right: 8px;
+}
+
+.covidStatus{
+    font-weight: bold;
+    background-color: rgb(224, 70, 70);
+    border-radius: 7px;
     color:white;
     text-align: center;
-    margin: auto;
+    margin: 0px;
     margin-top:2px;
-    padding: 3px;
+    padding: 2px 7px;
 }
+
 .area{
-  grid-area: droparea;
-  font-weight: bold;
+  font-weight: 400;
   letter-spacing:0.7px;
   height : fit-content;
+  color: darkslategrey;
 
   
 }
 .pickupArea{
-  grid-area: pickupArea;
-  font-weight: bold;
+  font-weight: 400;
   letter-spacing:0.7px;
   height : fit-content;
+  color: darkslategrey;
 }
-.requestType
-{   
+.requestType{   
     font-weight: bold;
     background-color: rgb(167, 255, 255);
-    grid-area: requestType;
-    border: 2px solid rgb(33, 117, 235);
-    border-radius: 20px;
+    border: 1px solid rgb(33, 117, 235);
+    border-radius: 8px;
     color: black;
     text-align: center;
-    margin: auto;
-    padding: 3px;
+    margin: 0px;
+    padding: 2px 7px;
 }
-.medicines
-{
+.medicines{
+  color: white;
+  margin: auto;
+  border-radius: 7px;
+  border: none;
+  background-color: rgb(216, 0, 0);
+  padding: 3px 7px 3px 7px;
+}
+.groceries{
     color: white;
     margin: auto;
-    grid-area: category1;
-    border-radius: 10px;
-    border: 2px solid rgb(184, 5, 5);
-    background-color: rgb(216, 0, 0);
-    padding: 0px 3px 0px 3px;
-
-}
-.groceries
-{
-    color: white;
-    margin: auto;
-    grid-area: category2;
-    border-radius: 10px;
-    border: 2px solid rgb(8, 126, 22);
+    border-radius: 7px;
+    border: none;
     background-color: rgb(3, 209, 3);
-    padding: 0px 3px 0px 3px;
+    padding: 3px 7px 3px 7px;
 
 }
-.misc
-{
-    color: white;
-    margin: auto;
-    grid-area: category3;
-    border-radius: 10px;
-    border: 2px solid rgb(7, 75, 144);
-    background-color: blue;
-    padding: 0px 3px 0px 3px;
+.misc{
+  color: white;
+  margin: auto;   
+  background-color: blue;
+  border-radius: 7px;
+  border: none;
+  padding: 3px 7px 3px 7px;
 }
+
 .requesterName{
   grid-area:requesterName;
   letter-spacing:0.5px;
+  color: black;
+  font-weight:600;
+  font-size:15px;
 }
 .rangeSlider{
+  margin-top: 8px;
   position: relative;
   align-self: center;
   /* height : 2px; */
 }
 .slider{
   height : 6px;
+  margin-left: 7px;
   /* color :rgb(8, 126, 22); */
 }
 .bubble{
-  border : 2px solid black;
   width : fit-content;
   
   align-self: center;
   
  
  
+}
+
+
+@media only screen and (max-width: 410px) {
+  .chooseRequestItem{
+    grid-template-columns: 60% 40%;
+    grid-template-rows: auto;
+    grid-template-areas: 
+        "requesterName status"
+        "location . "        
+        "category .";
+  }  
 }

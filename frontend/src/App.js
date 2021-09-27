@@ -6,7 +6,6 @@ import InitialHomeRouting from "./components/home/initial_home/initialHomeRoutin
 import ViewRequest from "./components/rider/make_delivery/chooseRequest";
 import About from "./components/about/about";
 
-
 function App() {
   return (
     <div className="App">

@@ -1,19 +1,40 @@
-import { Route } from "react-router-dom";
-import Login from "../Components/Auth/Login";
+import { Route,BrowserRouter as Router,Switch } from "react-router-dom";
 import NavigationBar from "../Components/GlobalComponents/NavigationBar";
-import AssignRequest from "../Components/AssignRequest";
+import Login from './../Components/Auth/Login'
 import OTP from "../Components/Auth/OTP";
-import createRequestGeneral from "../Components/CreateRequest/createRequestGeneral";
-import Home from "../Components/Home/Home";
+import AdminHome from "../Components/AdminHome/AdminHome";
+import CreateAdmin from "../Components/CreateAdmin/CreateAdmin";
+import NewRequest from "../Components/CreateRequest/RequestType/RequestType";
+import Home from "../Components/Home";
+import AssignRequest from "../Components/AssignRequest/assignRequest";
+
 const Routes = () => {
   return (
     <div>
       <NavigationBar />
-      <Route path="/temp" component={createRequestGeneral} />
-      <Route path="/home" component={Home} />
-      <Route path="/assignrequest" component={AssignRequest} />
-      <Route path="/Login" component={Login} />
-      <Route path="/OTP" component={OTP} />
+      <Router>
+        <Switch>
+          <Route path="/createrequest" component={NewRequest} />
+        </Switch>       
+        <Switch>
+          <Route path="/assignrequest" component={AssignRequest} />      
+        </Switch>
+        <Switch>
+          <Route path="/createadmin" component={CreateAdmin} />
+        </Switch>
+        <Switch>
+          <Route path="/login" component={Login}/>
+        </Switch>
+        <Switch>
+          <Route path="/home" component={AdminHome} />
+        </Switch>       
+        <Switch>
+          <Route path="/OTP" component={OTP} />
+        </Switch>
+        <Switch>
+          <Route exact path="/" component={Home} />
+        </Switch>
+      </Router>      
     </div>
   );
 };

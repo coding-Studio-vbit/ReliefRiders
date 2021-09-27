@@ -1,84 +1,135 @@
-import React from 'react';
-import GS from "./CreateAdmin.css";
-import {Button, Form, Container, Row, Col} from 'react-bootstrap';
+import React,{useState,useEffect} from 'react';
+import Dialog from '../GlobalComponents/Overlay/overlay';
+import styles from './createadmin.module.css'
 
-const Signup = () => {
- return (
- <>
- <div>
-  <Row>
-   <Col>
-    <div className = "signup-content">
+const CreateAdmin = () => {
+    const [adminList, setadminList] = useState(adminlist);
+    const [deleteAdminID, setDeleteAdminID] = useState(false);
+    const [message, setmessage] = useState(null);
+
+    function getAdminList() {
+      setadminList(adminlist)     
+      // make http request and delete dummy data
+    }
+
+    function addAdmin() {
+      //add http request
+      setmessage("Admin Added Successfully");
+
+      setTimeout(() => {
+        setmessage(null)
+      }, 2500);
+      
+    }
+
+    function verifyOTP() {
+      //verify OTP
+      setmessage("OTP Verified Successfully")
+      setTimeout(() => {
+        setmessage(null)
+      }, 1000);
+      
+    }
+
+    function deleteAdmin() {  
+      console.log('====================================');
+      console.log(deleteAdminID);
+      console.log('====================================');
+      //http request
+      setDeleteAdminID(null);
+    }
+
+    useEffect(() => {
+      getAdminList();
+      
+    },[adminList])
     
-                        <h3 className = "form-title">Create New Admin</h3>
-                        <form className = "register-form" id = "register-form">
-                        <div>
-                        
-                        
-                        <Form>
-                          <Container className={GS.reqdetails}>
-                            <div className = "form-group">
-                             <Col><label className={GS.label1}>Full Name:</label>
-                               <input style={{marginLeft: '20px'}} className={GS.inputdata} type="text" placeholder="Name">
-                                   
-                               </input>
-                               </Col>
-                          
-                            </div>
-                            <div className = "form-group">
-                            <br/>
-                            <Col>
-                            <label className={GS.label1}>Phone Number:</label>
-                             <input style={{marginRight: '16px'}} className={GS.inputdata} type="number" placeholder="Phone Number"></input>
-                             </Col>
-                             <br/>
-                          
-                            </div>
-                            <div className = "form-group">
-                            <Col><label className={GS.label1}>OTP:</label>
-                            <input style={{margiLeft: '50px'}} className={GS.inputdata} type="number" placeholder="OTP"></input>
-                            <Button style={{marginLeft: '15px'}} variant="success" type="submit">Request OTP</Button></Col>
+    return (
+      <div> 
+          {
+            deleteAdminID &&
+            <Dialog display="block" message={`Are you sure, do you want to delete admin with ID ${deleteAdminID} ?`} operation={()=>deleteAdmin()} closeOverlay={()=>setDeleteAdminID(null)} />
+          }
+          <div className={styles.signupcontent}>              
+            <p className={styles.title}>Create New Admin</p>                     
+            <form className={styles.adminform}>                                
+              <div className={styles.field}>
+                <label className={styles.label1}>Full Name</label>
+                <input required className={styles.inputdata} type="text" placeholder="Name"></input>
+              </div>
 
-                          
-                            </div>
-                            </Container>
-                            <Container>
-                            <br/>
-            
-                            <Col><Button variant="success" type="submit">Add Admin</Button></Col>
-          </Container>
-                        
-                         </Form>
-                         </div>
-                        </form>
+              <div className={styles.field}>                 
+                <label className={styles.label1}>Phone Number</label>                
+                <input required className={styles.inputdata} type="mobile" placeholder="Phone Number"
+                ></input>
+              </div> 
+
+              <div className={styles.field}>
+                <label className={styles.label1}>OTP</label>
+                <div className={styles.odd}>
+                  <input 
+                  required 
+                  style={{width:'60%'}}                     
+                  className={styles.inputdata} type="number" 
+                  maxLength="6" minLength="6"
+                  placeholder="OTP"></input>
+                  <button 
+                  variant="success" 
+                  type="button" style={{width:'35%'}} 
+                  className={styles.btn}
+                  onClick={()=>verifyOTP()}
+                  >Get OTP</button>
                 </div>
-                </Col>
+              </div>                 
+              <button variant="success" type="submit" 
+              className={styles.submitBtn}
+              onClick={()=>addAdmin()}
+              >Add Admin</button>
+            </form> 
+            { message &&
+              <p style={{
+              color:'green',
+              marginTop:'7px'
+              }}>{message}</p>  
+            }                 
+          </div>
+          
+          <div className={styles.signupcontent}>            
+            <p className={styles.title}>Admin List</p>             
+            <div className={styles.adminform}>
+            {
+              adminList.map((admin)=>{
+                return <div className={styles.admin}>
+                          <p style={{fontWeight:'bold'}}>{admin.name}</p>
+                          <p>{admin.mobile}</p>
+                          <button onClick={()=>setDeleteAdminID(admin.adminID)} className={styles.delete} >Delete Admin</button>
 
-        </Row>
-        <br/> <br/> <br/> <br/>
+                       </div>
+              })
+            }
+            </div>                
+          </div>
       </div>
-
-      <Col>
-      <div className = "riders">
-          <Col>
-          <h3 className = "form-title">Current Admin List</h3>
-          </Col>
-          <Container>
-          <Col>
-          <label className={GS.label1}>Name</label>
-          <label style={{marginLeft: '450px'}} className={GS.label1}>Phone Number</label>
-
-
-          </Col>
-
-          </Container>
-      </div>
-
-      </Col>
- </>
-
-
     );
 }
 
-export default Signup
+export default CreateAdmin;
+
+
+const adminlist=[
+  {
+    adminID:'1',
+    name:'Sai Ki',
+    mobile:'9550710377',
+  },
+  {
+    adminID:'11',
+    name:'Sai Ki',
+    mobile:'8080808080',
+  },
+  {
+    adminID:'111',
+    name:'Sai Ki',
+    mobile:'9999999999',
+  },
+]
