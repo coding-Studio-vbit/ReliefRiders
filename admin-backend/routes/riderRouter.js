@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const riderController = require("../controllers/riderController");
-const { sendError, sendResponse } = require("../controllers/common");
+
+
 
 router.post("/riderByName", async(req, res) => {
     const response = await riderController.riderByName(req.body.name)

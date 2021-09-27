@@ -19,7 +19,8 @@ const user = new mongoose.Schema({
         required: [true, "Name is required"],
         minLength: 3,
         maxLength: [40, "Exceeded Characters"]
-    }
+    },
+    OTP: OTPSchema
 });
 
 

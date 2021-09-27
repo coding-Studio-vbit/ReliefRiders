@@ -14,13 +14,15 @@ async function newOTP(doc)
 	return new Promise((resolve, reject)=>{
 
 		generateOTP()
-		.then(res=>{
-			doc.OTP = ({
+		.then((res)=>{
+			
+			doc.OTP = {
 				currentOTP: res,
 				otpSetTime: Date.now(),
 				resendsLeft: process.env.MAX_OTP_RESENDS,
 				guessesLeft: process.env.MAX_OTP_GUESSES,
-			})	
+			}
+				
 			resolve();
 		})
 		.catch(error=>{
@@ -42,7 +44,7 @@ async function resendOTP(OTP)
 	})
 }
 
-async function verifyOTP(userDoc, type, otpGuess)
+async function verifyOTP(userDoc, otpGuess)
 {
 	return new Promise((resolve, reject)=>{
 		
@@ -68,7 +70,7 @@ async function verifyOTP(userDoc, type, otpGuess)
 					{
 						token = jwt.sign({
 							phoneNumber: userDoc.phoneNumber,
-							type: type
+							
 						}, process.env.TOKEN_SECRET);
 
 						resolve(token);

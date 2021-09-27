@@ -4,6 +4,7 @@ const app = express();
 const mongoose = require("mongoose");
 const port = process.env.PORT || 8002;
 const cors = require("cors");
+const requestsRouter = require("./routes/requests/requestsRouter");
 
 //express middleware usage.
 app.use(express.json());
@@ -12,6 +13,7 @@ var path = require("path");
 
 const adminRouter = require("./routes/adminRouter");
 const riderRouter = require("./routes/riderRouter");
+const verify_token = require("./routes/verify_token/verify_token");
 
 mongoose.set('useFindAndModify', false);
 mongoose.connect(`mongodb+srv://admin:${process.env.MONGO_PASSWORD}@cluster0.xgkw0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -33,7 +35,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/admin", adminRouter);
-app.use("/rider", riderRouter);
+app.use("/rider",verify_token, riderRouter);
+app.use('/requests',verify_token,requestsRouter)
 
 app.listen(port, () => {
     console.log(`Listening at port ${port}`);

@@ -17,7 +17,7 @@ router.post("/requestOTP", (req, res) => {
 });
 
 router.post("/verifyOTP", (req, res) => {
-    authController.verify(req.body.phoneNumber, req.body.OTP)
+    authController.verifyOTP(req.body.phoneNumber, req.body.OTP)
         .then(response => {
             res.json(response);
         })
