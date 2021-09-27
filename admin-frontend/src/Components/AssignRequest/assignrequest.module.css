@@ -1,35 +1,12 @@
-.inputField{
-    width: 180px;
-    border-radius: 10px;
-    padding: 4px 6px;
-    outline: 0px;
-    color: darkslategrey;
-    font-size: 16px;
-    border:1px solid #ecf0f1;
-    background:#ecf0f1;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;  
-}
-
 .border {
     border-radius: 25px;
-    border: none;
+    border: 1px solid #000000;
     padding: 20px; 
     margin-left: 5%;
     margin-right: 5%;
-    margin-top: 10px;
+    margin-top: 3%;
     margin-bottom: 3%;
   }
-
-.btn{
-    outline:0;
-    border:0;
-    background-color: #263238;
-    color:white;
-    border-radius:5px;
-    padding: 4px 11px;
-    text-align: center;
-    font-size:16px
-}
 
   .border2 {
     border: 1px solid #000000;
@@ -41,7 +18,7 @@
 
   .border3 {
     border: 1px solid #000000;
-    background: rgb(255, 132, 132);
+    background: #95a5a6;
     padding: 20px; 
     margin-left: 5%;
     margin-right: 5%;
@@ -56,13 +33,14 @@
   }
 
 .header{
-  color: black;
+  color: #AE1818;
   text-align: center;
 }
 
 .pow{
-  color:orange;
+  color:#AE1818;
   text-align: center;
+  margin-top: 3%;
 }
 
 .ordersearch{
