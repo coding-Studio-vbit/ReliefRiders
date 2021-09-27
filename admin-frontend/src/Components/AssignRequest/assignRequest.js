@@ -1,5 +1,5 @@
-import { Button, Form, Container, Row, Col, InputGroup } from 'react-bootstrap';
-import styles from './AssignRequest.module.css';
+import { Button, Form, Container, Row, Col } from 'react-bootstrap';
+import styles from './assignrequest.module.css';
 import { useState,useEffect} from "react";
 
 export default function AssignRequest() {
@@ -7,11 +7,12 @@ export default function AssignRequest() {
   const [request, setrequest] = useState();
   const [requests, setrequests] = useState();
   const [riderName, setRiderName] = useState("");
-  const [searchResults, setSearchResults]= useState("");
-  
 
+  const [adminList, setadminList] = useState([])
 
-
+  function assignRequest() {
+    //http request     
+  }
 
   function fetchRequests() {
     //make http requests to get requests 
@@ -21,9 +22,16 @@ export default function AssignRequest() {
 
   function fetchOrderDetails() {
     //fetch order
-    setrequest(req);
-    
+    setrequest(req);    
   }
+
+  function fetchAdminList() {
+    setadminList(al)    
+  }
+
+  useEffect(() => {
+    fetchAdminList();
+  },)
 
 
   return(
@@ -36,9 +44,15 @@ export default function AssignRequest() {
           <Form>
             <Container className={styles.ordersearch}>
               <Row>
-                <Col><Form.Control type="email" placeholder="Enter Order ID #" value={orderID}
-              onChange={(event) => setorderID(event.target.value)}/></Col>
-                <Col xs lg="2"><Button style={{backgroundColor:'#263238', color:'white', borderRadius:'5px'}} onClick={()=>fetchOrderDetails()}>Fetch Order</Button></Col>
+                <Col>
+                  <Form.Control type="email" placeholder="Enter Order ID #" value={orderID}
+                    onChange={(event) => setorderID(event.target.value)}/>
+                </Col>
+                <Col>
+                  <Button style={{backgroundColor:'#263238', color:'white',borderRadius:'5px',padding:'7px'}} 
+                  onClick={()=>fetchOrderDetails()}>Fetch Order
+                  </Button>
+                </Col>
               </Row>
             </Container>
           </Form>
@@ -99,19 +113,21 @@ export default function AssignRequest() {
               <Col><h6>Deliveries Completed</h6></Col>
               <Col><h6>Assign Request</h6></Col>
             </Row>
+          </div>         
+            {
+              adminList.map((admin)=>{
+                return <div className={styles.border3}>
+                          <Row style={{textAlign: 'center', alignItems: 'center'}}>
+                            <Col><h6>{admin.name}</h6></Col>
+                            <Col><h6>{admin.phoneNumber}</h6></Col>
+                            <Col><Button variant="dark" type="submit" onClick={()=>assignRequest()}>Assign</Button></Col>
+                          </Row>
+                        </div>
+                      })
+            }
           </div>
-          
-          {/* Dummy Values */}
-          <div className={styles.border3}>
-            <Row style={{textAlign: 'center', alignItems: 'center'}}>
-              <Col><h6>Sai Kiran</h6></Col>
-              <Col><h6>40 Deliveries</h6></Col>
-              <Col><Button variant="dark" type="submit">Assign</Button></Col>
-            </Row>
-          </div>
-          </div>
-          </div>
-          </div>
+        </div>
+      </div>
   );
 }
         
@@ -154,3 +170,9 @@ const req={
     'V'
   ],
 }
+
+
+const al=[
+  { phoneNumber:'955072929',name:'Dh'},
+  { phoneNumber:'959072929',name:'Th'},
+  ]
