@@ -15,12 +15,10 @@ export const ChooseRequest = () => {
   const [coordinates, setCoordinates] = useState({ lat: 0, lng: 0 });
   const token = localStorage.getItem("token");
   // const history=useHistory()
-
   //sorting requests based on 3 parameters.
   function sortedCustom(param) {
     setFlag(flag + 1);
     let a = allRequests;
-
     if (param == "Date") {
       a.sort(comparisonByDate);
       setRequests(a);
@@ -35,10 +33,24 @@ export const ChooseRequest = () => {
     }
   }
 
+  function comparisonByDistance(a, b) {
+    return a.distance - b.distance;
+  }
+  //Comparison function for sorting by date
+  function comparisonByDate(dateA, dateB) {
+    var c = new Date(dateA.date);
+    var d = new Date(dateB.date);
+    return c - d;
+  }
+  //Comparison function for sorting by priority or urgency
+  function comparisonByPriority(a, b) {
+    return b.priority - a.priority;
+  }
+
   //finding current location of rider
   const currentLocation = async () => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
+      navigator.geolocation.getCurrentPosition(async(position) => {
         setCoordinates({        
           lat:position.coords.latitude,
           lng:position.coords.longitude
@@ -56,34 +68,13 @@ export const ChooseRequest = () => {
   };
 
   //Comparison function for sorting by distance
-  function comparisonByDistance(a, b) {
-    return a.distance - b.distance;
-  }
-  //Comparison function for sorting by date
-  function comparisonByDate(dateA, dateB) {
-    var c = new Date(dateA.date);
-    var d = new Date(dateB.date);
-    return c - d;
-  }
-  //Comparison function for sorting by priority or urgency
-  function comparisonByPriority(a, b) {
-    return b.priority - a.priority;
-  }
+  
 
   //Calculating distance between rider's current location and roughLocationCoordinates using google maps api
   function calculateDistance(i) {
     let distance;
 
     let URL = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${coordinates.lat},${coordinates.lng}&destinations=${allRequests[i].roughLocationCoordinates[0]},${allRequests[i].roughLocationCoordinates[1]}&key=${process.env.REACT_APP_GMAP_API_KEY}`;
-    // var config = {
-    //   method: "get",
-    //   url: URL,
-    //   headers: {
-    //     key: process.env.REACT_APP_GMAP_API_KEY,
-    //     "Access-Control-Allow-Origin": "*",
-    //     "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-    //   },
-    // };
     axios.get(URL)
       .then((response) => {
         distance = response.data.rows[0].elements[0].distance.value;
@@ -122,11 +113,11 @@ export const ChooseRequest = () => {
         
           latitude:coordinates.lat,
           longitude:coordinates.lng,
-          maxDistance:sliderValue
+          maxDistance:100
         
       }, options)
       .then((response) => {
-        console.log(response);
+        console.log(response,20);
         if (response.data.message.length === 0) {
           setLoading(false);
           setError("Could not fetch Data");
@@ -150,13 +141,6 @@ export const ChooseRequest = () => {
       })
       .finally(() => {
         setLoading(false);
-        // for (let i = 0; i < request.length; i++) {
-        //   request[i].distance = 0;
-        // }
-        // setRequests(request);
-        // if(currentLocation()) {
-        // assignDistance();
-        //}
       });
   }, []);
 
