@@ -1,4 +1,4 @@
-import { Button, Form, Container, Row, Col } from 'react-bootstrap';
+import { Button, Form, Container, Row, Col, Alert } from 'react-bootstrap';
 import styles from './assignrequest.module.css';
 import { useState,useEffect} from "react";
 
@@ -6,27 +6,30 @@ export default function AssignRequest() {
   const [orderID, setorderID] = useState();
   const [request, setrequest] = useState();
   const [requests, setrequests] = useState();
-  const [riderName, setRiderName] = useState("");
+  const [assignedRider, setAssignedRider] = useState("");
+  const [selectedOrderID, setSelectedOrderID] = useState();
+  const [riderName, setRiderName]=useState();
+ 
 
   const [adminList, setadminList] = useState([])
+  const [details, setDetails] = useState([]);
 
   function assignRequest() {
-    //http request     
+    //http request 
+     request.riderID= assignedRider;
   }
-
-  function fetchRequests() {
-    //make http requests to get requests 
-    setrequests(allRequests);   
-  }
-
 
   function fetchOrderDetails() {
-    //fetch order
-    setrequest(req);    
+ 
+    setrequest(req);      
   }
 
   function fetchAdminList() {
     setadminList(al)    
+  }
+
+  function selectOrder(){
+       setSelectedOrderID(req.orderID)
   }
 
   useEffect(() => {
@@ -49,13 +52,21 @@ export default function AssignRequest() {
                 </Col>
                 <Col>
                   <Button style={{backgroundColor:'#263238', color:'white',borderRadius:'5px',padding:'7px'}} 
-                  onClick={()=>fetchOrderDetails()}>Fetch Order
-                  </Button>
+                  onClick={()=>fetchOrderDetails()}>Fetch Order</Button>
                 </Col>
+              </Row>
+              <Row>
+                  <Col>
+                   <h5 >Order Selected</h5>
+                  </Col>
+                  <Col>
+                    <p>{selectedOrderID}</p>
+                  </Col>
               </Row>
             </Container>
           </Form>
         </div>
+        
 
         {/* Request Details */}
         {
@@ -63,11 +74,11 @@ export default function AssignRequest() {
         <div className={styles.border2}>
           <Row style={{marginTop: '1%'}}>
             <Col md="auto"><h6>Request Status:</h6></Col>
-            <Col md='auto'><h6 style={{color: '#AE1818'}}>Pending</h6></Col>
+            <Col md='auto'><div>{req.status}</div></Col>
           </Row>
           <Row style={{marginTop: '2%'}}>
             <Col md="auto"><h6>Date:</h6></Col>
-            <Col md='auto'><div style={{color: 'blue'}} value={req.date} ></div></Col>
+            <Col md='auto'><div style={{color: 'blue'}} value={request.date} ></div></Col>
           </Row>
           <Row style={{marginTop: '2%'}}>
             <Col md="auto"><h6>Requester Name:</h6></Col>
@@ -85,9 +96,13 @@ export default function AssignRequest() {
           <div>
           <Col md='auto'><div>{req.itemsList}</div></Col>
           </div>
-        </div>
-    }
-
+          <Button style={{backgroundColor:'#263238', color:'white',borderRadius:'5px',padding:'7px', justifyItems:'center'}} 
+                  onClick={()=>selectOrder()}>Select Order</Button>
+          </div>
+}
+           
+         
+            
         {/* Assign Request Search Bar */}
         <div style={{marginTop: '3%'}}>
           <Form>
@@ -161,7 +176,9 @@ const allRequests=[
   }
 ]
 const req={
-  date:Date.now(),
+    orderID: 196532,
+    status:"PENDING",
+  date:Date(),
   requesterName:'Kun',
   requestType:'GENERAL',
   address:'uejdheiker, jeryereyr, heuyfwjefh',
@@ -172,6 +189,6 @@ const req={
 
 
 const al=[
-  { phoneNumber:'955072929',name:'Dh'},
+  { riderID: 1234,phoneNumber:'955072929',name:'Dh'},
   { phoneNumber:'959072929',name:'Th'},
   ]
