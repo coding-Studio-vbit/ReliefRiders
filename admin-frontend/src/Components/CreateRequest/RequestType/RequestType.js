@@ -6,8 +6,9 @@ import {
     Switch,
     Route
   } from "react-router-dom";
-import CreateRequestGeneral from '../createRequestGeneral';
-import PndRequest from '../pndrequest'
+
+import CreateRequestGeneral from '../GeneralRequest/createRequestGeneral';
+import PndRequest from '../P&DRequest/pndrequest';
 
 function NewRequest() { 
     return (
