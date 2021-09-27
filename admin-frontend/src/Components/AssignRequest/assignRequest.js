@@ -33,7 +33,6 @@ export default function AssignRequest() {
     fetchAdminList();
   },)
 
-
   return(
     <div>
       <div className={styles.border}>
