@@ -3,28 +3,53 @@ import Dialog from '../GlobalComponents/Overlay/overlay';
 import styles from './createadmin.module.css'
 
 const CreateAdmin = () => {
-    const [adminList, setadminList] = useState();
-    // const [showDialog, setshowDialog] = useState();
+    const [adminList, setadminList] = useState(adminlist);
+    const [deleteAdminID, setDeleteAdminID] = useState(false);
+    const [message, setmessage] = useState(null);
 
     function getAdminList() {
       setadminList(adminlist)     
       // make http request and delete dummy data
     }
 
-    function deleteAdmin(id) {
+    function addAdmin() {
+      //add http request
+      setmessage("Admin Added Successfully");
+
+      setTimeout(() => {
+        setmessage(null)
+      }, 2500);
+      
+    }
+
+    function verifyOTP() {
+      //verify OTP
+      setmessage("OTP Verified Successfully")
+      setTimeout(() => {
+        setmessage(null)
+      }, 1000);
+      
+    }
+
+    function deleteAdmin() {  
       console.log('====================================');
-      console.log(id);
+      console.log(deleteAdminID);
       console.log('====================================');
-      //make a http request to delete admin      
+      //http request
+      setDeleteAdminID(null);
     }
 
     useEffect(() => {
       getAdminList();
       
     },[adminList])
+    
     return (
       <div> 
-          <Dialog display="block" message="he" />       
+          {
+            deleteAdminID &&
+            <Dialog display="block" message={`Are you sure, do you want to delete admin with ID ${deleteAdminID} ?`} operation={()=>deleteAdmin()} closeOverlay={()=>setDeleteAdminID(null)} />
+          }
           <div className={styles.signupcontent}>              
             <p className={styles.title}>Create New Admin</p>                     
             <form className={styles.adminform}>                                
@@ -35,7 +60,8 @@ const CreateAdmin = () => {
 
               <div className={styles.field}>                 
                 <label className={styles.label1}>Phone Number</label>                
-                <input required className={styles.inputdata} type="number" placeholder="Phone Number"></input>
+                <input required className={styles.inputdata} type="mobile" placeholder="Phone Number"
+                ></input>
               </div> 
 
               <div className={styles.field}>
@@ -45,12 +71,27 @@ const CreateAdmin = () => {
                   required 
                   style={{width:'60%'}}                     
                   className={styles.inputdata} type="number" 
+                  maxLength="6" minLength="6"
                   placeholder="OTP"></input>
-                  <button variant="success" type="submit" style={{width:'35%'}} className={styles.btn}>Get OTP</button>
+                  <button 
+                  variant="success" 
+                  type="button" style={{width:'35%'}} 
+                  className={styles.btn}
+                  onClick={()=>verifyOTP()}
+                  >Get OTP</button>
                 </div>
               </div>                 
-              <button variant="success" type="submit" className={styles.submitBtn}>Add Admin</button>
-            </form>                                 
+              <button variant="success" type="submit" 
+              className={styles.submitBtn}
+              onClick={()=>addAdmin()}
+              >Add Admin</button>
+            </form> 
+            { message &&
+              <p style={{
+              color:'green',
+              marginTop:'7px'
+              }}>{message}</p>  
+            }                 
           </div>
           
           <div className={styles.signupcontent}>            
@@ -61,7 +102,7 @@ const CreateAdmin = () => {
                 return <div className={styles.admin}>
                           <p style={{fontWeight:'bold'}}>{admin.name}</p>
                           <p>{admin.mobile}</p>
-                          <button onClick={()=>deleteAdmin(admin.adminID)} className={styles.delete} >Delete Admin</button>
+                          <button onClick={()=>setDeleteAdminID(admin.adminID)} className={styles.delete} >Delete Admin</button>
 
                        </div>
               })

@@ -20,9 +20,9 @@
     border: 1px solid orchid;
     border-radius: 7px;
 
-    padding: 10px 20px 30px;
+    padding:20px;
     width:330px;
-    height: 35%;
+    height: 30%;
     
     text-align: center;
 
@@ -67,6 +67,7 @@
     background-color: green;
     color: white;
     padding: 8px 30px;
+    border-radius: 8px;
 }
 
 .no{
@@ -75,21 +76,9 @@
     background-color:white;
     color: black;
     padding: 8px 30px;
+    border-radius: 8px;
 }
 
-.ok{
-    border:0.1px solid black ;
-    outline:none;
-    background-color:white;
-    color: black;
-    padding: 8px 30px;
-}
-
-.ok:hover{
-    background-color: green;
-    color: white;
-    border: none;
-}
 
 @media screen and (max-width: 450px) {
     .overlay-content{

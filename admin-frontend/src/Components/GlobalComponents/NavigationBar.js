@@ -21,8 +21,8 @@ export default function Navigationbar() {
         <Navbar.Collapse className="justify-content-end">
           <Nav>
             <Nav.Link href="/home">Home</Nav.Link>
-            <Nav.Link href="/createrequest">New Request</Nav.Link>
-            <Nav.Link href="/assignrequest">Assign Request</Nav.Link>
+            <Nav.Link href="/createrequest">Create Request</Nav.Link>
+            <Nav.Link href="/assignrequest" >Assign Request</Nav.Link>
             <Nav.Link href="/createAdmin">Create Admin</Nav.Link>
             <Nav.Link href="/">SIGN OUT</Nav.Link>
           </Nav>
