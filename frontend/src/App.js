@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import InitialHomeRouting from "./components/home/initial_home/initialHomeRouting";
 // import ViewRequest from "./components/rider/make_delivery/chooseRequest";
 import About from "./components/about/about";
-import ChooseRequest from "./components/rider/make_delivery/chooseRequest";
 
 function App() {
   return (
