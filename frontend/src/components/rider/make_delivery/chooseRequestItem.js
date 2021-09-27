@@ -23,7 +23,7 @@ const ChooseRequestItem = (props) => {
   return (  
      compare() && (  
         <div className={styles.chooseRequestItem}> 
-        
+        {/* remove line 27 after testing */}
         {props.data.distance}
           <div className={styles.requesterName}>
             {props.data.requesterName}

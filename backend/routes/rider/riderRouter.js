@@ -104,8 +104,9 @@ router.get("/myDeliveries", (req, res) => {
 		})
 })
 
-router.get("/showFetchedRequests", (req, res) => {
+router.post("/showFetchedRequests", (req, res) => {
 	const { longitude, latitude, maxDistance } = req.body;
+	console.log(req.body);
 	riderController.fetchRequests(req.user.phoneNumber, longitude, latitude, maxDistance)
 		.then(response => {
 			res.json(response);

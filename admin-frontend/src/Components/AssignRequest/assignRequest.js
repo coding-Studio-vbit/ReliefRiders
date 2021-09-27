@@ -129,7 +129,7 @@ export default function AssignRequest() {
             </Row>
           </div>         
             {
-              adminList.map((admin)=>{
+               adminList.map((admin)=>{
                 return <div className={styles.border3}>
                           <Row style={{textAlign: 'center', alignItems: 'center'}}>
                             <Col><h6>{admin.name}</h6></Col>
@@ -191,4 +191,4 @@ const req={
 const al=[
   { riderID: 1234,phoneNumber:'955072929',name:'Dh'},
   { phoneNumber:'959072929',name:'Th'},
-  ]
+]
