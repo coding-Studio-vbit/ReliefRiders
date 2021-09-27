@@ -15,9 +15,7 @@ function App() {
             <Route path="/about">
               <About/>
             </Route>
-            <Route path="/temp">
-              <ChooseRequest/>
-            </Route>
+            
             <Route path="/">
               <InitialHomeRouting />
             </Route>

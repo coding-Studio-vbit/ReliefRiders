@@ -6,7 +6,7 @@ import { Dialog } from "../../global_ui/dialog/dialog";
 import { LoadingScreen } from "../../global_ui/spinner";
 // import { useHistory } from "react-router";
 
-const ChooseRequest = () => {
+export const ChooseRequest = () => {
   const [sliderValue, setSliderValue] = useState(1);
   const [allRequests, setRequests] = useState([]);
   const [error, setError] = useState(null);
@@ -114,11 +114,19 @@ const ChooseRequest = () => {
       headers: {
         authorization: "Bearer " + token,
       },
+      
     };
 
     axios
-      .get(`${process.env.REACT_APP_URL}/rider/makeDelivery`, options)
+      .post(`${process.env.REACT_APP_URL}/rider/showFetchedRequests`,{
+        
+          latitude:coordinates.lat,
+          longitude:coordinates.lng,
+          maxDistance:sliderValue
+        
+      }, options)
       .then((response) => {
+        console.log(response);
         if (response.data.message.length === 0) {
           setLoading(false);
           setError("Could not fetch Data");
@@ -142,13 +150,13 @@ const ChooseRequest = () => {
       })
       .finally(() => {
         setLoading(false);
-        for (let i = 0; i < request.length; i++) {
-          request[i].distance = 0;
-        }
-        setRequests(request);
-        if(currentLocation()) {
-        assignDistance();
-        }
+        // for (let i = 0; i < request.length; i++) {
+        //   request[i].distance = 0;
+        // }
+        // setRequests(request);
+        // if(currentLocation()) {
+        // assignDistance();
+        //}
       });
   }, []);
 
