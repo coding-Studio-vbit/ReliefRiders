@@ -176,7 +176,7 @@ async function _handle(dispatch, res,verify=false,user=null) {
     if (res.ok) {
         const data = await res.json()
         
-        if (data.status[0] === 's') {
+        if (data.status === 'success') {
             dispatch(
                 {
                     type: `SETLOADING`,

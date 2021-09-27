@@ -3,8 +3,9 @@ import "./App.css";
 import { AuthProvider } from "./components/context/auth/authProvider";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import InitialHomeRouting from "./components/home/initial_home/initialHomeRouting";
-import ViewRequest from "./components/rider/make_delivery/chooseRequest";
+// import ViewRequest from "./components/rider/make_delivery/chooseRequest";
 import About from "./components/about/about";
+import ChooseRequest from "./components/rider/make_delivery/chooseRequest";
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
               <About/>
             </Route>
             <Route path="/temp">
-              <ViewRequest/>
+              <ChooseRequest/>
             </Route>
             <Route path="/">
               <InitialHomeRouting />
