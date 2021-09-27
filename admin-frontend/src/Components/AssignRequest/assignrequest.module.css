@@ -1,15 +1,15 @@
 .border {
-    border-radius: 25px;
-    border: 1px solid #000000;
     padding: 20px; 
     margin-left: 5%;
+    width: 90%;
     margin-right: 5%;
-    margin-top: 3%;
-    margin-bottom: 3%;
+    margin-top:25px;
+    margin-bottom: 25px;
   }
 
   .border2 {
     border: 1px solid #000000;
+    border-radius: 10px;
     padding: 20px; 
     margin-left: 5%;
     margin-right: 5%;
@@ -17,8 +17,10 @@
   }
 
   .border3 {
-    border: 1px solid #000000;
-    background: #95a5a6;
+    border: 1px solid grey;
+    background:white;
+    color: #000000;
+    border-radius: 20px;
     padding: 20px; 
     margin-left: 5%;
     margin-right: 5%;
@@ -40,13 +42,37 @@
 .pow{
   color:#AE1818;
   text-align: center;
-  margin-top: 3%;
+  margin-top: 10px;
 }
 
 .ordersearch{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   justify-content: center;
 }
 
 .details{
   display: inline;
+}
+
+.field{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: row;
+  width: 60%;
+}
+
+.inputField{
+  margin-right: 15px;
+    width: 150px;
+    border-radius: 10px;
+    padding: 4px 10px;
+    outline: 0px;
+    color: darkslategrey;
+    font-size: 16px;
+    border:1px solid #ecf0f1;
+    background:#ecf0f1;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;  
 }
