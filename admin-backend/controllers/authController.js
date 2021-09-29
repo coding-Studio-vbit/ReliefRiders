@@ -3,9 +3,14 @@ const otpController = require("./otpController");
 const { sendResponse, sendError } = require("./common");
 const { sendOTP } = require("./sms");
 
-async function requestOTP(phoneNumber) {
+//operation == 1 LOGIN
+//operation == 2 REGISTER
+async function requestOTP(phoneNumber,operation) {
+    
     try {
         let admin = await admins.findOne({phoneNumber:phoneNumber});
+        if(admin && operation === 2) return sendError("Admin already exists")
+        if(operation === 2) return requestOTPUnverified(phoneNumber)
         if(!admin){
             return sendError("No admin found")
         }
@@ -35,6 +40,19 @@ async function requestOTP(phoneNumber) {
         sendError("Internal error occured")
         
     }
+    
+}
+
+async function requestOTPUnverified(number){
+    const admin = new admins({
+        name:'UNVERIFIED',
+        phoneNumber:number
+    })
+    await otpController.newOTP(admin)
+    await admin.save()
+    await sendOTP(number,admin.OTP.currentOTP)
+    return sendResponse('OTP sent')
+
     
 }
 

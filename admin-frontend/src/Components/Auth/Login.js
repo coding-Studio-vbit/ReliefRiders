@@ -2,6 +2,7 @@ import Logo from "../../Images/logo.png";
 import { Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
+import { requestOTP } from "../../Context/authOperations";
 
 export default function Login() {
   const [mobile, setMobile] = useState()
@@ -23,11 +24,16 @@ export default function Login() {
     return true;
   }
 
-  const handleOTP = () => {
+  const handleOTP = async () => {
     if(validateMobile()){
-    //HTTP Request Asking for OTP
-    //on success makechanges
-    history.push("/otp");
+    const res = await requestOTP(mobile)
+    if(res.error){
+      setError(res.error)
+    }else{
+      history.push("/otp",{
+        number:mobile
+      });
+    }
     }
   };
 

@@ -4,6 +4,7 @@ import styles from "./ChooseRequest.module.css";
 import axios from "axios";
 import { Dialog } from "../../global_ui/dialog/dialog";
 import { LoadingScreen } from "../../global_ui/spinner";
+import { fetchRequests } from "./fetchRequest";
 // import { useHistory } from "react-router";
 
 export const ChooseRequest = () => {
@@ -12,7 +13,7 @@ export const ChooseRequest = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [flag, setFlag] = useState(0);
-  const [coordinates, setCoordinates] = useState({ lat: 0, lng: 0 });
+  const [coords, setCoordinates] = useState({ lat: 0, lng: 0 });
   const token = localStorage.getItem("token");
   // const history=useHistory()
 
@@ -28,32 +29,14 @@ export const ChooseRequest = () => {
       a.sort(comparisonByPriority);
       setRequests(a);
     } else if (param == "Distance") {
-      if (currentLocation()) {
+      if (coords) {
         a.sort(comparisonByDistance);
       }
       setRequests(a);
     }
   }
 
-  //finding current location of rider
-  const currentLocation = async () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        setCoordinates({        
-          lat:position.coords.latitude,
-          lng:position.coords.longitude
-        });
-        return true;
-      });
-      navigator.permissions.query({ name: "geolocation" }).then((res) => {
-        if (res.state === "denied") {
-          console.log("Location Permission denied");
-          alert("Please allow location permission");
-        }
-      });
-    }
-    return false;
-  };
+  
 
   //Comparison function for sorting by distance
   function comparisonByDistance(a, b) {
@@ -74,21 +57,13 @@ export const ChooseRequest = () => {
   function calculateDistance(i) {
     let distance;
 
-    let URL = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${coordinates.lat},${coordinates.lng}&destinations=${allRequests[i].roughLocationCoordinates[0]},${allRequests[i].roughLocationCoordinates[1]}&key=${process.env.REACT_APP_GMAP_API_KEY}`;
-    // var config = {
-    //   method: "get",
-    //   url: URL,
-    //   headers: {
-    //     key: process.env.REACT_APP_GMAP_API_KEY,
-    //     "Access-Control-Allow-Origin": "*",
-    //     "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-    //   },
-    // };
+    let URL = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${coords.lat},${coords.lng}&destinations=${allRequests[i].roughLocationCoordinates[0]},${allRequests[i].roughLocationCoordinates[1]}&key=${process.env.REACT_APP_GMAP_API_KEY}`;
+   
     axios.get(URL)
       .then((response) => {
         distance = response.data.rows[0].elements[0].distance.value;
 
-        let temp = request;
+        let temp = allRequests;
         temp[i].distance = distance / 1000;
         console.log(distance[i]);
 
@@ -108,56 +83,21 @@ export const ChooseRequest = () => {
     }
   }
 
-  useEffect(() => {
-    setLoading(true);
-    const options = {
-      headers: {
-        authorization: "Bearer " + token,
-      },
-      
-    };
+  useEffect(async () => {
+    
+    const res = await fetchRequests(sliderValue,token)
+    
+    if(res.error){
+      setError(res.error)
+    }else{
+      setCoordinates(res.coords)
+      setRequests(res.data)
+      assignDistance()
+      setLoading(false)
+    }
+    
 
-    axios
-      .post(`${process.env.REACT_APP_URL}/rider/showFetchedRequests`,{
-        
-          latitude:coordinates.lat,
-          longitude:coordinates.lng,
-          maxDistance:sliderValue
-        
-      }, options)
-      .then((response) => {
-        console.log(response);
-        if (response.data.message.length === 0) {
-          setLoading(false);
-          setError("Could not fetch Data");
-          // for testing setRequests to dummy data i.e. request
-          setRequests(request);
-        } else {
-          let data = response.data.message;
-          for (let i = 0; i < data.length; i++) {
-            data[i].distance = 0;
-          }
-          setRequests(data);
-          if (currentLocation()) {
-            assignDistance();
-          }
-          setLoading(false);
-        }
-      })
-      .catch((error) => {
-        setError(error.message);
-        setLoading(false);
-      })
-      .finally(() => {
-        setLoading(false);
-        // for (let i = 0; i < request.length; i++) {
-        //   request[i].distance = 0;
-        // }
-        // setRequests(request);
-        // if(currentLocation()) {
-        // assignDistance();
-        //}
-      });
+    
   }, []);
 
   return loading ? (
@@ -258,118 +198,118 @@ export const ChooseRequest = () => {
 
 export default ChooseRequest;
 
-const request = [
-  {
-    date: "7/7/2022",
-    requestNumber: "12345",
-    requesterID: "777777",
-    riderID: "5678",
-    noContactDelivery: "true",
-    requestStatus: "PENDING",
-    requestType: "P&D",
-    itemCategories: ["MEDICINES"],
-    remarks: "Use back gate",
-    billsImageList: ["some link"],
-    rideImages: ["some link"],
-    roughLocationCoordinates: [17.449009453401768, 78.39147383021886],
-    pickupLocationCoordinates: {
-      coordinates: [37.7680296, -122.4375126],
-    },
-    pickupLocationAddress: {
-      address: "12-4-126/7",
-      area: "SR Nagar",
-      city: "Hyderabad",
-    },
-    dropLocationCoordinates: {
-      coordinates: [37.7680296, -122.4375126],
-    },
-    dropLocationAddress: {
-      addressLine: "6736BH",
-      area: "SR Nagar",
-      city: "Hyderabad",
-    },
-    priority: "15",
-    requesterName: "Pranchal Agarwal",
-  },
-  {
-    date: "7/7/2002",
-    requestNumber: "945",
-    requesterID: "72377",
-    riderID: "56789",
-    requesterCovidStatus: "true",
-    requestStatus: "PENDING",
-    requestType: "P&D",
-    paymentPreference: "CASH",
-    itemsListImages: ["somelink"],
-    itemsListList: [{ itemName: "tomato", quantity: "2kg" }],
-    itemCategories: ["GROCERIES", "MISC"],
-    roughLocationCoordinates: [17.46415683066205, 78.38748270276933],
-    pickupLocationCoordinates: {
-      coordinates: [37.7680296, -122.4375126],
-    },
-    pickupLocationAddress: {
-      address: "12-4-126/7",
-      area: "SR Nagar",
-      city: "Hyderabad",
-    },
-    dropLocationCoordinates: {
-      coordinates: [37.7680296, -122.4375126],
-    },
-    dropLocationAddress: {
-      addressLine: "6736BH",
-      area: "B.Hills",
-      city: "Hyderabad",
-    },
-    requesterName: "Some Name",
-    priority: "12",
-  },
-  {
-    date: "7/5/2021",
-    requestNumber: "1245",
-    requesterID: "727777",
-    riderID: "156789",
-    requesterCovidStatus: "true",
-    requestStatus: "PENDING",
-    requestType: "General",
-    itemCategories: ["GROCERIES", "MEDICINES", "MISC"],
-    roughLocationCoordinates: [17.44410138800549, 78.36501180995198],
-    pickupLocationCoordinates: {
-      coordinates: [17.9, 78.6],
-    },
-    dropLocationCoordinates: {
-      coordinates: [17.9, 78.6],
-    },
-    dropLocationAddress: {
-      addressLine: "6736BH",
-      area: "SR NAGAR",
+// const request = [
+//   {
+//     date: "7/7/2022",
+//     requestNumber: "12345",
+//     requesterID: "777777",
+//     riderID: "5678",
+//     noContactDelivery: "true",
+//     requestStatus: "PENDING",
+//     requestType: "P&D",
+//     itemCategories: ["MEDICINES"],
+//     remarks: "Use back gate",
+//     billsImageList: ["some link"],
+//     rideImages: ["some link"],
+//     roughLocationCoordinates: [17.449009453401768, 78.39147383021886],
+//     pickupLocationCoordinates: {
+//       coordinates: [37.7680296, -122.4375126],
+//     },
+//     pickupLocationAddress: {
+//       address: "12-4-126/7",
+//       area: "SR Nagar",
+//       city: "Hyderabad",
+//     },
+//     dropLocationCoordinates: {
+//       coordinates: [37.7680296, -122.4375126],
+//     },
+//     dropLocationAddress: {
+//       addressLine: "6736BH",
+//       area: "SR Nagar",
+//       city: "Hyderabad",
+//     },
+//     priority: "15",
+//     requesterName: "Pranchal Agarwal",
+//   },
+//   {
+//     date: "7/7/2002",
+//     requestNumber: "945",
+//     requesterID: "72377",
+//     riderID: "56789",
+//     requesterCovidStatus: "true",
+//     requestStatus: "PENDING",
+//     requestType: "P&D",
+//     paymentPreference: "CASH",
+//     itemsListImages: ["somelink"],
+//     itemsListList: [{ itemName: "tomato", quantity: "2kg" }],
+//     itemCategories: ["GROCERIES", "MISC"],
+//     roughLocationCoordinates: [17.46415683066205, 78.38748270276933],
+//     pickupLocationCoordinates: {
+//       coordinates: [37.7680296, -122.4375126],
+//     },
+//     pickupLocationAddress: {
+//       address: "12-4-126/7",
+//       area: "SR Nagar",
+//       city: "Hyderabad",
+//     },
+//     dropLocationCoordinates: {
+//       coordinates: [37.7680296, -122.4375126],
+//     },
+//     dropLocationAddress: {
+//       addressLine: "6736BH",
+//       area: "B.Hills",
+//       city: "Hyderabad",
+//     },
+//     requesterName: "Some Name",
+//     priority: "12",
+//   },
+//   {
+//     date: "7/5/2021",
+//     requestNumber: "1245",
+//     requesterID: "727777",
+//     riderID: "156789",
+//     requesterCovidStatus: "true",
+//     requestStatus: "PENDING",
+//     requestType: "General",
+//     itemCategories: ["GROCERIES", "MEDICINES", "MISC"],
+//     roughLocationCoordinates: [17.44410138800549, 78.36501180995198],
+//     pickupLocationCoordinates: {
+//       coordinates: [17.9, 78.6],
+//     },
+//     dropLocationCoordinates: {
+//       coordinates: [17.9, 78.6],
+//     },
+//     dropLocationAddress: {
+//       addressLine: "6736BH",
+//       area: "SR NAGAR",
 
-      city: "Hyderabad",
-    },
-    priority: "20",
-    requesterName: "Pranchal",
-  },
-  {
-    date: "7/9/2031",
-    requestNumber: "2345",
-    requesterID: "7777787",
-    riderID: "1562789",
-    requestStatus: "PENDING",
-    requestType: "General",
-    itemCategories: ["MISC"],
-    roughLocationCoordinates: [17.431572809383972, 78.3681875451749],
-    pickupLocationCoordinates: {
-      coordinates: [17.9, 78.6],
-    },
-    dropLocationAddress: {
-      addressLine: "6736BH",
-      area: "SR Nagar",
+//       city: "Hyderabad",
+//     },
+//     priority: "20",
+//     requesterName: "Pranchal",
+//   },
+//   {
+//     date: "7/9/2031",
+//     requestNumber: "2345",
+//     requesterID: "7777787",
+//     riderID: "1562789",
+//     requestStatus: "PENDING",
+//     requestType: "General",
+//     itemCategories: ["MISC"],
+//     roughLocationCoordinates: [17.431572809383972, 78.3681875451749],
+//     pickupLocationCoordinates: {
+//       coordinates: [17.9, 78.6],
+//     },
+//     dropLocationAddress: {
+//       addressLine: "6736BH",
+//       area: "SR Nagar",
 
-      city: "Hyderabad",
-    },
-    dropLocationCoordinates: {
-      coordinates: [17.9, 78.6],
-    },
-    priority: "0",
-    requesterName: "name",
-  },
-];
+//       city: "Hyderabad",
+//     },
+//     dropLocationCoordinates: {
+//       coordinates: [17.9, 78.6],
+//     },
+//     priority: "0",
+//     requesterName: "name",
+//   },
+// ];

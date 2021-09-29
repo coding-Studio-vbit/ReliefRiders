@@ -2,7 +2,6 @@ import React from 'react'
 import styles from './requesttype.module.css'
 import { useHistory } from "react-router-dom";
 import {
-    BrowserRouter as Router,
     Switch,
     Route
   } from "react-router-dom";
@@ -12,7 +11,7 @@ import PndRequest from '../P&DRequest/pndrequest';
 
 function NewRequest() { 
     return (
-        <Router>
+       
             <Switch>
                 <Route exact path="/createrequest">
                     <RequestType/>
@@ -24,7 +23,7 @@ function NewRequest() {
                     <PndRequest/>
                 </Route>
             </Switch>        
-        </Router>         
+               
     )
 }
 
@@ -45,11 +44,11 @@ function RequestType() {
     }
     return (
         <div className={styles.page}>
-            <div className={styles.card}>
-                <p className={styles.name} onClick={()=>route(true)}>General Request</p>
+            <div className={styles.card} onClick={()=>route(true)}>
+                <p className={styles.name} >General Request</p>
             </div>
-            <div className={styles.card}>
-                <p className={styles.name} onClick={()=>route(false)}>P&D Request</p>
+            <div className={styles.card} onClick={()=>route(false)}>
+                <p className={styles.name} >P&D Request</p>
             </div>                 
         </div>
     )

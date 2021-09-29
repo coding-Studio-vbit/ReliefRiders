@@ -20,7 +20,7 @@ export const useLocalStorageState = (key,initialValue) => {
     })
     useEffect(()=>{
         localStorage.setItem(key,JSON.stringify(data))
-    },[data])
+    },[key,data])
 
     return [data,setData];
 }
@@ -45,7 +45,7 @@ export const useSessionStorageState = (key,initialValue) => {
     })
     useEffect(()=>{
         sessionStorage.setItem(key,JSON.stringify(data))
-    },[data])
+    },[key,data])
 
     return [data,setData];
 }

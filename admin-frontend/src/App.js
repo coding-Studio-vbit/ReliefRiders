@@ -1,4 +1,5 @@
 import { Switch, BrowserRouter as Router } from "react-router-dom";
+import { AuthProvider } from "./Context/authProvider";
 import Routes from "./Routes";
 
 function App() {
@@ -8,7 +9,9 @@ function App() {
         <div>
           <Switch>
             <div>
+              <AuthProvider>
               <Routes />
+                </AuthProvider>
             </div>
           </Switch>
         </div>
