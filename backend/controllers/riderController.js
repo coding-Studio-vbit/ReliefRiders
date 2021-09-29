@@ -206,14 +206,16 @@ async function fetchRequests(phoneNumber, longitude, latitude, maxDistance) {
 		requests.find({
 			roughLocationCoordinates: {
 				$near: {
-					$geometry: { type: "Point", coordinates: [longitude, latitude] },
-					$maxDistance: maxDistance
+					//$geometry: { type: "Point", coordinates: [longitude, latitude] },
+					$geometry: { type: "Point", coordinates: [latitude, longitude] },
+					$maxDistance: (maxDistance * 1000)
 				}
 			}, requestStatus: "PENDING"
 		}).select(['-pickupLocationCoordinates', '-dropLocationCoordinates'])
 		.populate('requesterID')
 			.then((docs) => {
-				resolve(sendResponse(doc));
+			console.log(docs.length)
+				resolve(sendResponse(docs));
 				//	console.log(doc.length)
 			})
 			.catch(error => {
