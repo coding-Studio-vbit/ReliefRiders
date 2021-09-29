@@ -186,7 +186,6 @@ async function getRequestDetails(requestID) {
 
 async function getMyDeliveries(phoneNumber) {
 	return new Promise((resolve, reject) => {
-
 		riders.findOne({ phoneNumber: phoneNumber })
 			.then((riderDoc) => {
 				return requests.find({ requestStatus: "DELIVERED", riderID: riderDoc._id }).select(['-pickupLocationCoordinates', '-dropLocationCoordinates'])

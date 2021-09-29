@@ -17,16 +17,16 @@ const ChooseRequestItem = (props) => {
   }, [props]);
 
   function compare (){
-    return  parseFloat(data.distance) <= parseFloat(props.sliderValue) 
+    return  parseFloat(data.distance)<=parseFloat(props.sliderValue) 
   }
 
   return (  
      compare() && (  
         <div className={styles.chooseRequestItem}> 
         {/* remove line 27 after testing */}
-        {props.data.distance}
+        {data.distance}
           <div className={styles.requesterName}>
-            {props.data.requesterName}
+            {data.requesterName}
           </div>       
           
           <div className={styles.location}>          
