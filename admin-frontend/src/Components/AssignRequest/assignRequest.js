@@ -1,33 +1,37 @@
-/* eslint-disable no-unused-vars */
-import { Button, Form, Container, Row, Col } from 'react-bootstrap';
+import { Button, Row, Col} from 'react-bootstrap';
 import styles from './assignrequest.module.css';
 import { useState,useEffect} from "react";
 
 export default function AssignRequest() {
   const [orderID, setorderID] = useState();
   const [request, setrequest] = useState();
-  const [requests, setrequests] = useState();
-  const [riderName, setRiderName] = useState("");
-
-  const [adminList, setadminList] = useState([])
-
-  function assignRequest() {
-    //http request     
+  const [assignedRiderID, setAssignedRider] = useState("");
+  const [selectedOrderID, setSelectedOrderID] = useState(null);
+  const [riderName, setRiderName]=useState("");
+  const [adminList, setadminList] = useState([]);
+  
+  function assignRequest(i,name) {
+    if(selectedOrderID===null){
+      alert("Select Order to Assign")
+    }
+    else{
+    setAssignedRider(i);
+    //http request 
+    alert(`Rider ${name} ${assignedRiderID} assigned with ${selectedOrderID}`);
+    }
   }
-
-  function fetchRequests() {
-    //make http requests to get requests 
-    setrequests(allRequests);   
-  }
-
 
   function fetchOrderDetails() {
-    //fetch order
-    setrequest(req);    
+    //http request 
+    setrequest(req);      
   }
 
   function fetchAdminList() {
     setadminList(al)    
+  }
+
+  function selectOrder(){
+       setSelectedOrderID(req.orderID)
   }
 
   useEffect(() => {
@@ -39,24 +43,33 @@ export default function AssignRequest() {
       <div className={styles.border}>
         <h5 className={styles.header}>Assign Request</h5>
         <p className={styles.pow}>Choosen order has to be a pending order</p>
+
         {/* Search Order ID */}
         <div>
-          <Form>
-            <Container className={styles.ordersearch}>
-              <Row>
-                <Col>
-                  <Form.Control type="email" placeholder="Enter Order ID #" value={orderID}
-                    onChange={(event) => setorderID(event.target.value)}/>
-                </Col>
-                <Col>
-                  <Button style={{backgroundColor:'#263238', color:'white',borderRadius:'5px',padding:'7px'}} 
-                  onClick={()=>fetchOrderDetails()}>Fetch Order
-                  </Button>
-                </Col>
-              </Row>
-            </Container>
-          </Form>
+          <form>
+            <div className={styles.ordersearch}>             
+              <div className={styles.name}>
+                <input type="text" placeholder="Order ID" 
+                value={orderID} className={styles.inputField}              
+                onChange={(event) => setorderID(event.target.value)} required/>
+
+                <Button                 
+                size="sm"
+                onClick={()=>fetchOrderDetails()}>
+                Fetch Order
+                </Button>
+              </div>
+              {
+                selectedOrderID &&
+                <div>               
+                  <p>Order Selected {selectedOrderID}</p>          
+                </div>
+              }
+                  
+            </div>
+          </form>
         </div>
+        
 
         {/* Request Details */}
         {
@@ -64,45 +77,60 @@ export default function AssignRequest() {
         <div className={styles.border2}>
           <Row style={{marginTop: '1%'}}>
             <Col md="auto"><h6>Request Status:</h6></Col>
-            <Col md='auto'><h6 style={{color: '#AE1818'}}>Pending</h6></Col>
+            <Col md='auto'><div>{request.status}</div></Col>
           </Row>
+
           <Row style={{marginTop: '2%'}}>
             <Col md="auto"><h6>Date:</h6></Col>
-            <Col md='auto'><div style={{color: 'blue'}} value={req.date} ></div></Col>
+            <Col md='auto'><div>{request.date}</div></Col>
           </Row>
+
           <Row style={{marginTop: '2%'}}>
             <Col md="auto"><h6>Requester Name:</h6></Col>
-            <Col md='auto'><div> {req.requesterName}</div></Col>
+            <Col md='auto'><div> {request.requesterName}</div></Col>
           </Row>
+
           <Row style={{marginTop: '2%'}}>
             <Col md="auto"><h6>Request Type:</h6></Col>
-            <Col md='auto'><div>{req.requestType}</div></Col>
+            <Col md='auto'><div>{request.requestType}</div></Col>
           </Row>
+
           <Row style={{marginTop: '2%'}}>
             <Col md="auto"><h6>Delivery Address/Location</h6></Col>
-            <Col md='auto'><div>{req.address}</div></Col>
+            <Col md='auto'><div>{request.address}</div></Col>
           </Row>
           <h6 style={{marginTop: '2%'}}>Items Requested:</h6>
           <div>
-          <Col md='auto'><div>{req.itemsList}</div></Col>
+          <Col md='auto'>
+            <ul>
+            {
+              request.itemsList.map((item)=>{
+                return <li>{item.name} : {item.quantity}</li>
+              })
+            }
+            </ul>
+          </Col>
           </div>
-        </div>
-    }
-
+          <Button style={{marginTop:'10px',backgroundColor:'#263238', color:'white',borderRadius:'5px',padding:'7px', justifyItems:'center'}} 
+            size="sm"      onClick={()=>selectOrder()}>Select Order</Button>
+          </div>
+}
+           
+         
+            
         {/* Assign Request Search Bar */}
         <div style={{marginTop: '3%'}}>
-          <Form>
-            <Container>
-              <Form.Group as={Row} className="mb-3">
-                <Form.Label column sm="2">Assign Request:</Form.Label>
-                
-                <Col sm="10">
-                  <input type="text" placeholder="Enter Rider Name" value={riderName} onChange={(e)=> setRiderName(e.target.value)}/>
-                </Col>
-                
-              </Form.Group>
-            </Container>
-          </Form>
+          <form>
+            <div className={styles.ordersearch}> 
+                <div>             
+                <label column sm="2">Assign Request</label>                
+                <input type="text" 
+                style={{marginLeft:'10px'}}
+                className={styles.inputField}
+                placeholder="Enter Rider Name" value={riderName} onChange={(e)=> setRiderName(e.target.value)}/>
+                </div>
+            </div>
+          </form>
         </div>
 
         {/* Header */}
@@ -116,14 +144,16 @@ export default function AssignRequest() {
           </div>         
             {
                adminList.map((admin)=>{
-                return <div className={styles.border3}>
+                return (riderName==="" || admin.name.includes(riderName) ) && <div className={styles.border3}>
                           <Row style={{textAlign: 'center', alignItems: 'center'}}>
                             <Col><h6>{admin.name}</h6></Col>
                             <Col><h6>{admin.phoneNumber}</h6></Col>
-                            <Col><Button variant="dark" type="submit" onClick={()=>assignRequest()}>Assign</Button></Col>
+                            <Col><Button variant="dark" type="submit" onClick={()=>assignRequest(admin.riderID,admin.name)}>Assign</Button></Col>
                           </Row>
                         </div>
-                      })
+                  
+                })
+                    
             }
           </div>
         </div>
@@ -162,17 +192,28 @@ const allRequests=[
   }
 ]
 const req={
-  date:Date.now(),
+  orderID: 196532,
+  status:"PENDING",
+  date: Date().toString(),
   requesterName:'Kun',
   requestType:'GENERAL',
   address:'uejdheiker, jeryereyr, heuyfwjefh',
   itemsList:[
-    'V'
+    {
+      name:'Butter',
+      quantity:'100grams x 2'
+    },
+    {
+      name:'Cheese',
+      quantity:'100grams x 2'
+    }
   ],
 }
 
 
 const al=[
-  { phoneNumber:'955072929',name:'Dh'},
-  { phoneNumber:'959072929',name:'Th'},
+  { riderID: 1234,phoneNumber:'955072929',name:'Shravan'},
+  { riderID: 1234,phoneNumber:'959072929',name:'Vimal'},
+  { riderID: 1234,phoneNumber:'959072929',name:'Kamal'},
+  { riderID: 1234,phoneNumber:'959072929',name:'Shravanthi'},
 ]

@@ -184,6 +184,12 @@
   background-color: rgb(216, 0, 0);
   padding: 3px 7px 3px 7px;
 }
+
+.noRequests{
+  text-align: center;
+  font-weight: 400;
+  color: teal;
+}
 .groceries{
     color: white;
     margin: auto;

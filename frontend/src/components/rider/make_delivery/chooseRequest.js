@@ -4,24 +4,23 @@ import styles from "./ChooseRequest.module.css";
 import axios from "axios";
 import { Dialog } from "../../global_ui/dialog/dialog";
 import { LoadingScreen } from "../../global_ui/spinner";
-import { fetchRequests } from "./fetchRequest";
-// import { useHistory } from "react-router";
+import { useHistory } from "react-router";
 
 export const ChooseRequest = () => {
-  const [sliderValue, setSliderValue] = useState(1);
+  const [sliderValue, setSliderValue] = useState(1000);
   const [allRequests, setRequests] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [flag, setFlag] = useState(0);
-  const [coords, setCoordinates] = useState({ lat: 0, lng: 0 });
-  const token = localStorage.getItem("token");
-  // const history=useHistory()
 
+  const [coordinates,setCoordinates] = useState({lat:null,lng:null})
+
+  const token = localStorage.getItem("token");
+  const history=useHistory()
   //sorting requests based on 3 parameters.
   function sortedCustom(param) {
     setFlag(flag + 1);
     let a = allRequests;
-
     if (param == "Date") {
       a.sort(comparisonByDate);
       setRequests(a);
@@ -36,9 +35,6 @@ export const ChooseRequest = () => {
     }
   }
 
-  
-
-  //Comparison function for sorting by distance
   function comparisonByDistance(a, b) {
     return a.distance - b.distance;
   }
@@ -53,20 +49,42 @@ export const ChooseRequest = () => {
     return b.priority - a.priority;
   }
 
+ 
+
+  //finding current location of rider
+  const currentLocation = async () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position)=>{
+          setCoordinates({        
+            lat:position.coords.latitude,
+            lng:position.coords.longitude
+          })
+        },
+        (err)=>{
+          console.log(err);
+          setError("Location Permission Denied");
+        });
+        navigator.permissions.query({ name: "geolocation" }).then((res) => {
+          if (res.state === "denied") {
+            console.log("Location Permission denied");
+            alert("Please allow location permission");
+          }
+        });
+      }
+    };
+
   //Calculating distance between rider's current location and roughLocationCoordinates using google maps api
   function calculateDistance(i) {
+    console.log(`Calculating Distance ${i+1}`);
     let distance;
-
-    let URL = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${coords.lat},${coords.lng}&destinations=${allRequests[i].roughLocationCoordinates[0]},${allRequests[i].roughLocationCoordinates[1]}&key=${process.env.REACT_APP_GMAP_API_KEY}`;
-   
+    let URL = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${coordinates.lat},${coordinates.lng}&destinations=${allRequests[i].roughLocationCoordinates[0]},${allRequests[i].roughLocationCoordinates[1]}&key=${process.env.REACT_APP_GMAP_API_KEY}`;
     axios.get(URL)
       .then((response) => {
         distance = response.data.rows[0].elements[0].distance.value;
-
         let temp = allRequests;
         temp[i].distance = distance / 1000;
         console.log(distance[i]);
-
         setRequests(temp);
       })
       .catch((error) => {
@@ -76,29 +94,64 @@ export const ChooseRequest = () => {
 
   //calling calculate distance function for each request
   function assignDistance() {
+    console.log("Assigning Distance");
     const temp = allRequests.length;
+    console.log(temp,allRequests);
     for (var i = 0; i < temp; i++) {
-      calculateDistance(i);
-    
+      calculateDistance(i);    
     }
+    console.log("Distance Assigned");
   }
 
-  useEffect(async () => {
+  useEffect(() => {
+    currentLocation();
+ 
+  }, [])
+
+  useEffect(() => {
+    setLoading(true);    
+    const options = {
+      headers: {
+        authorization: "Bearer " + token,
+      },      
+    };
     
-    const res = await fetchRequests(sliderValue,token)
-    
-    if(res.error){
-      setError(res.error)
-    }else{
-      setCoordinates(res.coords)
-      setRequests(res.data)
-      assignDistance()
+    if(coordinates.lat && coordinates.lng){ 
+      axios
+      .post(`${process.env.REACT_APP_URL}/rider/showFetchedRequests`,{        
+          latitude:coordinates.lat,
+          longitude:coordinates.lng,
+          maxDistance:sliderValue        
+      }, options)
+      .then((response) => {
+        console.log(response,20);
+        if (response.data.message.length === 0) {
+          setLoading(false);
+          setError("Could not fetch Data");
+        } 
+        else {
+          console.log(response);
+          let data = response.data.message;
+          for (let i = 0; i < data.length; i++) {
+            data[i].distance = -1;
+          }
+          setRequests(data);
+          assignDistance();
+          setLoading(false);
+        }
+      })
+      .catch((error) => {
+        setError(error.message);
+        setLoading(false);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+    }
+    else{
       setLoading(false)
     }
-    
-
-    
-  }, []);
+  }, [coordinates,sliderValue]);
 
   return loading ? (
     <LoadingScreen />
@@ -107,6 +160,7 @@ export const ChooseRequest = () => {
       <Dialog
         isShowing={error}
         onOK={() => {
+          console.log(history);
           // history.goBack();
           setError(null);
         }}
@@ -166,7 +220,7 @@ export const ChooseRequest = () => {
             max="100"
             value={sliderValue}
             onChange={({ target: { value: radius } }) => {
-              setSliderValue(radius);
+              setSliderValue(parseInt(radius));
             }}
           />
         </div>
@@ -175,22 +229,21 @@ export const ChooseRequest = () => {
           Upto {sliderValue} Kilometres
         </div>
 
-        {allRequests.length === 0 ? (
-          <h3 className={styles.noRequests}>There are no new Requests.</h3>
-        ) : (
-          <div className={styles.ChooseRequestItem}>
+        {
+          allRequests.length === 0 ? 
+          <h3 className={styles.noRequests}>There are no new Requests.</h3>:           
+          <div>
             {allRequests.map((req, i) => {
               return (
                 <ChooseRequestItem
                   sliderValue={sliderValue}
-                  obj={allRequests}
                   key={i}
                   data={req}
                 />
               );
             })}
           </div>
-        )}
+        }
       </div>
     </>
   );
