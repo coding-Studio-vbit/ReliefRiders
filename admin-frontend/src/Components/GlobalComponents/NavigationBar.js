@@ -1,8 +1,13 @@
+import { useContext } from "react";
 import { Navbar, Nav } from "react-bootstrap";
+import { useHistory } from "react-router";
+import { AuthContext } from "../../Context/authProvider";
 
 import logo from '../../Images/logo.png'
 
 export default function Navigationbar() {
+  const {token ,setToken} = useContext(AuthContext)
+  const history = useHistory()
   return (
     <div>
       <Navbar
@@ -20,11 +25,24 @@ export default function Navigationbar() {
 
         <Navbar.Collapse className="justify-content-end">
           <Nav>
-            <Nav.Link href="/home">Home</Nav.Link>
+            <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/createrequest">Create Request</Nav.Link>
             <Nav.Link href="/assignrequest" >Assign Request</Nav.Link>
             <Nav.Link href="/createAdmin">Create Admin</Nav.Link>
-            <Nav.Link href="/">SIGN OUT</Nav.Link>
+            {
+              token && (
+                <span style={
+                  {
+                    alignSelf:'center',
+                    color:'white',
+                    cursor:'pointer'
+                  }
+                }  onClick={()=>{
+                  setToken(null)
+                  history.replace('/')
+                }} >SIGN OUT</span>
+              )
+            }
           </Nav>
         </Navbar.Collapse>
       </Navbar>

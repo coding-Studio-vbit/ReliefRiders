@@ -21,7 +21,7 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  align-items: start;
+  align-items: flex-start;
 }
 
 .inputdata {

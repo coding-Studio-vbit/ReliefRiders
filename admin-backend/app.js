@@ -4,7 +4,7 @@ const app = express();
 const mongoose = require("mongoose");
 const port = process.env.PORT || 8002;
 const cors = require("cors");
-const requestsRouter = require("./routes/requests/requestsRouter");
+const requestsRouter = require("./routes/requests/requestRouter");
 
 //express middleware usage.
 app.use(express.json());
@@ -31,11 +31,11 @@ app.use(
 
 
 app.get("/", (req, res) => {
-    res.send("Hey I am alive!");
+    res.send("Hey I am alive!")
 });
 
-app.use("/admin", adminRouter);
-app.use("/rider",verify_token, riderRouter);
+app.use("/admin", adminRouter)
+app.use("/rider",verify_token, riderRouter)
 app.use('/requests',verify_token,requestsRouter)
 
 app.listen(port, () => {

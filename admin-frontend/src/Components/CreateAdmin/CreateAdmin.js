@@ -1,20 +1,47 @@
 import React,{useState,useEffect} from 'react';
+import { requestOTP } from '../../Context/authOperations';
 import Dialog from '../GlobalComponents/Overlay/overlay';
 import styles from './createadmin.module.css'
+import { createAdminHelper } from './createAdminHelper';
+import { deleteAdminByID } from './deleteAdmin';
+import { fetchAdmins } from './fetchAdmins';
 
 const CreateAdmin = () => {
-    const [adminList, setadminList] = useState(adminlist);
+    const [adminList, setadminList] = useState([]);
     const [deleteAdminID, setDeleteAdminID] = useState(false);
     const [message, setmessage] = useState(null);
+    const [phoneNumber ,setPhoneNumber] = useState(null);
+    const [name,setName]= useState(null)
+    const [otp,setOtp] = useState(null)
 
-    function getAdminList() {
-      setadminList(adminlist)     
-      // make http request and delete dummy data
-    }
 
-    function addAdmin() {
-      //add http request
-      setmessage("Admin Added Successfully");
+    useEffect(()=>{
+      
+      async function fetch(){
+        const res = await fetchAdmins()
+        if(!res.error){
+          setadminList(res.data)
+        }
+      }
+      fetch()
+
+    },[])
+
+    
+
+    async function addAdmin() {
+      const res = await createAdminHelper(phoneNumber,name,otp)
+      if(res.error){
+        setmessage(res.error)
+        
+      }else{
+        setadminList((a)=>{
+          let admins = [...a]
+          admins.push({name:name,phoneNumber:phoneNumber})
+          return admins;
+        })
+        setmessage("Admin Added Successfully");
+      }
 
       setTimeout(() => {
         setmessage(null)
@@ -22,27 +49,31 @@ const CreateAdmin = () => {
       
     }
 
-    function verifyOTP() {
-      //verify OTP
-      setmessage("OTP Verified Successfully")
+    async function getOTP() {
+      const res = await requestOTP(phoneNumber,2)
+      if(res.error){
+      setmessage(res.error)
+
+      }
       setTimeout(() => {
         setmessage(null)
       }, 1000);
       
     }
 
-    function deleteAdmin() {  
-      console.log('====================================');
-      console.log(deleteAdminID);
-      console.log('====================================');
-      //http request
-      setDeleteAdminID(null);
+    async function deleteAdmin(number,index) {  
+      const res = await deleteAdminByID(number)
+      if(!res.error){
+        
+        setadminList((admins)=>{
+          let adms = [...admins]
+          adms.splice(index,1)
+          return adms
+        })
+      }
     }
 
-    useEffect(() => {
-      getAdminList();
-      
-    },[adminList])
+    
     
     return (
       <div> 
@@ -55,12 +86,12 @@ const CreateAdmin = () => {
             <form className={styles.adminform}>                                
               <div className={styles.field}>
                 <label className={styles.label1}>Full Name</label>
-                <input required className={styles.inputdata} type="text" placeholder="Name"></input>
+                <input onChange={(e)=>setName(e.target.value)} required className={styles.inputdata} type="text" placeholder="Name"></input>
               </div>
 
               <div className={styles.field}>                 
                 <label className={styles.label1}>Phone Number</label>                
-                <input required className={styles.inputdata} type="mobile" placeholder="Phone Number"
+                <input onChange={(e)=>setPhoneNumber(e.target.value)} required className={styles.inputdata} type="mobile" placeholder="Phone Number"
                 ></input>
               </div> 
 
@@ -69,6 +100,7 @@ const CreateAdmin = () => {
                 <div className={styles.odd}>
                   <input 
                   required 
+                  onChange= {(e)=>setOtp(e.target.value)}
                   style={{width:'60%'}}                     
                   className={styles.inputdata} type="number" 
                   maxLength="6" minLength="6"
@@ -77,11 +109,11 @@ const CreateAdmin = () => {
                   variant="success" 
                   type="button" style={{width:'35%'}} 
                   className={styles.btn}
-                  onClick={()=>verifyOTP()}
+                  onClick={()=>getOTP()}
                   >Get OTP</button>
                 </div>
               </div>                 
-              <button variant="success" type="submit" 
+              <button variant="success" type="button" 
               className={styles.submitBtn}
               onClick={()=>addAdmin()}
               >Add Admin</button>
@@ -98,11 +130,11 @@ const CreateAdmin = () => {
             <p className={styles.title}>Admin List</p>             
             <div className={styles.adminform}>
             {
-              adminList.map((admin)=>{
+              adminList.map((admin,index)=>{
                 return <div className={styles.admin}>
                           <p style={{fontWeight:'bold'}}>{admin.name}</p>
                           <p>{admin.mobile}</p>
-                          <button onClick={()=>setDeleteAdminID(admin.adminID)} className={styles.delete} >Delete Admin</button>
+                          <button onClick={()=>deleteAdmin(admin.phoneNumber,index)} className={styles.delete} >Delete Admin</button>
 
                        </div>
               })
@@ -116,20 +148,20 @@ const CreateAdmin = () => {
 export default CreateAdmin;
 
 
-const adminlist=[
-  {
-    adminID:'1',
-    name:'Sai Ki',
-    mobile:'9550710377',
-  },
-  {
-    adminID:'11',
-    name:'Sai Ki',
-    mobile:'8080808080',
-  },
-  {
-    adminID:'111',
-    name:'Sai Ki',
-    mobile:'9999999999',
-  },
-]
+// const adminlist=[
+//   {
+//     adminID:'1',
+//     name:'Sai Ki',
+//     mobile:'9550710377',
+//   },
+//   {
+//     adminID:'11',
+//     name:'Sai Ki',
+//     mobile:'8080808080',
+//   },
+//   {
+//     adminID:'111',
+//     name:'Sai Ki',
+//     mobile:'9999999999',
+//   },
+// ]

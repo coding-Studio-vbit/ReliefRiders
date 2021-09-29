@@ -3,18 +3,20 @@ const otpController = require("./otpController.js");
 const sms = require("./sms.js");
 const { sendError, sendResponse } = require("../controllers/common");
 
-async function createAdmin(phoneNumber, name) {
+async function createAdmin(phoneNumber, name,otp) {
     try {
+        
         const admin = await admins.findOne({ phoneNumber: phoneNumber })
-        if (admin) {
-            return sendError("Admin already exists")
+        if(admin.OTP.currentOTP === otp){
+            admin.name = name
+            await admin.save()
+            return sendResponse("Admin created")
+        }else{
+
+            return sendError("Incorrect OTP")
         }
-        const newAdmin = new admins({
-            phoneNumber: phoneNumber,
-            name: name
-        });
-        await newAdmin.save();
-        return sendResponse("Admin Created")
+        
+        
     } catch (error) {
         console.log(error)
         return sendError('Internal Server Error')
@@ -22,6 +24,7 @@ async function createAdmin(phoneNumber, name) {
 }
 
 async function deleteAdmin(phoneNumber) {
+    console.log(phoneNumber);
     try {
         const admin = await admins.findOne({ phoneNumber: phoneNumber })
         if (!admin) {
@@ -34,7 +37,18 @@ async function deleteAdmin(phoneNumber) {
     }
 }
 
+async function fetchAdmins() {
+    try {
+        const admin = await admins.find()
+        console.log(admin);
+        return sendResponse(admin)
+    } catch (error) {
+        return sendError('Internal Server Error')
+    }
+}
+
 module.exports = {
     createAdmin,
-    deleteAdmin
+    deleteAdmin,
+    fetchAdmins
 }

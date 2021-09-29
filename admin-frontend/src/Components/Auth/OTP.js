@@ -2,12 +2,15 @@ import Logo from "../../Images/logo.png";
 import { Button } from "react-bootstrap";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { verifyOTP } from "../../Context/authOperations";
+import { useContext } from "react";
+import { AuthContext } from "../../Context/authProvider";
 
 export default function OTP() {
   const [error, setError] = useState(null)
   const [otp, setotp] = useState()
-  let history = useHistory();
-
+  const history = useHistory();
+  const {setToken} = useContext(AuthContext)
   function validateOTP() {
     setError(null)
     const pattern = new RegExp(/^[0-9]{6,6}$/);
@@ -24,10 +27,14 @@ export default function OTP() {
     return true        
   }
 
-  const handleLogin=()=>{
+  const handleLogin=async()=>{
     if(validateOTP()){
-      //HTTP Request
-      history.push('/home')
+      const res = await verifyOTP(history.location.state.number,otp)
+      if(res.error) setError(res.error)
+      else{
+        setToken(res.token)
+        history.push('/')
+      }
     }
   }
 

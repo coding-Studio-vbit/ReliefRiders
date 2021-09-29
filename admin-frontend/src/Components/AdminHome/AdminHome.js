@@ -1,16 +1,25 @@
+/* eslint-disable no-unused-vars */
+import { useContext } from "react";
 import { useState,useEffect} from "react";
+import { AuthContext } from "../../Context/authProvider";
+import { fetchOrder } from "./fetchOrder";
 import style from './home.module.css'
 
+
 export default function Home() {
+
   const [startDate, setstartDate] = useState();
   const [endDate, setendDate] = useState();
   const [riderName, setriderName] = useState("")
   const [deliveryStatus, setdeliveryStatus] = useState("DELIVERED")
   const [transport, settransport] = useState("CYCLE")
   const [requests, setrequests] = useState();
-
+  const {token} = useContext(AuthContext)
   const [orderID, setorderID] = useState();
   const [request, setrequest] = useState()
+
+  
+  
 
 
   function fetchRequests() {
@@ -22,9 +31,13 @@ export default function Home() {
     //http request for sorting    
   }
 
-  function fetchOrderDetails() {
-    //fetch order
-    setrequest(req);
+  async function fetchOrderDetails() {
+    const res = await fetchOrder(orderID,token)
+    if(res.error){
+      alert(res.error)
+    }else{
+      setrequest(res.data);
+    }
     
   }
   
@@ -156,7 +169,7 @@ export default function Home() {
               className={style.field}
               >Rider's Name</div>
               <div>
-              {req.riderName}              
+              {request.riderName}              
               </div>
             </div>
 
@@ -165,7 +178,7 @@ export default function Home() {
               className={style.field}
               >Request's Status</div>
               <div>
-              {req.status}               
+              {request.requestStatus}               
               </div>
             </div>
 
@@ -174,7 +187,7 @@ export default function Home() {
               className={style.field}
               >Date</div>
               <div>
-              {req.date}               
+              {request.date}               
               </div>
             </div>
 
@@ -183,7 +196,7 @@ export default function Home() {
               className={style.field}
               >Requester's Name</div>
               <div>
-              {req.requesterName}               
+              {request.requesterID.name}               
               </div>
             </div>
 
@@ -192,7 +205,7 @@ export default function Home() {
               className={style.field}
               >Request Type</div>
               <div>
-              {req.requestType}              
+              {request.requestType}              
               </div>
             </div>
 
@@ -201,7 +214,7 @@ export default function Home() {
               className={style.field}
               >Delivery Address</div>
               <div>
-              {req.location}              
+              {request.dropLocationAddress.address}              
               </div>
             </div>
 
@@ -210,7 +223,7 @@ export default function Home() {
               className={style.field}
               >Items Requested</div>
               <div>
-              {req.itemsRequested[0]}              
+              {request.itemsListList[0]}              
               </div>
             </div>
             </div> 

@@ -1,4 +1,3 @@
-const admins = require("../models/admin");
 const riders = require("../models/riders");
 const requests = require("../models/request")
 const { sendError, sendResponse } = require("./common");
@@ -59,17 +58,7 @@ async function getDeliveriesByRequestStatus() {
     }
 }
 
-async function searchByRequestNumber(requestNumber) {
-    try {
 
-        const deliveriesByNumber = await requests.findOne({ requestNumber: requestNumber })
-        return sendResponse(deliveriesByNumber)
-
-    } catch (error) {
-        console.log(error)
-        return sendError('Internal Server Error')
-    }
-}
 
 
 async function searchDeliveryByRiderName(name) {
@@ -88,7 +77,6 @@ module.exports = {
     riderByName,
     assignRider,
     getDeliveries,
-    searchByRequestNumber,
     searchDeliveryByRiderName,
     getDeliveriesByRequestStatus
 

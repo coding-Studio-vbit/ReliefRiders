@@ -1,7 +1,7 @@
 import styles from './pndrequest.module.css';
 import { Button, Form, Container, Row, Col } from 'react-bootstrap';
 import { useState } from 'react';
-import { useSessionStorageState } from "../../Utils/useLocalStorageState";
+import { useSessionStorageState } from "../../../Utils/useLocalStorageState";
 
 export default function PndRequest() {
   const [itemName, setitemName] = useState("");

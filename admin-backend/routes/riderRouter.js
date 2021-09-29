@@ -49,11 +49,5 @@ router.get("/searchByName", async(req, res) => {
 
 
 
-router.get("/getDeliveriesByRequestNumber", async(req, res) => {
-    const response = await riderController.searchByRequestNumber(req.body.requestNumber)
-        //send data back
-
-    res.json(response);
-})
 
 module.exports = router;
