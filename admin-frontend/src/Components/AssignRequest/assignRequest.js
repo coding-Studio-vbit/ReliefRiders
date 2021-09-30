@@ -8,7 +8,7 @@ export default function AssignRequest() {
   const [assignedRiderID, setAssignedRider] = useState("");
   const [selectedOrderID, setSelectedOrderID] = useState(null);
   const [riderName, setRiderName]=useState("");
-  const [riderList, setriderList] = useState([]);
+  const [adminList, setadminList] = useState([]);
   
   function assignRequest(i,name) {
     if(selectedOrderID===null){
@@ -23,16 +23,15 @@ export default function AssignRequest() {
 
   function fetchOrderDetails() {
     //http request 
-    // setrequest(req);      
-  }
-
-  function fetchRiderList() {
-    //http request
-    setriderList(al)    
+    setrequest(req);      
   }
 
   function selectOrder(){
     setSelectedOrderID(req.orderID)
+  }
+
+  function selectOrder(){
+       setSelectedOrderID(req.orderID)
   }
 
   useEffect(() => {
@@ -115,7 +114,7 @@ export default function AssignRequest() {
           <Button style={{marginTop:'10px',backgroundColor:'#263238', color:'white',borderRadius:'5px',padding:'7px', justifyItems:'center'}} 
             size="sm"      onClick={()=>selectOrder()}>Select Order</Button>
           </div>
-        }
+}
            
          
             
@@ -146,15 +145,17 @@ export default function AssignRequest() {
             </Row>
           </div>         
             {
-                riderList.map((admin)=>{
+               adminList.map((admin)=>{
                 return (riderName==="" || admin.name.includes(riderName) ) && <div className={styles.border3}>
                           <Row style={{textAlign: 'center', alignItems: 'center'}}>
                             <Col><h6>{admin.name}</h6></Col>
                             <Col><h6>{admin.phoneNumber}</h6></Col>
                             <Col><Button variant="dark" type="submit" onClick={()=>assignRequest(admin.riderID,admin.name)}>Assign</Button></Col>
                           </Row>
-                        </div>                  
-                })                    
+                        </div>
+                  
+                })
+                    
             }
           </div>
           :

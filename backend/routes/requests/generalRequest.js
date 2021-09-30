@@ -11,8 +11,6 @@ const verifyToken = require('../common/tokenAuth');
 
 router.use(verifyToken);
 
-
-
 //multer storage
 
 const storage = multer.diskStorage({
