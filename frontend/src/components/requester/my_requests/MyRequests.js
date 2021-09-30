@@ -31,7 +31,7 @@ const MyRequests = () => {
       (response) => {
         //Tempo
         if (response.data.message.length === 0) {
-          setRequests(null)
+          setRequests([])
         }
         else
           setRequests(response.data.message);
