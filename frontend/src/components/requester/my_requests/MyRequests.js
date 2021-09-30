@@ -31,7 +31,7 @@ const MyRequests = () => {
       (response) => {
         //Tempo
         if (response.data.message.length === 0) {
-          setRequests(null)
+          setRequests([])
         }
         else
           setRequests(response.data.message);
@@ -68,8 +68,7 @@ const MyRequests = () => {
         style={{ backgroundColor: "#79CBC5", marginBottom: "10px" }}
       />
       {
-        allRequests.length === 0 ? (
-
+        allRequests.length<1 ? (
           <h3 className={styles.noRequests}> You haven&apos;t made any requests</h3>
         ) :
           (

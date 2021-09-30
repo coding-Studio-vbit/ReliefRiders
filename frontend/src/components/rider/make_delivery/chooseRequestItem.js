@@ -1,9 +1,11 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { useHistory } from "react-router";
 import styles from "./ChooseRequest.module.css";
 
 const ChooseRequestItem = (props) => {
-  const [data, setData] = useState(props.data);  
+  const [data, setData] = useState(props.data); 
+  const history = useHistory(); 
   let flag = 0;
 
   useEffect(() => { 
@@ -21,8 +23,11 @@ const ChooseRequestItem = (props) => {
   }
 
   return (  
-     compare() && (  
-        <div className={styles.chooseRequestItem}> 
+     compare() && (
+  
+        <div className={styles.chooseRequestItem} 
+        onClick={()=>history.push()}
+        > 
         {/* remove line 27 after testing */}
         {data.distance}
           <div className={styles.requesterName}>
