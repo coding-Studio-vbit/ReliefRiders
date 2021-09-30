@@ -8,7 +8,7 @@ import { useHistory } from "react-router";
 
 export const ChooseRequest = () => {
   const [sliderValue, setSliderValue] = useState(10);
-  const [allRequests, setRequests] = useState([request]);
+  const [allRequests, setRequests] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [flag, setFlag] = useState(0);
@@ -78,8 +78,13 @@ export const ChooseRequest = () => {
   function calculateDistance(i) {
     console.log(`Calculating Distance ${i+1}`);
     let distance;
-    let URL = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${coordinates.lat},${coordinates.lng}&destinations=${allRequests[i].roughLocationCoordinates[0]},${allRequests[i].roughLocationCoordinates[1]}&key=${process.env.REACT_APP_GMAP_API_KEY}`;
-    axios.get(URL)
+    // axios.defaults.baseURL = 'https://cors-anywhere.herokuapp.com/';
+    // axios.defaults.headers.get['Content-Type'] ='application/json;charset=utf-8';
+    // axios.defaults.headers.get['Access-Control-Allow-Origin'] = '*';
+    // axios.defaults.headers
+
+    let URL = `/https://maps.googleapis.com/maps/api/distancematrix/json?origins=${coordinates.lat},${coordinates.lng}&destinations=${allRequests[i].roughLocationCoordinates[0]},${allRequests[i].roughLocationCoordinates[1]}&key=${process.env.REACT_APP_GMAP_API_KEY}`;
+    axios.get(URL,'no-cors')
       .then((response) => {
         distance = response.data.rows[0].elements[0].distance.value;
         let temp = allRequests;
@@ -88,7 +93,7 @@ export const ChooseRequest = () => {
         setRequests(temp);
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error);        
       });
   }
 
@@ -102,6 +107,18 @@ export const ChooseRequest = () => {
     }
     console.log("Distance Assigned");
   }
+
+  function temp() {
+    axios.get(`${process.env.REACT_APP_URL}`+"/leaderboard/fetchDistance")
+    .then((response)=>{
+      console.log(response);
+    })
+    
+
+    }
+    
+
+   
 
   useEffect(() => {
     currentLocation();
@@ -217,6 +234,8 @@ export const ChooseRequest = () => {
           </div>
         </div>
 
+        <button onClick={()=>temp()}>Helo </button>
+
         <div className={styles.rangeSlider}>
           Distance
           <input
@@ -257,118 +276,118 @@ export const ChooseRequest = () => {
 
 export default ChooseRequest;
 
-const request = [
-  {
-    date: "7/7/2022",
-    requestNumber: "12345",
-    requesterID: "777777",
-    riderID: "5678",
-    noContactDelivery: "true",
-    requestStatus: "PENDING",
-    requestType: "P&D",
-    itemCategories: ["MEDICINES"],
-    remarks: "Use back gate",
-    billsImageList: ["some link"],
-    rideImages: ["some link"],
-    roughLocationCoordinates: [17.449009453401768, 78.39147383021886],
-    pickupLocationCoordinates: {
-      coordinates: [37.7680296, -122.4375126],
-    },
-    pickupLocationAddress: {
-      address: "12-4-126/7",
-      area: "SR Nagar",
-      city: "Hyderabad",
-    },
-    dropLocationCoordinates: {
-      coordinates: [37.7680296, -122.4375126],
-    },
-    dropLocationAddress: {
-      addressLine: "6736BH",
-      area: "SR Nagar",
-      city: "Hyderabad",
-    },
-    priority: "15",
-    requesterName: "Pranchal Agarwal",
-  },
-  {
-    date: "7/7/2002",
-    requestNumber: "945",
-    requesterID: "72377",
-    riderID: "56789",
-    requesterCovidStatus: "true",
-    requestStatus: "PENDING",
-    requestType: "P&D",
-    paymentPreference: "CASH",
-    itemsListImages: ["somelink"],
-    itemsListList: [{ itemName: "tomato", quantity: "2kg" }],
-    itemCategories: ["GROCERIES", "MISC"],
-    roughLocationCoordinates: [17.46415683066205, 78.38748270276933],
-    pickupLocationCoordinates: {
-      coordinates: [37.7680296, -122.4375126],
-    },
-    pickupLocationAddress: {
-      address: "12-4-126/7",
-      area: "SR Nagar",
-      city: "Hyderabad",
-    },
-    dropLocationCoordinates: {
-      coordinates: [37.7680296, -122.4375126],
-    },
-    dropLocationAddress: {
-      addressLine: "6736BH",
-      area: "B.Hills",
-      city: "Hyderabad",
-    },
-    requesterName: "Some Name",
-    priority: "12",
-  },
-  {
-    date: "7/5/2021",
-    requestNumber: "1245",
-    requesterID: "727777",
-    riderID: "156789",
-    requesterCovidStatus: "true",
-    requestStatus: "PENDING",
-    requestType: "General",
-    itemCategories: ["GROCERIES", "MEDICINES", "MISC"],
-    roughLocationCoordinates: [17.44410138800549, 78.36501180995198],
-    pickupLocationCoordinates: {
-      coordinates: [17.9, 78.6],
-    },
-    dropLocationCoordinates: {
-      coordinates: [17.9, 78.6],
-    },
-    dropLocationAddress: {
-      addressLine: "6736BH",
-      area: "SR NAGAR",
+// const request = [
+//   {
+//     date: "7/7/2022",
+//     requestNumber: "12345",
+//     requesterID: "777777",
+//     riderID: "5678",
+//     noContactDelivery: "true",
+//     requestStatus: "PENDING",
+//     requestType: "P&D",
+//     itemCategories: ["MEDICINES"],
+//     remarks: "Use back gate",
+//     billsImageList: ["some link"],
+//     rideImages: ["some link"],
+//     roughLocationCoordinates: [17.449009453401768, 78.39147383021886],
+//     pickupLocationCoordinates: {
+//       coordinates: [37.7680296, -122.4375126],
+//     },
+//     pickupLocationAddress: {
+//       address: "12-4-126/7",
+//       area: "SR Nagar",
+//       city: "Hyderabad",
+//     },
+//     dropLocationCoordinates: {
+//       coordinates: [37.7680296, -122.4375126],
+//     },
+//     dropLocationAddress: {
+//       addressLine: "6736BH",
+//       area: "SR Nagar",
+//       city: "Hyderabad",
+//     },
+//     priority: "15",
+//     requesterName: "Pranchal Agarwal",
+//   },
+//   {
+//     date: "7/7/2002",
+//     requestNumber: "945",
+//     requesterID: "72377",
+//     riderID: "56789",
+//     requesterCovidStatus: "true",
+//     requestStatus: "PENDING",
+//     requestType: "P&D",
+//     paymentPreference: "CASH",
+//     itemsListImages: ["somelink"],
+//     itemsListList: [{ itemName: "tomato", quantity: "2kg" }],
+//     itemCategories: ["GROCERIES", "MISC"],
+//     roughLocationCoordinates: [17.46415683066205, 78.38748270276933],
+//     pickupLocationCoordinates: {
+//       coordinates: [37.7680296, -122.4375126],
+//     },
+//     pickupLocationAddress: {
+//       address: "12-4-126/7",
+//       area: "SR Nagar",
+//       city: "Hyderabad",
+//     },
+//     dropLocationCoordinates: {
+//       coordinates: [37.7680296, -122.4375126],
+//     },
+//     dropLocationAddress: {
+//       addressLine: "6736BH",
+//       area: "B.Hills",
+//       city: "Hyderabad",
+//     },
+//     requesterName: "Some Name",
+//     priority: "12",
+//   },
+//   {
+//     date: "7/5/2021",
+//     requestNumber: "1245",
+//     requesterID: "727777",
+//     riderID: "156789",
+//     requesterCovidStatus: "true",
+//     requestStatus: "PENDING",
+//     requestType: "General",
+//     itemCategories: ["GROCERIES", "MEDICINES", "MISC"],
+//     roughLocationCoordinates: [17.44410138800549, 78.36501180995198],
+//     pickupLocationCoordinates: {
+//       coordinates: [17.9, 78.6],
+//     },
+//     dropLocationCoordinates: {
+//       coordinates: [17.9, 78.6],
+//     },
+//     dropLocationAddress: {
+//       addressLine: "6736BH",
+//       area: "SR NAGAR",
 
-      city: "Hyderabad",
-    },
-    priority: "20",
-    requesterName: "Pranchal",
-  },
-  {
-    date: "7/9/2031",
-    requestNumber: "2345",
-    requesterID: "7777787",
-    riderID: "1562789",
-    requestStatus: "PENDING",
-    requestType: "General",
-    itemCategories: ["MISC"],
-    roughLocationCoordinates: [17.431572809383972, 78.3681875451749],
-    pickupLocationCoordinates: {
-      coordinates: [17.9, 78.6],
-    },
-    dropLocationAddress: {
-      addressLine: "6736BH",
-      area: "SR Nagar",
+//       city: "Hyderabad",
+//     },
+//     priority: "20",
+//     requesterName: "Pranchal",
+//   },
+//   {
+//     date: "7/9/2031",
+//     requestNumber: "2345",
+//     requesterID: "7777787",
+//     riderID: "1562789",
+//     requestStatus: "PENDING",
+//     requestType: "General",
+//     itemCategories: ["MISC"],
+//     roughLocationCoordinates: [17.431572809383972, 78.3681875451749],
+//     pickupLocationCoordinates: {
+//       coordinates: [17.9, 78.6],
+//     },
+//     dropLocationAddress: {
+//       addressLine: "6736BH",
+//       area: "SR Nagar",
 
-      city: "Hyderabad",
-    },
-    dropLocationCoordinates: {
-      coordinates: [17.9, 78.6],
-    },
-    priority: "0",
-    requesterName: "name",
-  },
-];
+//       city: "Hyderabad",
+//     },
+//     dropLocationCoordinates: {
+//       coordinates: [17.9, 78.6],
+//     },
+//     priority: "0",
+//     requesterName: "name",
+//   },
+// ];

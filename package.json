@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "browser-image-compression": "^1.0.14",
+    "google-distance": "^1.0.1",
     "react-transition-group": "^4.4.2"
   }
 }
