@@ -206,8 +206,7 @@ async function fetchRequests(phoneNumber, longitude, latitude, maxDistance) {
 		requests.find({
 			roughLocationCoordinates: {
 				$near: {
-					//$geometry: { type: "Point", coordinates: [longitude, latitude] },
-					$geometry: { type: "Point", coordinates: [latitude, longitude] },
+					$geometry: { type: "Point", coordinates: [longitude, latitude] },
 					$maxDistance: (maxDistance * 1000)
 				}
 			}, requestStatus: "PENDING"
