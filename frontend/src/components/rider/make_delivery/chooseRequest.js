@@ -7,7 +7,7 @@ import { LoadingScreen } from "../../global_ui/spinner";
 import { useHistory } from "react-router";
 
 export const ChooseRequest = () => {
-  const [sliderValue, setSliderValue] = useState(1000);
+  const [sliderValue, setSliderValue] = useState(10);
   const [allRequests, setRequests] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -28,7 +28,7 @@ export const ChooseRequest = () => {
       a.sort(comparisonByPriority);
       setRequests(a);
     } else if (param == "Distance") {
-      if (coords) {
+      if (coordinates) {
         a.sort(comparisonByDistance);
       }
       setRequests(a);

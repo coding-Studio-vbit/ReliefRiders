@@ -68,7 +68,7 @@ router.post('/new', upload.any('images'), (req, res) => {
         }
     })
         .then(roughCoordinates => {
-            req.body.roughCoordinates = roughCoordinates;
+            req.body.roughCoordinates = [roughCoordinates[1], roughCoordinates[0]];
             return requester.findOne({ phoneNumber: req.user.phoneNumber });
         })
         .then(doc => {
