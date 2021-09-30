@@ -132,10 +132,9 @@ const CreateAdmin = () => {
             {
               adminList.map((admin,index)=>{
                 return <div className={styles.admin}>
-                          <p style={{fontWeight:'bold'}}>{admin.name}</p>
+                          <p style={{fontWeight:'400'}}>{admin.name}</p>
                           <p>{admin.mobile}</p>
                           <button onClick={()=>deleteAdmin(admin.phoneNumber,index)} className={styles.delete} >Delete Admin</button>
-
                        </div>
               })
             }

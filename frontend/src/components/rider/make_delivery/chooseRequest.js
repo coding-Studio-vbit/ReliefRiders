@@ -28,7 +28,7 @@ export const ChooseRequest = () => {
       a.sort(comparisonByPriority);
       setRequests(a);
     } else if (param == "Distance") {
-      if (coords) {
+      if (coordinates) {
         a.sort(comparisonByDistance);
       }
       setRequests(a);

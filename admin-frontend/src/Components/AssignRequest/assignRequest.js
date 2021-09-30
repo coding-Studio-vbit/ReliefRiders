@@ -8,7 +8,7 @@ export default function AssignRequest() {
   const [assignedRiderID, setAssignedRider] = useState("");
   const [selectedOrderID, setSelectedOrderID] = useState(null);
   const [riderName, setRiderName]=useState("");
-  const [adminList, setadminList] = useState([]);
+  const [riderList, setriderList] = useState([]);
   
   function assignRequest(i,name) {
     if(selectedOrderID===null){
@@ -23,19 +23,20 @@ export default function AssignRequest() {
 
   function fetchOrderDetails() {
     //http request 
-    setrequest(req);      
+    // setrequest(req);      
   }
 
-  function fetchAdminList() {
-    setadminList(al)    
+  function fetchRiderList() {
+    //http request
+    setriderList(al)    
   }
 
   function selectOrder(){
-       setSelectedOrderID(req.orderID)
+    setSelectedOrderID(req.orderID)
   }
 
   useEffect(() => {
-    fetchAdminList();
+    fetchRiderList();
   },)
 
   return(
@@ -114,7 +115,7 @@ export default function AssignRequest() {
           <Button style={{marginTop:'10px',backgroundColor:'#263238', color:'white',borderRadius:'5px',padding:'7px', justifyItems:'center'}} 
             size="sm"      onClick={()=>selectOrder()}>Select Order</Button>
           </div>
-}
+        }
            
          
             
@@ -134,7 +135,9 @@ export default function AssignRequest() {
         </div>
 
         {/* Header */}
-        <div style={{marginTop: '2%'}}>
+        {
+          riderList.length>0 ?
+          <div style={{marginTop: '2%'}}>
           <div className={styles.border4}>
             <Row style={{textAlign: 'center', alignItems: 'center'}}>
               <Col><h6>Name</h6></Col>
@@ -143,54 +146,27 @@ export default function AssignRequest() {
             </Row>
           </div>         
             {
-               adminList.map((admin)=>{
+                riderList.map((admin)=>{
                 return (riderName==="" || admin.name.includes(riderName) ) && <div className={styles.border3}>
                           <Row style={{textAlign: 'center', alignItems: 'center'}}>
                             <Col><h6>{admin.name}</h6></Col>
                             <Col><h6>{admin.phoneNumber}</h6></Col>
                             <Col><Button variant="dark" type="submit" onClick={()=>assignRequest(admin.riderID,admin.name)}>Assign</Button></Col>
                           </Row>
-                        </div>
-                  
-                })
-                    
+                        </div>                  
+                })                    
             }
           </div>
+          :
+          <p style={{textAlign:'center',marginTop:'20px',fontWeight:'600'}}>Failed to fetch Riders List</p>
+        }
+        
         </div>
       </div>
   );
 }
         
-const allRequests=[
-  {
-    date:'12',
-    name:'Pr',
-    requestStatus:'DELIVERED',
-    modeOfTransport:'Bike',
-    requesterID:'12929303'
-  },
-  {
-    date:'12',
-    name:'Ab',
-    requestStatus:'DELIVERED',
-    modeOfTransport:'Bike',
-    requesterID:'12929303'
-  },
-  {
-    date:'12',
-    name:'No',
-    requestStatus:'DELIVERED',
-    modeOfTransport:'Bike',
-    requesterID:'12929303'
-  },
-  {
-    date:'12/10/2022',
-    name:'Ap',
-    requestStatus:'DELIVERED',
-    modeOfTransport:'Bike',
-    requesterID:'12929303'
-  }
-]
+
 const req={
   orderID: 196532,
   status:"PENDING",
