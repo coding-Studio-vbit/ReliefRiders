@@ -77,7 +77,7 @@ export const ChooseRequest = () => {
   //Calculating distance between rider's current location and roughLocationCoordinates using google maps api
   const calculateDistance = async (i) => {
     console.log(`Calculating Distance ${i+1}`);
-    let distance;
+    //let distance;
     let data={
       lat:coordinates.lat,
       lng:coordinates.lng,
@@ -88,9 +88,10 @@ export const ChooseRequest = () => {
     let url = `${process.env.REACT_APP_URL}/gmaps/distanceMatrix`
     const res=await axios.post(url,data)
 
-    console.log(JSON.parse(res.data.message));
+    //console.log(JSON.parse(res.data.message));
 
-    console.log(res,22,distance);
+    //console.log(res,22,distance);
+	console.log(res.data.message)
       // .then((response) => {
       //   console.log(response.data.message,11);
       //   distance = 10;
@@ -134,15 +135,18 @@ export const ChooseRequest = () => {
       }, options)
       .then(async (response) => {
         if(response.data.status==="success"){
+		console.log(response)
           if (response.data.message.length === 0) {
             setLoading(false);
             setError("No new requests available");
           }
           else {
             let data = response.data.message;
-            for (let i = 0; i < data.length; i++) {
-              data[i].distance = 1;
-            }
+			console.log(data[0].distance);
+
+            //for (let i = 0; i < data.length; i++) {
+            //  data[i].distance = 1;
+            //}
             setRequests(data);
             await assignDistance();
             setLoading(false);
