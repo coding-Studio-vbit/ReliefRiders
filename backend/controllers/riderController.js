@@ -1,3 +1,5 @@
+const EventEmitter = require("events")
+const axios = require("axios")
 const riders = require("../models/riders");
 const requesters = require("../models/requesters")
 const requests = require("../models/request")
@@ -211,29 +213,36 @@ async function fetchRequests(phoneNumber, longitude, latitude, maxDistance) {
 					$maxDistance: (maxDistance * 1000)
 				}
 			}, requestStatus: "PENDING"
-		}).select(['-pickupLocationCoordinates', '-dropLocationCoordinates'])
+		})
+		.lean()
 		.populate('requesterID')
-			.then((docs) => {
-				let d = docs
-				for(var i=0;i<docs.length;i++){
+		.select(['-pickupLocationCoordinates', '-dropLocationCoordinates'])
+		.then((docs) => {
+				const notifier = new EventEmitter();
+				let completed = 0; //counts how many API calls completed.
+				notifier.on('OK', (docs)=>{resolve(sendResponse(docs))}); //Resolve only when OK event is emitted.
+				for(let i = 0; i<docs.length; i++)
+				{
 					const config = {
 						method: 'get',
-						url: `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${lat},${lng}&destinations=${roughLocationCoordinates[0]},${roughLocationCoordinates[1]}&key=${process.env.GMAPS_API_KEY}`, 
+						url: `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${latitude},${longitude}&destinations=${docs[i].roughLocationCoordinates.coordinates[1]},${docs[i].roughLocationCoordinates.coordinates[0]}&key=${process.env.GMAPS_API_KEY}`, 
 					  };
 				
 					  axios(config)
 					  .then(function (response) {
-						  if(response.data.rows[0].elements[0].status=="OK"){
-							d.distance = response.data.rows[0].elements[0].distance.value
+						  //if(response.data.rows[0].elements[0].status=="OK"){
+						  if(response.statusText=="OK"){
+							docs[i].distance = response.data.rows[0].elements[0].distance.value
+							completed++;
+						  	if(completed == (docs.length))
+						  		notifier.emit("OK", docs); //The OK event is emitted only when all the API calls are completed.
 						  }
 					  })
 					  .catch(function (error) {
 						console.log(error);
-						d.distance=undefined
+						docs[i].distance=undefined
 					  });
 				}
-				resolve(sendResponse(d));
-				//	console.log(doc.length)
 			})
 			.catch(error => {
 				console.log(error);
