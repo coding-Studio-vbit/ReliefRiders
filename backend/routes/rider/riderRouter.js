@@ -117,7 +117,6 @@ router.post("/showFetchedRequests", (req, res) => {
 		})
 })
 
-
 router.get("/currentRequest", (req, res) => {
 	riderController.getCurrentRequest(req.user.phoneNumber)
 		.then(response => {

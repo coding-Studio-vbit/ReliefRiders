@@ -213,7 +213,6 @@ async function fetchRequests(phoneNumber, longitude, latitude, maxDistance) {
 		}).select(['-pickupLocationCoordinates', '-dropLocationCoordinates'])
 		.populate('requesterID')
 			.then((docs) => {
-			console.log(docs.length)
 				resolve(sendResponse(docs));
 				//	console.log(doc.length)
 			})

@@ -29,7 +29,7 @@ const requesterRouter = require("./routes/requester/requesterRouter");
 const riderRouter = require("./routes/rider/riderRouter");
 const requestsRouter = require("./routes/requests/requestsRouter");
 const leaderboardRouter = require("./routes/leaderboard/leaderboardRouter");
-
+const distancematrix = require("./routes/distanceMatrix")
 app.get("/", (req, res)=>{
 	res.send("Hey I am alive!");
 });
@@ -42,6 +42,7 @@ app.use("/requester", requesterRouter);
 app.use("/rider", riderRouter);
 app.use("/requests",requestsRouter);
 app.use("/leaderboard",leaderboardRouter);
+app.use("/gmaps",distancematrix)
 //This call starts the periodic cleanup of the TEMP_OTP.json file, which is handled by the clearAllExpiredOTPs.js script.
 
 app.listen(port, () => {
