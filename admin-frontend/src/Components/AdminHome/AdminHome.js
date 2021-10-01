@@ -4,6 +4,7 @@ import { useState,useEffect} from "react";
 import { AuthContext } from "../../Context/authProvider";
 import { fetchOrder } from "./fetchOrder";
 import style from './home.module.css'
+import Carousel from "../GlobalComponents/carousel/carousel";
 
 
 export default function Home() {
@@ -164,14 +165,17 @@ export default function Home() {
             {
             request &&
             <div>
-            <div style={styles.contentText}>
-              <div style={{ fontWeight: "bold" ,paddingRight:'5px' }}
-              className={style.field}
-              >Rider's Name</div>
-              <div>
-              {request.riderName}              
+            {
+              request.riderID &&  
+              <div style={styles.contentText}>
+                <div style={{ fontWeight: "bold" ,paddingRight:'5px' }}
+                className={style.field}
+                >Rider ID</div>
+                <div>
+                {request.riderID}              
+                </div>
               </div>
-            </div>
+            }
 
             <div style={styles.contentText}>
               <div style={{ fontWeight: "bold" ,paddingRight:'5px' }}
@@ -209,23 +213,67 @@ export default function Home() {
               </div>
             </div>
 
-            <div style={styles.contentText}>
-              <div style={{ fontWeight: "bold" ,paddingRight:'5px' }}
-              className={style.field}
-              >Delivery Address</div>
-              <div>
-              {request.dropLocationAddress.address}              
-              </div>
-            </div>
+            {
+               request.dropLocationAddress.address && <div style={styles.contentText}>
+                  <div style={{ fontWeight: "bold" ,paddingRight:'5px' }}
+                  className={style.field}
+                  >Delivery Address</div>                  
+                  <div>
+                  {request.dropLocationAddress.address}              
+                  </div>
+                  <div>
+                  {request.dropLocationAddress.area}              
+                  </div>
+                  <div>
+                  {request.dropLocationAddress.city}              
+                  </div>
+                </div>
+            }
+            {
+              request.dropLocationCoordinates.length>0 && 
+              <div style={styles.contentText}>
+                 <div style={{ fontWeight: "bold" ,paddingRight:'5px' }}
+                 className={style.field}
+                 >Delivery Address</div>                  
+                 <a 
+                 href={`https://www.google.com/maps/search/?api=1&query=${request.dropLocationCoordinates[0]},${request.dropLocationCoordinates[1]}`}
+                 >Drop Location Coordinates</a>
+               </div>
+           }
 
-            <div style={styles.contentText}>
+            <div style={{
+              width: "100%",
+              textAlign: "left",
+              margin: "0.5rem 0.5rem",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "start",
+            }}>
               <div style={{ fontWeight: "bold" ,paddingRight:'5px' }}
               className={style.field}
               >Items Requested</div>
               <div>
-              {request.itemsListList[0]}              
+              <ul>
+              {
+                request.itemsListList.map((item)=>{
+                  return <li>{item.itemName}  quantity: {item.quantity}</li>                  
+                })
+              } 
+              </ul>            
               </div>
             </div>
+
+            {
+              request.billsImageList.length>0 &&  <div style={styles.contentText}>
+              <div style={{ fontWeight: "bold" ,paddingRight:'5px' }}
+              className={style.field}
+              >Items Requested</div>
+              <div>
+                <Carousel list={request.billsImageList} title="Bills List"/>          
+              </div>
+              </div>
+            }
+
             </div> 
             }          
           </div>
@@ -291,14 +339,14 @@ const allRequests=[
   }
 ]
 
-const req={
-  riderName:'John',
-  requesterName:'Kun',
-  date:Date.now(),
-  status:'DELIVERED',
-  requestType:'GENERAL',
-  itemsRequested:[
-    'V'
-  ],
-  location:'dkdk dkdkdk'
-}
+// const req={
+//   riderName:'John',
+//   requesterName:'Kun',
+//   date:Date.now(),
+//   status:'DELIVERED',
+//   requestType:'GENERAL',
+//   itemsRequested:[
+//     'V'
+//   ],
+//   location:'dkdk dkdkdk'
+// }
