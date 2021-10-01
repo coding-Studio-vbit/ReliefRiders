@@ -202,6 +202,7 @@ async function getMyDeliveries(phoneNumber) {
 
 
 async function fetchRequests(phoneNumber, longitude, latitude, maxDistance) {
+
 	return new Promise((resolve, reject) => {
 		requests.find({
 			roughLocationCoordinates: {
@@ -213,7 +214,25 @@ async function fetchRequests(phoneNumber, longitude, latitude, maxDistance) {
 		}).select(['-pickupLocationCoordinates', '-dropLocationCoordinates'])
 		.populate('requesterID')
 			.then((docs) => {
-				resolve(sendResponse(docs));
+				let d = docs
+				for(var i=0;i<docs.length;i++){
+					const config = {
+						method: 'get',
+						url: `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${lat},${lng}&destinations=${roughLocationCoordinates[0]},${roughLocationCoordinates[1]}&key=${process.env.GMAPS_API_KEY}`, 
+					  };
+				
+					  axios(config)
+					  .then(function (response) {
+						  if(response.data.rows[0].elements[0].status=="OK"){
+							d.distance = response.data.rows[0].elements[0].distance.value
+						  }
+					  })
+					  .catch(function (error) {
+						console.log(error);
+						d.distance=undefined
+					  });
+				}
+				resolve(sendResponse(d));
 				//	console.log(doc.length)
 			})
 			.catch(error => {
