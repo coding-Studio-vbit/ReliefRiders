@@ -105,7 +105,12 @@ const schema = new mongoose.Schema({
 		area: String,
 		city: String,
 		default: {}
-	}
+	},
+	modeOfTransport:{
+			type: String,
+			enum: ['Bicycle', 'Motorbike', 'Car'],
+			uppercase: true,
+		}
 })
 
 schema.index({ 'roughLocationCoordinates': '2dsphere' });
