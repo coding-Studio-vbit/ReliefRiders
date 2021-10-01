@@ -41,7 +41,6 @@ export const AuthContext = createContext();
 
 export const AuthProvider = (prop) => {
   const [state, dispatch] = useReducer(AuthReducer, initState);
-  console.log(state);
 
   return (
     <AuthContext.Provider

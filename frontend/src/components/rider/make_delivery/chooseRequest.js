@@ -12,11 +12,10 @@ export const ChooseRequest = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [flag, setFlag] = useState(0);
-
   const [coordinates,setCoordinates] = useState({lat:null,lng:null})
-
   const token = localStorage.getItem("token");
   const history=useHistory()
+
   //sorting requests based on 3 parameters.
   function sortedCustom(param) {
     setFlag(flag + 1);
@@ -47,9 +46,7 @@ export const ChooseRequest = () => {
   //Comparison function for sorting by priority or urgency
   function comparisonByPriority(a, b) {
     return b.priority - a.priority;
-  }
-
- 
+  } 
 
   //finding current location of rider
   const currentLocation = async () => {
@@ -74,50 +71,11 @@ export const ChooseRequest = () => {
       }
     };
 
-  //Calculating distance between rider's current location and roughLocationCoordinates using google maps api
-  const calculateDistance = async (i) => {
-    console.log(`Calculating Distance ${i+1}`);
-    let distance;
-    let data={
-      lat:coordinates.lat,
-      lng:coordinates.lng,
-      roughLocationCoordinates:[17,78]
-      // roughLocationCoordinates:[allRequests[i].roughLocationCoordinates[0],allRequests[i].roughLocationCoordinates[1]]
-    }
-
-    let url = `${process.env.REACT_APP_URL}/gmaps/distanceMatrix`
-    const res=await axios.post(url,data)
-
-    console.log(JSON.parse(res.data.message));
-
-    console.log(res,22,distance);
-      // .then((response) => {
-      //   console.log(response.data.message,11);
-      //   distance = 10;
-      //   let temp = allRequests;
-      //   temp[i].distance = distance / 1000;
-      //   setRequests(temp);
-      // })
-      // .catch((error) => {
-      //   console.log(error);        
-      // });
-  }
-
-  //calling calculate distance function for each request
-  const assignDistance = async ()=> {
-    console.log("Assigning Distance");
-    const temp = allRequests.length;
-    for (var i = 0; i < temp; i++) {
-      await calculateDistance(i);    
-    }
-    console.log("Distance Assigned");
-  } 
-
   useEffect(() => {
     currentLocation(); 
   }, [])
 
-  useEffect(async () => {
+  useEffect(() => {
     setLoading(true);    
     const options = {
       headers: {
@@ -126,30 +84,28 @@ export const ChooseRequest = () => {
     };
     
     if(coordinates.lat && coordinates.lng){ 
+      console.log("Get Requests");
       axios
       .post(`${process.env.REACT_APP_URL}/rider/showFetchedRequests`,{        
           latitude:coordinates.lat,
           longitude:coordinates.lng,
           maxDistance:sliderValue        
       }, options)
-      .then(async (response) => {
+      .then((response) => {
+        console.log(response.data.message,12);
         if(response.data.status==="success"){
           if (response.data.message.length === 0) {
             setLoading(false);
             setError("No new requests available");
           }
           else {
-            let data = response.data.message;
-            for (let i = 0; i < data.length; i++) {
-              data[i].distance = 1;
-            }
+            let data = response.data.message;            
             setRequests(data);
-            await assignDistance();
             setLoading(false);
           }
         }
         else if(response.data.status==="failure"){
-          setLoading("false")
+          setLoading(false)
           setError(response.data.message)
         }       
       })
@@ -224,7 +180,6 @@ export const ChooseRequest = () => {
           </div>
         </div>
 
-        <button onClick={()=>assignDistance()}>Helo </button>
 
         <div className={styles.rangeSlider}>
           Distance
