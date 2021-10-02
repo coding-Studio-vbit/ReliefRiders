@@ -72,6 +72,8 @@ export const ChooseRequest = () => {
     }
   };
 
+  
+
   useEffect(() => {
     currentLocation(); 
   }, [])
@@ -94,13 +96,16 @@ export const ChooseRequest = () => {
       .then((response) => {
         console.log(response.data.message,12);
         if(response.data.status==="success"){
-          console.log(response)
+		console.log(response,10000)
           if (response.data.message.length === 0) {
             setLoading(false);
             setError("No new requests available");
           }
           else {
             let data = response.data.message;
+			console.log(data[0].distance);
+
+            
             setRequests(data);
             setLoading(false);
           }

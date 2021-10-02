@@ -18,12 +18,12 @@ const ChooseRequestItem = (props) => {
     }
   }, [props]);
 
-  function compare (){
-    return  parseFloat(data.distance)<=parseFloat(props.sliderValue) 
-  }
+  // function compare (){
+  //   return  parseFloat(data.distance)<=parseFloat(props.sliderValue) 
+  // }
 
   return (  
-     compare() && (
+    
   
         <div className={styles.chooseRequestItem} 
         onClick={()=>history.push('/')}
@@ -100,6 +100,6 @@ const ChooseRequestItem = (props) => {
           </div>
         </div>       
     )    
-  );
+  
 };
 export default ChooseRequestItem;
