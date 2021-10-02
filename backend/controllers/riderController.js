@@ -142,7 +142,7 @@ async function finishDelivery(phoneNumber, fileData) {
 async function cancelDelivery(phoneNumber) {
 	try {
 		const rider = await riders.findOne({ phoneNumber: phoneNumber })
-		const request = await requests.findOne({ _id: rider.currentRequest }).select(['-pickupLocationCoordinates', '-dropLocationCoordinates'])
+		const request = await requests.findById(rider.currentRequest )
 		if (!request) {
 			return sendError('No such request found')
 		}
@@ -204,6 +204,7 @@ async function getMyDeliveries(phoneNumber) {
 
 
 async function fetchRequests(phoneNumber, longitude, latitude, maxDistance) {
+	console.log("fetching data");
 
 	return new Promise((resolve, reject) => {
 		requests.find({
@@ -234,7 +235,7 @@ async function fetchRequests(phoneNumber, longitude, latitude, maxDistance) {
 					  .then(function (response) {
 						  //if(response.data.rows[0].elements[0].status=="OK"){
 						  if(response.statusText=="OK"){
-							docs[i].distance = response.data.rows[0].elements[0].distance.value
+							docs[i].distance = response.data.rows[0].elements[0].distance.value/1000
 							completed++;
 						  	if(completed == (docs.length))
 						  		notifier.emit("OK", docs); //The OK event is emitted only when all the API calls are completed.
