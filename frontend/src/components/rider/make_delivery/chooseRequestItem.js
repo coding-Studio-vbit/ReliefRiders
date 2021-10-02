@@ -26,7 +26,7 @@ const ChooseRequestItem = (props) => {
     
   
         <div className={styles.chooseRequestItem} 
-        onClick={()=>history.push('/')}
+        onClick={()=>history.push('/new_delivery/make',{reqObj:data})}
         > 
         {/* remove line 27 after testing */}
           <div className={styles.requesterName}>

@@ -6,6 +6,7 @@ import RiderProfileRoutes from "../../rider/profile/profileRouting";
 import { CurrentRequest } from '../../rider/current_request/current_request';
 import MyDeliveryRoutes from '../../rider/my_deliveries/my_delivery_routes';
 import ChooseRequest from '../../rider/make_delivery/chooseRequest';
+import ViewRequest from '../../rider/common/viewRequest';
 
 const RiderHomeRoutes = () => {
     return ( 
@@ -17,7 +18,8 @@ const RiderHomeRoutes = () => {
             </Route>
 
             <Route path="/new_delivery" >
-                <ChooseRequest/>
+                <Route  path="/new_delivery" component={ChooseRequest} />
+                <Route path="/new_delivery/make" component={ViewRequest} />
             </Route>
 
             <Route path="/current_request" >
