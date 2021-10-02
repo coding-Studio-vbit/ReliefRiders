@@ -14,7 +14,7 @@ import Carousel from '../../global_ui/carousel/carousel'
 function ViewRequest() {
     const token = localStorage.getItem('token')
     const history = useHistory();
-    const [state, setstate] = useState({reqObj:request})
+    const [state, setstate] = useState({reqObj:null})
     // const {
     //     location: {
     //       state
@@ -29,7 +29,8 @@ function ViewRequest() {
     const [isDeliveryConfirmed, setisDeliveryConfirmed] = useState(false);   
    
     useEffect(()=>{
-        console.log(setstate);
+        setstate({reqObj:request})
+        console.log();
     })
 
     const makeDelivery = () => {

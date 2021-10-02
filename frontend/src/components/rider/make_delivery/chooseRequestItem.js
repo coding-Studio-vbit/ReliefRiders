@@ -26,10 +26,9 @@ const ChooseRequestItem = (props) => {
      compare() && (
   
         <div className={styles.chooseRequestItem} 
-        onClick={()=>history.push()}
+        onClick={()=>history.push('/')}
         > 
         {/* remove line 27 after testing */}
-        {data.distance}
           <div className={styles.requesterName}>
             {data.requesterName}
           </div>       
@@ -43,18 +42,30 @@ const ChooseRequestItem = (props) => {
                 </div>
               )
             }
-            <div className={styles.area}>
-              <i className="fas fa-map-marker-alt" style={{paddingRight:'5px'}}></i>Drop :{" "}
-              {data.dropLocationAddress.area}
-            </div>
+            {
+              data.dropLocationAddress.address &&
+              <div className={styles.area}>
+                <i className="fas fa-map-marker-alt" style={{paddingRight:'5px'}}></i>Drop :{" "}
+                {data.dropLocationAddress.area}
+              </div>
+            }
+            {
+              data.roughLocationCoordinates.coordinates[0] &&
+              <div className={styles.area}>
+                <i className="fas fa-map-marker-alt" style={{paddingRight:'5px'}}></i>{" "}
+                <a href={
+                  `https://maps.googleapis.com/maps/api/geocode/json?address=${data.roughLocationCoordinates.coordinates[0]},%20${data.roughLocationCoordinates.coordinates[1]}&key=${process.env.REACT_APP_GMAP_API_KEY}`}>Location</a>
+              </div>
+            }            
           </div>
         
           
           <div className={styles.status}>
-            {props.data.requesterCovidStatus && (
+            {
+              props.data.requesterCovidStatus && (
               <div className={styles.covidStatus}>COVID+</div>
-            )}
-
+              )
+            }
             <div className={styles.requestType}>{props.data.requestType}</div>
           </div>
         

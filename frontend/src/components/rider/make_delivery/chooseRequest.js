@@ -12,10 +12,11 @@ export const ChooseRequest = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [flag, setFlag] = useState(0);
-  const [coordinates,setCoordinates] = useState({lat:null,lng:null})
-  const token = localStorage.getItem("token");
-  const history=useHistory()
 
+  const [coordinates, setCoordinates] = useState({ lat: null, lng: null })
+
+  const token = localStorage.getItem("token");
+  const history = useHistory()
   //sorting requests based on 3 parameters.
   function sortedCustom(param) {
     setFlag(flag + 1);
@@ -46,30 +47,30 @@ export const ChooseRequest = () => {
   //Comparison function for sorting by priority or urgency
   function comparisonByPriority(a, b) {
     return b.priority - a.priority;
-  } 
+  }
 
   //finding current location of rider
   const currentLocation = async () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        (position)=>{
-          setCoordinates({        
-            lat:position.coords.latitude,
-            lng:position.coords.longitude
+        (position) => {
+          setCoordinates({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
           })
         },
-        (err)=>{
+        (err) => {
           console.log(err);
           setError("Location Permission Denied");
         });
-        navigator.permissions.query({ name: "geolocation" }).then((res) => {
-          if (res.state === "denied") {
-            console.log("Location Permission denied");
-            alert("Please allow location permission");
-          }
-        });
-      }
-    };
+      navigator.permissions.query({ name: "geolocation" }).then((res) => {
+        if (res.state === "denied") {
+          console.log("Location Permission denied");
+          alert("Please allow location permission");
+        }
+      });
+    }
+  };
 
   useEffect(() => {
     currentLocation(); 
@@ -80,11 +81,10 @@ export const ChooseRequest = () => {
     const options = {
       headers: {
         authorization: "Bearer " + token,
-      },      
+      },
     };
-    
-    if(coordinates.lat && coordinates.lng){ 
-      console.log("Get Requests");
+
+    if (coordinates.lat && coordinates.lng) {
       axios
       .post(`${process.env.REACT_APP_URL}/rider/showFetchedRequests`,{        
           latitude:coordinates.lat,
@@ -94,12 +94,13 @@ export const ChooseRequest = () => {
       .then((response) => {
         console.log(response.data.message,12);
         if(response.data.status==="success"){
+          console.log(response)
           if (response.data.message.length === 0) {
             setLoading(false);
             setError("No new requests available");
           }
           else {
-            let data = response.data.message;            
+            let data = response.data.message;
             setRequests(data);
             setLoading(false);
           }
@@ -117,10 +118,10 @@ export const ChooseRequest = () => {
         setLoading(false);
       });
     }
-    else{
+    else {
       setLoading(false)
     }
-  }, [coordinates,sliderValue]);
+  }, [coordinates, sliderValue]);
 
   return loading ? (
     <LoadingScreen />
@@ -199,19 +200,20 @@ export const ChooseRequest = () => {
           Upto {sliderValue} Kilometres
         </div>
         {
-          allRequests.length === 0 ? 
-          <h3 className={styles.noRequests}>There are no new Requests.</h3>:           
-          <div>
-            {allRequests.map((req, i) => {
-              return (
-                <ChooseRequestItem
-                  sliderValue={sliderValue}
-                  key={i}
-                  data={req}
-                />
-              );
-            })}
-          </div>
+          allRequests.length === 0 ?
+            <h3 className={styles.noRequests}>There are no new Requests.</h3> :
+            <div>
+              {
+                allRequests.map((req, i) => {
+                return (
+                  <ChooseRequestItem
+                    sliderValue={sliderValue}
+                    key={i}
+                    data={req}
+                  />
+                );
+              })}
+            </div>
         }
       </div>
     </>
@@ -219,119 +221,3 @@ export const ChooseRequest = () => {
 };
 
 export default ChooseRequest;
-
-// const request = [
-//   {
-//     date: "7/7/2022",
-//     requestNumber: "12345",
-//     requesterID: "777777",
-//     riderID: "5678",
-//     noContactDelivery: "true",
-//     requestStatus: "PENDING",
-//     requestType: "P&D",
-//     itemCategories: ["MEDICINES"],
-//     remarks: "Use back gate",
-//     billsImageList: ["some link"],
-//     rideImages: ["some link"],
-//     roughLocationCoordinates: [17.449009453401768, 78.39147383021886],
-//     pickupLocationCoordinates: {
-//       coordinates: [37.7680296, -122.4375126],
-//     },
-//     pickupLocationAddress: {
-//       address: "12-4-126/7",
-//       area: "SR Nagar",
-//       city: "Hyderabad",
-//     },
-//     dropLocationCoordinates: {
-//       coordinates: [37.7680296, -122.4375126],
-//     },
-//     dropLocationAddress: {
-//       addressLine: "6736BH",
-//       area: "SR Nagar",
-//       city: "Hyderabad",
-//     },
-//     priority: "15",
-//     requesterName: "Pranchal Agarwal",
-//   },
-//   {
-//     date: "7/7/2002",
-//     requestNumber: "945",
-//     requesterID: "72377",
-//     riderID: "56789",
-//     requesterCovidStatus: "true",
-//     requestStatus: "PENDING",
-//     requestType: "P&D",
-//     paymentPreference: "CASH",
-//     itemsListImages: ["somelink"],
-//     itemsListList: [{ itemName: "tomato", quantity: "2kg" }],
-//     itemCategories: ["GROCERIES", "MISC"],
-//     roughLocationCoordinates: [17.46415683066205, 78.38748270276933],
-//     pickupLocationCoordinates: {
-//       coordinates: [37.7680296, -122.4375126],
-//     },
-//     pickupLocationAddress: {
-//       address: "12-4-126/7",
-//       area: "SR Nagar",
-//       city: "Hyderabad",
-//     },
-//     dropLocationCoordinates: {
-//       coordinates: [37.7680296, -122.4375126],
-//     },
-//     dropLocationAddress: {
-//       addressLine: "6736BH",
-//       area: "B.Hills",
-//       city: "Hyderabad",
-//     },
-//     requesterName: "Some Name",
-//     priority: "12",
-//   },
-//   {
-//     date: "7/5/2021",
-//     requestNumber: "1245",
-//     requesterID: "727777",
-//     riderID: "156789",
-//     requesterCovidStatus: "true",
-//     requestStatus: "PENDING",
-//     requestType: "General",
-//     itemCategories: ["GROCERIES", "MEDICINES", "MISC"],
-//     roughLocationCoordinates: [17.44410138800549, 78.36501180995198],
-//     pickupLocationCoordinates: {
-//       coordinates: [17.9, 78.6],
-//     },
-//     dropLocationCoordinates: {
-//       coordinates: [17.9, 78.6],
-//     },
-//     dropLocationAddress: {
-//       addressLine: "6736BH",
-//       area: "SR NAGAR",
-
-//       city: "Hyderabad",
-//     },
-//     priority: "20",
-//     requesterName: "Pranchal",
-//   },
-//   {
-//     date: "7/9/2031",
-//     requestNumber: "2345",
-//     requesterID: "7777787",
-//     riderID: "1562789",
-//     requestStatus: "PENDING",
-//     requestType: "General",
-//     itemCategories: ["MISC"],
-//     roughLocationCoordinates: [17.431572809383972, 78.3681875451749],
-//     pickupLocationCoordinates: {
-//       coordinates: [17.9, 78.6],
-//     },
-//     dropLocationAddress: {
-//       addressLine: "6736BH",
-//       area: "SR Nagar",
-
-//       city: "Hyderabad",
-//     },
-//     dropLocationCoordinates: {
-//       coordinates: [17.9, 78.6],
-//     },
-//     priority: "0",
-//     requesterName: "name",
-//   },
-// ];
