@@ -26,8 +26,8 @@ export default function AssignRequest() {
     setrequest(req);      
   }
 
-  function fetchAdminList() {
-    setadminList(al)    
+  function selectOrder(){
+    setSelectedOrderID(req.orderID)
   }
 
   function selectOrder(){
@@ -35,7 +35,7 @@ export default function AssignRequest() {
   }
 
   useEffect(() => {
-    fetchAdminList();
+    fetchRiderList();
   },)
 
   return(
@@ -134,7 +134,9 @@ export default function AssignRequest() {
         </div>
 
         {/* Header */}
-        <div style={{marginTop: '2%'}}>
+        {
+          riderList.length>0 ?
+          <div style={{marginTop: '2%'}}>
           <div className={styles.border4}>
             <Row style={{textAlign: 'center', alignItems: 'center'}}>
               <Col><h6>Name</h6></Col>
@@ -156,6 +158,10 @@ export default function AssignRequest() {
                     
             }
           </div>
+          :
+          <p style={{textAlign:'center',marginTop:'20px',fontWeight:'600'}}>Failed to fetch Riders List</p>
+        }
+        
         </div>
       </div>
   );

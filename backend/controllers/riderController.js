@@ -2,6 +2,7 @@ const riders = require("../models/riders");
 const requesters = require("../models/requesters")
 const requests = require("../models/request")
 const { sendResponse, sendError } = require("./common");
+const axios = require('axios')
 
 async function getRiderProfile(phoneNumber) {
 	return new Promise((resolve, reject) => {
@@ -202,6 +203,7 @@ async function getMyDeliveries(phoneNumber) {
 
 
 async function fetchRequests(phoneNumber, longitude, latitude, maxDistance) {
+	console.log("fetching data");
 
 	return new Promise((resolve, reject) => {
 		requests.find({
@@ -211,29 +213,35 @@ async function fetchRequests(phoneNumber, longitude, latitude, maxDistance) {
 					$maxDistance: (maxDistance * 1000)
 				}
 			}, requestStatus: "PENDING"
-		}).select(['-pickupLocationCoordinates', '-dropLocationCoordinates'])
+		})
+		.lean()
+		.select(['-pickupLocationCoordinates', '-dropLocationCoordinates'])
 		.populate('requesterID')
-			.then((docs) => {
-				let d = docs
-				for(var i=0;i<docs.length;i++){
+			.then(async(docs) => {	
+				console.log(docs.length,"Data Fetched");
+				let d=[];			
+				 for await(let dc of docs){
+					let doc=JSON.parse(JSON.stringify(dc))
 					const config = {
 						method: 'get',
-						url: `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${lat},${lng}&destinations=${roughLocationCoordinates[0]},${roughLocationCoordinates[1]}&key=${process.env.GMAPS_API_KEY}`, 
+						url: `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${latitude},${longitude}&destinations=${doc.roughLocationCoordinates[0]},${doc.roughLocationCoordinates[1]}&key=${process.env.GMAPS_API_KEY}`, 
 					  };
-				
-					  axios(config)
-					  .then(function (response) {
-						  if(response.data.rows[0].elements[0].status=="OK"){
-							d.distance = response.data.rows[0].elements[0].distance.value
-						  }
-					  })
-					  .catch(function (error) {
-						console.log(error);
-						d.distance=undefined
-					  });
+					  try{
+						const response= await axios(config)
+						if(response.data.rows[0].elements[0].status=="OK"){
+							console.log(response.data.rows[0].elements[0].distance.value);
+						  	doc.distance = response.data.rows[0].elements[0].distance.value
+						}
+					  }
+					  catch(err){
+						doc.distance=null
+						console.log();
+					  }
+					  d.push(doc)
 				}
+				console.log(d[0].distance);
 				resolve(sendResponse(d));
-				//	console.log(doc.length)
+				console.log("Distance Assigned");
 			})
 			.catch(error => {
 				console.log(error);
