@@ -71,7 +71,7 @@ function ViewRequest() {
                     msg={`Delivery Taken Up with requestID ${history.location.state.reqObj.requestNumber}`}
                     onOK={() => {
                         setisDeliveryConfirmed(false)
-                        history.push("/current_request");
+                         history.push("/current_request");
                     }}
                 />
                    
