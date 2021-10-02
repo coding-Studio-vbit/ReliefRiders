@@ -74,45 +74,7 @@ export const ChooseRequest = () => {
     }
   };
 
-  //Calculating distance between rider's current location and roughLocationCoordinates using google maps api
-  // const calculateDistance = async (i) => {
-  //   console.log(`Calculating Distance ${i+1}`);
-  //   //let distance;
-  //   let data={
-  //     lat:coordinates.lat,
-  //     lng:coordinates.lng,
-  //     roughLocationCoordinates:[17,78]
-  //     // roughLocationCoordinates:[allRequests[i].roughLocationCoordinates[0],allRequests[i].roughLocationCoordinates[1]]
-  //   }
-
-  //   let url = `${process.env.REACT_APP_URL}/gmaps/distanceMatrix`
-  //   const res=await axios.post(url,data)
-
-  //   //console.log(JSON.parse(res.data.message));
-
-  //   //console.log(res,22,distance);
-	// console.log(res.data.message)
-  //     // .then((response) => {
-  //     //   console.log(response.data.message,11);
-  //     //   distance = 10;
-  //     //   let temp = allRequests;
-  //     //   temp[i].distance = distance / 1000;
-  //     //   setRequests(temp);
-  //     // })
-  //     // .catch((error) => {
-  //     //   console.log(error);        
-  //     // });
-  // }
-
-  // //calling calculate distance function for each request
-  // // const assignDistance = async ()=> {
-  // //   console.log("Assigning Distance");
-  // //   const temp = allRequests.length;
-  // //   for (var i = 0; i < temp; i++) {
-  // //     await calculateDistance(i);    
-  // //   }
-  // //   console.log("Distance Assigned");
-  // // } 
+  
 
   useEffect(() => {
     currentLocation(); 
@@ -136,7 +98,7 @@ export const ChooseRequest = () => {
       .then((response) => {
         console.log(response.data.message,12);
         if(response.data.status==="success"){
-		console.log(response)
+		console.log(response,10000)
           if (response.data.message.length === 0) {
             setLoading(false);
             setError("No new requests available");
@@ -145,9 +107,7 @@ export const ChooseRequest = () => {
             let data = response.data.message;
 			console.log(data[0].distance);
 
-            //for (let i = 0; i < data.length; i++) {
-            //  data[i].distance = 1;
-            //}
+            
             setRequests(data);
             setLoading(false);
           }
