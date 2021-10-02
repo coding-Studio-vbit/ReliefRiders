@@ -4,7 +4,6 @@ const riders = require("../models/riders");
 const requesters = require("../models/requesters")
 const requests = require("../models/request")
 const { sendResponse, sendError } = require("./common");
-const axios = require('axios')
 
 async function getRiderProfile(phoneNumber) {
 	return new Promise((resolve, reject) => {
@@ -234,7 +233,7 @@ async function fetchRequests(phoneNumber, longitude, latitude, maxDistance) {
 					  .then(function (response) {
 						  //if(response.data.rows[0].elements[0].status=="OK"){
 						  if(response.statusText=="OK"){
-							docs[i].distance = response.data.rows[0].elements[0].distance.value
+							docs[i].distance = response.data.rows[0].elements[0].distance.text
 							completed++;
 						  	if(completed == (docs.length))
 						  		notifier.emit("OK", docs); //The OK event is emitted only when all the API calls are completed.
