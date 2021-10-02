@@ -57,7 +57,7 @@ router.post('/new', upload.any('images'), (req, res) => {
     new Promise((resolve, reject) => {
 
         if (!dropLocationCoordinates || dropLocationCoordinates.length == 0) {
-            const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${dropLocationAddress.area},%20${dropLocationAddress.city}&key=${process.env.REACT_APP_GMAP_API_KEY}`;
+            const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${dropLocationAddress.area},%20${dropLocationAddress.city}&key=${process.env.GMAPS_API_KEY}`;
 
             console.log(url);
             axios.get(url)
