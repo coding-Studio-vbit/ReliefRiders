@@ -12,10 +12,11 @@ export const ChooseRequest = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [flag, setFlag] = useState(0);
-  const [coordinates,setCoordinates] = useState({lat:null,lng:null})
-  const token = localStorage.getItem("token");
-  const history=useHistory()
 
+  const [coordinates, setCoordinates] = useState({ lat: null, lng: null })
+
+  const token = localStorage.getItem("token");
+  const history = useHistory()
   //sorting requests based on 3 parameters.
   function sortedCustom(param) {
     setFlag(flag + 1);
@@ -46,30 +47,72 @@ export const ChooseRequest = () => {
   //Comparison function for sorting by priority or urgency
   function comparisonByPriority(a, b) {
     return b.priority - a.priority;
-  } 
+  }
+
+
 
   //finding current location of rider
   const currentLocation = async () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        (position)=>{
-          setCoordinates({        
-            lat:position.coords.latitude,
-            lng:position.coords.longitude
+        (position) => {
+          setCoordinates({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
           })
         },
-        (err)=>{
+        (err) => {
           console.log(err);
           setError("Location Permission Denied");
         });
-        navigator.permissions.query({ name: "geolocation" }).then((res) => {
-          if (res.state === "denied") {
-            console.log("Location Permission denied");
-            alert("Please allow location permission");
-          }
-        });
-      }
-    };
+      navigator.permissions.query({ name: "geolocation" }).then((res) => {
+        if (res.state === "denied") {
+          console.log("Location Permission denied");
+          alert("Please allow location permission");
+        }
+      });
+    }
+  };
+
+  //Calculating distance between rider's current location and roughLocationCoordinates using google maps api
+  // const calculateDistance = async (i) => {
+  //   console.log(`Calculating Distance ${i+1}`);
+  //   //let distance;
+  //   let data={
+  //     lat:coordinates.lat,
+  //     lng:coordinates.lng,
+  //     roughLocationCoordinates:[17,78]
+  //     // roughLocationCoordinates:[allRequests[i].roughLocationCoordinates[0],allRequests[i].roughLocationCoordinates[1]]
+  //   }
+
+  //   let url = `${process.env.REACT_APP_URL}/gmaps/distanceMatrix`
+  //   const res=await axios.post(url,data)
+
+  //   //console.log(JSON.parse(res.data.message));
+
+  //   //console.log(res,22,distance);
+	// console.log(res.data.message)
+  //     // .then((response) => {
+  //     //   console.log(response.data.message,11);
+  //     //   distance = 10;
+  //     //   let temp = allRequests;
+  //     //   temp[i].distance = distance / 1000;
+  //     //   setRequests(temp);
+  //     // })
+  //     // .catch((error) => {
+  //     //   console.log(error);        
+  //     // });
+  // }
+
+  // //calling calculate distance function for each request
+  // // const assignDistance = async ()=> {
+  // //   console.log("Assigning Distance");
+  // //   const temp = allRequests.length;
+  // //   for (var i = 0; i < temp; i++) {
+  // //     await calculateDistance(i);    
+  // //   }
+  // //   console.log("Distance Assigned");
+  // // } 
 
   useEffect(() => {
     currentLocation(); 
@@ -80,11 +123,10 @@ export const ChooseRequest = () => {
     const options = {
       headers: {
         authorization: "Bearer " + token,
-      },      
+      },
     };
-    
-    if(coordinates.lat && coordinates.lng){ 
-      console.log("Get Requests");
+
+    if (coordinates.lat && coordinates.lng) {
       axios
       .post(`${process.env.REACT_APP_URL}/rider/showFetchedRequests`,{        
           latitude:coordinates.lat,
@@ -94,12 +136,18 @@ export const ChooseRequest = () => {
       .then((response) => {
         console.log(response.data.message,12);
         if(response.data.status==="success"){
+		console.log(response)
           if (response.data.message.length === 0) {
             setLoading(false);
             setError("No new requests available");
           }
           else {
-            let data = response.data.message;            
+            let data = response.data.message;
+			console.log(data[0].distance);
+
+            //for (let i = 0; i < data.length; i++) {
+            //  data[i].distance = 1;
+            //}
             setRequests(data);
             setLoading(false);
           }
@@ -117,10 +165,10 @@ export const ChooseRequest = () => {
         setLoading(false);
       });
     }
-    else{
+    else {
       setLoading(false)
     }
-  }, [coordinates,sliderValue]);
+  }, [coordinates, sliderValue]);
 
   return loading ? (
     <LoadingScreen />
@@ -199,19 +247,19 @@ export const ChooseRequest = () => {
           Upto {sliderValue} Kilometres
         </div>
         {
-          allRequests.length === 0 ? 
-          <h3 className={styles.noRequests}>There are no new Requests.</h3>:           
-          <div>
-            {allRequests.map((req, i) => {
-              return (
-                <ChooseRequestItem
-                  sliderValue={sliderValue}
-                  key={i}
-                  data={req}
-                />
-              );
-            })}
-          </div>
+          allRequests.length === 0 ?
+            <h3 className={styles.noRequests}>There are no new Requests.</h3> :
+            <div>
+              {allRequests.map((req, i) => {
+                return (
+                  <ChooseRequestItem
+                    sliderValue={sliderValue}
+                    key={i}
+                    data={req}
+                  />
+                );
+              })}
+            </div>
         }
       </div>
     </>
