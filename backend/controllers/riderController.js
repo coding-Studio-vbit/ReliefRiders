@@ -222,6 +222,8 @@ async function fetchRequests(phoneNumber, longitude, latitude, maxDistance) {
 				const notifier = new EventEmitter();
 				let completed = 0; //counts how many API calls completed.
 				notifier.on('OK', (docs)=>{resolve(sendResponse(docs))}); //Resolve only when OK event is emitted.
+				if(docs.length == 0)
+					resolve(sendResponse([]))
 				for(let i = 0; i<docs.length; i++)
 				{
 					const config = {
