@@ -235,7 +235,7 @@ async function fetchRequests(phoneNumber, longitude, latitude, maxDistance) {
 					  .then(function (response) {
 						  //if(response.data.rows[0].elements[0].status=="OK"){
 						  if(response.statusText=="OK"){
-							docs[i].distance = response.data.rows[0].elements[0].distance.text
+							docs[i].distance = response.data.rows[0].elements[0].distance.value/1000
 							completed++;
 						  	if(completed == (docs.length))
 						  		notifier.emit("OK", docs); //The OK event is emitted only when all the API calls are completed.
