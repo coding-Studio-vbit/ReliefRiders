@@ -96,16 +96,12 @@ export const ChooseRequest = () => {
       .then((response) => {
         console.log(response.data.message,12);
         if(response.data.status==="success"){
-		console.log(response,10000)
           if (response.data.message.length === 0) {
             setLoading(false);
             setError("No new requests available");
           }
           else {
-            let data = response.data.message;
-			console.log(data[0].distance);
-
-            
+            let data = response.data.message;           
             setRequests(data);
             setLoading(false);
           }
@@ -132,11 +128,11 @@ export const ChooseRequest = () => {
     <LoadingScreen />
   ) : (
     <>
+              
       <Dialog
         isShowing={error}
-        onOK={() => {
-          console.log(history);
-          // history.goBack();
+        onOK={() => {        
+          history.replace();
           setError(null);
         }}
         msg={error}
@@ -144,7 +140,7 @@ export const ChooseRequest = () => {
 
       <div className={styles.container}>
         <div className={styles.navbar}>
-          <div className={styles.backbtn}>
+          <div className={styles.backbtn} onClick={()=>{history.replace('/')}}>
             <i className="fas fa-chevron-left"></i>
           </div>
 

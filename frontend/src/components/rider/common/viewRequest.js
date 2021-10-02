@@ -14,7 +14,7 @@ import Carousel from '../../global_ui/carousel/carousel'
 function ViewRequest() {
     const token = localStorage.getItem('token')
     const history = useHistory();
-    const state = (history.location.state)
+    const state = history.location.state
     console.log(history.location.state);
 
 
@@ -26,13 +26,14 @@ function ViewRequest() {
    
 
     const makeDelivery = () => {
+        
         setisLoading(true);
         const options = {
             headers: {
                 'authorization': 'Bearer ' + token
             }
         }
-        axios.post(`${process.env.REACT_APP_URL}/riders/makeDelivery/${location.state}`, options)
+        axios.get(`${process.env.REACT_APP_URL}/rider/makeDelivery/${history.location.state.reqObj.requestNumber}`, options)
         .then((response) => {
             if (response.data.status == "success") {
                 setisLoading(false)
@@ -53,7 +54,7 @@ function ViewRequest() {
             isLoading?
             <LoadingScreen/>:
             <>
-                <Navbar back="true" title="Order Details" style={{ background: '#79CBC5', color: 'white' }} />
+                <Navbar back="/new_delivery" title="Order Details" style={{ background: '#79CBC5', color: 'white' }} />
                 
                 <Dialog
                     isShowing={error}
@@ -67,7 +68,7 @@ function ViewRequest() {
                 <Dialog
                     isShowing={isDeliveryConfirmed}
                     title="Delivery Confirmed"
-                    msg={`Delivery Taken Up with requestID ${location.state}`}
+                    msg={`Delivery Taken Up with requestID ${history.location.state.reqObj.requestNumber}`}
                     onOK={() => {
                         setisDeliveryConfirmed(false)
                         history.push("/current_request");
