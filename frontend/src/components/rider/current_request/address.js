@@ -1,16 +1,14 @@
 import React from 'react';
 import styles from './current_request.module.css'
-const Address = ({request}) => {
-    
-      const type = request.requestType;
-      const pickup = request.pickupLocationAddress;
-      const drop = request.dropLocationAddress;
-      const pCoordinates = request.pickupLocationCoordinates.coordinates;
-      const dCoordinates = request.dropLocationCoordinates.coordinates;
+
+const Address = ({request}) => {    
+    const type = request.requestType;
+    const pickup = request.pickupLocationAddress;
+    const drop = request.dropLocationAddress;
       return (
-        <div className={styles.addressContainer}>
-         
-          {type === "GENERAL" ? (
+        <div className={styles.addressContainer}>         
+          {
+            type === "GENERAL" ? (
             <div className={styles.address}>
               <span>Address</span>
               {drop.address ? (
@@ -22,18 +20,22 @@ const Address = ({request}) => {
                  
                 </>
               ) : (
-                <a
-                  rel="noreferrer"
-                  href={`https://www.google.com/maps/search/?api=1&query=${dCoordinates[0]},${dCoordinates[1]}`}
-                  target="_blank"
-                >
-                  Open in google maps
-                </a>
+                <div>
+                  {
+                    request.dropLocationCoordinates!=undefined &&
+                    <a
+                    rel="noreferrer"
+                    href={`https://www.google.com/maps/search/?api=1&query=${request.dropLocationCoordinates[0]},${request.dropLocationCoordinates[1]}`}
+                    target="_blank"
+                    >
+                    Open in google maps
+                    </a>
+                  }                
+                </div>
               )}
             </div>
           ) : (
-            <>
-              
+            <>              
               <>
                 <span>Pickup Location</span>
                 <div className={styles.address}>
@@ -43,18 +45,21 @@ const Address = ({request}) => {
                       <span>{pickup.address}</span>
                       <span>
                         {pickup.city} {pickup.area}
-                      </span>
-                    
-                  
+                      </span>                  
                     </>
                   ) : (
-                    <a
-                      rel="noreferrer"
-                      href={`https://www.google.com/maps/search/?api=1&query=${pCoordinates[0]},${pCoordinates[1]}`}
-                      target="_blank"
-                    >
-                      Open in google maps
-                    </a>
+                    <div>
+                      {
+                        request.pickupLocationCoordinates!=undefined &&
+                        <a
+                          rel="noreferrer"
+                          href={`https://www.google.com/maps/search/?api=1&query=${request.pickupLocationCoordinates[0]},${request.pickupLocationCoordinates[1]}`}
+                          target="_blank"
+                        >
+                          Open in google maps
+                        </a>
+                      }                
+                    </div>                    
                   )}
                 </div>
               </>
@@ -72,13 +77,18 @@ const Address = ({request}) => {
                     
                     </>
                   ) : (
-                    <a
+                    <div>
+                      {
+                        request.dropLocationCoordinates!=undefined &&
+                        <a
                       rel="noreferrer"
-                      href={`https://www.google.com/maps/search/?api=1&query=${dCoordinates[0]},${dCoordinates[1]}`}
+                      href={`https://www.google.com/maps/search/?api=1&query=${request.dropLocationCoordinates[0]},${request.dropLocationCoordinates[1]}`}
                       target="_blank"
                     >
                       Open in google maps
                     </a>
+                      }                
+                    </div>                  
                   )}
                 </div>
               </>

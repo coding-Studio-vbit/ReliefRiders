@@ -9,6 +9,7 @@ const ChooseRequestItem = (props) => {
   let flag = 0;
 
   useEffect(() => { 
+    console.log(data);
     setData(props.data);
     if (data) {
       flag = 1;
@@ -18,15 +19,16 @@ const ChooseRequestItem = (props) => {
     }
   }, [props]);
 
-  // function compare (){
-  //   return  parseFloat(data.distance)<=parseFloat(props.sliderValue) 
-  // }
+  function compare (){
+    return  parseFloat(data.distance)<=parseFloat(props.sliderValue) 
+  }
 
-  return (  
+  return ( 
+    compare() && 
     
   
         <div className={styles.chooseRequestItem} 
-        onClick={()=>history.push('/')}
+        onClick={()=>history.push('/new_delivery/make',{reqObj:data})}
         > 
         {/* remove line 27 after testing */}
           <div className={styles.requesterName}>
@@ -54,7 +56,9 @@ const ChooseRequestItem = (props) => {
               <div className={styles.area}>
                 <i className="fas fa-map-marker-alt" style={{paddingRight:'5px'}}></i>{" "}
                 <a href={
-                  `https://maps.googleapis.com/maps/api/geocode/json?address=${data.roughLocationCoordinates.coordinates[0]},%20${data.roughLocationCoordinates.coordinates[1]}&key=${process.env.REACT_APP_GMAP_API_KEY}`}>Location</a>
+                  `https://www.google.com/maps/search/?api=1&query=${data.roughLocationCoordinates.coordinates[0]},${data.roughLocationCoordinates.coordinates[1]}`
+                }
+                >Location</a>
               </div>
             }            
           </div>
