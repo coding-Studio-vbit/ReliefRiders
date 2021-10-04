@@ -9,7 +9,7 @@ const MyDeliveriesListItem = (props) => {
         <div onClick={() => {
             console.log("props:", props.data);
             routes.push("my_deliveries/" + props.data.requestNumber, {
-                request: props.data
+                reqObj: props.data
             })
         }} className={styles.myDeliveriesListItem}>
             <span className={styles.date}> Date: {props.data.date} </span>
