@@ -36,6 +36,7 @@ const PreviewImages = ({ setImages, title, images, imgWidth = "150px" }) => {
 
 
         {images.map((link, index) => (
+          
           <div
 
             className={styles.singleImage}
@@ -45,7 +46,7 @@ const PreviewImages = ({ setImages, title, images, imgWidth = "150px" }) => {
             <img style={{
               width: imgWidth ? imgWidth : 'clamp(160px, 50%, 200px)'
 
-            }} onClick={() => onImageClicked(link)} src={process.env.REACT_APP_URL + link} alt="img" />
+            }} onClick={() => onImageClicked(link)} src={link} alt="img" />
           </div>
         ))}
       </div>

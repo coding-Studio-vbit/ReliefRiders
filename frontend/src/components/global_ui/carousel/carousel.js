@@ -3,7 +3,6 @@ import styles from './carousel.module.css'
 
 function Carousel({list,title}) {
     const [current, setcurrent] = useState(0);
-
     function forward(){
         if(current!=list.length-1){
             setTimeout(() => {
@@ -35,7 +34,7 @@ function Carousel({list,title}) {
                         list.map((item)=>{
                             return(
                                 list[current]==item &&
-                                <img key={item} className={styles.carouselImage} src={item}/> 
+                                <img key={item} className={styles.carouselImage} src={process.env.REACT_APP_URL+item}/> 
                             )
                         })
                     }

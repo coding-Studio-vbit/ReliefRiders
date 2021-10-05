@@ -142,7 +142,7 @@ async function finishDelivery(phoneNumber, fileData) {
 async function cancelDelivery(phoneNumber) {
 	try {
 		const rider = await riders.findOne({ phoneNumber: phoneNumber })
-		const request = await requests.findOne({ _id: rider.currentRequest }).select(['-pickupLocationCoordinates', '-dropLocationCoordinates'])
+		const request = await requests.findById(rider.currentRequest )
 		if (!request) {
 			return sendError('No such request found')
 		}
