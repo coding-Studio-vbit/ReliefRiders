@@ -173,7 +173,7 @@ function Map() {
         onClick={chooseAddress}
         style={{
           position: "fixed",
-          top: "85vh",
+          top: "100vh",
           color: "white",
           background: "var(--secondary)",
           padding: 0.8 + "em",
