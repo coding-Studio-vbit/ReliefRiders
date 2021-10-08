@@ -64,7 +64,7 @@ const PlacedRequest = () => {
           <span style={statusStyle}> {request.requestStatus}</span>
         </span>
 
-        {request.requestStatus[0] === "D" && (
+        {request.requestStatus === "DELIVERED" && (
           <p>Order delivered by {request.riderID.name}</p>
         )}
         <Address />
