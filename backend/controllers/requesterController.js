@@ -1,4 +1,5 @@
 const requesters = require("../models/requesters");
+const rider = require("../models/riders")
 const request = require("../models/request");
 const { sendError, sendResponse } = require("./common");
 
@@ -53,7 +54,7 @@ async function confirmRequest(phone, requestID) {
 						resolve(sendError("You are unauthorized to access this request"));
 					//request is made by this person only.
 					//Now check if the status is "Rider Confirmed or not."
-					if (doc.requestStatus != "RIDER CONFIRMED")
+					if (doc.requestStatus != "CONFIRMED BY RIDER")
 						resolve(sendError("Cannot confirm this request, status is not RIDER CONFIRMED"));
 					else {
 						doc.requestStatus = "DELIVERED";

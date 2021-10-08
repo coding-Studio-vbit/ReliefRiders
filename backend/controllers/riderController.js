@@ -63,6 +63,7 @@ async function makeDelivery(phoneNumber, requestID) {
 					doc.riderID = riderID;
 					//update rider status
 					riderDoc.currentRequest = doc._id;
+					console.log("riderDoc:", riderDoc);
 					riderDoc.currentRequestType = doc.requestType;
 					riderDoc.currentStatus = "BUSY";
 					return doc.save();
@@ -142,7 +143,8 @@ async function finishDelivery(phoneNumber, fileData) {
 async function cancelDelivery(phoneNumber) {
 	try {
 		const rider = await riders.findOne({ phoneNumber: phoneNumber })
-		const request = await requests.findById(rider.currentRequest )
+		console.log(rider);
+		const request = await requests.findById(rider.currentRequest ).select(['-pickupLocationCoordinates', '-dropLocationCoordinates'])
 		if (!request) {
 			return sendError('No such request found')
 		}
