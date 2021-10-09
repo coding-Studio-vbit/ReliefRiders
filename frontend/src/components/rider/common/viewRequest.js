@@ -1,4 +1,4 @@
-import React, {  useState } from 'react'
+import React, {  useContext, useState } from 'react'
 import styles from './viewRequest.module.css'
 import Navbar from '../../global_ui/nav'
 import Button from '../../global_ui/buttons/button'
@@ -10,9 +10,10 @@ import Remarks from '../../global_ui/remarks/remarks'
 import Address from '../current_request/address'
 import { LoadingScreen } from '../../global_ui/spinner'
 import Carousel from '../../global_ui/carousel/carousel'
+import { AuthContext } from '../../context/auth/authProvider'
 
 function ViewRequest() {
-    const token = localStorage.getItem('token')
+    const {token} = useContext(AuthContext)
     const history = useHistory();
     const state = history.location.state
     console.log(history.location.state);
@@ -35,6 +36,7 @@ function ViewRequest() {
         }
         axios.get(`${process.env.REACT_APP_URL}/rider/makeDelivery/${history.location.state.reqObj.requestNumber}`, options)
         .then((response) => {
+            console.log(response);
             if (response.data.status == "success") {
                 setisLoading(false)
                 setisDeliveryConfirmed(true);
@@ -85,7 +87,7 @@ function ViewRequest() {
 
                     <UserDetails 
                     covid={state.reqObj.requesterCovidStatus} 
-                    name={state.reqObj.name} phone={state.reqObj.phoneNumber}/>                 
+                    name={state.reqObj.requesterID.name} phone={state.reqObj.requesterID.phoneNumber}/>                 
 
                     <Address request={state.reqObj}/>
 

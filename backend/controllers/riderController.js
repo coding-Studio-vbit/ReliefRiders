@@ -143,7 +143,6 @@ async function finishDelivery(phoneNumber, fileData) {
 async function cancelDelivery(phoneNumber) {
 	try {
 		const rider = await riders.findOne({ phoneNumber: phoneNumber })
-		console.log(rider);
 		const request = await requests.findById(rider.currentRequest ).select(['-pickupLocationCoordinates', '-dropLocationCoordinates'])
 		if (!request) {
 			return sendError('No such request found')
@@ -217,36 +216,34 @@ async function fetchRequests(phoneNumber, longitude, latitude, maxDistance) {
 				}
 			}, requestStatus: "PENDING"
 		})
-		.lean()
-		.populate('requesterID')
-		.select(['-pickupLocationCoordinates', '-dropLocationCoordinates'])
-		.then((docs) => {
+			.lean()
+			.populate('requesterID')
+			.then((docs) => {
 				const notifier = new EventEmitter();
 				let completed = 0; //counts how many API calls completed.
-				notifier.on('OK', (docs)=>{resolve(sendResponse(docs))}); //Resolve only when OK event is emitted.
-				if(docs.length == 0)
+				notifier.on('OK', (docs) => { resolve(sendResponse(docs)) }); //Resolve only when OK event is emitted.
+				if (docs.length == 0)
 					resolve(sendResponse([]))
-				for(let i = 0; i<docs.length; i++)
-				{
+				for (let i = 0; i < docs.length; i++) {
 					const config = {
 						method: 'get',
-						url: `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${latitude},${longitude}&destinations=${docs[i].roughLocationCoordinates.coordinates[1]},${docs[i].roughLocationCoordinates.coordinates[0]}&key=${process.env.GMAPS_API_KEY}`, 
-					  };
-				
-					  axios(config)
-					  .then(function (response) {
-						  //if(response.data.rows[0].elements[0].status=="OK"){
-						  if(response.statusText=="OK"){
-							docs[i].distance = response.data.rows[0].elements[0].distance.value/1000
-							completed++;
-						  	if(completed == (docs.length))
-						  		notifier.emit("OK", docs); //The OK event is emitted only when all the API calls are completed.
-						  }
-					  })
-					  .catch(function (error) {
-						console.log(error);
-						docs[i].distance=undefined
-					  });
+						url: `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${latitude},${longitude}&destinations=${docs[i].roughLocationCoordinates.coordinates[1]},${docs[i].roughLocationCoordinates.coordinates[0]}&key=${process.env.GMAPS_API_KEY}`,
+					};
+
+					axios(config)
+						.then(function (response) {
+							//if(response.data.rows[0].elements[0].status=="OK"){
+							if (response.statusText == "OK") {
+								docs[i].distance = response.data.rows[0].elements[0].distance.value / 1000
+								completed++;
+								if (completed == (docs.length))
+									notifier.emit("OK", docs); //The OK event is emitted only when all the API calls are completed.
+							}
+						})
+						.catch(function (error) {
+							console.log(error);
+							docs[i].distance = undefined
+						});
 				}
 			})
 			.catch(error => {
@@ -266,7 +263,7 @@ async function getCurrentRequest(phoneNumber) {
 					resolve(sendError("No such rider found"));
 				else {
 
-					if(doc.currentRequest == null)
+					if (doc.currentRequest == null)
 						return resolve(sendError("No current request found"));
 					const requester = await requesters.findOne({ _id: doc.currentRequest.requesterID })
 					console.log(requester)

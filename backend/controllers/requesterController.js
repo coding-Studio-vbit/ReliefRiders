@@ -1,6 +1,7 @@
 const requesters = require("../models/requesters");
 const rider = require("../models/riders")
 const request = require("../models/request");
+const rider = require("../models/riders")
 const { sendError, sendResponse } = require("./common");
 
 async function getRequesterProfile(phoneNumber) {
