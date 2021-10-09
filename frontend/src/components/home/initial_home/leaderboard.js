@@ -8,10 +8,6 @@ export const LeaderBoard = () => {
     const [error,setError] = useState(null)
     useEffect(async()=>{
         const res = await fetchLeaderBoard()
-        if(res.error){
-            setError(res.error)
-            return
-        }
         if(res.status === 1 ){
             if(res.data.length === 0){
                 setError("No top riders this week")
@@ -20,7 +16,6 @@ export const LeaderBoard = () => {
         }else{
             setError(res.data)
         }
-
         
     },[])
     

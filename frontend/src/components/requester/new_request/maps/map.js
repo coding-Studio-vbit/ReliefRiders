@@ -13,11 +13,14 @@ import { NewRequestContext } from "../../../context/new_request/newRequestProvid
 const libraries = ["drawing", "places"];
 
 function Map() {
+  const containerStyle = {
+    minHeight: "60vh",
+  };
   const history = useHistory();
   console.log(history.location.state);
-  const { pickup } = useParams();
-
-  const isPickUp = pickup === "true" ? true : false;
+  const {pickup } = useParams()
+  
+  const isPickUp = pickup==='true'?true:false
   const {
     dispatch,
     state: { requestType, pickupLocationCoordinates, dropLocationCoordinates },
@@ -96,6 +99,7 @@ function Map() {
         type: "ADD_DROP_LOCATION_COORDINATES",
         payload: [coordinates.lng, coordinates.lat],
       });
+      
     } else {
       console.log(isPickUp);
       if (isPickUp) {
@@ -103,112 +107,88 @@ function Map() {
           type: "ADD_PICKUP_LOCATION_COORDINATES",
           payload: [coordinates.lng, coordinates.lat],
         });
+
       } else {
         dispatch({
           type: "ADD_DROP_LOCATION_COORDINATES",
           payload: [coordinates.lng, coordinates.lat],
         });
+
       }
     }
-    history.replace(`/new_request/address_${isPickUp ? "pickup" : "drop"}`);
+    history.replace(`/new_request/address_${isPickUp?'pickup':'drop'}`)
+
   };
-  return (
-    <div>
-      {" "}
-      {loading ? (
-        <LoadingScreen />
-      ) : (
-        <div style={{ height: "100vh" }}>
-          <Navbar
-            style={{
-              marginBottom: "0",
-            }}
-            back={
-              isPickUp
-                ? "/new_request/address_pickup"
-                : "/new_request/address_drop"
-            }
-            title="Choose Location"
-          />
-          
+  return (<div> {loading ? (
+    <LoadingScreen />
+  ) : (
+    <div style={{ display: `grid`, height: "100%" }}>
+      <Navbar
+        back={isPickUp ? "/new_request/address_pickup" : "/new_request/address_drop"}
+        title="Choose Location"
+      />
 
-          
-          <LoadScript
-            libraries={libraries}
-            googleMapsApiKey={process.env.REACT_APP_GMAP_API_KEY}
-          >
-            <GoogleMap
-              onClick={(e) => _handleMarker(e.latLng)}
-              mapContainerStyle={{
-                height: "min(85%,550px)",
+      <LoadScript
+        libraries={libraries}
+        googleMapsApiKey={process.env.REACT_APP_GMAP_API_KEY}
+      >
+        <GoogleMap
+          onClick={(e) => _handleMarker(e.latLng)}
+          mapContainerStyle={containerStyle}
+          center={centerMaps}
+          zoom={15}
+        >
+          {coordinates && <Marker position={coordinates} />}
+
+          <StandaloneSearchBox onLoad={onLoad} onPlacesChanged={onPlacesLoaded}>
+            <input
+              type="text"
+              placeholder="Search"
+              style={{
+                boxSizing: `border-box`,
+                border: `2px solid #ddd`,
+                width: `min(350px,90%)`,
+                height: `32px`,
+                padding: `16px 12px`,
+                borderRadius: `4px`,
+                boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3),`,
+                fontSize: `14px`,
+                textOverflow: `ellipses`,
+                position: "fixed",
+                marginTop: "3%",
+                left: 0,
+                right: 0,
+                marginLeft: "auto",
+                marginRight: "auto",
+                top: "73vh",
               }}
-              center={centerMaps}
-              zoom={15}
-            >
-              {coordinates && <Marker position={coordinates} />}
-              <div 
-                  style={{
-                    position: "fixed",
-                    
-                    bottom: "8vh",
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                   
-                  }}
-                  >
-              <StandaloneSearchBox
-                  onLoad={onLoad}
-                  onPlacesChanged={onPlacesLoaded}
-                >
-                  
-
-                  <input
-                    type="text"
-                    placeholder="Search"
-                    style={{
-                      boxSizing: `border-box`,
-                      border: `2px solid #ddd`,
-                      width: `min(350px,90%)`,
-                      display: "block",
-                      height: `32px`,
-                      padding: `16px 12px`,
-                      borderRadius: `4px`,
-                      boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3),`,
-                      fontSize: `14px`,
-                      textOverflow: `ellipses`,
-                      marginTop: "1rem",
-                      margin: "0 auto",
-                     
-                    }}
-                    
-                    >
-                    
-
-                  </input>
-                  
-                </StandaloneSearchBox>
-                <button
-                  onClick={chooseAddress}
-                  style={{
-                    color: "white",
-                    background: "var(--secondary)",
-                    padding: 0.8 + "em",
-                    marginTop: "1.9rem",
-
-                    width: "30ch",
-                  }}
-                >
-                  Choose Pinned Address
-                </button>
-                    </div>
-            </GoogleMap>
-          </LoadScript>
-         
-        </div>
-        
-      )}
+            />
+          </StandaloneSearchBox>
+        </GoogleMap>
+      </LoadScript>
+      <p style={{ textAlign: "center", marginTop: "1vw", marginBottom: "2%" }}>
+        Pin your location
+      </p>
+      <button
+        onClick={chooseAddress}
+        style={{
+          position: "fixed",
+          top: "85vh",
+          color: "white",
+          background: "var(--secondary)",
+          padding: 0.8 + "em",
+          right: 0,
+          left: 0,
+          marginRight: "auto",
+          marginLeft: "auto",
+          width:'30ch',
+          
+        }}
+      >
+        Choose Pinned Address
+      </button>
+    </div>
+   ) }
     </div>
   );
 }

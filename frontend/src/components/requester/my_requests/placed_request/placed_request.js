@@ -64,7 +64,7 @@ const PlacedRequest = () => {
           <span style={statusStyle}> {request.requestStatus}</span>
         </span>
 
-        {request.requestStatus === "DELIVERED" && (
+        {request.requestStatus[0] === "D" && (
           <p>Order delivered by {request.riderID.name}</p>
         )}
         <Address />
@@ -133,6 +133,7 @@ const Address = () => {
   const drop = request.dropLocationAddress;
   const pCoordinates = request.pickupLocationCoordinates.coordinates;
   const dCoordinates = request.dropLocationCoordinates.coordinates;
+
   return (
     <div className={styles.addressContainer}>
       {type === "GENERAL" ? (
@@ -148,7 +149,7 @@ const Address = () => {
           ) : (
             <a
               rel="noreferrer"
-              href={`https://www.google.com/maps/search/?api=1&query=${dCoordinates[1]},${dCoordinates[0]}`}
+              href={`https://www.google.com/maps/search/?api=1&query=${dCoordinates[0]},${dCoordinates[1]}`}
               target="_blank"
             >
               Open in google maps
@@ -171,7 +172,7 @@ const Address = () => {
               ) : (
                 <a
                   rel="noreferrer"
-                  href={`https://www.google.com/maps/search/?api=1&query=${pCoordinates[1]},${pCoordinates[0]}`}
+                  href={`https://www.google.com/maps/search/?api=1&query=${pCoordinates[0]},${pCoordinates[1]}`}
                   target="_blank"
                 >
                   Open in google maps
@@ -194,7 +195,7 @@ const Address = () => {
               ) : (
                 <a
                   rel="noreferrer"
-                  href={`https://www.google.com/maps/search/?api=1&query=${dCoordinates[1]},${dCoordinates[0]}`}
+                  href={`https://www.google.com/maps/search/?api=1&query=${dCoordinates[0]},${dCoordinates[1]}`}
                   target="_blank"
                 >
                   Open in google maps

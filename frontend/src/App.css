@@ -1,11 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
-@media (min-resolution: 120dpi) {
-  body {
-       zoom:0.82;
-  }
-}
-
 :root{
   --primary: #79CBC5;
   --secondary:#ff7978;

@@ -85,7 +85,7 @@ function ViewRequest() {
 
                     <UserDetails 
                     covid={state.reqObj.requesterCovidStatus} 
-                    name={state.reqObj.requesterID.name} phone={state.reqObj.requesterID.phoneNumber}/>                 
+                    name={state.reqObj.name} phone={state.reqObj.phoneNumber}/>                 
 
                     <Address request={state.reqObj}/>
 
