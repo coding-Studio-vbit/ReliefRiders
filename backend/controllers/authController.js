@@ -103,6 +103,7 @@ async function loginVerifyOTP(phone, OTP, type)
 				userDoc = doc;
 				otpController.verifyOTP(userDoc, type, OTP)
 				.then(token =>{
+					doc.OTP = null;
 					resolve(sendResponse(token));
 				})
 				.catch(errorMessage=>{
