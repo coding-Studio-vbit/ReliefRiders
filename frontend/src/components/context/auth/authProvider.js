@@ -19,8 +19,6 @@ const AuthReducer = (state, action) => {
       return { ...state, loading: true, user: action.payload };
     case "SETLOADING":
       return { ...state, loading: !state.loading };
-    case "VERIFIED":
-      return { ...state, loading: false, user: action.payload };
     case "UNAUTHENTICATED":
       return {...state,isAuthenticated:false}
     case "LOGOUT":
