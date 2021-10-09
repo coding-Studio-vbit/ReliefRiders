@@ -68,7 +68,8 @@ export const CurrentRequest = () => {
 
     if(request){
       dispatch({type:'SETLOADING'})
-    }else
+      
+    }
     await fetchCurrentRequest(dispatch, token);
   }, []);
   

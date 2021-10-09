@@ -46,6 +46,7 @@ router.get("/makeDelivery/:requestID", (req, res) => {
 	else {
 		riderController.makeDelivery(req.user.phoneNumber, req.params.requestID)
 			.then(response => {
+				console.log(response);
 				res.json(response);
 			})
 			.catch(error => {

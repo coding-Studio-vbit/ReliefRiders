@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ChooseRequestItem from "./chooseRequestItem";
 import styles from "./ChooseRequest.module.css";
 import axios from "axios";
 import { Dialog } from "../../global_ui/dialog/dialog";
 import { LoadingScreen } from "../../global_ui/spinner";
 import { useHistory } from "react-router";
+import { AuthContext } from "../../context/auth/authProvider";
 
 export const ChooseRequest = () => {
-  const [sliderValue, setSliderValue] = useState(100);
+  const [sliderValue, setSliderValue] = useState(3);
   const [allRequests, setRequests] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -15,7 +16,7 @@ export const ChooseRequest = () => {
 
   const [coordinates, setCoordinates] = useState({ lat: null, lng: null })
 
-  const token = localStorage.getItem("token");
+  const {token} = useContext(AuthContext);
   const history = useHistory()
   //sorting requests based on 3 parameters.
   function sortedCustom(param) {
@@ -98,7 +99,7 @@ export const ChooseRequest = () => {
         if(response.data.status==="success"){
           if (response.data.message.length === 0) {
             setLoading(false);
-            setError("No new requests available");
+            setError("No requests found");
           }
           else {
             let data = response.data.message;           
@@ -132,7 +133,7 @@ export const ChooseRequest = () => {
       <Dialog
         isShowing={error}
         onOK={() => {        
-          history.replace();
+          history.replace('current_request');
           setError(null);
         }}
         msg={error}
@@ -202,7 +203,7 @@ export const ChooseRequest = () => {
         </div>
         {
           allRequests.length === 0 ?
-            <h3 className={styles.noRequests}>There are no new Requests.</h3> :
+            <h3 className={styles.noRequests}>No Requests Found.</h3> :
             <div>
               {
                 allRequests.map((req, i) => {
