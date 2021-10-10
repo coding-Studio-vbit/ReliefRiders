@@ -131,7 +131,7 @@ async function finishDelivery(phoneNumber, fileData) {
 				return riderDoc.save();
 			})
 			.then(() => {
-				resolve("Finish Delivery Successful");
+				resolve(sendResponse("Finish Delivery Successful"));
 			})
 			.catch(error => {
 				console.log(error);
