@@ -177,19 +177,20 @@ const ChooseAddress = ({ pickup }) => {
             placeholder="Enter Address"
           />
           <InputField
-            value={location.city}
-            error={errors.showErrors ? errors.city : ""}
-            onChange={(e) => _handleCity(e)}
-            type="text"
-            placeholder="City"
-          />
-          <InputField
             value={location.area}
             error={errors.showErrors ? errors.area : ""}
             onChange={(e) => _handlearea(e)}
             type="text"
             placeholder="Area"
           />
+          <InputField
+            value={location.city}
+            error={errors.showErrors ? errors.city : ""}
+            onChange={(e) => _handleCity(e)}
+            type="text"
+            placeholder="City"
+          />
+          
         </div>
 
         <p
