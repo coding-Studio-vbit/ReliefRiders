@@ -142,7 +142,7 @@ const Address = () => {
             <>
               <span>{drop.address}</span>
               <span>
-                {drop.city} {drop.area}
+              {drop.area} {drop.city} 
               </span>
             </>
           ) : (

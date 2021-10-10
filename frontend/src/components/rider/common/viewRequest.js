@@ -113,22 +113,25 @@ function ViewRequest() {
                         }                           
                     </div>
 
-                    <div className={styles.itemsListList}>
-                        <table>
-                            <tr>
-                                <th>Item</th>
-                                <th>Quantity</th>
-                            </tr>
-                            {
-                                state.reqObj.itemsListList.map((object) => {
-                                    return <tr key={object.itemName}>
-                                        <td>{object.itemName}</td>
-                                        <td>{object.quantity}</td>
-                                    </tr>
-                                })
-                            }
-                        </table>
-                    </div>
+                    {
+                        state.reqObj.itemsListList>0 &&                 
+                        <div className={styles.itemsListList}>
+                            <table>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Quantity</th>
+                                </tr>
+                                {
+                                    state.reqObj.itemsListList.map((object) => {
+                                        return <tr key={object.itemName}>
+                                            <td>{object.itemName}</td>
+                                            <td>{object.quantity}</td>
+                                        </tr>
+                                    })
+                                }
+                            </table>
+                        </div>
+                    }
 
                     { 
                         state.reqObj.itemsListImages.length!=0 &&
