@@ -11,7 +11,7 @@ import { useRef } from "react";
 import { useSessionStorageState } from "../../../utils/useLocalStorageState";
 
 const ConfirmRequestGeneral = () => {
-  const [paymentPrefer, setPaymentPrefer] = useState([]);
+  const [paymentPrefer, setPaymentPrefer] = useState();
   const [deliveryRemarks, setDeliveryRemarks] = useSessionStorageState('remarks', '');
   const [noContactDeliver, setNoContactDeliver] = useSessionStorageState("nocontact", false);
   const [covidStatus, setCovidStatus] = useSessionStorageState("covidStatus", false);
@@ -21,7 +21,6 @@ const ConfirmRequestGeneral = () => {
   const [dialogData, setDialogData] = useState({ show: false, msg: "" });
   const [cancel, setCancel] = useState(false);
   const routeRedirect = useRef('/my_requests')
-  // console.log(paymentPrefer)
   const _handleConfirm = () => {
     setDialogData({
       show: true,
@@ -91,28 +90,25 @@ const ConfirmRequestGeneral = () => {
              <p className = {ConfirmReqCSS.paymentLabel}>Select Payment Preference:</p> 
             <div className = {ConfirmReqCSS.up_list} 
             onChange = {(e)=>{
-                if (e.target.checked){
-                    setPaymentPrefer(paymentPrefer => [...paymentPrefer,e.target.value])
-                }
-                else{
-                    setPaymentPrefer(paymentPrefer.filter(item => item!== e.target.value))
-                }
+                    setPaymentPrefer(e.target.value)
+                
+                
             }}>
                 <div>
                     <label className={ConfirmReqCSS.up_check_label}>Cash
-                    <input type="checkbox" value = "CASH" />
+                    <input type="checkbox" value = "CASH" checked={paymentPrefer==="CASH"}/>
                     <span className={`${ConfirmReqCSS.up_check} ${ConfirmReqCSS.check_1}`}></span>
                     </label>
                 </div>
                 <div>
                     <label className={ConfirmReqCSS.up_check_label}>Paytm
-                    <input type="checkbox" value = "PAYTM" />
+                    <input type="checkbox" value = "PAYTM" checked={paymentPrefer==="PAYTM"}/>
                     <span className={`${ConfirmReqCSS.up_check} ${ConfirmReqCSS.check_1}`}></span>
                     </label>
                 </div>
                 <div>
                     <label className={ConfirmReqCSS.up_check_label}>G-pay
-                    <input type="checkbox" value = "GPAY" />
+                    <input type="checkbox" value = "GPAY" checked={paymentPrefer==="GPAY"}/>
                     <span className={`${ConfirmReqCSS.up_check} ${ConfirmReqCSS.check_1}`}></span>
                     </label>
                 </div>
