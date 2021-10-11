@@ -133,7 +133,7 @@ export const ChooseRequest = () => {
       <Dialog
         isShowing={error}
         onOK={() => {        
-          history.replace('current_request');
+          
           setError(null);
         }}
         msg={error}
