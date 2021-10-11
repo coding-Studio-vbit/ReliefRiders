@@ -114,7 +114,7 @@ function ViewRequest() {
                     </div>
 
                     {
-                        state.reqObj.itemsListList>0 &&                 
+                        state.reqObj.itemsListList.length>0 &&                 
                         <div className={styles.itemsListList}>
                             <table>
                                 <tr>

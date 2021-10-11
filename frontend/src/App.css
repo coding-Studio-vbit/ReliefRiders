@@ -1,14 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
-<<<<<<< HEAD
-=======
-/* @media (-webkit-device-pixel-ratio: 1.50) {
-  * {
-    zoom: 0.97;
-  }
-} */
-
->>>>>>> ed99402afd68eedc521cab67bd5b01d29154e7ad
 @media (min-resolution: 120dpi) {
   body {
        zoom:0.82;
