@@ -114,7 +114,7 @@ function ViewRequest() {
                     </div>
 
                     {
-                        state.reqObj.itemsListList>0 &&                 
+                        state.reqObj.itemsListList.length>0 &&                 
                         <div className={styles.itemsListList}>
                             <table>
                                 <tr>
@@ -134,14 +134,14 @@ function ViewRequest() {
                     }
 
                     { 
-                        state.reqObj.itemsListImages.length!=0 &&
+                        state.reqObj.itemsListImages.length>0 &&
                         <Carousel list={state.reqObj.itemsListImages} title="Items"/>
                     }
 
                     <div>
                     </div>                  
                     { 
-                        state.reqObj.billsImageList.length!=0 &&
+                        state.reqObj.billsImageList.length>0 &&
                         <Carousel list={state.reqObj.billsImageList} title="Bills"/>
                     }
                     <div>
