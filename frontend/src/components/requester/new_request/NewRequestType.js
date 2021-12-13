@@ -20,6 +20,7 @@ function RequestType() {
       <div className={rtstyles.rcontainer}>
         <Logo />
         <button
+          className={rtstyles.btn}
           onClick={() => {
             dispatch({ type: "REQUEST_TYPE", payload: "general" });
             routehandler("list_type");
@@ -28,6 +29,7 @@ function RequestType() {
           General Request
         </button>
         <button
+          className={rtstyles.btn}
           onClick={() => {
             const route = "list_type";
             dispatch({ type: "REQUEST_TYPE", payload: "p&d" });

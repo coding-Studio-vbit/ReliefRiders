@@ -1,13 +1,19 @@
 .rcontainer{
     display: grid;
     justify-items:center;
-    grid-auto-rows: min-content;
+    margin:40px auto;
+   
     gap: 1rem;
+    width: min(90%, 500px);   
 }
-.rcontainer button {
-    width: min(20ch,90%);
-    font-weight: 800;
+.btn{
+    margin-top: 10px;
+    width: min(30ch,90%);
+    font-weight: 600;
     background:var(--secondary);
-    padding: 1em;
+    padding: 1em 2em;
     font-size: clamp(1.3rem,3vw,1.4rem);
+}
+.btn:hover{
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }

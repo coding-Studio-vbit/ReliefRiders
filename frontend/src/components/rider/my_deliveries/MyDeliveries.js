@@ -53,9 +53,6 @@ const MyDeliveries = () => {
   }, []);
 
   //sample
-
-
-
   return loading ? (
     <LoadingScreen />
   ) : (
@@ -79,9 +76,11 @@ const MyDeliveries = () => {
         ) :
           (
             <div className={styles.myDeliveriesList}>
-              {allRequests.map((req) => {
-                return <MyDeliveriesListItem key={req.requestNumber} data={req} />
-              })}
+              {
+                allRequests.map((req) => {
+                  return <MyDeliveriesListItem key={req.requestNumber} data={req} />
+                })
+              }
 
 
             </div>

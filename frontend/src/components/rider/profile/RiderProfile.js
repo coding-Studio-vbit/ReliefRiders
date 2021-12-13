@@ -61,7 +61,7 @@ const RiderProfile = () => {
       />
     ) : (
       <div className={styles.riderProfileContainer}>
-        <Navbar back={"/"} title="My Account" />
+        <Navbar back={"/"} title="Profile" />
 
         {data.profileURL ? (
           <img src={data.profileURL} className={styles.profileImage}></img>
