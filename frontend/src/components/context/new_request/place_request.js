@@ -1,8 +1,7 @@
 export const placeRequest = async (formData,token,type)=>{
 
-    try {
-        
-        const imgsParsed = sessionStorage.getItem('uploaded_images')
+    try {  
+    const imgsParsed = sessionStorage.getItem('uploaded_images')
     const imgs = JSON.parse(imgsParsed)
     console.log(formData);
     for(const src in imgs){

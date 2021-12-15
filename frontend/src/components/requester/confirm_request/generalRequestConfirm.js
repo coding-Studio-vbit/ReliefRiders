@@ -11,7 +11,7 @@ import { useRef } from "react";
 import { useSessionStorageState } from "../../../utils/useLocalStorageState";
 
 const ConfirmRequestGeneral = () => {
-  const [paymentPrefer, setPaymentPrefer] = useState();
+  const [paymentPrefer, setPaymentPrefer] = useState("GPAY");
   const [deliveryRemarks, setDeliveryRemarks] = useSessionStorageState('remarks', '');
   const [noContactDeliver, setNoContactDeliver] = useSessionStorageState("nocontact", false);
   const [covidStatus, setCovidStatus] = useSessionStorageState("covidStatus", false);
@@ -71,7 +71,7 @@ const ConfirmRequestGeneral = () => {
               JSON.stringify(state.dropLocation)
             );
             formData.append('paymentPreference', JSON.stringify(paymentPrefer))
-            console.log(state.dropLocation);
+            // console.log(state.dropLocation);
             const res = await placeRequest(formData, token, state.requestType);
             if (res === 1) {
               setDialogData({
