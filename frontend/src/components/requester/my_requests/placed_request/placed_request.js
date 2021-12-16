@@ -83,10 +83,15 @@ const PlacedRequest = () => {
               list={request.itemsListList}
               category={request.itemCategories}
             />
-            <RequestImages
-              bills={request.billsImageList}
-              images={request.rideImages}
-            />
+            {
+              request.itemsListImages.length > 0 &&
+              <RequestImages
+                bills={request.billsImageList}
+                images={request.rideImages}
+              />
+
+            }
+           
           </>
         )}
 

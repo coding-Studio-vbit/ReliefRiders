@@ -151,7 +151,8 @@ const EditRiderProfile = () => {
             maxLength="10"
             placeholder="Mobile Number"
             error={phoneNumberError}
-            onChange={(e) => validatePhoneNumber(e)}
+            // onChange={(e) => validatePhoneNumber(e)}
+            // isDisabled={true}
           />
 
 
