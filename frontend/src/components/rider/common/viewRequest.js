@@ -61,7 +61,7 @@ function ViewRequest() {
                 <Dialog
                     isShowing={error}
                     title="Error"
-                    msg={"Unable to takeup delivery! Unknown Error"}
+                    msg={error}
                     onOK={() => {
                         seterror(false)                       
                     }}

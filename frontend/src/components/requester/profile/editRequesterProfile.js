@@ -130,7 +130,7 @@ const EditRequesterProfile = () => {
     const address = e.target.value;
     let flag = false;
 
-    if (address === "") {
+    if (address === "" || address===null) {
       setaddressError("Address cannot be Empty");
     } else {
       setaddressError(null);
@@ -150,7 +150,7 @@ const EditRequesterProfile = () => {
     const city = e.target.value;
     let flag = false;
 
-    if (city === "") {
+    if (city === "" || city===null) {
       setcityError("City Name cannot be Empty");
     } else {
       setcityError(null);
@@ -170,7 +170,7 @@ const EditRequesterProfile = () => {
     const area = e.target.value;
     let flag = false;
 
-    if (area === "") {
+    if (area === "" || area===null) {
       setareaError("Pincode cannot be empty");
     } else if (area.length > 25) {
       setareaError("Area cannot exceed 25 characters");
