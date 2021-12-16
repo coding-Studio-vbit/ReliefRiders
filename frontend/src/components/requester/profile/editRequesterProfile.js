@@ -236,7 +236,7 @@ const EditRequesterProfile = () => {
 
         <Navbar
           back="/my_profile"
-          title="My Account"
+          title="Edit Profile"
         />
 
           {data.profileURL ? (

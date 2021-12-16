@@ -56,7 +56,7 @@
 .input:valid+.label,
 .input:focus+.label {
     font-size   : 0.7em;
-    top         : -8px;
+    top         : -18px;
     color       : black;
     border-color: black;
     background  : white;

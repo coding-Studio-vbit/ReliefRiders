@@ -129,7 +129,7 @@ const EditRiderProfile = () => {
           msg={"Profile Updated Successfully"}
         />
 
-        <Navbar back={"/my_profile"} title="My Account" />
+        <Navbar back={"/my_profile"} title="Edit Profile" />
         {data.profileURL ? (
           <img src={data.profileURL} className={styles.profileImage}></img>
         ) : (

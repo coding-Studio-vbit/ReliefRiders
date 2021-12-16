@@ -1,5 +1,6 @@
 .imagesContainer {
     display: grid;
+    justify-items: center;
     margin-top: 1em;
     width: min(90vw, 550px);
     gap: 0.5em;

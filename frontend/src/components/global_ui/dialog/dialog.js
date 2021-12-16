@@ -164,7 +164,10 @@ const ConfirmDialog = ({
                         setLoading(true);
                         await onOK();
                         onOKCompleted.current = true;
-                        setLoading(false);
+                        // setTimeout(() => {
+                          setLoading(false);
+
+                        // },3000);
                         setMakeAlert(true);
                       }
                     }}
@@ -172,7 +175,8 @@ const ConfirmDialog = ({
                     Okay!
                   </button>
                 </>
-              )}
+              )
+              }
             </div>
           </CSSTransition>
         </div>,

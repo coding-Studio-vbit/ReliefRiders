@@ -175,20 +175,22 @@ function EnterItemsForm() {
             error={err.second}
             onChange={(e) => handleInputChange(e)}
           />
-
+          
           <button
             style={{
+              marginTop:'20px',
               marginRight: "2%",
               backgroundColor: "green",
               color: "white",
               fontWeight: "bold",
+              padding:'10px 20px'
             }}
             type="button"
             className={restyles.btn}
             onClick={(e) => handleAddClick(e)}
             value="Add"
           >
-            Add
+            ADD
           </button>
             
           {inputList.map((x, index) => {

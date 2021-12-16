@@ -3,23 +3,30 @@
   gap: 10vw;
   justify-content: center;
 }
+
 .buttonArea button {
   width: 15ch;
   padding: 10px 10px;
   font-weight: 800;
 }
+
+.btn{
+  padding:10px 30px;
+}
+
 .checkBoxArea {
   display: flex;
-
   justify-content: center;
   gap: min(50px, 10%);
   margin-bottom: 2.5rem;
   width: 100%;
 }
+
 .checkBoxArea input[type="checkbox"] {
   width: 16px;
   height: 16px;
 }
+
 .inputArea {
   margin-top: 1rem;
   display: grid;
@@ -41,11 +48,13 @@
   font-size: clamp(1rem, 2.2vw, 1.2rem);
   justify-content: space-between;
   width: 100%;
-  background-color: rgba(151, 209, 247, 0.356);
+  background-color:rgba(224, 224, 224, 0.479);
+  border-radius: 20px;
   box-shadow: 0px 0px 10px 2px rgba(37, 6, 6, 0.15),
     0px 0px 5px 1px rgba(31, 26, 26, 0.08), 0px 0px 3px rgba(0, 0, 0, 0.05);
   padding: 0.9em;
 }
+
 .card i {
   cursor: pointer;
 }

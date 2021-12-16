@@ -58,7 +58,7 @@ const PlacedRequest = () => {
       />
       <Navbar back="my_requests" title="Order Details" />
       <div className={styles.container}>
-        <p>Request #{request.requestNumber}</p>
+        <p style={{fontSize:'30px'}}>Request #{request.requestNumber}</p>
         <span>
           Order Status:{" "}
           <span style={statusStyle}> {request.requestStatus}</span>
@@ -69,14 +69,15 @@ const PlacedRequest = () => {
         )}
         <Address />
         <Remarks remarks={request.remarks} />
-        {request.itemsListImages.length > 0 ? (
-          <RequestImages
-            bills={request.billsImageList}
-            items={request.itemsListImages}
-            images={request.rideImages}
-          />
-        ) : (
-          <>
+        {
+            request.itemsListImages.length > 0 ? (
+              <RequestImages
+                bills={request.billsImageList}
+                items={request.itemsListImages}
+                images={request.rideImages}
+              />
+            ) : (
+              <>
             <ItemsRequestedList
               styles={styles}
               list={request.itemsListList}

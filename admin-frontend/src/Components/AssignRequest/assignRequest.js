@@ -9,6 +9,7 @@ export default function AssignRequest() {
   const [selectedOrderID, setSelectedOrderID] = useState(null);
   const [riderName, setRiderName]=useState("");
   const [adminList, setadminList] = useState([]);
+  const [riderList, setriderList] = useState();
   
   function assignRequest(i,name) {
     if(selectedOrderID===null){
@@ -35,7 +36,7 @@ export default function AssignRequest() {
   }
 
   useEffect(() => {
-    fetchRiderList();
+    // fetchRiderList();
   },)
 
   return(

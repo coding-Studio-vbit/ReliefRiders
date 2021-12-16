@@ -1,95 +1,106 @@
 .myRequestsList
 {
-    height: 100vh;
+    margin-top: 30px;
+    min-height: 100vh;
     text-align: center;
     margin-left: auto;
     margin-right: auto;
     justify-items: center;
 }
 
-.myRequestsListItem
-{
-    max-height: 150px;
-    margin-bottom: 10px;
+.myRequestsListItem{
+    padding: 15px 20px;
+    min-height: 200px;
+    margin-bottom: 20px;
     margin-left: auto;
     margin-right: auto;
     row-gap: 3px;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content:space-evenly;
     font-size: clamp(0.7rem, 1vw, 1.2rem); 
-    display: grid;
-    width: min(90%, 500px);
-    grid-template-columns: 30% 30% 15% 25%;
-    grid-template-rows: auto;
-    grid-template-areas: 
-        "date requestType covidStatus requestStatus"
-        "category1 category2 category3 viewButton";
+    width: min(90%, 500px);   
     border-radius: 4px;
-    box-shadow: 0 0 5px #242323 ;
-    padding: 5px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+.rowOne{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    align-content: center;
+}
+
+
+.rowTwo{
+    display: flex;
+    flex-direction: row;
+    justify-items: start;
+    align-items: center;
+}
+
+
+.myRequestsListItem:hover{
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+    cursor: pointer;
 }
 .date
 {
-    grid-area: date;
     color: black;
+    font-size: 15px;
+    width: 50%;
+    text-align: start;
 }
 .requestType
 {   
     font-weight: bold;
     background-color: rgb(167, 255, 255);
-    grid-area: requestType;
-    border: 2px solid rgb(33, 117, 235);
     border-radius: 20px;
     color: black;
-    text-align: center;
-    margin: auto;
-    padding: 3px;
+    padding: 5px 10px;
+    outline: none;
 }
 .covidStatus
 {
-    color: white;
-    margin: auto;
-    grid-area: covidStatus;
-    border-radius: 10px;
-    border: 2px solid rgb(184, 5, 5);
-    background-color: rgb(216, 0, 0);
-    padding: 0px 3px 0px 3px;
+    font-weight: bold;
+    color: black;
+    text-align: center;
+    border-radius: 20px;
+    background-color: rgb(167, 255, 255);
+    padding: 5px 10px;
 }
 .medicines
 {
+    margin-right:4px;
     color: white;
-    margin: auto;
-    grid-area: category1;
-    border-radius: 10px;
-    border: 2px solid rgb(184, 5, 5);
-    background-color: rgb(216, 0, 0);
-    padding: 0px 3px 0px 3px;
+    border-radius: 20px;
+    background-color: darkmagenta;
+    padding: 5px 10px;
 
 }
 .groceries
 {
+    margin-right: 4px;
     color: white;
-    margin: auto;
-    grid-area: category2;
-    border-radius: 10px;
-    border: 2px solid rgb(8, 126, 22);
-    background-color: rgb(3, 209, 3);
-    padding: 0px 3px 0px 3px;
+    border-radius: 20px;
+    background-color: darkmagenta;
+    padding: 5px 10px;
 
 }
 .misc
 {
+    margin-right: 4px;
     color: white;
-    margin: auto;
-    grid-area: category3;
-    border-radius: 10px;
-    border: 2px solid rgb(7, 75, 144);
-    background-color: blue;
-    padding: 0px 3px 0px 3px;
+    background-color: darkmagenta;
+    border-radius: 20px;
+    padding: 5px 10px;
 
 }
 
 .viewButton{
+    display: none;
     margin: auto;
-    grid-area: viewButton;
     padding: 3px;
     border-radius: 10px;
     border: 1px solid black;
@@ -97,13 +108,11 @@
 }
 .ok
 {
-    grid-area: requestStatus;
     color: green;
     font-weight: bold;
 }
 .notOk
 {
-    grid-area: requestStatus;
     color: red;
     font-weight: bold;
 }
