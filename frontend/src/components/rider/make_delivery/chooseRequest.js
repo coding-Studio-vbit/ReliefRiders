@@ -21,7 +21,7 @@ export const ChooseRequest = () => {
   //sorting requests based on 3 parameters.
   function sortedCustom(param) {
     setFlag(flag + 1);
-    let a = allRequests;
+    let a = [...allRequests];
     if (param == "Date") {
       a.sort(comparisonByDate);
       setRequests(a);
@@ -29,25 +29,29 @@ export const ChooseRequest = () => {
       a.sort(comparisonByPriority);
       setRequests(a);
     } else if (param == "Distance") {
-      if (coordinates) {
+      if(coordinates){
+
         a.sort(comparisonByDistance);
       }
-      setRequests(a);
+      
     }
+    setRequests(a);
   }
 
   function comparisonByDistance(a, b) {
-    return a.distance - b.distance;
+    console.log(a.roughLocationCoordinates.coordinates);
+    return a.roughLocationCoordinates.coordinates - b.roughLocationCoordinates.coordinates;
   }
   //Comparison function for sorting by date
   function comparisonByDate(dateA, dateB) {
-    var c = new Date(dateA.date);
-    var d = new Date(dateB.date);
+    var c = new Date(dateA.date.substring(6),dateA.date.substring(3,5),dateA.date.substring(0,2));
+    var d = new Date(dateB.date.substring(6),dateB.date.substring(3,5),dateB.date.substring(0,2));
     return c - d;
   }
   //Comparison function for sorting by priority or urgency
   function comparisonByPriority(a, b) {
-    return b.priority - a.priority;
+    console.log(a)
+    return b.urgency - a.urgency;
   }
 
   //finding current location of rider
