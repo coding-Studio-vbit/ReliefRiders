@@ -32,7 +32,11 @@ const ChooseRequestItem = (props) => {
         > 
         {/* remove line 27 after testing */}
           <div className={styles.requesterName}>
-            {data.requesterName}
+             <span style={{
+               fontSize:'20px'
+             }} >
+            {props.data.requesterID.name}
+          </span>
           </div>       
           
           <div className={styles.location}>          
@@ -72,7 +76,7 @@ const ChooseRequestItem = (props) => {
             }
             <div className={styles.requestType}>{props.data.requestType}</div>
           </div>
-        
+         
           <div className={styles.category}>
           {props.data.itemCategories.map((category, index) => {
             switch (category) {
