@@ -31,7 +31,7 @@ const ImageViewer = ({ viewerData, setViewerData, alt }) => {
               className="fas fa-times-circle"
             ></i>
             </div>
-            <img src={viewerData.src} alt={alt} />
+            <img src={process.env.REACT_APP_URL+ viewerData.src} alt={alt} />
           </div>
         </div>,
         document.body

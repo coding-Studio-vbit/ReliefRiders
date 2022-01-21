@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ImageViewer from "../../global_ui/image_viewer/image_viewer";
 
 import styles from "./current_request.module.css";
-const PreviewImages = ({ setImages, title, images, imgWidth = "150px" }) => {
+const PreviewImages = ({ setImages, title, images, imgWidth = "150px",canDelete = false }) => {
   const [imageViewerData, setImageViewerData] = useState({
     show: false,
     src: "",
@@ -35,20 +35,23 @@ const PreviewImages = ({ setImages, title, images, imgWidth = "150px" }) => {
         />
 
 
-        {images.map((link, index) => (
+        {images.map((link, index) => {
+          console.log(link);
+          return (
           
-          <div
-
-            className={styles.singleImage}
-            key={link}
-          >
-            <i onClick={() => deleteImage(index)} className="fas fa-times-circle" ></i>
-            <img style={{
-              width: imgWidth ? imgWidth : 'clamp(160px, 50%, 200px)'
-
-            }} onClick={() => onImageClicked(link)} src={link} alt="img" />
-          </div>
-        ))}
+            <div
+  
+              className={ !canDelete ?styles.singleImageNoDel: styles.singleImage}
+              key={link}
+            >
+             { canDelete && <i onClick={() => deleteImage(index)} className="fas fa-times-circle" ></i>}
+              <img style={{
+                width: imgWidth ? imgWidth : 'clamp(160px, 50%, 200px)'
+  
+              }} onClick={() => onImageClicked(link)} src={ process.env.REACT_APP_URL+ link} alt="img" />
+            </div>
+          )
+        })}
       </div>
     </>
   );

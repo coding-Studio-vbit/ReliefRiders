@@ -143,10 +143,10 @@ export const CurrentRequest = () => {
         )}
 
         <ImgInput key={'wjhbdwiuybdwb;'} setImages={setBills} imgHeader="Bills" imgText="Tap to add bills" />
-        <PreviewImages setImages= {setBills} title='Selected Bills' imgWidth='80px' images={bills} />
+        <PreviewImages  canDelete setImages= {setBills} title='Selected Bills' imgWidth='80px' images={bills} />
         
         <ImgInput key={'hbdhwbijh'} setImages={setImages} imgHeader="Upload Images" imgText="Tap to add images" />
-        <PreviewImages setImages= {setImages} title="Selected Images" images={images} imgWidth='80px' />
+        <PreviewImages canDelete setImages= {setImages} title="Selected Images" images={images} imgWidth='80px' />
 
         <BottomButtons setCancel={setCancel} setDialogData={setDialogData} />
       </div>

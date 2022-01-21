@@ -61,6 +61,34 @@
 }
 
 
+.singleImageNoDel {
+  position: relative;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+ 
+  gap: 0.3em;
+}
+
+.singleImageNoDel img {
+  height: 80px;
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.137);
+  object-fit: cover;
+  border-radius: 8px;
+}
+.singleImageNoDel i{
+position:absolute;
+font-size: 22px;
+top: -4px;
+cursor: pointer;
+z-index: 3;
+border-radius: 50%;
+color: red;
+right: -6px;
+
+}
+
 .address {
     
     display: flex;
