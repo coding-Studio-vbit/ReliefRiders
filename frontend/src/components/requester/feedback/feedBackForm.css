@@ -1,0 +1,12 @@
+.feedBackForm{
+    width: min(500px,90%);
+    margin: 40px auto;
+}
+
+.radioButton{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: large;
+    margin-bottom: 14px;
+}
