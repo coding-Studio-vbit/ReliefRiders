@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const Feedback = new mongoose.Schema({
+const feedback = new mongoose.Schema({
 
   userID:{
     type: mongoose.Schema.Types.ObjectId,
@@ -18,6 +18,6 @@ const Feedback = new mongoose.Schema({
 });
 
 
-const Feedback = mongoose.model("feedbacks", Feedback);
+const Feedback = mongoose.model("feedbacks", feedback);
 
 module.exports = Feedback;

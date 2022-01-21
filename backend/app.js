@@ -29,7 +29,7 @@ const requesterRouter = require("./routes/requester/requesterRouter");
 const riderRouter = require("./routes/rider/riderRouter");
 const requestsRouter = require("./routes/requests/requestsRouter");
 const leaderboardRouter = require("./routes/leaderboard/leaderboardRouter");
-const feedbackRouter = required("./routes/feedback/router")
+const feedbackRouter = require("./routes/feedback/router")
 app.get("/", (req, res)=>{
 	res.send("Hey I am alive!");
 });
