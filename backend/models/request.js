@@ -109,7 +109,6 @@ const schema = new mongoose.Schema({
 	modeOfTransport:{
 			type: String,
 			enum: ['Bicycle', 'Motorbike', 'Car'],
-			uppercase: true,
 		}
 })
 

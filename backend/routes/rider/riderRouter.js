@@ -39,12 +39,12 @@ router.put("/profile", function (req, res) {
 		})
 })
 
-router.get("/makeDelivery/:requestID", (req, res) => {
+router.get("/makeDelivery/:requestID/:mode", (req, res) => {
 
 	if (!req.params.requestID)
 		res.json(sendError("No request ID mentioned"));
 	else {
-		riderController.makeDelivery(req.user.phoneNumber, req.params.requestID)
+		riderController.makeDelivery(req.user.phoneNumber, req.params.requestID,req.params.mode)
 			.then(response => {
 				console.log(response);
 				res.json(response);
