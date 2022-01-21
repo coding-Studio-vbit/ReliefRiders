@@ -42,13 +42,11 @@ function FeedbackForm() {
             <Dialog isShowing={response.length>0} title="Alert" msg={response} onOK={()=>{}} />
         }
         <div className='feedBackForm'>
-
-            
             <div className='radioButton' id='isWearingMask'>                
                 <label>
                     Was the rider wearing a mask ?
                 </label>
-                <span>
+                <span >
                     <input type="radio" value={true} name="isWearingMask"
                             checked={isWearingMask=== true}
                             onChange={()=>setIsWearingMask(true)}
@@ -115,8 +113,8 @@ function FeedbackForm() {
                 </label>
                 <span>
                     <input type="radio" value={true} name="isSatisfied"
-                            checked={isSatisFied=== true}
-                            onChange={()=>setisSatisFied(true)}
+                        checked={isSatisFied=== true}
+                        onChange={()=>setisSatisFied(true)}
                         />Yes
                     <input type="radio" value={false} name="isSatisfied" 
                         checked={isSatisFied=== false}
@@ -131,8 +129,7 @@ function FeedbackForm() {
             <TextArea value={feedBack} onChange={(e)=>setFeedBack(e.target.value)}/>
             </div>
            
-
-            <div style={{width:'200px',marginTop:'35px'}}>
+            <div style={{width:'200px',margin:'35px auto'}}>
                 {
                     loading?
                     <Spinner radius={2}/>:
@@ -141,12 +138,7 @@ function FeedbackForm() {
                         onClick={()=>submitFeedBackForm()}/>
                 }
             </div>
-
-        </div>
-            
-
-
-                        
+        </div>             
     </div>
   );
 }

@@ -6,7 +6,12 @@
 .radioButton{
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     font-size: large;
     margin-bottom: 14px;
+}
+
+
+.radioButton>span{
+    white-space: nowrap;
 }
