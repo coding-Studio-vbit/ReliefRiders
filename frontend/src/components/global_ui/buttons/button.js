@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react'
 
 function Button({
@@ -14,7 +15,7 @@ function Button({
         <button
         onClick={onClick}
         style={{
-            background:bgColor,
+            background:'var(--primary)',
             color:color,
             margin:`${marginTB} ${marginLR}`,
             padding:`${paddingTB} ${paddingLR}`,

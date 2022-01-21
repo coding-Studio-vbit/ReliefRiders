@@ -18,6 +18,7 @@ const PlacedRequest = () => {
       state: { request },
     },
   } = history;
+  console.log(request);
   const [dialogData, setDialogData] = useState({ show: false, msg: "" });
   const [cancel, setCancel] = useState(false);
   const statusStyle = {
@@ -67,6 +68,13 @@ const PlacedRequest = () => {
         {request.requestStatus === "DELIVERED" && (
           <p>Order delivered by {request.riderID.name}</p>
         )}
+        {
+          request.requestStatus === "UNDER DELIVERY" && (
+            <p>Order taken up  by {request.riderID.name}</p>
+
+          )
+        }
+        <span> Mode of Transport : <strong>{request.modeOfTransport}</strong> </span>
         <Address />
         <Remarks remarks={request.remarks} />
         {

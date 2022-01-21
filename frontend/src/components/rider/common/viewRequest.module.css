@@ -2,7 +2,19 @@
     display: grid;
     align-content: flex-start;
     justify-items: center;
-    /* width: min(90%,var(--max-width)); */
+    /* width: min(90%,var(--maxselect-width)); */
+}
+
+.select {
+    width: min(300px,90%);
+    
+}
+.categories{
+    display: flex;
+    margin-top: 8px;
+    gap: 8px;
+    justify-content: start;
+    align-items: center;
 }
 
 .currentRequestContent>*{

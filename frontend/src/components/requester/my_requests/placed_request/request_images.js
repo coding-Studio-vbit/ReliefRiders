@@ -28,7 +28,7 @@ const RequestImages = ({ bills, images, items = [] }) => {
           return (
             <div
               onClick={() =>
-                onImageClicked(process.env.REACT_APP_URL +link)
+                onImageClicked(link)
               }
               className={styles.singleImage}
               key={link}

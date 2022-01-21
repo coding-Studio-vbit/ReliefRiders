@@ -120,7 +120,7 @@ async function fetchMyRequests(phoneNumber) {
 				if (!doc)
 					resolve(sendError("Invalid User"));
 				else
-					return request.find({ requesterID: doc._id });
+					return request.find({ requesterID: doc._id }).populate('riderID');
 			})
 			.then(docs => {
 				resolve(sendResponse(docs));

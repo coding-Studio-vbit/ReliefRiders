@@ -128,7 +128,7 @@ router.post('/new', upload.any('images'), (req, res) => {
                 pickupLocationAddress: JSON.parse(req.body.pickupLocationAddress),
                 roughLocationCoordinates: { coordinates: req.body.roughCoordinates },
 				dropLocationCoordinates : {coordinates: theDropLocationCoordinates},
-				pickupLocationCoordinates : {coordinates: thePickupLocationCoordinates}
+				pickupLocationCoordinates : {coordinates: thePickupLocationCoordinates},
             }
 
             let newRequest = new requestModel(tempObject);

@@ -33,7 +33,7 @@ async function updateRiderProfile(phoneNumber, newName) {
 	})
 }
 
-async function makeDelivery(phoneNumber, requestID) {
+async function makeDelivery(phoneNumber, requestID,modeOfTransport) {
 	return new Promise((resolve, reject) => {
 
 		let riderDoc;
@@ -61,6 +61,8 @@ async function makeDelivery(phoneNumber, requestID) {
 					//update request status
 					doc.requestStatus = "UNDER DELIVERY";
 					doc.riderID = riderID;
+					doc.modeOfTransport = modeOfTransport
+
 					//update rider status
 					riderDoc.currentRequest = doc._id;
 					console.log("riderDoc:", riderDoc);
