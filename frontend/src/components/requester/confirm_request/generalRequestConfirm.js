@@ -42,6 +42,13 @@ const ConfirmRequestGeneral = () => {
         back={"address_drop"}
         title="Place Request"
       />
+      {/* <div className={ConfirmReqCSS.disclaimer} >
+        <ul>
+          <li>
+            
+          </li>
+        </ul>
+      </div> */}
       <ConfirmDialog
         isShowing={dialogData.show}
         msg={dialogData.msg}

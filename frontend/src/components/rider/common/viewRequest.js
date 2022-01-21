@@ -188,13 +188,12 @@ function ViewRequest() {
                 textAlign: "center",
               }}
             >
-              <Button
-                text="Make Delivery"
-                isRounded="true"
-                isBlock="true"
-                isElevated="true"
+              <button
+                style={{
+                    padding:'10px'
+                }}
                 onClick={() => makeDelivery()}
-              />
+              >Make Delivery </button>
             </div>
           )}
         </div>

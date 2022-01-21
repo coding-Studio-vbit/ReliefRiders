@@ -29,5 +29,6 @@
 .btnProceed {
   padding: 0.65em 1em;
   width: min(250px, 30%);
+  background-color: var(--secondary);
 
 }

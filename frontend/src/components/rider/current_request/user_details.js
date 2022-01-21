@@ -76,7 +76,7 @@ const UserDetails = ({ covid, name, phone }) => {
         </a>
         <a
           href={"https://api.whatsapp.com/send?phone=+91" + phone}
-          style={{ ...btnStyle, background: "green" }}
+          style={{ ...btnStyle, background: "var(--secondary)" }}
         >
           <i className="fab fa-whatsapp"></i> Whatsapp
         </a>
