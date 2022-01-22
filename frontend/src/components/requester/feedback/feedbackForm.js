@@ -149,3 +149,12 @@ function FeedbackForm() {
 }
 
 export default FeedbackForm;
+// {
+//     "questions":[
+//         "Was the rider wearing a mask?",
+//         "Was the rider polite to you?",
+//         "Was the rider hygienic?",
+//         "Was the application accessible to use?",
+//         "Are you satisfied with the service?"
+//     ]
+// }
