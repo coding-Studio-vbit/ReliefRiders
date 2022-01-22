@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import Navbar from './../../global_ui/nav'
 import './feedBackForm.css'
 import TextArea from './../../global_ui/textarea/textArea'
@@ -9,15 +9,20 @@ import {Dialog} from './../../global_ui/dialog/dialog'
 
 
 function FeedbackForm() {
-  const [isWearingMask, setIsWearingMask] = useState(true);
-  const [isPolite, setIsPolite] = useState(true);
-  const [isHygienic, setisHygienic] = useState(true);
-  const [isAccessible, setisAccessible] = useState(true);
-  const [isSatisFied, setisSatisFied] = useState(true);
-  const [feedBack, setFeedBack] = useState('rgegg');
-
+  const [pageLoad, setPageLoad] = useState(true);  
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState("");
+
+  const [questions,setQuestions] = useState({
+      ques:[
+          {id:1,question:"Was the rider wearing a mask ?",value:true},
+          {id:2,question:"Was the rider polite to you?",value:true},
+          {id:3,question:"Was the rider hygienic?",value:false},
+          {id:4,question:"Was the application accessible to use ?",value:true},
+          {id:5,question:"Are you satisfied with the service ?",value:true},    
+      ],
+      query:"frnrnrnj"
+  });
 
   async function submitFeedBackForm() {
       setLoading(true);
@@ -29,104 +34,85 @@ function FeedbackForm() {
         setResponse("");
     }, 3000);
   }
+
+  async function getQuestions() {
+    const options = {
+        headers: {
+        authorization: "Bearer " + token,
+        },
+    };
+    axios.get(process.env.REACT_APP_URL + "/feedback", options).then(
+        (response) => {
+        console.log(response);
+        if (response.data.status === "success") {
+            setData({
+            ...response.data.message,
+            });
+
+            setError(null);
+        } else {
+            setError(response.data.message);
+        }
+        setisLoaded(true);
+        },
+        (error) => {
+        console.error("An error occured", error);
+        setError(error.toString());
+        setisLoaded(true);
+        }
+    );        
+  }
+  
+  useEffect(() => {
+      getQuestions();
+  }, []);
+  
   
   return(
     <div>
         <Navbar title='Feedback'/>
-        
-        {/* <p>{isWearingMask.toString()}</p>
-        <p>{isPolite.toString()}</p>
-        <p>{isHygienic.toString()}</p> */}
-
         {
             <Dialog isShowing={response.length>0} title="Alert" msg={response} onOK={()=>{}} />
         }
         <div className='feedBackForm'>
-            <div className='radioButton' id='isWearingMask'>                
-                <label>
-                    Was the rider wearing a mask ?
-                </label>
-                <span >
-                    <input type="radio" value={true} name="isWearingMask"
-                            checked={isWearingMask=== true}
-                            onChange={()=>setIsWearingMask(true)}
-                        />Yes
-                    <input type="radio" value={false} name="isWearingMask" 
-                        checked={isWearingMask=== false}
-                        onChange={()=>setIsWearingMask(false)}
-                    /> No
-                </span>             
-            </div>   
-
-
-            <div className='radioButton' id='isPolite'>                
-                <label>
-                    Was the rider polite to you?
-                </label>
-                <span>
-                    <input type="radio" value={true} name="isPolite"
-                            checked={isPolite=== true}
-                            onChange={()=>setIsPolite(true)}
-                        />Yes
-                    <input type="radio" value={false} name="isPolite" 
-                        checked={isPolite=== false}
-                        onChange={()=>setIsPolite(false)}
-                    /> No
-                </span>             
-            </div> 
-
-            <div className='radioButton' id='isHygienic'>                
-                <label>
-                    Was the rider hygienic?
-                </label>
-                <span>
-                    <input type="radio" value={true} name="isHygienic"
-                            checked={isHygienic=== true}
-                            onChange={()=>setisHygienic(true)}
-                        />Yes
-                    <input type="radio" value={false} name="isHygienic" 
-                        checked={isHygienic=== false}
-                        onChange={()=>setisHygienic(false)}
-                    /> No
-                </span>             
-            </div> 
-
-            <div className='radioButton' id='isWearingMask'>                
-                <label>
-                    Was the application accessible to use ?
-                </label>
-                <span>
-                    <input type="radio" value={true} name="isAccessible"
-                            checked={isAccessible=== true}
-                            onChange={()=>setisAccessible(true)}
-                        />Yes
-                    <input type="radio" value={false} name="isAccessible" 
-                        checked={isAccessible=== false}
-                        onChange={()=>setisAccessible(false)}
-                    /> No
-                </span>             
-            </div>
-
-            <div className='radioButton' id='isWearingMask'>                
-                <label>
-                    Are you satisfied with the service ?
-                </label>
-                <span>
-                    <input type="radio" value={true} name="isSatisfied"
-                        checked={isSatisFied=== true}
-                        onChange={()=>setisSatisFied(true)}
-                        />Yes
-                    <input type="radio" value={false} name="isSatisfied" 
-                        checked={isSatisFied=== false}
-                        onChange={()=>setisSatisFied(false)}
-                    /> No
-                </span>             
-            </div>
-
-            
+            {
+                questions.ques.map((q)=>{
+                    return <div key={q.id}  className='radioButton' >                
+                                <label>
+                                    {q.question}
+                                </label>
+                                <span >
+                                    <input type="radio" value={true} name={q.id}
+                                            checked={q.value === true}
+                                            onChange={
+                                                function() {
+                                                    let updatedQues = questions.ques;
+                                                    const uQ = (element) => element.id==q.id;
+                                                    const i = updatedQues.findIndex(uQ)
+                                                    updatedQues[i]={id:q.id,question:q.question,value:true},
+                                                    setQuestions({...questions,ques:updatedQues})   
+                                                }                                                
+                                            }
+                                        />Yes
+                                    <input type="radio" value={false} name={q.id} 
+                                        checked={q.value === false}
+                                        onChange={
+                                            function() {
+                                                let updatedQues = questions.ques;
+                                                const uQ = (element) => element.id==q.id;
+                                                const i = updatedQues.findIndex(uQ)
+                                                updatedQues[i]={id:q.id,question:q.question,value:false},
+                                                setQuestions({...questions,ques:updatedQues})   
+                                            }                                                
+                                        }
+                                    /> No
+                                </span>             
+                            </div> 
+                })
+            }    
             <div style={{marginTop:'40px'}}>
             <label >Any other things you want to mention ?</label>
-            <TextArea value={feedBack} onChange={(e)=>setFeedBack(e.target.value)}/>
+            <TextArea value={questions.query} onChange={(e)=>setQuestions({...questions,query:e.target.value})}/>
             </div>
            
             <div style={{width:'200px',margin:'35px auto'}}>
