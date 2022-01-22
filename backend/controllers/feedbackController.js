@@ -11,7 +11,7 @@ async function saveFeedback(req,res){
         const questions = await QuestionsList.findById(questionsID)
         const feed = new Feedback({
             userID:requester,
-            response:JSON.parse(answers),
+            response:(answers),
             questionsID:questions
         })
         await feed.save()

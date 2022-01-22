@@ -13,18 +13,20 @@ router.get("/",async (req,res)=>{
 
     }
 })
-router.get("/set", async (req,res)=>{
+router.post("/set", async (req,res)=>{
     try {
         const questionsLatest = await QuestionsList.findOne({lastest:true})
+        if(questionsLatest)
         questionsLatest.latest = false
         const {questions} = req.body
         const questionsList = new QuestionsList({
-            questions:JSON.parse(questions),
+            questions:(questions),
             latest:true
         })
         await questionsList.save()
         res.json(sendResponse("Questions saved "))
     } catch (error) {
+        console.log(error);
         res.json(sendError("Could not set questions"))
 
     }
