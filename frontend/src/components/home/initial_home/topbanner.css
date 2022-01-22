@@ -4,27 +4,29 @@
     margin-bottom  : 1rem;
     width: 100%;
     height         : max-content;
-    font-size: 0.9rem;
+    font-size: 1.2rem;
     align-items    : center;
     gap            : 1em;
     justify-content: center;
-    background     : hsl(180, 70%, 45%);
+    font-weight: bold;
+    background     : var(--primary);
+    color: var(--tertiary)
     ;
 }
 
 .call-btn {
     cursor    : pointer;
     padding   : 0.2em;
-    border: 2px solid black;
+    border: none;
     border-radius: 8px;
-    box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.192);
+    /* box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.192); */
     display   : flex;
     width     : fit-content;
 
 }
 .call-btn > a {
     text-decoration: none;
-    color: black;
+    color: var(--tertiary);
 }
 .call-btn > i {
     padding-left: 4px;

@@ -3,12 +3,14 @@
 @media (min-resolution: 120dpi) {
   body {
        zoom:0.82;
+       background-color:var(--tertiary);
   }
 }
 
 :root{
-  --primary: #79CBC5;
-  --secondary:#ff7978;
+  --primary: #00AAA2;
+  --secondary:#545479;
+  --tertiary:#EEFCFB;
   --max-width:400px;
   --almost-transparent:rgba(0, 0, 0, 0.200);
 }
