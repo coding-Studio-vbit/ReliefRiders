@@ -11,7 +11,7 @@ import Address from "../current_request/address";
 import { LoadingScreen } from "../../global_ui/spinner";
 import Carousel from "../../global_ui/carousel/carousel";
 import { AuthContext } from "../../context/auth/authProvider";
-import Select from "react-select";
+import Select from 'react-select'
 
 function ViewRequest() {
   const { token } = useContext(AuthContext);

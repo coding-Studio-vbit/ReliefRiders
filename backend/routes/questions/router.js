@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get("/",async (req,res)=>{
     try {
-        const questions = await QuestionsList.findOne({lastest:true})
+        const questions = await QuestionsList.findOne({latest:true})
         res.json(sendResponse(questions))
     } catch (error) {
         res.json(sendError("Could not fetch questions"))
@@ -15,7 +15,7 @@ router.get("/",async (req,res)=>{
 })
 router.post("/set", async (req,res)=>{
     try {
-        const questionsLatest = await QuestionsList.findOne({lastest:true})
+        const questionsLatest = await QuestionsList.findOne({latest:true})
         if(questionsLatest)
         questionsLatest.latest = false
         const {questions} = req.body

@@ -6,6 +6,7 @@ import MyRequestsRoutes from "../../requester/my_requests/my_requests_routes";
 import NewRequestRoutes from "../../requester/new_request/new_request_routes";
 import RequesterProfileRoutes from "../../requester/profile/profileRouting";
 import { NewRequestProvider } from "../../context/new_request/newRequestProvider";
+import FeedbackForm from "../../requester/feedback/feedbackForm";
 
 
 const RequesterHomeRoutes = () => {
@@ -18,6 +19,10 @@ const RequesterHomeRoutes = () => {
         
         <Route path="/my_profile">
           <RequesterProfileRoutes/>        
+        </Route>
+
+        <Route path="/feedback">
+          <FeedbackForm/>        
         </Route>
 
         <Route path="/new_request">
