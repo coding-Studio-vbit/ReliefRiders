@@ -59,7 +59,7 @@ function ViewRequest() {
       <Navbar
         back="/new_delivery"
         title="Order Details"
-        style={{ background: "#79CBC5", color: "white" }}
+        style={{  color: "white" }}
       />
 
       <Dialog
@@ -149,36 +149,43 @@ function ViewRequest() {
         {state.reqObj.billsImageList.length > 0 && (
           <Carousel list={state.reqObj.billsImageList} title="Bills" />
         )}
-        <Select
-          styles={{
-            control: (base, state) => ({
-              ...base,
-              border: state.isFocused
-                ? "2px solid var(--primary)"
-                : "2px solid #C0C0C0",
-              boxShadow: "none",
-
-              "&:hover": {
+        {
+          (state.reqObj.requestStatus!="DELIVERED" || 
+          state.reqObj.requestStatus!="UNDER DELIVERY" ||
+          state.reqObj.requestStatus!="CANCELLED"
+          ) &&
+          
+          <Select
+            styles={{
+              control: (base, state) => ({
+                ...base,
                 border: state.isFocused
                   ? "2px solid var(--primary)"
                   : "2px solid #C0C0C0",
                 boxShadow: "none",
-              },
-              "&:focus": {
-                boxShadow: "none",
-                border: "2px solid var(--primary)",
-              },
-            }),
-          }}
-          placeholder="Mode of transport"
-          onChange={(e)=>setMode(e.value)}
-          options={[
-            { value: "Car", label: "Car" },
-            { value: "Motorbike", label: "Motorbike" },
-            { value: "Bicycle", label: "Bicycle" },
-          ]}
-          className={styles.select}
-        />
+
+                "&:hover": {
+                  border: state.isFocused
+                    ? "2px solid var(--primary)"
+                    : "2px solid #C0C0C0",
+                  boxShadow: "none",
+                },
+                "&:focus": {
+                  boxShadow: "none",
+                  border: "2px solid var(--primary)",
+                },
+              }),
+            }}
+            placeholder="Mode of transport"
+            onChange={(e)=>setMode(e.value)}
+            options={[
+              { value: "Car", label: "Car" },
+              { value: "Motorbike", label: "Motorbike" },
+              { value: "Bicycle", label: "Bicycle" },
+            ]}
+            className={styles.select}
+          />
+        }
         <div>
           {state.reqObj.requestStatus === "PENDING" && (
             <div

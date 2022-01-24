@@ -10,7 +10,7 @@
     justify-content: center;
     font-weight: bold;
     background     : var(--primary);
-    color: var(--tertiary)
+    color: var(--textColor)
     ;
 }
 
@@ -26,7 +26,7 @@
 }
 .call-btn > a {
     text-decoration: none;
-    color: var(--tertiary);
+    color: var(--textColor);
 }
 .call-btn > i {
     padding-left: 4px;

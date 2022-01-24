@@ -24,7 +24,7 @@
     margin-right: auto;
     background: var(--secondary);
     display: block;
-    color:var(--tertiary);
+    color:var(--textColor);
     text-shadow: 0px 2px rgba(0, 0, 0, 0.116);
     outline: none;
     
@@ -50,7 +50,6 @@
     background: rgba(224, 224, 224, 0.479);
     text-align: center;
     border-radius: 10px;
-    
     padding: 16px;
     font-family: 'Quicksand', sans-serif;
     align-self: center;

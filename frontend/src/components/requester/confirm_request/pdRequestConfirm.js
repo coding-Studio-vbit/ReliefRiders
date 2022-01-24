@@ -88,7 +88,7 @@ const ConfirmRequestPD = () => {
             history.replace('address_drop')
           
          }}
-        backStyle={{ color: 'white' }} title="New Requests" titleStyle={{ color: 'white' }} style={{ backgroundColor: '#79CBC5', marginBottom: "25px" }} />
+        backStyle={{ color: 'white' }} title="New Requests" titleStyle={{ color: 'white' }} style={{ marginBottom: "25px" }} />
       <div className = {ConfirmReqCSS.generalRequestDiv}>
                 <div className = {ConfirmReqCSS.generalRequestDiv}>
                     <div  className ={ConfirmReqCSS.noContactDelDiv}>

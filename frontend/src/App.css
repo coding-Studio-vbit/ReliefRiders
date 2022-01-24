@@ -8,9 +8,10 @@
 }
 
 :root{
-  --primary: #00AAA2;
-  --secondary:#545479;
-  --tertiary:#EEFCFB;
+  --primary: #64778d;
+  --secondary:#e25b4b;
+  --tertiary:#ecfdff48;
+  --textColor:white;
   --max-width:400px;
   --almost-transparent:rgba(0, 0, 0, 0.200);
 }
@@ -28,10 +29,10 @@ button {
   align-self: center;
   background: var(--secondary);
   color: white;
-  font-size: 1em;
+  font-size: large;
   border-radius: 4px;
   font-weight: bold;
-  padding: 0.3em 0.7em;
+  padding: 0.7rem 1.25rem;
   cursor: pointer;
   border: none;
   transition: color 0.2s ease;

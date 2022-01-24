@@ -4,15 +4,17 @@
   display: grid;
   padding: 1em;
 }
+.btnStyle{
+  font-size: large;
+}
+
+.btnStyle-register{
+  font-size: large;
+}
 
 
-.btnStyle {
-  padding: 0.6em;
-}
-.btnStyle-register {
-  padding: 0.6em;
-}
 .btnStyle-register > a {
+  font-size: large;
   text-decoration: none;
   color: white;
 }
