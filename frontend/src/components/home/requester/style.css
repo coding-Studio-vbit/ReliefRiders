@@ -19,8 +19,6 @@
   
     padding: min(3vh,1.2em);
     font-weight: bold;
-  
-    background: #ff7978;
   }
   .rider-home-btn:focus , .rider-home-btn:hover{
     box-shadow: rgba(100, 100, 111, 0.3) 0px 12px 29px 0px;

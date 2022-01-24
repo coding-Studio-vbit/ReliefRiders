@@ -136,7 +136,7 @@ const ConfirmDialog = ({
                   <Spinner radius="2" />
                 </span>
               ) : (
-                <p>{msg}</p>
+                <p style={{marginBottom:'20px'}}>{msg}</p>
               )}
 
               {!loading && (

@@ -65,7 +65,7 @@ const MyRequests = () => {
         backStyle={{ color: "white" }}
         title="My Requests"
         titleStyle={{ color: "white" }}
-        style={{ backgroundColor: "#79CBC5", marginBottom: "10px" }}
+        style={{ marginBottom: "10px" }}
       />
       {
         allRequests.length<1 ? (

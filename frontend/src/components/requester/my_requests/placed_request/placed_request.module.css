@@ -79,7 +79,7 @@ p {
   width: min(100%, 400px);
 }
 .buttonsContainer button {
-  color: black;
+  color: white;
   padding: 0.6em;
   font-family: 'Lato', sans-serif;
   cursor: pointer;
@@ -93,9 +93,9 @@ button:focus {
   border-radius: 4px;
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.263);
 }
-.buttonsContainer button:first-child {
-  background: rgb(247, 153, 153) ;
+/* .buttonsContainer button:first-child {
+  background:var(--primary);
 }
 .buttonsContainer button:last-child {
-  background: palegreen;
-}
+  background:var(--primary)
+} */

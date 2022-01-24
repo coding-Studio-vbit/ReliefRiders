@@ -171,7 +171,6 @@ margin: 1.2em 1.2em 1.2em 1.2em;
 place-self: center;
 /* padding-bottom: 1em; */
 cursor: pointer;
-width: 20ch;
 align-self: center;
 background: var(--secondary);
 color: white;
@@ -195,7 +194,6 @@ margin: 1.2em 1.2em 1.2em 1.2em;
 place-self: center;
 /* padding-bottom: 1em; */
 cursor: pointer;
-width: 20ch;
 align-self: center;
 background: var(--secondary);
 color: white;

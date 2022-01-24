@@ -1,5 +1,5 @@
 .leaderboard-container {
-    background: hsl(180, 70%, 45%);
+    background: var(--primary);
     width: min(90%,30rem);
     margin-left: auto;
     height:auto;
@@ -41,6 +41,6 @@
     display     : flex;
     text-align  : center;
     justify-self: end;
-    color       : green;
+    color       : darkslategrey;
     flex-flow   : column;
 }

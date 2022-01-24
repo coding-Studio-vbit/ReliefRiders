@@ -23,7 +23,7 @@
   align-content: center;
   justify-content: center;
   margin: 1rem;
-  padding: 1em;
+  padding: 2.2em;
   border-radius: 8px;
   background: white;
   
@@ -48,8 +48,8 @@
   width: 10ch;
   align-self: center;
   cursor: pointer;
-  background: rgb(67, 243, 126);
-  color: black;
+  background-color: var(--primary);
+  color: white;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.397);
 
   justify-self: center;

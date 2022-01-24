@@ -6,7 +6,7 @@
 
 .navbar{
   overflow: hidden;
-  background-color:#79CBC5;
+  background-color:var(--primary);
   font-family: Arial;
   width: 100%;
   padding: 2px;
@@ -92,7 +92,7 @@
 }
 
 .chooseRequestItem{
-    min-height:120px;    
+    min-height:160px;    
     margin-top : 30px;
     margin-bottom: 10px;
     margin-left: auto;
@@ -100,7 +100,7 @@
     row-gap: 6px;
     font-size: clamp(0.7rem, 1vw, 1.2rem); 
     display: grid;
-    width:min(90%, 500px);
+    width:min(90%, 550px);
     grid-template-columns: auto auto;
     grid-template-rows: auto;
     grid-template-areas: 
@@ -108,7 +108,7 @@
         "location  . "        
         "category .";
     border-radius: 7px;
-    padding: 20px;
+    padding: 30px;
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
 }
 
@@ -181,7 +181,7 @@
   margin: auto;
   border-radius: 7px;
   border: none;
-  background-color: rgb(216, 0, 0);
+  background-color:var(--secondary);
   padding: 3px 7px 3px 7px;
 }
 
@@ -195,14 +195,14 @@
     margin: auto;
     border-radius: 7px;
     border: none;
-    background-color: rgb(3, 209, 3);
+    background-color:var(--secondary);
     padding: 3px 7px 3px 7px;
 
 }
 .misc{
   color: white;
   margin: auto;   
-  background-color: blue;
+  background-color: var(--primary);
   border-radius: 7px;
   border: none;
   padding: 3px 7px 3px 7px;

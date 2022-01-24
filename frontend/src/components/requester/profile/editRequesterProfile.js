@@ -305,10 +305,9 @@ const EditRequesterProfile = () => {
             </div>
           </div>
           <button style={{
-            padding:'0.65em 1.25em',
             justifySelf:'center',
-            fontWeight:'bold'
-            
+            fontWeight:'bold',
+            textTransform:'uppercase'            
           }} type='submit' onClick={(e) => submit(e)} className="submit">
 
           Save Changes

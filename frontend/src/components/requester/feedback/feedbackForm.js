@@ -50,6 +50,7 @@ function FeedbackForm() {
             if(response.data.status==="success"){
                 if(response.data.message!=null){
                     setError(null);
+                    console.log(response.data);
                     //set questions
                 }else{
                     setError("Failed to Fetch Feedback Form")
