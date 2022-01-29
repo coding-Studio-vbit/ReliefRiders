@@ -195,8 +195,8 @@ place-self: center;
 /* padding-bottom: 1em; */
 cursor: pointer;
 align-self: center;
-background: var(--secondary);
-color: white;
+background: #e5e5e5;
+color: darkslategrey;
 font-size: 1em;
 border-color: #4da455 ;
 border: none;

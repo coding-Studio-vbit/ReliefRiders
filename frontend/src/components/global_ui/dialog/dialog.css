@@ -48,9 +48,10 @@
   width: 10ch;
   align-self: center;
   cursor: pointer;
-  background-color: var(--primary);
+  background-color: var(--secondary);
   color: white;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.397);
+  /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.397); */
+  box-shadow: 2px 2px 2px grey;
 
   justify-self: center;
 }
@@ -72,7 +73,9 @@
   font-size: 16px;
 }
 .modal button:first-of-type {
-  background: rgb(248, 138, 175);
+  background:#e5e5e5;
+  color: darkslategrey;
+  box-shadow: 2px 2px 2px grey;
 }
 .spinnerModal{
   grid-column: 1/-1;

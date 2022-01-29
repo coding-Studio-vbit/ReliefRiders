@@ -112,9 +112,7 @@ const ConfirmDialog = ({
             unmountOnExit
             in={inProp}
             onExited={() => {
-              if (!inProp) {
-                
-              
+              if (!inProp) {              
                 setInProp(true);
                 setDialogData({
                   show: false,
