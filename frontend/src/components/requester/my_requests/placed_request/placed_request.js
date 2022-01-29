@@ -40,6 +40,7 @@ const PlacedRequest = () => {
         onCancel={() => setCancel(false)}
         routeRedirect="my_requests"
         onOK={async () => {
+          console.log("-------------------------");
           const res = await cancelConfirmRequest(
             token,
             request.requestNumber,
@@ -53,7 +54,7 @@ const PlacedRequest = () => {
               setDialogData({ ...dialogData, msg: "Cancelled successfully" });
             else
               setDialogData({ ...dialogData, msg: "Confirmed successfully" });
-            history.replace("my_requests");
+            history.replace("/my_requests/feedback");
           }
         }}
       />

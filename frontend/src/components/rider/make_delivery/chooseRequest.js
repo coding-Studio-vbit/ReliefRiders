@@ -39,14 +39,14 @@ export const ChooseRequest = () => {
   }
 
   function comparisonByDistance(a, b) {
-    console.log(a.roughLocationCoordinates.coordinates);
+    //console.log(a.roughLocationCoordinates.coordinates);
     return a.roughLocationCoordinates.coordinates - b.roughLocationCoordinates.coordinates;
   }
   //Comparison function for sorting by date
   function comparisonByDate(dateA, dateB) {
-    var c = new Date(dateA.date.substring(6),dateA.date.substring(3,5),dateA.date.substring(0,2));
-    var d = new Date(dateB.date.substring(6),dateB.date.substring(3,5),dateB.date.substring(0,2));
-    return c - d;
+    var c = new Date(dateA.date.split("/")[1]+"/"+dateA.date.split("/")[0]+"/"+dateA.date.split("/")[2]);
+    var d = new Date(dateB.date.split("/")[1]+"/"+dateB.date.split("/")[0]+"/"+dateB.date.split("/")[2]);
+    return d-c;
   }
   //Comparison function for sorting by priority or urgency
   function comparisonByPriority(a, b) {

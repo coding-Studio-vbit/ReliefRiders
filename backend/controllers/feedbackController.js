@@ -6,19 +6,21 @@ const { sendResponse, sendError } = require("./common");
 
 async function saveFeedback(req,res){
     try {
-        const {questionsID, answers,userID } = req.body
-        const requester = await requesters.findById(userID)
+        const {questionsID, answers,optionalFeedback} = req.body
+        const requester = await requesters.findOne({phoneNumber:req.user.phoneNumber});
         const questions = await QuestionsList.findById(questionsID)
         const feed = new Feedback({
             userID:requester,
             response:(answers),
-            questionsID:questions
+            questionsID:questions,
+            optionalFeedback:optionalFeedback
         })
+        console.log(feed);
         await feed.save()
-        res.json(sendResponse("Feedback received"))
+        res.json(sendResponse("Feedback Submitted Successfully"))
     } catch (error) {
         console.log(error);
-        res.json(sendError("Feedback not saved"))
+        res.json(sendError("Failed to submit feedback"))
 
     }
 }

@@ -16,6 +16,12 @@ const MyRequests = () => {
   const { token } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
 
+  function comparisonByDate(dateA, dateB) {
+    var c = new Date(dateA.date.split("/")[1]+"/"+dateA.date.split("/")[0]+"/"+dateA.date.split("/")[2]);
+    var d = new Date(dateB.date.split("/")[1]+"/"+dateB.date.split("/")[0]+"/"+dateB.date.split("/")[2]);
+    return d-c;
+  }
+
 
   useEffect(() => {
     console.log(token);
@@ -73,7 +79,7 @@ const MyRequests = () => {
         ) :
           (
             <div className={styles.myRequestsList}>
-              {allRequests.map((req) => {
+              {allRequests.sort(comparisonByDate).map((req) => {
                 return <MyRequestsListItem key={req.requestNumber} data={req} />
               })}
             </div>

@@ -2,7 +2,7 @@ import React,{useState,useEffect,useContext} from 'react';
 import Navbar from './../../global_ui/nav'
 import './feedBackForm.css'
 import TextArea from './../../global_ui/textarea/textArea'
-
+import { useHistory } from 'react-router-dom';
 import Button from './../../global_ui/buttons/button'
 import {LoadingScreen, Spinner} from './../../global_ui/spinner';
 import {Dialog} from './../../global_ui/dialog/dialog'
@@ -10,6 +10,8 @@ import { AuthContext } from '../../context/auth/authProvider';
 import axios from 'axios';
 
 function FeedbackForm() {
+  const history = useHistory();
+  const [questionID, setquestionID] = useState(null);
   const [pageLoad, setPageLoad] = useState(true);  
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -17,25 +19,34 @@ function FeedbackForm() {
   const { token } = useContext(AuthContext);
 
   const [questions,setQuestions] = useState({
-      ques:[
-          {id:1,question:"Was the rider wearing a mask ?",value:true},
-          {id:2,question:"Was the rider polite to you?",value:true},
-          {id:3,question:"Was the rider hygienic?",value:false},
-          {id:4,question:"Was the application accessible to use ?",value:true},
-          {id:5,question:"Are you satisfied with the service ?",value:true},    
-      ],
+      ques:[],
       query:""
   });
 
   async function submitFeedBackForm() {
-      setLoading(true);
-    //   const res = await console.log();
-    //TODO change response w
-    setResponse("Feedback submission successful")
+    setLoading(true);
+    let answers =[];
+    questions.ques.forEach(q=>answers.push(q.value));
+    const options = {
+        headers: {
+            authorization: "Bearer " + token,
+        },
+    };
+    // console.log(user);
+    axios.post(process.env.REACT_APP_URL + "/feedback",
+        {
+            questionsID:questionID,
+            answers:answers,
+            optionalFeedback:questions.query
+        },
+        options)
+    .then((response)=>{
+        console.log(response);
+        setResponse(response.data.message);
+    })
+
     setLoading(false);
-    setTimeout(() => {
-        setResponse("");
-    }, 3000);
+    
   }
 
   async function getQuestions() {
@@ -50,8 +61,13 @@ function FeedbackForm() {
             if(response.data.status==="success"){
                 if(response.data.message!=null){
                     setError(null);
-                    console.log(response.data);
-                    //set questions
+                    setquestionID(response.data.message._id);
+                    const ques =response.data.message.questions;
+                    let q=[];
+                    for (let i = 0; i < ques.length; i++) {
+                        q.push({id:i,question:ques[i],value:true},)  
+                    }
+                    setQuestions({...questions,ques:q});
                 }else{
                     setError("Failed to Fetch Feedback Form")
                     console.log("Failed to Fetch Feedback Form")
@@ -71,7 +87,6 @@ function FeedbackForm() {
     ).catch(()=>{
         setError(error);
         setPageLoad(false)
-        console.log(error);
     })        
   }
   
@@ -84,7 +99,13 @@ function FeedbackForm() {
         <div>
             <Navbar title='Feedback'/>
             {
-                <Dialog isShowing={response.length>0} title="Alert" msg={response} onOK={()=>{}} />
+                <Dialog isShowing={response.length>0}
+                 title="Alert" msg={response} 
+                 onOK={()=>{
+                     setResponse("");
+                     history.replace("/my_requests")
+                     //TODO route somewhere
+                 }} />
             }
             {
                 error==null?

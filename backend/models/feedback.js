@@ -10,6 +10,9 @@ const feedback = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'questions',
   },
+  optionalFeedback:{
+    type:String,
+  },
   response: [
       {
           type:Boolean
