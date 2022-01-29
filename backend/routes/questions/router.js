@@ -16,14 +16,17 @@ router.get("/",async (req,res)=>{
 router.post("/set", async (req,res)=>{
     try {
         const questionsLatest = await QuestionsList.findOne({latest:true})
-        if(questionsLatest)
-        questionsLatest.latest = false
+        if(questionsLatest){
+            questionsLatest.latest = false
+            await questionsLatest.save()
+        }
         const {questions} = req.body
         const questionsList = new QuestionsList({
             questions:(questions),
             latest:true
         })
         await questionsList.save()
+        
         res.json(sendResponse("Questions saved "))
     } catch (error) {
         console.log(error);
