@@ -7,7 +7,7 @@ const ItemsRequestedList = ({ list, category,styles }) => {
         <div className={styles.category}>
           {category.map((cat) => (
             <span
-              className={cat[1] === "E" ? styles.catGreen : styles.catGray}
+              className={cat[1] === "E" ? styles.catGreen :cat[1] === "R"?styles.catGray:styles.miscColor}
               key={cat}
             >
               {cat}

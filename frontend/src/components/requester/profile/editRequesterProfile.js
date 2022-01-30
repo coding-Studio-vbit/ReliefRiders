@@ -260,7 +260,7 @@ const EditRequesterProfile = () => {
             maxLength="10"
             placeholder="Mobile Number"
             error={phoneNumberError}
-            onChange={validatePhNumber}
+            // onChange={validatePhNumber}
           />
 
           <InputField

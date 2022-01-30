@@ -47,11 +47,19 @@ p {
   border-radius: 1rem;
 }
 .catGreen {
-  background: rgb(247, 153, 153) ;
+  background:#266A63 ;
+  color:white ;
+  
 }
 .catGray {
-  background: rgb(152, 192, 252);
+  background: #6f823a;
+  color: white;
 }
+.miscColor{
+  background:#e9e9e9;
+  color: black;
+}
+
 .requested {
   display: grid;
   justify-items: center;

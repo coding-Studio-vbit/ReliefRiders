@@ -75,7 +75,10 @@ const PlacedRequest = () => {
 
           )
         }
-        <span> Mode of Transport : <strong>{request.modeOfTransport}</strong> </span>
+        {
+          (request.requestStatus!=="PENDING" && request.requestStatus!=="CANCELLED") &&
+                  <span> Mode of Transport : <strong>{request.modeOfTransport}</strong> </span>
+        }
         <Address />
         <Remarks remarks={request.remarks} />
         {
