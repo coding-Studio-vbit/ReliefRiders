@@ -9,7 +9,7 @@ function About() {
         >
             <nav 
             style={{
-                backgroundColor:'darkgreen',
+                backgroundColor:'var(--primary)',
                 width:'100%',
                 height:'60px',
                 textAlign:'center',
@@ -84,7 +84,7 @@ function About() {
                 </div>
 
                 <h4 className="finalText">
-                © lorem ipsum
+                © Relief Riders
                 </h4>
             </footer>
             
