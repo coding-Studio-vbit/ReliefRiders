@@ -81,7 +81,7 @@ const RequesterProfile = () => {
           {data.defaultAddress.city}.
         </span>
       ) : (
-        <span>Address not found</span>
+        <span>Address Not Updated</span>
       )}
 
       <label>Year Of Birth</label>
